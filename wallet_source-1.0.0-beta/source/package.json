@@ -4,7 +4,7 @@
   "license": "",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -75,6 +75,6 @@
     "protractor": "^5.3.0",
     "ts-node": "^5.0.1",
     "tslint": "^5.7.0",
-    "typescript": "^2.7.2"
+    "typescript": "^3.9.7"
   }
 }
