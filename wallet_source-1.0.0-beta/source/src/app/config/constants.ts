@@ -11,6 +11,7 @@ export class AppConstants {
     };
     public static baseConfig = {
         'SESSION_STORAGE_NAMESPACE': 'com.client',
+        // This url to access the node API is used when defined connection mode no URL is specified
         'FALLBACK_HOST_URL': 'http://208.95.1.177:23457',
         'AUTO_PAGE_REFRESH_INTERVAL': 60000,
         'TOKEN_QUANTS': 100000000,
@@ -27,21 +28,23 @@ export class AppConstants {
         'DEADLINE': '60',
         'REFRESH_INTERVAL_MILLI_SECONDS': '60000',
         'TX_HEIGHT': 7 * 1440,
-        'USER_NODE_URL': 'http://localhost:23457',
-        'USE_LOCAL_NODE': 0,
         'AUTO_UPDATE': 1,
-        'CONNECTION_MODE': 'AUTO', // 'HTTPS', // 'DEVTESTNET' TESTNET', // AUTO
+        // Following values are supported:
+         //   - AUTO            Retrieves the node to be used from /api/nodes and take one randomly from the result list or the first if RANDOMIZE_NODES=true
+         //   - FOUNDATION      The API base URL to access the mainnet. Will use the URL defined by FOUNDATION_URL.
+         //   - MANUAL          Let the user manually set override API base URL in die wallet settings (value will be stored in Session store)
+         //   - LOCAL_HOST      ?
+         //   - TESTNET         The API base URL to access the testnet. Will use the URL defined by TESTNET_URL.
+         //   - LOCALTESTNET    The API base URL to access the testnet locally. Will use the URL defined by LOCALTESTNET_URL.
+         //   - DEVTESTNET      The API base URL to access the testnet. Will use the URL defined by DEVTESTNET_URL.
+         //   - HTTPS           The API base URL to securly access the mainnet with SSL.
+        'CONNECTION_MODE': 'LOCALTESTNET',
         'VERSION': '1.0.1',
         'RANDOMIZE_NODES': 1,
-        'TESTNET': 1,
-        // 'TESTNET_URL': 'http://185.35.138.140:9876',
-        // 'DEVTESTNET_URL': 'http://185.35.138.140:9000',
-        // 'FOUNDATION_URL': 'http://46.244.20.41:23457',
+        'EXTENSIONS': 1,
+        'USER_NODE_URL': 'http://localhost:23457',
         'LOCALTESTNET_URL': 'http://localhost:9876',
         'HTTPS_URL': 'https://ssl.infinity-economics.org',
-        'LOCAL_HOST_URL': 'http://localhost:23457',
-        'EXTENSIONS': 1,
-        /* ----- New Node endpoints ----- */
         'FOUNDATION_URL': 'http://159.89.117.247:23457',
         'TESTNET_URL': 'http://142.93.129.78:9876',
         'DEVTESTNET_URL': 'http://142.93.129.78:9876'
@@ -116,43 +119,7 @@ export class AppConstants {
 
     };
 
-    public static nodeEndpoints = [
-        // 'http://185.103.75.217:23457/',
-        // 'http://185.35.137.7:23457/',
-        // 'http://185.35.139.102:23457/',
-        // 'http://185.35.139.103:23457/',
-        // 'http://185.35.139.104:23457/',
-        // 'http://185.35.139.105:23457/',
-        // 'http://46.244.20.41:23457/',
-        // 'http://185.35.139.101:23457/',
-        'http://208.95.1.177:23457/',
-        'http://199.127.137.169:23457/',
-        /* ----- New End Points ----- */
-        'http://159.89.117.247:23457/',
-        'http://167.99.242.171:23457',
-        'http://159.89.166.20:23457',
-        'http://159.89.96.210:23457',
-        'http://167.99.71.157:23457'
-    ];
 
-    public static chainEndpoints = [
-        // 'http://185.103.75.217:23457/',
-        // 'http://185.35.137.7:23457/',
-        // 'http://185.35.139.102:23457/',
-        // 'http://185.35.139.103:23457/',
-        // 'http://185.35.139.104:23457/',
-        // 'http://185.35.139.105:23457/',
-        // 'http://46.244.20.41:23457/',
-        // 'http://185.35.139.101:23457/',
-        'http://208.95.1.177:23457/',
-        'http://199.127.137.169:23457/',
-        /* ----- New End Points ----- */
-        'http://159.89.117.247:23457/',
-        'http://167.99.242.171:23457',
-        'http://159.89.166.20:23457',
-        'http://159.89.96.210:23457',
-        'http://167.99.71.157:23457'
-    ];
 
     public static loginConfig = {
         SESSION_ACCOUNT_DETAILS_KEY: 'account_details',
