@@ -24,7 +24,7 @@
 		"@angular/platform-browser-dynamic": "^5.2.9",
 		"@angular/platform-server": "^5.2.9",
 		"@angular/router": "^5.2.9",
-		"@ng-bootstrap/ng-bootstrap": "^1.0.2",
+		"@ng-bootstrap/ng-bootstrap": "2.1.0",
 		"@ngrx/store": "^5.2.0",
 		"@ngx-translate/core": "^9.1.1",
 		"@ngx-translate/http-loader": "^3.0.1",
@@ -58,8 +58,8 @@
 		"zone.js": "^0.8.18"
 	},
 	"devDependencies": {
-		"@angular/cli": "^1.7.3",
-		"@angular/compiler-cli": "^5.2.9",
+		"@angular/cli": "10.2.1",
+		"@angular/compiler-cli": "10.2.1",
 		"@angular/language-service": "^5.2.9",
 		"@types/core-js": "^0.9.43",
 		"@types/jasmine": "^2.8.6",
