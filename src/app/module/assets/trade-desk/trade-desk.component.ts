@@ -1,3 +1,5 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component, OnInit } from "@angular/core";
 import { AssetsService } from "../assets.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -5,7 +7,6 @@ import { Location } from "@angular/common";
 import { AmChart, AmChartsService } from "@amcharts/amcharts3-angular";
 import { Page } from "../../../config/page";
 import { CommonService } from "../../../services/common.service";
-import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/forkJoin";
 import { QuantToAmountPipe } from "../../../pipes/quant-to-amount.pipe";
 import { ShareToQuantityPipe } from "../../../pipes/share-to-quantity.pipe";
@@ -193,7 +194,7 @@ export class TradeDeskComponent implements OnInit {
       observablesArray.push(assetDetails);
     }
 
-    Observable.forkJoin(observablesArray).subscribe((successNext: any) => {
+    observableForkJoin(observablesArray).subscribe((successNext: any) => {
       let [offersResponse, assetDetailsResponse] = successNext;
       if (assetDetailsResponse) {
         this.decimals = assetDetailsResponse.decimals;
@@ -237,7 +238,7 @@ export class TradeDeskComponent implements OnInit {
       observablesArray.push(assetDetails);
     }
 
-    Observable.forkJoin(observablesArray).subscribe((successNext: any) => {
+    observableForkJoin(observablesArray).subscribe((successNext: any) => {
       let [offersResponse, currencyDetailsResponse] = successNext;
       if (currencyDetailsResponse) {
         this.decimals = currencyDetailsResponse.decimals;

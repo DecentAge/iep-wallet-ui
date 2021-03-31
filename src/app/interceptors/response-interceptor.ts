@@ -1,3 +1,5 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from "@angular/core";
 import {
   HttpInterceptor,
@@ -15,7 +17,7 @@ import { SessionStorageService } from "../services/session-storage.service";
 import { PeerService } from "../services/peer.service";
 import { OptionsConfigurationService } from "../services/options-configuration.service";
 import { AppConstants } from "../config/constants";
-import { Observable } from "rxjs/Observable";
+import { map } from 'rxjs/operators';
 import "rxjs/add/operator/do";
 import "rxjs/add/observable/throw";
 import "rxjs/add/operator/catch";
@@ -39,7 +41,7 @@ export class ResponseInterceptor implements HttpInterceptor {
     var _this = this;
     return next
       .handle(req)
-      .map(response => {
+      .pipe(map(response => {
         if (response instanceof HttpResponse) {
           var url = response.url;
           if (
@@ -85,7 +87,7 @@ export class ResponseInterceptor implements HttpInterceptor {
           });
           return response;
         }
-      })
+      }))
       .catch(response => {
         console.log(response);
         if (response instanceof HttpErrorResponse) {
@@ -107,7 +109,7 @@ export class ResponseInterceptor implements HttpInterceptor {
               let newReq = req.clone({ url: endPoints[index + 1] });
               return _this.http.request(newReq);
             } else {
-              return Observable.of(response);
+              return observableOf(response);
             }
           }
         }
@@ -129,7 +131,7 @@ export class ResponseInterceptor implements HttpInterceptor {
               AppConstants.baseConfig.SESSION_CURRENT_TRY,
               0
             );
-            return Observable.of(response);
+            return observableOf(response);
           } else {
             _this.sessionStorageService.saveToSession(
               AppConstants.baseConfig.SESSION_CURRENT_TRY,
@@ -144,7 +146,7 @@ export class ResponseInterceptor implements HttpInterceptor {
                 return _this.http.request(newReq);
               },
               function(error) {
-                return Observable.of(response);
+                return observableOf(response);
               }
             );
           }
@@ -158,7 +160,7 @@ export class ResponseInterceptor implements HttpInterceptor {
           .InfoAlertBox(title, errMsg, "OK", "error")
           .then((isConfirm: any) => {});
 
-        return Observable.of(response);
+        return observableOf(response);
       });
   }
 }

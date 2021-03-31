@@ -1,6 +1,6 @@
 import {EventEmitter, Component, OnInit} from '@angular/core';
 import {AddressService} from '../address.service';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-bookmark',

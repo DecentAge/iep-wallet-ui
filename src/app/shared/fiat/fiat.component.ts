@@ -1,7 +1,8 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component, Input, OnChanges, OnInit, SimpleChange } from '@angular/core';
 import { FiatService } from "../../services/fiat.service";
-import { Observable } from "rxjs/Observable";
-import 'rxjs/add/observable/forkJoin';
+
 import { QuantToAmountPipe } from "../../pipes/quant-to-amount.pipe";
 
 @Component({
@@ -40,7 +41,7 @@ export class FiatComponent implements OnChanges {
         const btcPricePromise = this.fiatService.getBtcPrice();
         const xinPricePromise = this.fiatService.getXinPrice();
 
-        Observable.forkJoin([btcPricePromise, xinPricePromise])
+        observableForkJoin([btcPricePromise, xinPricePromise])
             .subscribe((success) => {
                 const btcPriceJson: any = success[0];
                 const xinPriceJson: any = success[1];

@@ -1,6 +1,4 @@
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs';
-import { Subject } from 'rxjs/Subject';
+import { Observable ,  Observer ,  Subject } from 'rxjs';
 
 export class RootScope {
 

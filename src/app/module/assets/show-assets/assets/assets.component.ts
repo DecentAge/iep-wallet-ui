@@ -5,7 +5,7 @@ import {SessionStorageService} from '../../../../services/session-storage.servic
 import {ActivatedRoute, Router} from '@angular/router';
 import {AssetsService} from '../../assets.service';
 import {DataStoreService} from '../../../../services/data-store.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-assets',

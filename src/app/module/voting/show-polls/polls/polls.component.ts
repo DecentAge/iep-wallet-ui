@@ -1,9 +1,10 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { VotingService } from '../../voting.service';
 import { SessionStorageService } from '../../../../services/session-storage.service';
 import { AppConstants } from '../../../../config/constants';
-import { Observable } from 'rxjs/Observable';
 import { Page } from '../../../../config/page';
 import { AccountService } from '../../../account/account.service';
 
@@ -153,7 +154,7 @@ export class PollsComponent implements OnInit {
             this.removeFilter();
             this.votingService.searchPolls(query, this.page.pageNumber * 10, ((this.page.pageNumber + 1) * 10) - 1)
                 .subscribe((success) => {
-                    Observable.forkJoin(success, this.votingService.getPoll(query))
+                    observableForkJoin(success, this.votingService.getPoll(query))
                         .subscribe((successNext: any) => {
                             let [result1, result2] = successNext;
 

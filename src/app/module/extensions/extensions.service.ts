@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpProviderService } from "../../services/http-provider.service";
 import { AppConstants } from "../../config/constants";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { NodeService } from "../../services/node.service";
 import { OptionService } from "../../services/option.service";
 import { PeerService } from "../../services/peer.service";

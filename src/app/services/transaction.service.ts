@@ -4,7 +4,7 @@ import {AppConstants} from '../config/constants';
 import { HttpProviderService } from './http-provider.service';
 import {NodeService} from './node.service';
 import {OptionService} from './option.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class TransactionService {

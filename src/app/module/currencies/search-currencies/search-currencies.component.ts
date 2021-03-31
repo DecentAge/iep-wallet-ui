@@ -1,10 +1,11 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component } from '@angular/core';
 import { CurrenciesService } from '../currencies.service';
 import { ActivatedRoute, Router } from "@angular/router";
 import { AppConstants } from '../../../config/constants';
 import { DataStoreService } from '../../../services/data-store.service';
 import * as alertFunctions from "../../../shared/data/sweet-alerts";
-import { Observable } from 'rxjs/Observable';
 
 @Component({
     selector: 'app-search-currencies',
@@ -27,7 +28,7 @@ export class SearchCurrenciesComponent {
             var nameSearch = this.currenciesService.searchCurrencies(query);
             var idSearch = this.currenciesService.getCurrencyById(query);
 
-            Observable.forkJoin(nameSearch, idSearch)
+            observableForkJoin(nameSearch, idSearch)
                 .subscribe((successNext: any) => {
                     let [result1, result2] = successNext;
 
