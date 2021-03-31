@@ -1,10 +1,11 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../../services/session-storage.service';
 import { DashboardService } from '../dashboard.service';
 import { RootScope } from '../../../config/root-scope';
 import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
-import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -138,7 +139,7 @@ export class DashboardComponent implements OnInit {
         //     }
         // })
 
-        Observable.forkJoin(this.dashboardService.getMarketData('BTC', 'USD'), this.dashboardService.getMarketData('XIN', 'BTC'))
+        observableForkJoin(this.dashboardService.getMarketData('BTC', 'USD'), this.dashboardService.getMarketData('XIN', 'BTC'))
             .subscribe((successNext: any) => {
                 let [btcToUsdResult, xinToBtcResult] = successNext;
 

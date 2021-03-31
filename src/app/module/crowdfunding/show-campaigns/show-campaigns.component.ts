@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 @Component({
     selector: 'app-show-campaigns',
     templateUrl: './show-campaigns.component.html',

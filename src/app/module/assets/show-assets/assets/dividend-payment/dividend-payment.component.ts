@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from '../../../../../services/common.service';
 import { CurrenciesService } from '../../../../currencies/currencies.service';
 import { AmountToQuantPipe } from '../../../../../pipes/amount-to-quant.pipe';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-dividend-payment',

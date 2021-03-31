@@ -6,7 +6,7 @@ import { AppConstants } from '../../../../config/constants';
 import { DataStoreService } from '../../../../services/data-store.service';
 import * as alertFunctions from "../../../../shared/data/sweet-alerts";
 import { Page } from '../../../../config/page';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-open-offers',

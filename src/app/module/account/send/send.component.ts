@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import {AppConstants} from '../../../config/constants';
 import {TranslateService} from '@ngx-translate/core';
 import {SessionStorageService} from '../../../services/session-storage.service';

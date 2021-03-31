@@ -1,3 +1,5 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component, OnInit } from "@angular/core";
 import { AccountService } from "../../../account/account.service";
 import { ShufflingService } from "../../shuffling.service";
@@ -6,7 +8,6 @@ import { DataStoreService } from "../../../../services/data-store.service";
 import { CryptoService } from "../../../../services/crypto.service";
 import { SessionStorageService } from "../../../../services/session-storage.service";
 import { AppConstants } from "../../../../config/constants";
-import { Observable } from "rxjs/Observable";
 import * as alertFunctions from "../../../../shared/data/sweet-alerts";
 import { Page } from "../../../../config/page";
 import { CommonService } from '../../../../services/common.service';
@@ -143,7 +144,7 @@ export class ShufflingsComponent implements OnInit {
                 this.includeFinished
             );
 
-            const combined = Observable.forkJoin(accountShufflings, shufflersPromise);
+            const combined = observableForkJoin(accountShufflings, shufflersPromise);
 
             combined.subscribe((latestValues: any) => {
                 var [
@@ -187,7 +188,7 @@ export class ShufflingsComponent implements OnInit {
                             }
                         }
                         if (observablesArray.length > 0) {
-                            Observable.forkJoin(observablesArray).subscribe(
+                            observableForkJoin(observablesArray).subscribe(
                                 (latestValues: any) => {
                                     const title: string = this.commonService.translateAlertTitle('Success');
                                     const msg: string = this.commonService.translateInfoMessage('shufflers-stop-success-msg');

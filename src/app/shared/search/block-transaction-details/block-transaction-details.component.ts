@@ -1,8 +1,9 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SearchService } from "../search.service";
-import { Observable } from "rxjs/Observable";
 import * as alertFunctions from "../../data/sweet-alerts";
 import { AppConstants } from "../../../config/constants";
 import { Page } from "../../../config/page";
@@ -29,7 +30,7 @@ export class BlockTransactionDetailsComponent implements OnInit {
     }
 
     getBlockTransactionDetails(id) {
-        Observable.forkJoin(
+        observableForkJoin(
             this.searchService.searchBlocks(id),
             this.searchService.searchBlockById(id),
             this.searchService.searchTransactionById(id)

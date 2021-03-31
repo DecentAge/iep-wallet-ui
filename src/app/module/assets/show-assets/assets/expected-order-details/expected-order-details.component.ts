@@ -1,9 +1,10 @@
+
+import {forkJoin as observableForkJoin, Observable} from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SessionStorageService} from '../../../../../services/session-storage.service';
 import {AssetsService} from '../../../assets.service';
 import {AccountService} from '../../../../account/account.service';
-import {Observable} from 'rxjs/Observable';
 import {Page} from '../../../../../config/page';
 import {Location} from '@angular/common';
 
@@ -70,7 +71,7 @@ export class ExpectedOrderDetailsComponent implements OnInit {
             observablesArray.push(expectedAskOrdersPromise);
         }
 
-        Observable.forkJoin(observablesArray)
+        observableForkJoin(observablesArray)
             .subscribe((successNext: any) => {
                 let [offersResponse, assetDetailsResponse] = successNext;
                 if (assetDetailsResponse) {
@@ -104,7 +105,7 @@ export class ExpectedOrderDetailsComponent implements OnInit {
             observablesArray.push(assetDetailsPromise);
         }
 
-        Observable.forkJoin(observablesArray)
+        observableForkJoin(observablesArray)
             .subscribe((successNext: any) => {
                 let [offersResponse, assetDetailsResponse] = successNext;
                 if (assetDetailsResponse) {

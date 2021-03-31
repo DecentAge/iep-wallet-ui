@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of } from 'rxjs';
 import { isArray } from 'util';
 
 @Injectable()
@@ -62,7 +61,7 @@ export class HttpProviderService {
             // Let the app keep running by returning an empty result.
 
             if (error.status == 404) {
-                return Observable.of<any>({ error: "not found" });
+                return of<any>({ error: "not found" });
             }
             return of(result as T);
         };

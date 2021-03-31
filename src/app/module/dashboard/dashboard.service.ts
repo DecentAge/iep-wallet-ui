@@ -3,7 +3,7 @@ import { NodeService } from '../../services/node.service';
 import { OptionService } from '../../services/option.service';
 import { HttpProviderService } from '../../services/http-provider.service';
 import { AppConstants } from '../../config/constants';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class DashboardService {

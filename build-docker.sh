@@ -1,3 +1,3 @@
 #!/bin/bash
-docker build -t iep-wallet-ui .
+docker build -t decentage/iep-wallet-ui:latest .
 

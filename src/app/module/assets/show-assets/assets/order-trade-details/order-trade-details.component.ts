@@ -1,9 +1,10 @@
+
+import {forkJoin as observableForkJoin, Observable} from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SessionStorageService} from '../../../../../services/session-storage.service';
 import {AssetsService} from '../../../assets.service';
 import {AccountService} from '../../../../account/account.service';
-import {Observable} from 'rxjs/Observable';
 import {Page} from '../../../../../config/page';
 import {DataStoreService} from '../../../../../services/data-store.service';
 import {Location} from '@angular/common';
@@ -52,7 +53,7 @@ export class OrderTradeDetailsComponent implements OnInit {
             ((this.orderTradesPage.pageNumber + 1) * 10) - 1);
         observablesArray.push(bidOrderTrades);
         observablesArray.push(bidOrderTrades);
-        Observable.forkJoin(observablesArray)
+        observableForkJoin(observablesArray)
             .subscribe((successNext: any) => {
                 let [bidOrders, askOrders] = successNext;
 
