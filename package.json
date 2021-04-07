@@ -30,7 +30,7 @@
     "@ngx-translate/http-loader": "3.0.1",
     "@swimlane/ngx-charts": "^6.1.0",
     "@swimlane/ngx-datatable": "11.3.2",
-    "@types/d3-shape": "1.2.2",
+    "@types/d3-shape": "2.0.0",
     "@types/jquery": "3.3.1",
     "amcharts3": "3.21.13",
     "angular-archwizard": "3.0.0",
