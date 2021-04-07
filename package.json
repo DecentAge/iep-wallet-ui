@@ -46,7 +46,7 @@
     "intl": "1.2.5",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
-    "ng2-charts": "1.6.0",
+    "ng2-charts": "2.4.2",
     "ngx-moment": "2.0.0",
     "ngx-restangular": "3.0.0",
     "ngx-ui-switch": "^6.0.3",
