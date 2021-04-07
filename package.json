@@ -29,7 +29,7 @@
     "@ngx-translate/core": "9.1.1",
     "@ngx-translate/http-loader": "3.0.1",
     "@swimlane/ngx-charts": "^6.1.0",
-    "@swimlane/ngx-datatable": "11.3.2",
+    "@swimlane/ngx-datatable": "19.0.0",
     "@types/d3-shape": "1.2.2",
     "@types/jquery": "3.3.1",
     "amcharts3": "3.21.13",
