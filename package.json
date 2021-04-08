@@ -26,7 +26,7 @@
     "@angular/router": "6.1.10",
     "@ng-bootstrap/ng-bootstrap": "1.1.2",
     "@ngrx/store": "^6.1.2",
-    "@ngx-translate/core": "9.1.1",
+    "@ngx-translate/core": "13.0.0",
     "@ngx-translate/http-loader": "3.0.1",
     "@swimlane/ngx-charts": "^6.1.0",
     "@swimlane/ngx-datatable": "11.3.2",
