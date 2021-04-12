@@ -1,6 +1,5 @@
 # build environment
 FROM node:10 AS builder
-ENV NODE_ENV=production
 WORKDIR /app
 COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install -g @angular/cli@6.2.9
