@@ -193,7 +193,6 @@ export class AppConstants {
         'macapEndPoint': 'api/v1/get'
     };
 
-	// 
     public static newsViewerConfig = {
         'newsUrl': 'http://199.127.137.169:8889',
         'newsEndPoint': 'api/v1/news'
