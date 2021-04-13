@@ -1,7 +1,5 @@
 export class AppConstants {
 
-    public static defaultLanguage = 'en';
-
     public static languageConfig = {
         DEFAULT: 'en',
         SESSION_SELECTED_LANGUAGE_KEY: 'selected_language'
@@ -55,13 +53,6 @@ export class AppConstants {
     public static assetsConfig = {
         'assetsEndPoint': 'api'
     };
-    public static peerConfig = {
-        // 'apiUrl': 'http://185.103.75.217:8888',
-        /* ----- New Node endpoints ----- */
-        'apiUrl': 'http://35.204.224.241:8888',
-        'peerEndPoint': 'api/nodes',
-        'SESSION_PEER_URL_KEY': 'peerKey'
-    };
 
     public static localhostConfig = {
         'apiUrl': 'http://localhost:23457',
@@ -79,20 +70,6 @@ export class AppConstants {
     public static options = {
         'TX_HEIGHT': 10080
     };
-    public static peerEndpoints = [
-        // 'http://185.35.137.7:8888/api/nodes',
-        // 'http://185.35.139.102:8888/api/nodes',
-        // 'http://185.35.139.103:8888/api/nodes',
-        // 'http://185.35.139.104:8888/api/nodes',
-        // 'http://185.35.139.105:8888/api/nodes',
-        // 'http://46.244.20.41:8888/api/nodes',
-        // 'http://185.35.139.101:8888/api/nodes',
-        'http://208.95.1.177:8888/api/nodes',
-        'http://199.127.137.169:8888/api/nodes',
-        // 'http://185.103.75.217:8888/api/nodes'
-        /* ----- New Node endpoints ----- */
-        'http://35.204.224.241:8888/api/nodes'
-    ];
 
     // TODO david: do we need peerEndpoints and peerEndpointsMap sice they contain the same values?
     // TODO david: Rename this var to trustedPeerEndpoints
@@ -118,10 +95,7 @@ export class AppConstants {
             // 'http://185.35.138.140:8888/api/v1/nodes'
             'http://142.93.129.208:8888/api/nodes'
         ]
-
     };
-
-
 
     public static loginConfig = {
         SESSION_ACCOUNT_DETAILS_KEY: 'account_details',
@@ -186,7 +160,6 @@ export class AppConstants {
     public static pollConfig = {
         pollEndPoint: 'api'
     };
-    public static getNoConnectionMessage = 'network-error';
 
     public static macapViewerConfig = {
         'macapUrl': 'http://167.99.242.171:8892',
