@@ -3,6 +3,7 @@
   "version": "4.1.0",
   "license": "",
   "scripts": {
+    "prestart": "npm install",
     "ng": "ng",
     "start2": "ng serve --host 0.0.0.0 --base-href ${PUBLIC_PATH}",
     "start": "node ng-serve-docker.js",
