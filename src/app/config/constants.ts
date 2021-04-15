@@ -41,7 +41,7 @@ export class AppConstants {
         'RANDOMIZE_NODES': 1,
         'EXTENSIONS': 1,
         'USER_NODE_URL': 'http://localhost:23457',
-        'LOCALTESTNET_URL': 'http://localhost:9876',
+        'LOCALTESTNET_URL': 'http://node-1',
         'HTTPS_URL': 'https://ssl.infinity-economics.org',
         'FOUNDATION_URL': 'http://159.89.117.247:23457',
         'TESTNET_URL': 'http://142.93.129.78:9876',
@@ -71,8 +71,6 @@ export class AppConstants {
         'TX_HEIGHT': 10080
     };
 
-    // TODO david: do we need peerEndpoints and peerEndpointsMap sice they contain the same values?
-    // TODO david: Rename this var to trustedPeerEndpoints
     public static peerEndpointsMap = {
         DEFAULT: [
             // 'http://185.35.137.7:8888/api/nodes',
@@ -94,7 +92,10 @@ export class AppConstants {
         TESTNET: [
             // 'http://185.35.138.140:8888/api/v1/nodes'
             'http://142.93.129.208:8888/api/nodes'
-        ]
+        ],
+		LOCALTESTNET: [
+			'http://localhost/peerexplorer-backend/api/nodes'
+		]
     };
 
     public static loginConfig = {
