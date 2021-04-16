@@ -155,7 +155,7 @@ export class AppConstants {
     public static searchConfig = {
         'searchEndPoint': 'api',
         'searchAccountString': 'XIN',
-        'searchPeerUrl': 'http://185.103.75.217:8888/api/nodes',
+        'searchPeerUrl': 'http://168.119.228.238/api/nodes',
         'searchPeerEndPoint': 'api/nodes',
     };
     public static pollConfig = {
