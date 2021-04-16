@@ -37,14 +37,14 @@ export class AppConstants {
          //   - LOCALTESTNET    The API endpoint to access the testnet locally. Will use the URL defined by LOCALTESTNET_URL.
          //   - DEVTESTNET      The API endpoint to access the devnet. Will use the URL defined by DEVTESTNET_URL.
          //   - HTTPS           The API endpoint to securly access the mainnet with SSL.
-        'CONNECTION_MODE': 'LOCALTESTNET',
+        'CONNECTION_MODE': 'TESTNET',
         'RANDOMIZE_NODES': 1,
         'EXTENSIONS': 1,
         'USER_NODE_URL': 'http://localhost:23457',
         'LOCALTESTNET_URL': 'http://node-1',
         'HTTPS_URL': 'https://ssl.infinity-economics.org',
         'FOUNDATION_URL': 'http://159.89.117.247:23457',
-        'TESTNET_URL': 'http://142.93.129.78:9876',
+        'TESTNET_URL': 'http://168.119.228.238:9876',
         'DEVTESTNET_URL': 'http://142.93.129.78:9876'
     };
     public static addressBookConfig = {
@@ -90,8 +90,8 @@ export class AppConstants {
             'http://185.35.138.132:9999/api/nodes',
         ],
         TESTNET: [
-            // 'http://185.35.138.140:8888/api/v1/nodes'
-            'http://142.93.129.208:8888/api/nodes'
+            // 'http://168.119.228.238/api/v1/nodes'
+            'http://168.119.228.238/api/nodes'
         ],
 		LOCALTESTNET: [
 			'http://localhost/peerexplorer-backend/api/nodes'
