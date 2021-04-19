@@ -5,7 +5,7 @@
   "scripts": {
     "prestart": "npm install",
     "ng": "ng",
-    "start2": "ng serve --host 0.0.0.0 --base-href ${PUBLIC_PATH}",
+    "start-local": "node ng-serve-local.js",
     "start": "node ng-serve-docker.js",
     "build": "ng build",
     "build-prod": "ng build --prod",

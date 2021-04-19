@@ -10,7 +10,7 @@ export class AppConstants {
     public static baseConfig = {
         'SESSION_STORAGE_NAMESPACE': 'com.client',
         // This url to access the node API is used when defined connection mode no URL is specified
-        'FALLBACK_HOST_URL': 'http://208.95.1.177:23457',
+        'FALLBACK_HOST_URL': window['envConfig']['FALLBACK_HOST_URL'],
         'AUTO_PAGE_REFRESH_INTERVAL': 60000,
         'TOKEN_QUANTS': 100000000,
         'TX_DEADLINE': 60,
@@ -37,15 +37,15 @@ export class AppConstants {
          //   - LOCALTESTNET    The API endpoint to access the testnet locally. Will use the URL defined by LOCALTESTNET_URL.
          //   - DEVTESTNET      The API endpoint to access the devnet. Will use the URL defined by DEVTESTNET_URL.
          //   - HTTPS           The API endpoint to securly access the mainnet with SSL.
-        'CONNECTION_MODE': 'TESTNET',
+        'CONNECTION_MODE': window['envConfig']['CONNECTION_MODE'],
         'RANDOMIZE_NODES': 1,
         'EXTENSIONS': 1,
-        'USER_NODE_URL': 'http://localhost:23457',
-        'LOCALTESTNET_URL': 'http://node-1',
-        'HTTPS_URL': 'https://ssl.infinity-economics.org',
-        'FOUNDATION_URL': 'http://159.89.117.247:23457',
-        'TESTNET_URL': 'http://168.119.228.238:9876',
-        'DEVTESTNET_URL': 'http://142.93.129.78:9876'
+        'USER_NODE_URL': window['envConfig']['USER_NODE_URL'],
+        'LOCALTESTNET_URL': window['envConfig']['LOCALTESTNET_URL'],
+        'HTTPS_URL': window['envConfig']['HTTPS_URL'],
+        'FOUNDATION_URL': window['envConfig']['FOUNDATION_URL'],
+        'TESTNET_URL': window['envConfig']['TESTNET_URL'],
+        'DEVTESTNET_URL': window['envConfig']['DEVTESTNET_URL'],
     };
     public static addressBookConfig = {
         'tableAddressBook': 'addressBook'
@@ -71,32 +71,7 @@ export class AppConstants {
         'TX_HEIGHT': 10080
     };
 
-    public static peerEndpointsMap = {
-        DEFAULT: [
-            // 'http://185.35.137.7:8888/api/nodes',
-            // 'http://185.35.139.102:8888/api/nodes',
-            // 'http://185.35.139.103:8888/api/nodes',
-            // 'http://185.35.139.104:8888/api/nodes',
-            // 'http://185.35.139.105:8888/api/nodes',
-            // 'http://46.244.20.41:8888/api/nodes',
-            // 'http://185.35.139.101:8888/api/nodes',
-            'http://208.95.1.177:8888/api/nodes',
-            'http://199.127.137.169:8888/api/nodes',
-            // 'http://185.103.75.217:8888/api/nodes',
-            /* ----- New Node endpoints ----- */
-            'http://35.204.224.241:8888/api/nodes'
-        ],
-        DEVTESTNET: [
-            'http://185.35.138.132:9999/api/nodes',
-        ],
-        TESTNET: [
-            // 'http://168.119.228.238/api/v1/nodes'
-            'http://168.119.228.238/api/nodes'
-        ],
-		LOCALTESTNET: [
-			'http://localhost/peerexplorer-backend/api/nodes'
-		]
-    };
+    public static peerEndpointsMap = window['envConfig']['peerEndpointsMap'];
 
     public static loginConfig = {
         SESSION_ACCOUNT_DETAILS_KEY: 'account_details',
@@ -112,20 +87,11 @@ export class AppConstants {
         apiEndPoint: 'api'
     };
 
-    public static fiatConfig = {
-        btcEndpoint: 'http://167.99.242.171:8080',
-        xinEndpoint: 'http://167.99.242.171:8080'
-    };
+    public static fiatConfig = window['envConfig']['fiatConfig'];
 
-    public static marketDataConfig = {
-        baseUrl: 'https://min-api.cryptocompare.com',
-        endpoint: 'data'
-    };
+    public static marketDataConfig = window['envConfig']['marketDataConfig'];
 
-    public static exchangesConfig = {
-        BLOCKR_URL_END_POINT: 'https://blockexplorer.com/api/',
-        BLOCKR_ADDRESS_END_POINT: 'addr',
-    };
+    public static exchangesConfig = window['envConfig']['exchangesConfig'];
 
     public static currenciesConfig = {
         currenciesEndPoint: 'api'
@@ -145,37 +111,20 @@ export class AppConstants {
     public static shufflingsConfig = {
         shufflingEndPoint: 'api',
     };
-    public static ATConfig = {
-        ATEndPoint: 'api',
-        ATCompilerURL: 'http://142.93.63.219:10080', // 'http://185.61.149.71:10080'
-    };
+    public static ATConfig = window['envConfig']['ATConfig'];
+
     public static messagesConfig = {
         messagesEndPoint: 'api'
     };
-    public static searchConfig = {
-        'searchEndPoint': 'api',
-        'searchAccountString': 'XIN',
-        'searchPeerUrl': 'http://168.119.228.238/api/nodes',
-        'searchPeerEndPoint': 'api/nodes',
-    };
+    public static searchConfig = window['envConfig']['searchConfig'];
+
     public static pollConfig = {
         pollEndPoint: 'api'
     };
 
-    public static macapViewerConfig = {
-        'macapUrl': 'http://167.99.242.171:8892',
-        'macapEndPoint': 'api/v1/get'
-    };
+    public static macapViewerConfig = window['envConfig']['macapViewerConfig'];
 
-    public static newsViewerConfig = {
-        'newsUrl': 'http://199.127.137.169:8889',
-        'newsEndPoint': 'api/v1/news'
-    };
+    public static newsViewerConfig = window['envConfig']['newsViewerConfig'];
 
-    public static chainViewerConfig = {
-        'apiUrl': 'http://199.127.137.169:23457',
-        'peerUrl': 'http://199.127.137.169:8888',
-        'peerEndPoint': 'api/nodes',
-        'endPoint': 'api'
-    };
+    public static chainViewerConfig = window['envConfig']['chainViewerConfig'];
 }
