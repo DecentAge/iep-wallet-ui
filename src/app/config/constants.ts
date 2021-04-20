@@ -1,3 +1,16 @@
+const getEnvConfig = (key) => {
+    if (window['envConfig'][key]) {
+        if (typeof window['envConfig'][key] !== 'string' && window['envConfig'][key].length === 0) {
+            return null;
+        } else if (typeof window['envConfig'][key] === 'string' && window['envConfig'][key] === '') {
+            return null;
+        } else {
+            return window['envConfig'][key];
+        }
+    }
+    return null;
+}
+
 export class AppConstants {
 
     public static languageConfig = {
@@ -10,7 +23,7 @@ export class AppConstants {
     public static baseConfig = {
         'SESSION_STORAGE_NAMESPACE': 'com.client',
         // This url to access the node API is used when defined connection mode no URL is specified
-        'FALLBACK_HOST_URL': window['envConfig']['FALLBACK_HOST_URL'],
+        'FALLBACK_HOST_URL': getEnvConfig('FALLBACK_HOST_URL') || 'http://208.95.1.177:23457',
         'AUTO_PAGE_REFRESH_INTERVAL': 60000,
         'TOKEN_QUANTS': 100000000,
         'TX_DEADLINE': 60,
@@ -37,15 +50,15 @@ export class AppConstants {
          //   - LOCALTESTNET    The API endpoint to access the testnet locally. Will use the URL defined by LOCALTESTNET_URL.
          //   - DEVTESTNET      The API endpoint to access the devnet. Will use the URL defined by DEVTESTNET_URL.
          //   - HTTPS           The API endpoint to securly access the mainnet with SSL.
-        'CONNECTION_MODE': window['envConfig']['CONNECTION_MODE'],
+        'CONNECTION_MODE': getEnvConfig('CONNECTION_MODE') || 'LOCALTESTNET',
         'RANDOMIZE_NODES': 1,
         'EXTENSIONS': 1,
-        'USER_NODE_URL': window['envConfig']['USER_NODE_URL'],
-        'LOCALTESTNET_URL': window['envConfig']['LOCALTESTNET_URL'],
-        'HTTPS_URL': window['envConfig']['HTTPS_URL'],
-        'FOUNDATION_URL': window['envConfig']['FOUNDATION_URL'],
-        'TESTNET_URL': window['envConfig']['TESTNET_URL'],
-        'DEVTESTNET_URL': window['envConfig']['DEVTESTNET_URL'],
+        'USER_NODE_URL': getEnvConfig('USER_NODE_URL') || 'http://localhost:23457',
+        'LOCALTESTNET_URL': getEnvConfig('LOCALTESTNET_URL') || 'http://node-1',
+        'HTTPS_URL': getEnvConfig('HTTPS_URL') || 'https://ssl.infinity-economics.org',
+        'FOUNDATION_URL': getEnvConfig('FOUNDATION_URL') || 'http://159.89.117.247:23457',
+        'TESTNET_URL': getEnvConfig('TESTNET_URL') || 'http://168.119.228.238:9876',
+        'DEVTESTNET_URL': getEnvConfig('DEVTESTNET_URL') || 'http://142.93.129.78:9876',
     };
     public static addressBookConfig = {
         'tableAddressBook': 'addressBook'
@@ -71,7 +84,22 @@ export class AppConstants {
         'TX_HEIGHT': 10080
     };
 
-    public static peerEndpointsMap = window['envConfig']['peerEndpointsMap'];
+    public static peerEndpointsMap =  {
+        DEFAULT: getEnvConfig('PEER_ENDPOINTS_DEFAULT') || [
+            'http://208.95.1.177:8888/api/nodes',
+            'http://199.127.137.169:8888/api/nodes',
+            'http://35.204.224.241:8888/api/nodes'
+        ],
+        DEVTESTNET: getEnvConfig('PEER_ENDPOINTS_DEVTESTNET') || [
+            'http://185.35.138.132:9999/api/nodes',
+        ],
+        TESTNET: getEnvConfig('PEER_ENDPOINTS_TESTNET') || [
+            'http://168.119.228.238/api/nodes'
+        ],
+        LOCALTESTNET: getEnvConfig('PEER_ENDPOINTS_LOCALTESTNET') || [
+            'http://localhost/peerexplorer-backend/api/nodes'
+        ]
+    };
 
     public static loginConfig = {
         SESSION_ACCOUNT_DETAILS_KEY: 'account_details',
@@ -87,11 +115,20 @@ export class AppConstants {
         apiEndPoint: 'api'
     };
 
-    public static fiatConfig = window['envConfig']['fiatConfig'];
+    public static fiatConfig = {
+        btcEndpoint: getEnvConfig('BTC_ENDPOINT') || 'http://167.99.242.171:8080',
+        xinEndpoint: getEnvConfig('XIN_ENDPOINT') || 'http://167.99.242.171:8080'
+    };
 
-    public static marketDataConfig = window['envConfig']['marketDataConfig'];
+    public static marketDataConfig = {
+        baseUrl: getEnvConfig('MACAP_URL') || 'https://min-api.cryptocompare.com',
+        endpoint: getEnvConfig('MACAP_ENDPOINT') || 'data'
+    };
 
-    public static exchangesConfig = window['envConfig']['exchangesConfig'];
+    public static exchangesConfig = {
+        BLOCKR_URL_END_POINT: getEnvConfig('EXCHANGE_BLOCKR_URL_ENDPOINT') || 'https://blockexplorer.com/api/',
+        BLOCKR_ADDRESS_END_POINT: getEnvConfig('EXCHANGE_BLOCKR_ADDRESS_ENDPOINT') || 'addr',
+    };
 
     public static currenciesConfig = {
         currenciesEndPoint: 'api'
@@ -111,20 +148,39 @@ export class AppConstants {
     public static shufflingsConfig = {
         shufflingEndPoint: 'api',
     };
-    public static ATConfig = window['envConfig']['ATConfig'];
+    public static ATConfig = {
+        ATEndPoint: getEnvConfig('AT_COMPILER_URL') || 'api',
+        ATCompilerURL: getEnvConfig('AT_ENDPOINT') || 'http://142.93.63.219:10080', // 'http://185.61.149.71:10080'
+    };
 
     public static messagesConfig = {
         messagesEndPoint: 'api'
     };
-    public static searchConfig = window['envConfig']['searchConfig'];
+    public static searchConfig = {
+        searchEndPoint: getEnvConfig('SEARCH_ENDPOINT') || 'api',
+        searchAccountString: getEnvConfig('SEARCH_ACCOUNG_STRING') || 'XIN',
+        searchPeerUrl: getEnvConfig('SEARCH_PEER_URL') || 'http://168.119.228.238/api/nodes',
+        searchPeerEndPoint: getEnvConfig('SEARCH_PEER_ENDPOINT') || 'api/nodes',
+    };
 
     public static pollConfig = {
         pollEndPoint: 'api'
     };
 
-    public static macapViewerConfig = window['envConfig']['macapViewerConfig'];
+    public static macapViewerConfig = {
+        macapUrl: getEnvConfig('MACAP_URL') || 'http://167.99.242.171:8892',
+        macapEndPoint: getEnvConfig('MACAP_ENDPOINT') || 'api/v1/get'
+    };
 
-    public static newsViewerConfig = window['envConfig']['newsViewerConfig'];
+    public static newsViewerConfig = {
+        newsUrl: getEnvConfig('NEWS_URL') || 'http://199.127.137.169:8889',
+        newsEndPoint: getEnvConfig('NEWS_ENDPOINT') || 'api/v1/news'
+    };
 
-    public static chainViewerConfig = window['envConfig']['chainViewerConfig'];
+    public static chainViewerConfig = {
+        apiUrl: getEnvConfig('CHAINVIEWER_API_URL') || 'http://199.127.137.169:23457',
+        peerUrl: getEnvConfig('CHAINVIEWER_PEER_URL') || 'http://199.127.137.169:8888',
+        peerEndPoint: getEnvConfig('CHAINVIEWER_PEER_ENDPOINT') || 'api/nodes',
+        endPoint: getEnvConfig('CHAINVIEWER_ENDPOINT') || 'api'
+    };
 }
