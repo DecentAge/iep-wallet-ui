@@ -121,8 +121,8 @@ export class AppConstants {
     };
 
     public static marketDataConfig = {
-        baseUrl: getEnvConfig('MACAP_URL') || 'https://min-api.cryptocompare.com',
-        endpoint: getEnvConfig('MACAP_ENDPOINT') || 'data'
+        baseUrl: getEnvConfig('MARKETDATA_BASE_URL') || 'https://min-api.cryptocompare.com',
+        endpoint: getEnvConfig('MARKETDATA_ENDPOINT') || 'data'
     };
 
     public static exchangesConfig = {
@@ -149,8 +149,8 @@ export class AppConstants {
         shufflingEndPoint: 'api',
     };
     public static ATConfig = {
-        ATEndPoint: getEnvConfig('AT_COMPILER_URL') || 'api',
-        ATCompilerURL: getEnvConfig('AT_ENDPOINT') || 'http://142.93.63.219:10080', // 'http://185.61.149.71:10080'
+        ATEndPoint: getEnvConfig('AT_ENDPOINT') || 'api',
+        ATCompilerURL: getEnvConfig('AT_COMPILER_URL') || 'http://142.93.63.219:10080', // 'http://185.61.149.71:10080'
     };
 
     public static messagesConfig = {
