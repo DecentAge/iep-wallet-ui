@@ -121,8 +121,8 @@ export class AppConstants {
     };
 
     public static marketDataConfig = {
-        baseUrl: getEnvConfig('MARKETDATA_BASE_URL') || 'https://min-api.cryptocompare.com',
-        endpoint: getEnvConfig('MARKETDATA_ENDPOINT') || 'data'
+        baseUrl: getEnvConfig('MARKET_DATA_BASE_URL') || 'https://min-api.cryptocompare.com',
+        endpoint: getEnvConfig('MARKET_DATA_ENDPOINT') || 'data'
     };
 
     public static exchangesConfig = {
