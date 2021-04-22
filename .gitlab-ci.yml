@@ -45,3 +45,4 @@ deploy:
     url: http://your_server_IP
   only:
     - master
+  when: manual
