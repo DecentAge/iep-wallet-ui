@@ -1,5 +1,5 @@
 window.envConfig = {
-    APP_BASE_HREF:      '',
+    APP_BASE_HREF:      '' || '/wallet',
 
     CONNECTION_MODE: 	'TESTNET',
     FALLBACK_HOST_URL: 	'http://node-1',
