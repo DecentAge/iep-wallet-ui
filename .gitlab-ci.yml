@@ -42,7 +42,7 @@ deploy:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f my-app || true"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 80:80 --name my-app $TAG_COMMIT"
   environment:
-    name: production
+    name: testnet-staging
     url: http://your_server_IP
   only:
     - master
