@@ -52,6 +52,7 @@ import { TransactionTypePipe } from './pipes/transaction-type.pipe';
 import { TransactionTextSubTypePipe } from './pipes/transaction-text-sub-type.pipe';
 import { TransactionIconSubTypePipe } from './pipes/transaction-icon-sub-type.pipe';
 import { ExtensionsService } from './module/extensions/extensions.service';
+import {APP_BASE_HREF} from '@angular/common';
 
 export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -111,7 +112,8 @@ export function createTranslateLoader(http: HttpClient) {
         TransactionTypePipe,
         TransactionTextSubTypePipe,
         TransactionIconSubTypePipe,
-        { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
+        {provide: APP_BASE_HREF, useValue: window['envConfig']['APP_BASE_HREF']}
     ],
     bootstrap: [AppComponent],
 })
