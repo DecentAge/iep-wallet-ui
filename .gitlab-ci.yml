@@ -64,6 +64,7 @@ dockerhub-publish:
     - docker login -u "$DOCKER_REGISTRY_USER" -p "$DOCKER_REGISTRY_PASSWORD" $DOCKER_REGISTRY 
   script:
     - echo "Miau ${DOCKER_IMAGE_TAG}"
+    - docker tag "$CI_REGISTRY_IMAGE${DOCKER_IMAGE_TAG}" "myname/server:${DOCKER_IMAGE_TAG}"
     - docker push "$CI_REGISTRY_IMAGE${DOCKER_IMAGE_TAG}"
   dependencies:
     - docker-build
