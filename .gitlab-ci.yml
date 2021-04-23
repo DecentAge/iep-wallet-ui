@@ -33,8 +33,6 @@ docker-build:
     - if: $CI_COMMIT_BRANCH
       exists:
         - Dockerfile
-  only:
-    - develop
 deploy:
   image: alpine:latest
   stage: deploy
