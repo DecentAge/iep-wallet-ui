@@ -34,7 +34,7 @@ docker-build:
       exists:
         - Dockerfile
   environment:
-    name: staging
+    name: testnet2-staging
 deploy:
   image: alpine:latest
   stage: deploy
@@ -48,8 +48,8 @@ deploy:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f my-app || true"
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 80:80 --name my-app $TAG_COMMIT"
   environment:
-    name: staging
-    url: http://your_server_IP
+    name: testnet2-staging
+    url: http://168.119.228.238/wallet
   only:
-    - master
+    - develop
   when: manual
