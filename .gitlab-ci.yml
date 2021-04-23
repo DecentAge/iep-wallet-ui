@@ -34,7 +34,7 @@ docker-build:
       exists:
         - Dockerfile
   only:
-    - development
+    - develop
 deploy:
   image: alpine:latest
   stage: deploy
