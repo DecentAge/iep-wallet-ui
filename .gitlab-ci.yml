@@ -5,5 +5,5 @@ variables:
   CI_DEBUG_TRACE: "true"
 
 include:
-  - project: infinity-economics/iep-infrastructure
-    file: ./gitlab-ci/docker-build-publish.yml
+  - project: 'infinity-economics/iep-infrastructure'
+    file: '/gitlab-ci/docker-build-publish.yml'
