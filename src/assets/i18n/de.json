@@ -3,7 +3,8 @@
     "title": "Welcome to Infinity Economics",
     "redirect_login_btn": "My Account",
     "redirect_signup_btn": "Sign Up",
-    "no_account": "Don't have an Account"
+    "no_account": "Don't have an Account",
+    "error_passphrase_invalid": "Passphrase is invalid. It must be at least 35 characters or 15 words long"
   },
   "signup": {
     "disclaimer": {

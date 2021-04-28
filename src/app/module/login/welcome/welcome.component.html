@@ -35,10 +35,13 @@
                                         }}</label>
                                     <input type="password" name="passPhrase" [(ngModel)]="model.passPhrase" #passPhrase="ngModel"
                                         class="form-control p_input" required placeholder="{{ 'login.passphrase_placeholder' | translate }}" />
-                                    <div *ngIf="passPhrase?.invalid && (passPhrase?.dirty || passPhrase?.touched)"
+                                    <div *ngIf="(passPhrase?.invalid || invalidPassphrase) && (passPhrase?.dirty || passPhrase?.touched)"
                                         class="input-error">
                                         <div *ngIf="passPhrase?.invalid">
                                             {{ "login.error_passphrase_required" | translate }}
+                                        </div>
+                                        <div *ngIf="invalidPassphrase && (passPhrase?.dirty || passPhrase?.touched)">
+                                            {{ 'welcome.error_passphrase_invalid' | translate }}
                                         </div>
                                     </div>
                                 </div>

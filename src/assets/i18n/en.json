@@ -6,6 +6,7 @@
         "no_account": "Don't have an Account",
         "language-label": "Language",
         "passphrase-label": "Passphrase",
+        "error_passphrase_invalid": "Passphrase is invalid. It must be at least 35 characters or 15 words long",
         "welcome-note": "<span>Note:</span> Every transaction will get signed locally and transmitted to a random node without revealing your wallet passphrase or private keys.",
         "browsers-version-text": "Chrome v49+ | IE v11+ | Firefox v50+ | Opera v42+ | Android v4.4+ | Chrome for Android v55+"
     },
