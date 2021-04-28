@@ -4,5 +4,5 @@ variables:
     description: "The deployment target. Change this variable to 'canary' or 'production' if needed."
 
 include:
-  - project: infinity-economics/iep-wallet-ui
+  - project: infinity-economics/iep-infrastructure
     file: ./gitlab-ci/docker-build-publish.yml
