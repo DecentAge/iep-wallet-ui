@@ -1,7 +1,4 @@
 variables:
-  DEPLOY_ENVIRONMENT:
-    value: "staging"  # Deploy to staging by default
-    description: "The deployment target. Change this variable to 'canary' or 'production' if needed."
   CI_DEBUG_TRACE: "true"
 
 include:
