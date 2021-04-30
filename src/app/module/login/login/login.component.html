@@ -13,10 +13,10 @@
                         <div class="card-body">
                             <form #f="ngForm" novalidate>
                                 <div class="welcome-logo text-center">
-                                    <img src="/assets/images/login-logo.png" alt="">
+                                    <img src="assets/images/login-logo.png" alt="">
                                 </div>
                                 <div class="form-group text-left sign_in_inputs">
-                                    <label><img src="/assets/images/lock.png" alt="">Passphrase</label>
+                                    <label><img src="assets/images/lock.png" alt="">Passphrase</label>
                                     <input type="password" name="passPhrase" [(ngModel)]="model.passPhrase" #passPhrase="ngModel" class="form-control p_input" required placeholder="{{ 'login.passphrase_placeholder' | translate}}">
                                     <div *ngIf="passPhrase?.invalid && (passPhrase?.dirty || passPhrase?.touched)" class="input-error">
                                         <div *ngIf="passPhrase?.invalid">

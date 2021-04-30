@@ -15,10 +15,10 @@
                         <div class="card-body">
                             <form #f="ngForm" novalidate>
                                 <div class="welcome-logo">
-                                    <img src="/assets/images/login-logo.png" alt="" />
+                                    <img src="assets/images/login-logo.png" alt="" />
                                 </div>
                                 <div class="form-group text-left sign_in_inputs">
-                                    <label><img src="/assets/images/language.png" alt="" />{{
+                                    <label><img src="assets/images/language.png" alt="" />{{
                                         "welcome.language-label" | translate
                                         }}</label>
                                     <select class="form-control" [(ngModel)]="selectedLanguage" (ngModelChange)="changeLanguage($event)"
@@ -30,15 +30,18 @@
                                 </div>
 
                                 <div class="form-group text-left sign_in_inputs">
-                                    <label><img src="/assets/images/lock.png" alt="" />{{
+                                    <label><img src="assets/images/lock.png" alt="" />{{
                                         "welcome.passphrase-label" | translate
                                         }}</label>
                                     <input type="password" name="passPhrase" [(ngModel)]="model.passPhrase" #passPhrase="ngModel"
                                         class="form-control p_input" required placeholder="{{ 'login.passphrase_placeholder' | translate }}" />
-                                    <div *ngIf="passPhrase?.invalid && (passPhrase?.dirty || passPhrase?.touched)"
+                                    <div *ngIf="(passPhrase?.invalid || invalidPassphrase) && (passPhrase?.dirty || passPhrase?.touched)"
                                         class="input-error">
                                         <div *ngIf="passPhrase?.invalid">
                                             {{ "login.error_passphrase_required" | translate }}
+                                        </div>
+                                        <div *ngIf="invalidPassphrase && (passPhrase?.dirty || passPhrase?.touched)">
+                                            {{ 'welcome.error_passphrase_invalid' | translate }}
                                         </div>
                                     </div>
                                 </div>

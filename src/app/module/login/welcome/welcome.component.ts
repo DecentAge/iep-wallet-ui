@@ -16,13 +16,14 @@ export class WelcomeComponent implements OnInit {
   model: Login = new Login();
   languages: Array<Object>;
   selectedLanguage: string;
+  invalidPassphrase = false;
 
   constructor(
     public router: Router,
     public translate: TranslateService,
     public sessionStorageService: SessionStorageService,
     public loginService: LoginService,
-    public swappService: SwappService
+    public swappService: SwappService,
   ) {
     this.languages = [
       { name: "English", code: "en" },
@@ -37,22 +38,33 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit() {}
 
+  validatePassphrase = function (passphrase) {
+    const passphraseLen = passphrase.length;
+    const passphraseWords = passphrase.split(' ');
+
+    return !(passphraseLen < 35 || (passphrase.indexOf(' ') >= 0 && passphraseWords.length < 15 && passphraseWords[passphraseWords.length - 1] !== ' '));
+  };
+
   loginToAccount = function() {
-    let rememberSecret = true; //We are making it default now
+    this.invalidPassphrase = !this.validatePassphrase(this.model.passPhrase);
 
-    this.loginService.calculateAccountDetailsFromSecret(
-      this.model.passPhrase,
-      true
-    );
+    if (!this.invalidPassphrase) {
+      let rememberSecret = true; //We are making it default now
 
-    if (rememberSecret) {
-      this.loginService.calculatePrivateKeyFromSecret(
-        this.model.passPhrase,
-        true
+      this.loginService.calculateAccountDetailsFromSecret(
+          this.model.passPhrase,
+          true
       );
+
+      if (rememberSecret) {
+        this.loginService.calculatePrivateKeyFromSecret(
+            this.model.passPhrase,
+            true
+        );
+      }
+      this.swappService.loadSWApps();
+      this.router.navigateByUrl("/dashboard");
     }
-    this.swappService.loadSWApps();
-    this.router.navigateByUrl("/dashboard");
   };
 
   changeLanguage(event: any) {

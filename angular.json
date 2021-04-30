@@ -18,7 +18,8 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/env.config.js"
             ],
             "styles": [
               "src/assets/css/prism.min.css",
@@ -131,7 +132,8 @@
             ],
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/env.config.js"
             ]
           }
         },
