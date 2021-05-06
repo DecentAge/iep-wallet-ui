@@ -7,6 +7,7 @@
     "ng": "ng",
     "start-local": "node ng-serve-local.js",
     "start": "node ng-serve-docker.js",
+    "update-version": "npm version $npm_config_release_version --allow-same-version --git-tag-version false && envsub --env RELEASE_VERSION=$npm_config_release_version src/env.config.js.template src/env.config.js.template",
     "build": "ng build",
     "build-prod": "ng build --prod",
     "test": "ng test",
