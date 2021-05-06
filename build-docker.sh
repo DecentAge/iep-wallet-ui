@@ -1,3 +1,7 @@
 #!/bin/bash
-docker build -t decentage/iep-wallet-ui:latest .
+set -o errexit
+set -o pipefail
+set -o nounset
 
+RELEASE_VERSION=$(cat release-version.txt)
+docker build -t decentage/iep-wallet-ui:latest .
