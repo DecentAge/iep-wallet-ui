@@ -5,6 +5,7 @@ COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install -g @angular/cli@6.2.9
 RUN npm install
 COPY . .
+RUN npm run-script update-version --release_version=$(cat release-version.txt) 
 RUN npm run build-prod
 
 # production environment
