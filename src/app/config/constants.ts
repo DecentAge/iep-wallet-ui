@@ -36,7 +36,7 @@ export class AppConstants {
         'EPOCH': 1484046000,
     };
     public static DEFAULT_OPTIONS = {
-        'VERSION': '1.0.1',
+        'VERSION': getEnvConfig('RELEASE_VERSION'),
         'DEADLINE': '60',
         'REFRESH_INTERVAL_MILLI_SECONDS': '60000',
         'TX_HEIGHT': 7 * 1440,
