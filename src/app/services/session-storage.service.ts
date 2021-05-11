@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AppConstants } from '../config/constants';
 
 @Injectable()
 export class SessionStorageService {
@@ -7,6 +8,14 @@ export class SessionStorageService {
 
     saveToSession = function (key, value) {
         sessionStorage[key] = JSON.stringify(value);
+
+        setTimeout(() => {
+            try {
+                delete sessionStorage[key];
+            } catch (e) {
+                sessionStorage[key] = undefined;
+            }
+        }, AppConstants.baseConfig.SESSION_STORAGE_EXPIRATION);
     };
 
     getFromSession = function (key): any {

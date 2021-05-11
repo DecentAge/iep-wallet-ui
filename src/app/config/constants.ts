@@ -34,6 +34,7 @@ export class AppConstants {
         'SESSION_MAX_RETRIES': '2',
         'SESSION_CURRENT_TRY': '0',
         'EPOCH': 1484046000,
+        'SESSION_STORAGE_EXPIRATION': getEnvConfig('SESSION_STORAGE_EXPIRATION'),
     };
     public static DEFAULT_OPTIONS = {
         'VERSION': getEnvConfig('RELEASE_VERSION'),
