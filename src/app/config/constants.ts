@@ -33,14 +33,15 @@ export class AppConstants {
         'SESSION_PEER_ENDPOINTS': 'peerEndpoints',
         'SESSION_MAX_RETRIES': '2',
         'SESSION_CURRENT_TRY': '0',
-        'EPOCH': 1484046000,
+        'EPOCH': getEnvConfig('EPOCH'),
         'SESSION_STORAGE_EXPIRATION': getEnvConfig('SESSION_STORAGE_EXPIRATION'),
+        'LEASING_OFFSET_BLOCK': getEnvConfig('LEASING_OFFSET_BLOCK'),
     };
     public static DEFAULT_OPTIONS = {
         'VERSION': getEnvConfig('RELEASE_VERSION'),
         'DEADLINE': '60',
         'REFRESH_INTERVAL_MILLI_SECONDS': '60000',
-        'TX_HEIGHT': 7 * 1440,
+        'TX_HEIGHT': getEnvConfig('TX_HEIGHT'),
         'AUTO_UPDATE': 1,
         // Following values are supported:
          //   - AUTO            Retrieves the node to be used from /api/nodes and take one randomly from the result list or the first if RANDOMIZE_NODES=true
@@ -82,7 +83,7 @@ export class AppConstants {
         'crowdfundingEndPoint': 'api'
     };
     public static options = {
-        'TX_HEIGHT': 10080
+        'TX_HEIGHT': getEnvConfig('TX_HEIGHT'),
     };
 
     public static peerEndpointsMap =  {

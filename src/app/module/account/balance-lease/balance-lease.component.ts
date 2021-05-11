@@ -148,7 +148,7 @@ export class BalanceLeaseComponent implements OnInit {
     };
     getAndVerifyAccount() {
 
-        if (this.blockheight < 3000) {
+        if (this.blockheight < AppConstants.baseConfig.LEASING_OFFSET_BLOCK) {
             let title: string = this.commonService.translateAlertTitle('Info');
             let errMsg: string = this.commonService.translateInfoMessage('balance-lease-start-block-error-msg');
             alertFunctions.InfoAlertBox(title,
