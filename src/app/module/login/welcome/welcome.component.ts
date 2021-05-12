@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { Router } from "@angular/router";
+import {ActivatedRoute, Router} from '@angular/router';
 import { TranslateService } from "@ngx-translate/core";
 import { AppConstants } from "../../../config/constants";
 import { SessionStorageService } from "../../../services/session-storage.service";
@@ -17,6 +17,8 @@ export class WelcomeComponent implements OnInit {
   languages: Array<Object>;
   selectedLanguage: string;
   invalidPassphrase = false;
+
+  timeout = false;
 
   constructor(
     public router: Router,
@@ -36,7 +38,14 @@ export class WelcomeComponent implements OnInit {
     this.translate.use(this.selectedLanguage);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const to = JSON.parse(sessionStorage.getItem('session_timeout')) || false;
+
+    if (to) {
+      this.timeout = to;
+      sessionStorage.removeItem('session_timeout');
+    }
+  }
 
   validatePassphrase = function (passphrase) {
     const passphraseLen = passphrase.length;
@@ -64,6 +73,7 @@ export class WelcomeComponent implements OnInit {
       }
       this.swappService.loadSWApps();
       this.router.navigateByUrl("/dashboard");
+      this.loginService.initSessionTimeout();
     }
   };
 

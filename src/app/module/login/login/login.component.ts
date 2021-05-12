@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
         }
         this.swappService.loadSWApps();
         this.router.navigateByUrl('/dashboard');
+        this.loginService.initSessionTimeout();
     };
 
     signUp() {

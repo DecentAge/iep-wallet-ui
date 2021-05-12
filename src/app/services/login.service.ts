@@ -2,14 +2,26 @@ import { Injectable } from '@angular/core';
 import { CryptoService } from './crypto.service';
 import { SessionStorageService } from './session-storage.service';
 import { AppConstants } from '../config/constants';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class LoginService {
   isExpertWallet = false;
   watchList : Array<any>;
+  sessionTimeout = null;
 
-  constructor(public cryptoService: CryptoService, public sessionStorageService: SessionStorageService) { 
+  constructor(public cryptoService: CryptoService, public sessionStorageService: SessionStorageService, private router: Router) {
     this.watchList = [];
+  }
+
+  initSessionTimeout(){
+      if (this.sessionTimeout === null) {
+          this.sessionTimeout = setTimeout(() => {
+              sessionStorage.clear();
+              sessionStorage.setItem('session_timeout', JSON.stringify(true));
+              this.router.navigate(['/welcome']);
+          }, AppConstants.baseConfig.SESSION_STORAGE_EXPIRATION);
+      }
   }
 
   generatePassPhrase(){
