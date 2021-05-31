@@ -6,6 +6,7 @@ set -o nounset
 RELEASE_VERSION=$(cat release-version.txt)
 docker build -t decentage/iep-wallet-ui:${RELEASE_VERSION} .
 
-echo "Creating fake zip file to avoid artifact upload issue"
+CONTAINER_ID=$(docker create --rm --name iep-wallet-ui-extract decentage/iep-wallet-ui:${RELEASE_VERSION})
 mkdir -p ./build
-touch ./build/iep-wallet-ui.zip
+docker cp ${CONTAINER_ID}:/iep-wallet-ui.zip ./build
+docker rm ${CONTAINER_ID}
