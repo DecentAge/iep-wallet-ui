@@ -1,6 +1,7 @@
 # build environment
 FROM node:10 AS builder
 WORKDIR /app
+RUN apt-get update && apt-get install -y zip
 COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install -g @angular/cli@6.2.9
 RUN npm install
