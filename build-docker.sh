@@ -8,5 +8,5 @@ docker build -t decentage/iep-wallet-ui:${RELEASE_VERSION} .
 
 CONTAINER_ID=$(docker create --rm --name iep-wallet-ui-ext decentage/iep-wallet-ui:${RELEASE_VERSION})
 mkdir -p ./build
-docker cp ${CONTAINER_ID}:/iep-wallet-ui.zip ./build
+docker cp ${CONTAINER_ID}:/build/iep-wallet-ui.zip ./build
 docker rm ${CONTAINER_ID}
