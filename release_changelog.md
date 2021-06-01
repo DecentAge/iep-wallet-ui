@@ -1,9 +1,19 @@
 ** Release 0.3.0 **
-- Minimale Testumgebung  für das EP  Test- und Mainnet(eigener Genesis)
-- Produktion 10 Node verteilt auf 3 RZ (Hetzner)
-- Minimales Security hardening 
-- Parallelbetrieb zum existierenden Blockchain Verbund (noch keine Kontrolle über das Netz, min. 60'000 XIN)
-- Cloudflare set up mit neuer DNS
-- Minimaler Regressionstest in Test- und Produktion
-
-Versions & Release Management (3.0.0; must, es darf nicht die gleiche versionnummer sein)
+- Pass host argument to 'ng serve' to fix connection denial issue
+- removed whiles which shdul be excluded from the project
+- added dockerfile to build a docker image for the IEP wallet
+- run the wallet on nginx web server
+- use testnet by default
+- moved base root folder to root
+- added dockerignore file
+- changed image name to decentage/XXXX:latest
+- upgraded cli and angular to v6
+- Create dependabot.yml
+- update cli version in docker
+- Serve from wallet path
+- node script to run ng serve with process.env params
+- add prestart script
+- introduced new environment variables concept
+- expanded env variables
+- cleanup nginx startup script
+- validate passphrase
