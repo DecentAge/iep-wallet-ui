@@ -23,21 +23,21 @@ export const Extensions = {
             title: "Service Monitor",
             icon: "fa fa-bar-chart",
             description: "The service monitor ensure that deployed services are operating, maintained, supported and reachable. The monitor polls all important service structures like foundation nodes, websites, the testnet, API server and public services. This is a free community service.",
-            link: "http://www.infinity-economics.org/servicemonitor/",
+            link: "/servicemonitor/",
             target: "_blank"
         },
         {
             title: "Block Explorer",
             icon: "fa fa-bar-chart",
             description: "The block explorer provides UI for block related operations which are written in JavaScript. It is a web-based tool providing a detailed information about XIN blocks, transactions, addresses and many more. This is a free community service.",
-            link: "http://www.infinity-economics.org/blockexplorer/",
+            link: "/blockexplorer/",
             target: "_blank"
         },
         {
             title: "Peer Explorer",
             icon: "fa fa-bar-chart",
             description: "The peer explorer provides UI for Networking Operations which is written in JavaScript. It acts as a gateway to the XIN server infrastructure. The explorer displays all the important nodes active on the network. This is a free community service.",
-            link: "http://www.infinity-economics.org/peerexplorer/",
+            link: "/peerexplorer/",
             target: "_blank"
         },
         // {
