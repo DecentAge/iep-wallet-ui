@@ -1,0 +1,19 @@
+** Release 0.3.0 **
+- Pass host argument to 'ng serve' to fix connection denial issue
+- removed whiles which shdul be excluded from the project
+- added dockerfile to build a docker image for the IEP wallet
+- run the wallet on nginx web server
+- use testnet by default
+- moved base root folder to root
+- added dockerignore file
+- changed image name to decentage/XXXX:latest
+- upgraded cli and angular to v6
+- Create dependabot.yml
+- update cli version in docker
+- Serve from wallet path
+- node script to run ng serve with process.env params
+- add prestart script
+- introduced new environment variables concept
+- expanded env variables
+- cleanup nginx startup script
+- validate passphrase
