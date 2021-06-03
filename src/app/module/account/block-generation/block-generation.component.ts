@@ -12,7 +12,8 @@ import { CommonService } from '../../../services/common.service';
 })
 export class BlockGenerationComponent implements OnInit {
     status = 'Unknown';
-    hasLocal: boolean = false;
+    hasLocal = false;
+    hasHttps = false;
     connectionMode: any;
     generationStatus: any;
     blockGenerationForm: any = {
@@ -29,13 +30,17 @@ export class BlockGenerationComponent implements OnInit {
     ngOnInit() {
         this.connectionMode = this.optionsService.getOption('CONNECTION_MODE', '');
         this.hasLocal = this.connectionMode === 'LOCAL_HOST';
+        this.hasHttps = this.connectionMode === 'HTTPS';
         this.displayNotificationAlert();
     }
 
     displayNotificationAlert() {
-        if (this.connectionMode !== 'LOCAL_HOST' && this.connectionMode !== 'TESTNET' && this.connectionMode !== 'DEVTESTNET') {
-            let title: string = this.commonService.translateAlertTitle('Error');
-            let msg: string = this.commonService.translateInfoMessage('block-generation-localhost-error-msg');
+        if (this.connectionMode !== 'LOCAL_HOST' &&
+            this.connectionMode !== 'TESTNET' &&
+            this.connectionMode !== 'DEVTESTNET' &&
+            this.connectionMode !== 'HTTPS') {
+            const title: string = this.commonService.translateAlertTitle('Error');
+            const msg: string = this.commonService.translateInfoMessage('block-generation-localhost-error-msg');
             alertFunctions.InfoAlertBox(title,
                 msg,
                 'OK',

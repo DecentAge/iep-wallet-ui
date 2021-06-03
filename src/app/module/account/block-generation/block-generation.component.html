@@ -56,15 +56,15 @@
                                             placeholder="{{ 'account.block-generation.secret-phrase-placeholder' | translate}}"></div>
                                     <div class="col-5 col-lg-4 pr-1 pl-0 btn-icon-group text-right pr-1">
 
-                                        <button class="btn btn-primary" (click)="runBlockGeneration(0)" [disabled]="hasLocal===false || !blockGenerationForm.$valid">
+                                        <button class="btn btn-primary" (click)="runBlockGeneration(0)" [disabled]="(!hasLocal && !hasHttps) || !blockGenerationForm.$valid">
                                             <i class="fa fa-plug" placement="top" triggers="mouseenter:mouseleave"
                                                 container="body" ngbPopover="{{'account.block-generation.show-status-popover'| translate}}"></i>
                                         </button>
-                                        <button class="btn btn-primary" (click)="runBlockGeneration(2)" [disabled]="hasLocal===false || !blockGenerationForm.$valid">
+                                        <button class="btn btn-primary" (click)="runBlockGeneration(2)" [disabled]="(!hasLocal && !hasHttps) || !blockGenerationForm.$valid">
                                             <i class="fa fa-stop" placement="top" triggers="mouseenter:mouseleave"
                                                 container="body" ngbPopover="{{'account.block-generation.stop-popover'| translate}}"></i>
                                         </button>
-                                        <button class="btn btn-primary" (click)="runBlockGeneration(1)" [disabled]="hasLocal===false || !blockGenerationForm.$valid">
+                                        <button class="btn btn-primary" (click)="runBlockGeneration(1)" [disabled]="(!hasLocal && !hasHttps) || !blockGenerationForm.$valid">
                                             <i class="fa fa-play" placement="top" triggers="mouseenter:mouseleave"
                                                 container="body" ngbPopover="{{'account.block-generation.start-popover'| translate}}"></i>
                                         </button>
