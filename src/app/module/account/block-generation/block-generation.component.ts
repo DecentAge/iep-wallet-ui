@@ -16,9 +16,7 @@ export class BlockGenerationComponent implements OnInit {
     hasHttps = false;
     connectionMode: any;
     generationStatus: any;
-    blockGenerationForm: any = {
-        secretPhrase: ''
-    };
+    secretPhrase = '';
 
     constructor(public optionsService: OptionService,
                 public accountService: AccountService,
@@ -51,7 +49,7 @@ export class BlockGenerationComponent implements OnInit {
     }
 
     runBlockGeneration(mode) {
-        this.accountService.blockGeneration(mode, this.blockGenerationForm.secretPhrase, this.connectionMode)
+        this.accountService.blockGeneration(mode, this.secretPhrase, this.connectionMode)
             .subscribe((success: any) => {
                 if (success.errorDescription) {
                     this.generationStatus = success.errorDescription;

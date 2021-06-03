@@ -42,7 +42,7 @@
                         </div>
                     </div>
 
-                    <form class="form inner-form" [name]="blockGenerationForm">
+                    <form class="form inner-form">
                         <div class="form-body">
                             <div class="form-group">
                                 <label>{{'common.secret-phrase-label'| translate}} &nbsp;
@@ -52,19 +52,19 @@
                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                     <div class="col-7 col-lg-8 pl-0 pr-0">
                                         <input type="text" class="pl-0 mb-0 pt-0 pb-0 form-control" required
-                                            [(ngModel)]="blockGenerationForm.secretPhrase" name="secretPhrase"
+                                            [(ngModel)]="secretPhrase" name="secretPhrase"
                                             placeholder="{{ 'account.block-generation.secret-phrase-placeholder' | translate}}"></div>
                                     <div class="col-5 col-lg-4 pr-1 pl-0 btn-icon-group text-right pr-1">
 
-                                        <button class="btn btn-primary" (click)="runBlockGeneration(0)" [disabled]="(!hasLocal && !hasHttps) || !blockGenerationForm.$valid">
+                                        <button class="btn btn-primary" (click)="runBlockGeneration(0)" [disabled]="(!hasLocal && !hasHttps) || secretPhrase === ''">
                                             <i class="fa fa-plug" placement="top" triggers="mouseenter:mouseleave"
                                                 container="body" ngbPopover="{{'account.block-generation.show-status-popover'| translate}}"></i>
                                         </button>
-                                        <button class="btn btn-primary" (click)="runBlockGeneration(2)" [disabled]="(!hasLocal && !hasHttps) || !blockGenerationForm.$valid">
+                                        <button class="btn btn-primary" (click)="runBlockGeneration(2)" [disabled]="(!hasLocal && !hasHttps) || secretPhrase === ''">
                                             <i class="fa fa-stop" placement="top" triggers="mouseenter:mouseleave"
                                                 container="body" ngbPopover="{{'account.block-generation.stop-popover'| translate}}"></i>
                                         </button>
-                                        <button class="btn btn-primary" (click)="runBlockGeneration(1)" [disabled]="(!hasLocal && !hasHttps) || !blockGenerationForm.$valid">
+                                        <button class="btn btn-primary" (click)="runBlockGeneration(1)" [disabled]="(!hasLocal && !hasHttps) || secretPhrase === ''">
                                             <i class="fa fa-play" placement="top" triggers="mouseenter:mouseleave"
                                                 container="body" ngbPopover="{{'account.block-generation.start-popover'| translate}}"></i>
                                         </button>
