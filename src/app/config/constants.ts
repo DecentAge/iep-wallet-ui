@@ -39,6 +39,7 @@ export class AppConstants {
     };
     public static DEFAULT_OPTIONS = {
         'VERSION': getEnvConfig('RELEASE_VERSION'),
+        'NETWORK_ENVIRONMENT': getEnvConfig('NETWORK_ENVIRONMENT'),
         'DEADLINE': '60',
         'REFRESH_INTERVAL_MILLI_SECONDS': '60000',
         'TX_HEIGHT': getEnvConfig('TX_HEIGHT'),
