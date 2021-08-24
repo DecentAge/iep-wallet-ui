@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { Router } from "@angular/router";
+import {ActivatedRoute, Router} from '@angular/router';
 import { TranslateService } from "@ngx-translate/core";
 import { AppConstants } from "../../../config/constants";
 import { SessionStorageService } from "../../../services/session-storage.service";
@@ -17,12 +17,14 @@ export class WelcomeComponent implements OnInit {
   languages: Array<Object>;
   selectedLanguage: string;
 
+  timeout = false;
+
   constructor(
-      public router: Router,
-      public translate: TranslateService,
-      public sessionStorageService: SessionStorageService,
-      public loginService: LoginService,
-      public swappService: SwappService
+    public router: Router,
+    public translate: TranslateService,
+    public sessionStorageService: SessionStorageService,
+    public loginService: LoginService,
+    public swappService: SwappService,
   ) {
     this.languages = [
       { name: "English", code: "en" },
@@ -30,12 +32,19 @@ export class WelcomeComponent implements OnInit {
       { name: "Polish", code: "pl" }
     ];
     this.selectedLanguage = this.sessionStorageService.getFromSession(
-        AppConstants.languageConfig.SESSION_SELECTED_LANGUAGE_KEY
+      AppConstants.languageConfig.SESSION_SELECTED_LANGUAGE_KEY
     );
     this.translate.use(this.selectedLanguage);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const to = JSON.parse(sessionStorage.getItem('session_timeout')) || false;
+
+    if (to) {
+      this.timeout = to;
+      sessionStorage.removeItem('session_timeout');
+    }
+  }
 
   loginToAccount = function() {
     let rememberSecret = true; //We are making it default now
@@ -53,12 +62,13 @@ export class WelcomeComponent implements OnInit {
     }
     this.swappService.loadSWApps();
     this.router.navigateByUrl("/dashboard");
+    this.loginService.initSessionTimeout();
   };
 
   changeLanguage(event: any) {
     this.sessionStorageService.saveToSession(
-        AppConstants.languageConfig.SESSION_SELECTED_LANGUAGE_KEY,
-        this.selectedLanguage
+      AppConstants.languageConfig.SESSION_SELECTED_LANGUAGE_KEY,
+      this.selectedLanguage
     );
     this.translate.use(this.selectedLanguage);
   }
