@@ -1,4 +1,4 @@
-** Release 0.3.0 **
+# Release 0.3.1
 - Pass host argument to 'ng serve' to fix connection denial issue
 - removed whiles which shdul be excluded from the project
 - added dockerfile to build a docker image for the IEP wallet
