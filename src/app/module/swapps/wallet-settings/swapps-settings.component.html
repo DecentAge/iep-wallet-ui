@@ -21,19 +21,18 @@
                                                         <div class="card-block row">
                                                             <div *ngFor="let app of swapps" class="apps-wrapper col-sm-6 col-md-4 col-lg-3 text-center">
                                                                 <div [class]="app.isEnabled ? 'app-container-left enabled' : 'app-container-left'">
-                                                                    <div class="custom-control custom-checkbox">
-                                                                        <i [ngClass]="[app.icon !== ''? app.icon: '']"></i>
+                                                                    <label class="custom-control custom-checkbox" for="{{app.name}}">
                                                                         <input type="checkbox" class="custom-control-input"
-                                                                            (change)="onChange()" [(ngModel)]="app.isEnabled"
-                                                                            [ngModelOptions]="{standalone: true}" id="{{app.name}}">
-                                                                        <label class="custom-control-label" for="{{app.name}}">
+                                                                               (change)="onChange()" [(ngModel)]="app.isEnabled"
+                                                                               [ngModelOptions]="{standalone: true}" id="{{app.name}}">
+                                                                        <i [ngClass]="[app.icon !== ''? app.icon: '']"></i>
+                                                                        <div class="custom-control-label">
                                                                             {{'swapps.setting.swappsList.'+app.name+'.name'
-                                                                            | translate}}</label>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="app-container-right">
+                                                                            | translate}}</div>
                                                                     <span class="description">{{'swapps.setting.swappsList.'+app.name+'.desc'
                                                                         | translate}}</span>
+                                                                        <div class="custom-control-icon"></div>
+                                                                    </label>
                                                                 </div>
                                                             </div>
                                                         </div>
