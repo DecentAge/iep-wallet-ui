@@ -46,6 +46,10 @@ export class WelcomeComponent implements OnInit {
     }
   }
 
+  hasInsecurePassphrase = function() {
+    return this.model.passPhrase !== '' && this.model.passPhrase.split(' ').length < 15;
+  }
+
   loginToAccount = function() {
     let rememberSecret = true; //We are making it default now
 
