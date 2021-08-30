@@ -132,10 +132,6 @@
   }
 }
 
-.custom-control-input:focus ~ .custom-control-icon {
-  box-shadow: 0 0 0 0.2rem rgb(231 45 69 / 25%) !important;
-}
-
 .custom-control-input:active ~ .custom-control-icon {
   box-shadow: none;
 }
