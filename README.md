@@ -20,6 +20,10 @@ This application is an interface to access a Wallet and comes with lots of modul
 - Additional modules (assets, currencies, crowdfunding, escrow, shuffling etc.)
 
 ## Getting Started
+### Configuration
+
+You can configure several values for the app. The config file is located in `/src/env.config.js`.
+
 ### Prerequisites
 
 You need to have following tools installed:
