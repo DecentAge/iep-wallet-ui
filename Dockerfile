@@ -1,7 +1,8 @@
 # build environment
-FROM node:10 AS builder
+FROM node:10-alpine AS builder
 WORKDIR /app
-RUN apt-get update && apt-get install -y zip
+RUN apk add --no-cache git
+RUN apk add --no-cache zip
 COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install -g @angular/cli@6.2.9
 RUN npm install
@@ -13,7 +14,7 @@ RUN mkdir -p /app/build
 RUN zip -r /app/build/iep-wallet-ui.zip ./dist
 
 # production environment
-FROM nginx:1.18
+FROM nginx:1.18-alpine
 ENV NGINX_PATH=/
 COPY --from=builder /app/dist /usr/share/nginx/html/
 COPY --from=builder /app/build /build
