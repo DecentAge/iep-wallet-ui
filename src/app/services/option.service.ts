@@ -4,36 +4,13 @@ import { SessionStorageService } from './session-storage.service';
 
 @Injectable()
 export class OptionService {
-
-    indexedDB = window.indexedDB;
-    open: any;
-
+    optionsLocalStorageKey: string;
     watchList: any = [];
 
     public optionsChanged$: EventEmitter<any>;
 
     constructor(public sessionStorageService: SessionStorageService) {
-
-        this.open = indexedDB.open("clientIndexedDB", 1);
-
-        this.open.onupgradeneeded = () => {
-            var db = this.open.result;
-
-            var optionStore = db.createObjectStore(AppConstants.optionsConfig.tableOptions, { keyPath: ['publicKey', 'optionName'] });
-            optionStore.createIndex('value_idx', 'value', { unique: false });
-            optionStore.createIndex('public_key_idx', 'publicKey', { unique: false });
-            optionStore.createIndex('option_name_idx', 'optionName', { unique: false });
-
-            // account store created here, will move it to proper module
-            var accountStore = db.createObjectStore(AppConstants.addressBookConfig.tableAddressBook, { keyPath: ['publicKey', 'accountRS'] });
-            accountStore.createIndex('tag_idx', 'tags', {unique: false});
-            accountStore.createIndex('public_key_idx', 'publicKey', {unique: false});
-            accountStore.createIndex('account_rs_idx', 'accountRS', {unique: false});
-        }
-
-        this.open.onsuccess = (event) => {
-            var db = event.target.result;
-        };
+        this.optionsLocalStorageKey = 'options';
 
         this.optionsChanged$ = new EventEmitter();
 
@@ -42,6 +19,10 @@ export class OptionService {
         });
     }
 
+    emitOptionsChanged(){
+        this.optionsChanged$.emit();
+    }
+/*
     createTransaction(tableOptions, callback) {
         var db = this.open.result;
         var tx;
@@ -74,10 +55,6 @@ export class OptionService {
                 successCallBack();
             }
         })
-    }
-
-    emitOptionsChanged(){
-        this.optionsChanged$.emit();
     }
 
     get(tableOptions, index, publicKey, successCallBack, errorCallBack) {
@@ -124,6 +101,39 @@ export class OptionService {
     count(tableOptions, successCallBack, errorCallBack) {
 
     }
+*/
+
+    add(tableOptions, data, successCallBack, errorCallBack) {
+        const optionsStr = localStorage.getItem(this.optionsLocalStorageKey) || '[]';
+        const options = JSON.parse(optionsStr);
+
+        data.forEach(element => {
+            options.push(element);
+        });
+
+        localStorage.setItem(this.optionsLocalStorageKey, JSON.stringify(options));
+        successCallBack();
+    };
+
+    get(tableOptions, index, publicKey, successCallBack, errorCallBack) {
+        const optionsStr = localStorage.getItem(this.optionsLocalStorageKey) || '[]';
+        const options = JSON.parse(optionsStr);
+        const res = options.filter((el) => el.publicKey === publicKey);
+
+        if (res) {
+            successCallBack(res);
+        } else {
+            errorCallBack([])
+        }
+    };
+
+    clear(tableOptions, index, publicKey, successCallBack, errorCallBack) {
+        const optionsStr = localStorage.getItem(this.optionsLocalStorageKey) || '[]';
+        const options = JSON.parse(optionsStr);
+        const res = options.filter((el) => el.publicKey !== publicKey);
+        localStorage.setItem(this.optionsLocalStorageKey, JSON.stringify(res));
+        successCallBack('success');
+    };
 
     insertOption(publicKey, optionName, value, successCallBack, errorCallBack) {
         this.add(AppConstants.optionsConfig.tableOptions, [{ 'publicKey': publicKey, 'optionName': optionName, 'value': value }], successCallBack, errorCallBack);
@@ -147,10 +157,6 @@ export class OptionService {
         this.clear(AppConstants.optionsConfig.tableOptions,'public_key_idx', publicKey, successCallback, errorCallback);
     };
 
-    getContactsCount(successCallBack, errorCallBack) {
-        this.count(AppConstants.addressBookConfig.tableAddressBook, successCallBack, errorCallBack);
-    };
-
     loadOptions(publicKey, successCallback, errorCallback) {
         this.getAllOptions(publicKey, options => {
             let finalOptions = JSON.parse(JSON.stringify(AppConstants.DEFAULT_OPTIONS));
@@ -171,6 +177,7 @@ export class OptionService {
     };
 
     getOption(optionName, publicKey?) {
+        console.log("RETRIEVE OPTION", optionName)
         let options = this.sessionStorageService.getFromSession(AppConstants.baseConfig.SESSION_APP_OPTIONS);
         if (options) {
             if (typeof options[optionName] === 'undefined') {
