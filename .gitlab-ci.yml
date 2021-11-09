@@ -4,5 +4,5 @@ include:
 
 trigger-iep-node:
   stage: build
-  needs: ["build"]
+  needs: ["docker-build"]
   trigger: infinity-economics/iep-node
