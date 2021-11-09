@@ -1,7 +1,3 @@
 include:
   - project: 'infinity-economics/iep-docker'
     file: '/gitlab/ci/docker-ci-cd.yml'
-
-trigger-iep-node:
-  stage: build
-  trigger: infinity-economics/iep-node
