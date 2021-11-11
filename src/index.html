@@ -87,6 +87,12 @@
     }
   </style>
   <script type="text/javascript" src="env.config.js"></script>
+  <script type="text/javascript">
+    window.XRS = {
+      growl: console.info,
+      getState: () => "TEST"
+    }
+  </script>
 </head>
 <body>
   <app-root></app-root>
