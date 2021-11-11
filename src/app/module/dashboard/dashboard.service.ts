@@ -23,25 +23,6 @@ export class DashboardService {
 
     };
 
-    getAccountBalanceValuation(balanceXIN): Observable<number> {
-
-        return new Observable((observer) => {
-
-            this.http.get(AppConstants.fiatConfig.xinEndpoint, 'api/v1/get')
-                .subscribe(response => {
-                    if (response[0].price_usd) {
-                        observer.next(balanceXIN * response[0].price_usd);
-                    } else {
-                        observer.next(0);
-                    }
-                    observer.complete();
-                });
-
-            return { unsubscribe() { } };
-        });
-
-    }
-
     getMarketData(fsym, tsym): any {
 
         var params = {

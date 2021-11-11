@@ -32,20 +32,20 @@ export class AppConstants {
         'SESSION_PEER_ENDPOINTS': 'peerEndpoints',
         'SESSION_MAX_RETRIES': '2',
         'SESSION_CURRENT_TRY': '0',
-        'EPOCH': getEnvConfig('EPOCH'),
-        'SESSION_STORAGE_EXPIRATION': getEnvConfig('SESSION_STORAGE_EXPIRATION'),
-        'LEASING_OFFSET_BLOCK': getEnvConfig('LEASING_OFFSET_BLOCK'),
+        'EPOCH': getEnvConfig('genesisBlockEpoch'),
+        'SESSION_STORAGE_EXPIRATION': getEnvConfig('walletBrowserStorageExp'),
+        'LEASING_OFFSET_BLOCK': getEnvConfig('effectiveLeasingOffsetBlock'),
     };
     public static DEFAULT_OPTIONS = {
-        'VERSION': getEnvConfig('RELEASE_VERSION'),
-        'NETWORK_ENVIRONMENT': getEnvConfig('NETWORK_ENVIRONMENT'),
+        'VERSION': getEnvConfig('version'),
+        'NETWORK_ENVIRONMENT': getEnvConfig('env'),
         'DEADLINE': '60',
         'REFRESH_INTERVAL_MILLI_SECONDS': '60000',
-        'TX_HEIGHT': getEnvConfig('TX_HEIGHT'),
+        'TX_HEIGHT': getEnvConfig('phasingDuration'),
         'AUTO_UPDATE': 1,
         'RANDOMIZE_NODES': 1,
         'EXTENSIONS': 1,
-        'NODE_API_URL': getEnvConfig('NODE_API_URL') || 'http://node-1',
+        'NODE_API_URL': getEnvConfig('apiServerURL') || 'http://node-1',
     };
     public static addressBookConfig = {
         'tableAddressBook': 'addressBook'
@@ -68,13 +68,11 @@ export class AppConstants {
         'crowdfundingEndPoint': 'api'
     };
     public static options = {
-        'TX_HEIGHT': getEnvConfig('TX_HEIGHT'),
+        'TX_HEIGHT': getEnvConfig('phasingDuration'),
     };
 
-    public static peerEndpoints = getEnvConfig('PEER_ENDPOINTS') || [
-            'http://208.95.1.177:8888/api/nodes',
-            'http://199.127.137.169:8888/api/nodes',
-            'http://35.204.224.241:8888/api/nodes'
+    public static peerEndpoints = [
+            AppConstants.DEFAULT_OPTIONS.NODE_API_URL
         ];
 
     public static loginConfig = {
@@ -91,19 +89,14 @@ export class AppConstants {
         apiEndPoint: 'api'
     };
 
-    public static fiatConfig = {
-        btcEndpoint: getEnvConfig('BTC_ENDPOINT') || 'http://167.99.242.171:8080',
-        xinEndpoint: getEnvConfig('XIN_ENDPOINT') || 'http://167.99.242.171:8080'
-    };
-
     public static marketDataConfig = {
-        baseUrl: getEnvConfig('MARKET_DATA_BASE_URL') || 'https://min-api.cryptocompare.com',
-        endpoint: getEnvConfig('MARKET_DATA_ENDPOINT') || 'data'
+        baseUrl: getEnvConfig('proxyMarketURL') || 'https://min-api.cryptocompare.com',
+        endpoint: 'data'
     };
 
     public static exchangesConfig = {
-        BLOCKR_URL_END_POINT: getEnvConfig('EXCHANGE_BLOCKR_URL_ENDPOINT') || 'https://blockexplorer.com/api/',
-        BLOCKR_ADDRESS_END_POINT: getEnvConfig('EXCHANGE_BLOCKR_ADDRESS_ENDPOINT') || 'addr',
+        BLOCKR_URL_END_POINT: 'https://blockexplorer.com/api/',
+        BLOCKR_ADDRESS_END_POINT: 'addr',
     };
 
     public static currenciesConfig = {
@@ -125,8 +118,8 @@ export class AppConstants {
         shufflingEndPoint: 'api',
     };
     public static ATConfig = {
-        ATEndPoint: getEnvConfig('AT_ENDPOINT') || 'api',
-        ATCompilerURL: getEnvConfig('AT_COMPILER_URL') || 'http://142.93.63.219:10080', // 'http://185.61.149.71:10080'
+        ATEndPoint: 'api',
+        ATCompilerURL: getEnvConfig('apiServerURL'), // 'http://185.61.149.71:10080'
     };
 
     public static messagesConfig = {

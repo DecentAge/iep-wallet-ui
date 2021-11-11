@@ -58,7 +58,7 @@ export class NodeService {
 
     getNodesCount() {
         const total = this.sessionService.getFromSession(NodeConfig.SESSION_PEER_NODES) || [];
-        return total.length;
+        return total.length + 1;
     };
 
     getNodeUrl() {

@@ -10,11 +10,7 @@ export class PeerService {
               public optionsService: OptionService) { }
 
     getPeers() {
-        return this.http.get(this.getPeerEndPoints()[0], '');
-    };
-
-    getStats() {
-        return this.http.get(this.getPeerEndPoints()[0], 'getStats');
+        return this.http.get(this.getPeerEndPoints()[0], 'api?requestType=getPeers');
     };
 
     searchIp(ip) {

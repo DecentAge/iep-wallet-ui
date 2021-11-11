@@ -14,10 +14,6 @@ export class FiatService {
         this.lastFetch = 0;
     }
 
-    getBtcPrice() {
-        return this.http.get(AppConstants.fiatConfig.btcEndpoint, 'bitcoinaverage.json');
-    };
-
     getXinPrice() {
         if (!this.cache$ || new Date().getTime() - this.lastFetch > 1000 * 60 * 10 ) {
             this.lastFetch = new Date().getTime();

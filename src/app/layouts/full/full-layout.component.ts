@@ -54,8 +54,8 @@ export class FullLayoutComponent implements OnInit {
         this.getAccountAssetsAndBalances();
 
         if (!this.sessionStorageService.getFromSession(NodeConfig.SESSION_PEER_NODES)) {
-            this.peerService.getPeers().subscribe((response) => {
-                this.sessionStorageService.saveToSession(NodeConfig.SESSION_PEER_NODES, response);
+            this.peerService.getPeers().subscribe((response: any) => {
+                this.sessionStorageService.saveToSession(NodeConfig.SESSION_PEER_NODES, response.peers);
                 this.optionsConfigurationService.loadOptions();
             }, function (error) {
                 const title: string = this.commonService.translateAlertTitle('Error');
@@ -85,8 +85,8 @@ export class FullLayoutComponent implements OnInit {
                 this.sessionStorageService.saveToSession(NodeConfig.SESSION_HAS_LOCAL, false);
                 this.getAccountAssetsAndBalances();
             });
-        this.peerService.getPeers().subscribe((response) => {
-            this.sessionStorageService.saveToSession(NodeConfig.SESSION_PEER_NODES, response);
+        this.peerService.getPeers().subscribe((response: any) => {
+            this.sessionStorageService.saveToSession(NodeConfig.SESSION_PEER_NODES, response.peers);
             this.broadcastService.broadcast('peers-updated');
         });
     }
