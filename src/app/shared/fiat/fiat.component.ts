@@ -1,9 +1,9 @@
 
 import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component, Input, OnChanges, OnInit, SimpleChange } from '@angular/core';
-import { FiatService } from "../../services/fiat.service";
+import { FiatService } from '../../services/fiat.service';
 
-import { QuantToAmountPipe } from "../../pipes/quant-to-amount.pipe";
+import { QuantToAmountPipe } from '../../pipes/quant-to-amount.pipe';
 
 @Component({
     selector: 'app-fiat',
@@ -38,22 +38,9 @@ export class FiatComponent implements OnChanges {
     }
 
     getXinPrice(finalAmount_) {
-        // const btcPricePromise = this.fiatService.getBtcPrice();
-        const xinPricePromise = this.fiatService.getXinPrice();
-
-        observableForkJoin([xinPricePromise])
-            .subscribe((success) => {
-                // const btcPriceJson: any = success[0];
-                const xinPriceJson: any = success[0];
-
-                // this.xinUSDBTC = btcPriceJson.averages.day || 0;
-                this.xinPriceUSD = xinPriceJson[0].price_usd || 0;
-
-                this.xinPriceBTC = xinPriceJson[0].price_btc || 0;
-                this.xinVolume24 = xinPriceJson[0]['24h_volume_usd'] || 0;
-                this.xinChange24 = xinPriceJson[0].percent_change_24h || 0;
-
-                this.finalAmount = finalAmount_ * xinPriceJson[0].price_usd;
-            });
+        this.fiatService.getXinPrice()
+            .subscribe((res: any) => {
+                this.finalAmount = finalAmount_ * res.USD;
+            })
     }
 }
