@@ -87,6 +87,7 @@ import { LedgerTxTypesPipe } from '../pipes/ledger-tx-types.pipe';
 import { CharactersPipe } from '../pipes/characters.pipe';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AddressService } from '../module/account/address.service';
+import { ProgressSyncComponent } from '../module/progress/progress.component';
 
 @NgModule({
     exports: [
@@ -94,6 +95,7 @@ import { AddressService } from '../module/account/address.service';
         FooterComponent,
         NavbarComponent,
         SidebarComponent,
+        ProgressSyncComponent,
         NgbModule,
         TranslateModule,
         DashboardComponent,
@@ -169,9 +171,10 @@ import { AddressService } from '../module/account/address.service';
         UiSwitchModule,
         ChartsModule,
         MomentModule,
-        QRCodeModule
+        QRCodeModule,
     ],
     declarations: [
+        ProgressSyncComponent,
         FooterComponent,
         NavbarComponent,
         SidebarComponent,

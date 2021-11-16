@@ -1,0 +1,20 @@
+<div class="content-wrapper" *ngIf="blocksLeft > 0">
+    <div class="container-fluid">
+        <div class="card card-body card-block main-card-block">
+            <div class="row">
+                <div class="col-8">
+                    <h4 style="font-size: 16px;line-height: 18px;color: #e6433a;font-weight: 500;">{{'Downloading'}}{{dots}}</h4>
+                </div>
+                <div class="col-4">
+                    <div class="pull-right" style="font-size: 16px;line-height: 18px;">{{blocksLeft}} blocks left</div>
+                </div>
+            </div>
+            <div class="progress" style="height: 25px">
+                <div class="progress-bar progress-bar-striped" [ngClass]="{'bg-success': blocksLeft === 0, 'progress-bar-animated': blocksLeft > 0}" style="height: 25px" role="progressbar" attr.aria-valuenow="{{totalProgress}}" attr.aria-valuemin="0" attr.aria-valuemax="100" [style.width]="totalProgress + '%'">{{totalProgress}}%</div>
+            </div>
+            <div class="w-100 text-center mt-2" *ngIf="blocksLeft > 0" style="font-size: 13px">
+                Estimated time: {{estimate}}
+            </div>
+        </div>
+    </div>
+</div>
