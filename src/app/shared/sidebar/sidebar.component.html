@@ -5,6 +5,7 @@
             <div class="logo-img">
                 <img src="assets/images/logo.png" />
             </div>
+            <small *ngIf="options"> {{ 'footer.version-label' | translate}} : {{options.VERSION}}</small>
             <!--<span class="text align-middle">Infinity</span>-->
         </a>
         <!--<a class="nav-toggle d-none d-sm-none d-md-none d-lg-block" id="sidebarToggle" href="javascript:;">-->

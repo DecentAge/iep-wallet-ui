@@ -13,7 +13,7 @@
                 <div class="progress-bar progress-bar-striped" [ngClass]="{'bg-success': blocksLeft === 0, 'progress-bar-animated': blocksLeft > 0}" style="height: 25px" role="progressbar" attr.aria-valuenow="{{totalProgress}}" attr.aria-valuemin="0" attr.aria-valuemax="100" [style.width]="totalProgress + '%'">{{totalProgress}}%</div>
             </div>
             <div class="w-100 text-center mt-2" *ngIf="blocksLeft > 0" style="font-size: 13px">
-                Estimated time: {{estimate}}
+                Estimated time: {{estimate === "Infinity" ? "calculating..." : estimate }}
             </div>
         </div>
     </div>

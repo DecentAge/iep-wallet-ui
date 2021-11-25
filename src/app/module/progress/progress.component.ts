@@ -37,7 +37,7 @@ export class ProgressSyncComponent implements OnInit {
             this.timerId = setTimeout(() => {
                 this.updateProgress();
 
-                if (this.totalProgress !== 100) {
+                if (this.blocksLeft !== 0) {
                     getPeerState();
                 }
             }, delay);

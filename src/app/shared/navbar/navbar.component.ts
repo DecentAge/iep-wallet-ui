@@ -58,6 +58,10 @@ export class NavbarComponent implements OnInit {
         // this.getLatestNews();
     }
 
+    reload() {
+        window.location.reload();
+    }
+
     getBadges() {
         let accountRs = this.commonsService.getAccountDetailsFromSession(
             "accountRs"

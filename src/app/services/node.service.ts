@@ -6,11 +6,13 @@ import { OptionService } from './option.service';
 import { LocalhostService } from './localhost.service';
 import { AppConstants } from '../config/constants';
 import { BroadcastService } from './broadcast.service';
+import {HttpProviderService} from './http-provider.service';
 
 @Injectable()
 export class NodeService {
 
     constructor(
+        public http: HttpProviderService,
         public sessionService: SessionStorageService,
         public peerService: PeerService,
         public optionsService: OptionService,
@@ -89,5 +91,11 @@ export class NodeService {
         }
         throw new Error('Local node not available');
     };
+
+
+
+    getLastBlock() {
+        return this.http.get(this.getNodeUrl(), 'api?requestType=getBlock');
+    }
 
 }
