@@ -13,11 +13,11 @@
                 </div>
                 <div class="stat-box col-4 col-xl-2">
                     <span class="stat-label">Last Block</span>
-                    <small>{{lastBlock.height}}</small>
+                    <small *ngIf="lastBlock">{{lastBlock.height}}</small>
                 </div>
                 <div class="stat-box col-4 col-xl-2">
                     <span class="stat-label">Last Block Time</span>
-                    <small>{{ lastBlock.timestamp | timestamp }}</small>
+                    <small *ngIf="lastBlock">{{ lastBlock.timestamp | timestamp }}</small>
                 </div>
                 <div class="stat-box col-4 col-xl-2">
                     <span class="stat-label">{{ 'footer.nodes-label' | translate}}</span>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="stat-box col-4 col-xl-2">
                     <span class="stat-label">{{ 'footer.synced-label' | translate}}</span>
-                    <small>{{peerState.isDownloading | isSync}}</small>
+                    <small *ngIf="peerState">{{peerState.isDownloading | isSync}}</small>
                 </div>
             </div>
         </div>
