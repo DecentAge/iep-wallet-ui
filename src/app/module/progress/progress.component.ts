@@ -29,7 +29,7 @@ export class ProgressSyncComponent implements OnInit {
         public nodeService: NodeService
     ) {
         this.totalProgress = 0;
-        this.blocksLeft = 0;
+        this.blocksLeft = 1;
         this.dots = '';
         this.estimate = 'calculating...';
 
@@ -112,6 +112,10 @@ export class ProgressSyncComponent implements OnInit {
     }
 
     secondsToHms(d) {
+        if (d === Infinity) {
+            return 'calculating...';
+        }
+
         d = Number(d);
         const h = Math.floor(d / 3600);
         const m = Math.floor(d % 3600 / 60);
