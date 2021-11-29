@@ -4,12 +4,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import {LoginService} from '../../services/login.service';
 import {RootScope} from '../../config/root-scope';
+import {OptionService} from '../../services/option.service';
 
 declare var $: any;
 
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss']
 })
 
 export class SidebarComponent implements OnInit {
@@ -18,10 +20,15 @@ export class SidebarComponent implements OnInit {
     idArray = [];
     balanceTQT: any;
 
+    activeMenu: '';
+
+    options: any = {};
+
     constructor(private router: Router,
                 private route: ActivatedRoute,
                 public translate: TranslateService,
-                public loginService: LoginService
+                public loginService: LoginService,
+                public optionService: OptionService,
     ) {
         this.balanceTQT = 0;
     }
@@ -33,6 +40,7 @@ export class SidebarComponent implements OnInit {
 
         RootScope.onChange.subscribe(data => {
             this.balanceTQT = data['balanceTQT'];
+            this.options = data['options'];
         })
     }
 
@@ -47,7 +55,11 @@ export class SidebarComponent implements OnInit {
     }
 
     triggerClick() {
-        $("ui-switch").trigger('click');
+        $('ui-switch').trigger('click');
+    }
+
+    toggle(e, t) {
+        this.activeMenu = t;
     }
 
     //NGX Wizard - skip url change

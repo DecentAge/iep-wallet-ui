@@ -113,7 +113,7 @@ export function createTranslateLoader(http: HttpClient) {
         TransactionTextSubTypePipe,
         TransactionIconSubTypePipe,
         { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
-        {provide: APP_BASE_HREF, useValue: window['envConfig']['APP_BASE_HREF']}
+        {provide: APP_BASE_HREF, useValue: window['envConfig']['walletContextPath']}
     ],
     bootstrap: [AppComponent],
 })

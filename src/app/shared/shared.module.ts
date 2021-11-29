@@ -71,11 +71,11 @@ import { UnitsToQuantityPipe } from '../pipes/units-to-quantity.pipe';
 import { RateTqtToPricePipe } from '../pipes/rate-tqt-to-price.pipe';
 import { RateTqtToSumPipe } from '../pipes/rate-tqt-to-sum.pipe';
 import { BlockTransactionDetailsComponent } from './search/block-transaction-details/block-transaction-details.component';
-import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NodeDetailsComponent } from './search/node-details/node-details.component';
-import { GatewaysPipe } from "../pipes/gateways.pipe";
-import { ProxiesPipe } from "../pipes/proxies.pipe";
-import { StoragePipe } from "../pipes/storage.pipe";
+import { GatewaysPipe } from '../pipes/gateways.pipe';
+import { ProxiesPipe } from '../pipes/proxies.pipe';
+import { StoragePipe } from '../pipes/storage.pipe';
 import { PriceTqtToSumPipe } from '../pipes/price-tqt-to-sum.pipe';
 import { CurrencyModelPipe } from '../pipes/currency-model.pipe';
 import { PricePerShareSellOrderPipe } from '../pipes/price-per-share-sell-order.pipe';
@@ -87,6 +87,8 @@ import { LedgerTxTypesPipe } from '../pipes/ledger-tx-types.pipe';
 import { CharactersPipe } from '../pipes/characters.pipe';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AddressService } from '../module/account/address.service';
+import { ProgressSyncComponent } from '../module/progress/progress.component';
+import {HeaderComponent} from './header/header.component';
 
 @NgModule({
     exports: [
@@ -94,6 +96,7 @@ import { AddressService } from '../module/account/address.service';
         FooterComponent,
         NavbarComponent,
         SidebarComponent,
+        ProgressSyncComponent,
         NgbModule,
         TranslateModule,
         DashboardComponent,
@@ -156,7 +159,8 @@ import { AddressService } from '../module/account/address.service';
         ProxiesPipe,
         StoragePipe,
         CurrencyModelPipe,
-        BreadcrumbComponent
+        BreadcrumbComponent,
+        HeaderComponent
     ],
     imports: [
         RouterModule,
@@ -169,10 +173,12 @@ import { AddressService } from '../module/account/address.service';
         UiSwitchModule,
         ChartsModule,
         MomentModule,
-        QRCodeModule
+        QRCodeModule,
     ],
     declarations: [
+        ProgressSyncComponent,
         FooterComponent,
+        HeaderComponent,
         NavbarComponent,
         SidebarComponent,
         DashboardComponent,

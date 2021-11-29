@@ -1,0 +1,41 @@
+.header-box{
+  border-radius: 10px;
+    box-shadow: 0 6px 0px 0 rgba(0, 0, 0, 0.01), 0 15px 32px 0 rgba(0, 0, 0, 0.06);
+    -webkit-box-shadow: 0 6px 0px 0 rgba(0, 0, 0, 0.01), 0 15px 32px 0 rgba(0, 0, 0, 0.06);
+    margin: 15px 15px 0px 15px;
+    background: #fff;
+    padding: 5px;
+    font-size: 11px;
+    line-height: 18px;
+    color: rgba(0, 0, 0, 0.9);
+    small{
+    font-size: 100%;
+    }
+    h4 {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.9);
+	}
+	span{
+	color: #e83641;
+	}
+
+  .card-block {
+    padding: 0.5rem 1rem !important;
+  }
+
+  .stat-box {
+    .stat-label {
+      position: relative;
+      float: left;
+      width: 100%;
+      font-weight: bold;
+      color: #666;
+    }
+  }
+}
+@media(max-width: 767px){
+	.header-box{
+      margin: 15px 0px 0px 0px !important;
+	}
+}

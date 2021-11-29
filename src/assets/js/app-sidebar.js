@@ -27,8 +27,9 @@ $(document).ready(function () {
         $sidebar_content.find('li.active').parents('li').addClass('open');
     }
 
-
+/*
     $sidebar_content.on('click', '.navigation li a', function () {
+        console.log("CLICKED")
         var $this = $(this),
             listItem = $this.parent('li');
 
@@ -52,7 +53,7 @@ $(document).ready(function () {
             }
         }
     });
-
+*/
     function collapse($listItem, callback) {
         var $subList = $listItem.children('ul');
 

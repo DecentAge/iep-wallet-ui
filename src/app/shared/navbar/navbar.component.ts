@@ -53,10 +53,13 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.connectionMode = this.optionService.getOption("CONNECTION_MODE", "");
         this.isExpertWallet = this.loginService.isExpertWallet;
         this.getBadges();
         // this.getLatestNews();
+    }
+
+    reload() {
+        window.location.reload();
     }
 
     getBadges() {

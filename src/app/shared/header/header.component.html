@@ -1,0 +1,34 @@
+<!--Footer Starts-->
+<header class="d-none d-sm-block">
+    <div class="container-fluid">
+        <div class="header-box card">
+            <div class="card-block row">
+                <div class="stat-box col-4 col-xl-2">
+                    <span class="stat-label">Network</span>
+                    <small>{{ currentModeText | uppercase }}</small>
+                </div>
+                <div class="stat-box col-4 col-xl-2">
+                    <span class="stat-label">{{ 'footer.connected-label' | translate}}</span>
+                    <small>{{ connectedURL }}</small>
+                </div>
+                <div class="stat-box col-4 col-xl-2">
+                    <span class="stat-label">Last Block</span>
+                    <small *ngIf="lastBlock">{{lastBlock.height}}</small>
+                </div>
+                <div class="stat-box col-4 col-xl-2">
+                    <span class="stat-label">Last Block Time</span>
+                    <small *ngIf="lastBlock">{{ lastBlock.timestamp | timestamp }}</small>
+                </div>
+                <div class="stat-box col-4 col-xl-2">
+                    <span class="stat-label">{{ 'footer.nodes-label' | translate}}</span>
+                    <small>{{totalNodes}}</small>
+                </div>
+                <div class="stat-box col-4 col-xl-2">
+                    <span class="stat-label">{{ 'footer.synced-label' | translate}}</span>
+                    <small *ngIf="peerState">{{peerState.isDownloading | isSync}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--Footer Ends-->

@@ -5,6 +5,7 @@
             <div class="logo-img">
                 <img src="assets/images/logo.png" />
             </div>
+            <small *ngIf="options"> {{ 'footer.version-label' | translate}} : {{options.VERSION}}</small>
             <!--<span class="text align-middle">Infinity</span>-->
         </a>
         <!--<a class="nav-toggle d-none d-sm-none d-md-none d-lg-block" id="sidebarToggle" href="javascript:;">-->
@@ -42,8 +43,8 @@
             <ng-container *ngFor="let menuItem of menuItems;let first = index">
                 <ng-container *isAppEnabled="menuItem.appName">
                     <ng-container *isExtensionEnabledView="menuItem.isExtensionView">
-                        <li id="{{ 'first_' + first }}" *isExpertView="menuItem.isExpertView" [ngClass]="{'has-sub':menuItem.class == 'has-sub','open' : idArray.indexOf('first_'+first) !== -1}"
-                            [routerLinkActive]="menuItem.submenu.length != 0 ? '' : 'active'" [routerLinkActiveOptions]="{exact: false}">
+                        <li id="{{ 'first_' + first }}" *isExpertView="menuItem.isExpertView" [ngClass]="{'has-sub':menuItem.class == 'has-sub','open' : idArray.indexOf('first_'+first) !== -1 || activeMenu === 'first_'+first}"
+                            [routerLinkActive]="menuItem.submenu.length != 0 ? '' : 'active'" [routerLinkActiveOptions]="{exact: false}" (click)="toggle($event, 'first_'+first)">
                             <a [routerLink]="menuItem.class === '' ? [menuItem.path] : null" *ngIf="!menuItem.isExternalLink; else externalLinkBlock">
                                 <i [ngClass]="[menuItem.icon]"></i>
                                 <span class="menu-title">{{'side-menu.'+menuItem.title | translate }}</span>
