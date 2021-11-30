@@ -27,7 +27,6 @@ $(document).ready(function () {
         $sidebar_content.find('li.active').parents('li').addClass('open');
     }
 
-/*
     $sidebar_content.on('click', '.navigation li a', function () {
         console.log("CLICKED")
         var $this = $(this),
@@ -53,11 +52,10 @@ $(document).ready(function () {
             }
         }
     });
-*/
+
     function collapse($listItem, callback) {
         var $subList = $listItem.children('ul');
 
-        $subList.show().slideUp(200, function () {
             $(this).css('display', '');
 
             $(this).find('> li').removeClass('is-shown');
@@ -67,7 +65,6 @@ $(document).ready(function () {
             if (callback) {
                 callback();
             }
-        });
 
     }
 
@@ -77,13 +74,11 @@ $(document).ready(function () {
 
         $listItem.addClass('open');
 
-        $subList.hide().slideDown(200, function () {
             $(this).css('display', '');
 
             if (callback) {
                 callback();
             }
-        });
 
 
 

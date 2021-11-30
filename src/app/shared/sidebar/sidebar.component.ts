@@ -20,8 +20,6 @@ export class SidebarComponent implements OnInit {
     idArray = [];
     balanceTQT: any;
 
-    activeMenu: '';
-
     options: any = {};
 
     constructor(private router: Router,
@@ -56,10 +54,6 @@ export class SidebarComponent implements OnInit {
 
     triggerClick() {
         $('ui-switch').trigger('click');
-    }
-
-    toggle(e, t) {
-        this.activeMenu = t;
     }
 
     //NGX Wizard - skip url change

@@ -43,8 +43,8 @@
             <ng-container *ngFor="let menuItem of menuItems;let first = index">
                 <ng-container *isAppEnabled="menuItem.appName">
                     <ng-container *isExtensionEnabledView="menuItem.isExtensionView">
-                        <li id="{{ 'first_' + first }}" *isExpertView="menuItem.isExpertView" [ngClass]="{'has-sub':menuItem.class == 'has-sub','open' : idArray.indexOf('first_'+first) !== -1 || activeMenu === 'first_'+first}"
-                            [routerLinkActive]="menuItem.submenu.length != 0 ? '' : 'active'" [routerLinkActiveOptions]="{exact: false}" (click)="toggle($event, 'first_'+first)">
+                        <li id="{{ 'first_' + first }}" *isExpertView="menuItem.isExpertView" [ngClass]="{'has-sub':menuItem.class == 'has-sub','open' : idArray.indexOf('first_'+first) !== -1}"
+                            [routerLinkActive]="menuItem.submenu.length != 0 ? '' : 'active'" [routerLinkActiveOptions]="{exact: false}">
                             <a [routerLink]="menuItem.class === '' ? [menuItem.path] : null" *ngIf="!menuItem.isExternalLink; else externalLinkBlock">
                                 <i [ngClass]="[menuItem.icon]"></i>
                                 <span class="menu-title">{{'side-menu.'+menuItem.title | translate }}</span>
