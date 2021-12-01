@@ -29,7 +29,7 @@ export class ProgressSyncComponent implements OnInit {
         public nodeService: NodeService
     ) {
         this.totalProgress = 0;
-        this.blocksLeft = 1;
+        this.blocksLeft = null;
         this.dots = '';
         this.estimate = 'calculating...';
 
