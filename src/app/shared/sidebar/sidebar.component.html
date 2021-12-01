@@ -43,9 +43,9 @@
             <ng-container *ngFor="let menuItem of menuItems;let first = index">
                 <ng-container *isAppEnabled="menuItem.appName">
                     <ng-container *isExtensionEnabledView="menuItem.isExtensionView">
-                        <li id="{{ 'first_' + first }}" *isExpertView="menuItem.isExpertView" [ngClass]="{'has-sub':menuItem.class == 'has-sub','open' : idArray.indexOf('first_'+first) !== -1 || activeMenu === 'first_'+first}"
-                            [routerLinkActive]="menuItem.submenu.length != 0 ? '' : 'active'" [routerLinkActiveOptions]="{exact: false}" (click)="toggle($event, 'first_'+first)">
-                            <a [routerLink]="menuItem.class === '' ? [menuItem.path] : null" *ngIf="!menuItem.isExternalLink; else externalLinkBlock">
+                        <li id="{{ 'first_' + first }}" *isExpertView="menuItem.isExpertView" [ngClass]="{'has-sub':menuItem.class == 'has-sub','open' : idArray.indexOf('first_'+first) !== -1}"
+                            [routerLinkActive]="menuItem.submenu.length != 0 ? '' : 'active'" [routerLinkActiveOptions]="{exact: false}">
+                            <a [routerLink]="menuItem.class === '' ? [menuItem.path] : null" *ngIf="!menuItem.isExternalLink; else externalLinkBlock" (click)="toggle($event, $event.currentTarget)">
                                 <i [ngClass]="[menuItem.icon]"></i>
                                 <span class="menu-title">{{'side-menu.'+menuItem.title | translate }}</span>
                                 <span *ngIf="menuItem.badge != '' " [ngClass]="[menuItem.badgeClass]">{{menuItem.badge}}</span>
@@ -63,7 +63,7 @@
                                     *ngFor="let menuSubItem of menuItem.submenu;let second = index" [routerLinkActive]="menuSubItem.submenu.length > 0 ? '' : 'active'">
                                     <ng-container *isExpertView="menuSubItem.isExpertView">
                                         <a [routerLink]="menuSubItem.submenu.length > 0 ? null : [menuSubItem.path]"
-                                            *ngIf="!menuSubItem.isExternalLink; else externalSubLinkBlock">
+                                            *ngIf="!menuSubItem.isExternalLink; else externalSubLinkBlock" (click)="toggle($event, $event.currentTarget)">
                                             <i [ngClass]="[menuSubItem.icon]"></i>
                                             <span class="menu-title">{{'side-menu.'+menuSubItem.title | translate }}</span>
                                             <span *ngIf="menuSubItem.badge != '' " [ngClass]="[menuSubItem.badgeClass]">{{menuSubItem.badge}}</span>
@@ -81,7 +81,7 @@
                                             <li id="{{ 'third_' + third }}" *ngFor="let menuSubsubItem of menuSubItem.submenu;let third = index;"
                                                 routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}"
                                                 [ngClass]="[menuSubsubItem.class]">
-                                                <a [routerLink]="[menuSubsubItem.path]" *ngIf="!menuSubsubItem.isExternalLink; else externalSubSubLinkBlock">
+                                                <a [routerLink]="[menuSubsubItem.path]" *ngIf="!menuSubsubItem.isExternalLink; else externalSubSubLinkBlock" (click)="toggle($event, $event.currentTarget)">
                                                     <i [ngClass]="[menuSubsubItem.icon]"></i>
                                                     <span class="menu-title">{{'side-menu.'+menuSubsubItem.title |
                                                         translate }}</span>
