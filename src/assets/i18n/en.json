@@ -65,7 +65,7 @@
         "project-info": "This app is owned by the <span>Infinity community</span> and managed by the <span>Infinity Foundation</span>.",
         "project-title": "Infinity SmartWallet",
         "height-label": "Height",
-        "nodes-label": "Nodes",
+        "nodes-label": "Connected Nodes",
         "synced-label": "Synced",
         "connected-label": "Connected",
         "version-label": "Version"
