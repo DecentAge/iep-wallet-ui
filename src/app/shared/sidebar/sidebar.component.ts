@@ -46,6 +46,7 @@ export class SidebarComponent implements OnInit {
     }
 
     ngOnInit() {
+        $.getScript('./assets/js/app-sidebar.js');
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         this.isExpertWallet = this.loginService.isExpertWallet;
 
