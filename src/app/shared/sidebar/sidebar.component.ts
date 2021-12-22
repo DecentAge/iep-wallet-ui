@@ -46,14 +46,16 @@ export class SidebarComponent implements OnInit {
     }
 
     ngOnInit() {
-        $.getScript('./assets/js/app-sidebar.js');
+        //$.getScript('./assets/js/app-sidebar.js');
         this.menuItems = ROUTES.filter(menuItem => menuItem);
         this.isExpertWallet = this.loginService.isExpertWallet;
 
         RootScope.onChange.subscribe(data => {
             this.balanceTQT = data['balanceTQT'];
             this.options = data['options'];
-        })
+        });
+
+        this.registerSidebarScripts();
     }
 
     switchWallet() {
@@ -70,8 +72,85 @@ export class SidebarComponent implements OnInit {
         $('ui-switch').trigger('click');
     }
 
-    toggle($e, t) {
+    registerSidebarScripts() {
+        const $sidebar = $('.app-sidebar');
+        const $wrapper = $('.wrapper');
+        const that = this;
 
+        if ($(window).width() < 992) {
+            $sidebar.addClass('hide-sidebar');
+            $wrapper.removeClass('nav-collapsed menu-collapsed');
+        }
+        $(window).resize(function () {
+            if ($(window).width() < 992) {
+                $sidebar.addClass('hide-sidebar');
+                $wrapper.removeClass('nav-collapsed menu-collapsed');
+            }
+            if ($(window).width() > 991) {
+                $sidebar.removeClass('hide-sidebar');
+                if ($('.toggle-icon').attr('data-toggle') === 'collapsed' && $wrapper.not('.nav-collapsed menu-collapsed')) {
+                    $wrapper.addClass('nav-collapsed menu-collapsed');
+                }
+            }
+        });
+
+        $('.navbar-toggle-1').on('click', function (e) {
+            e.stopPropagation();
+            $sidebar.toggleClass('hide-sidebar');
+        });
+
+        $('.logo-text').on('click', function () {
+            let $sidebar_content = $('.sidebar-content');
+            var listItem = $sidebar_content.find('li.open.has-sub'),
+                activeItem = $sidebar_content.find('li.active');
+            let openItem;
+
+            if (listItem.hasClass('has-sub') && listItem.hasClass('open')) {
+                that.collapse(listItem);
+                listItem.removeClass('open');
+                if (activeItem.closest('li.has-sub')) {
+                    openItem = activeItem.closest('li.has-sub');
+                    that.expand(openItem);
+                    openItem.addClass('open');
+                }
+            }
+            else {
+                if (activeItem.closest('li.has-sub')) {
+                    openItem = activeItem.closest('li.has-sub');
+                    that.expand(openItem);
+                    openItem.addClass('open');
+                }
+            }
+        });
+
+        $(document).on('click', '.navigation li:not(.has-sub):not(.wallet-switch)', function () {
+            if ($(window).width() < 992) {
+                $sidebar.addClass('hide-sidebar');
+            }
+        });
+
+        $(document).on('click', '.logo-text', function () {
+            if ($(window).width() < 992) {
+                $sidebar.addClass('hide-sidebar');
+            }
+        });
+
+        $('html').on('click', function (e) {
+            if ($(window).width() < 992) {
+                if (!$sidebar.hasClass('hide-sidebar') && $sidebar.has(e.target).length === 0) {
+                    $sidebar.addClass('hide-sidebar');
+                }
+            }
+        });
+
+        $('#sidebarClose').on('click', function () {
+            $sidebar.addClass('hide-sidebar');
+        });
+
+        $('.noti-list').perfectScrollbar();
+    }
+
+    toggle($e, t) {
         var $this = $(t),
             listItem = $this.parent('li');
 
