@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
     ]
 
     this.qrPaymentEntrypoints = [
-      'account/send/simple',
+      '/account/send/simple',
       '/assets/show-assets/transfer-asset',
       '/currencies/show-currencies/transfer-currency',
     ]
