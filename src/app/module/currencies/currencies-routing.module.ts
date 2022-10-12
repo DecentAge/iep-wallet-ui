@@ -64,7 +64,7 @@ const routes: Routes = [
         component: AccountDetailComponent,
     },
     {
-        path: 'show-currencies/transfer-currency/:id',
+        path: 'show-currencies/transfer-currency',
         component: TransferCurrencyComponent,
     },
     {

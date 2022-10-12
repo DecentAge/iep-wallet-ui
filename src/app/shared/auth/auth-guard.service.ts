@@ -6,15 +6,27 @@ import { AuthService } from './auth.service';
 export class AuthGuard implements CanActivate {
 
   excludingUrls: Array<string>;
+  qrPaymentEntrypoints: Array<string>;
 
   constructor(private authService: AuthService, private router: Router) {
     this.excludingUrls = [
       '/login',
       '/welcome'
     ]
+
+    this.qrPaymentEntrypoints = [
+      'account/send/simple',
+      '/assets/show-assets/transfer-asset',
+      '/currencies/show-currencies/transfer-currency',
+    ]
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    this.qrPaymentEntrypoints.forEach((entrypoint) => {
+      if (state.url.startsWith(entrypoint)) {
+        localStorage.setItem('redirectTo', state.url);
+      }
+    })
 
     if(this.excludingUrls.indexOf(state.url) > -1){
       if(this.authService.isAuthenticated()){

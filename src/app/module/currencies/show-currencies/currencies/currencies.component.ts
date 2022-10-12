@@ -100,7 +100,7 @@ export class CurrenciesComponent implements OnInit {
   }
   
   openTransferCurrency(currencyId, decimals, ticker){
-    this.router.navigate(['/currencies/show-currencies/transfer-currency', currencyId]);
+    this.router.navigate(['/currencies/show-currencies/transfer-currency'], { queryParams: {id: currencyId} });
   }
 
   openDeleteCurrency(currencyId, decimals, ticker){

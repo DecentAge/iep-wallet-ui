@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
     balanceTQT: any;
     selectedLanguage: string;
 
+
     constructor(private router: Router,
         private dashboardService: DashboardService,
         public translate: TranslateService,
@@ -34,6 +35,27 @@ export class DashboardComponent implements OnInit {
     ngOnInit() {
         this.getAccountAssetsAndBalances();
         this.getMarketData();
+        this.redirectTo();
+    }
+
+    getQueryParams(url) {
+        const paramArr = url.slice(url.indexOf('?') + 1).split('&');
+        const params = {};
+        paramArr.map(param => {
+            const [key, val] = param.split('=');
+            params[key] = decodeURIComponent(val);
+        })
+        return params;
+    }
+
+    redirectTo() {
+        const redirectTo = localStorage.getItem('redirectTo');
+        if (redirectTo) {
+            const redirectToUrlParts = redirectTo.split('?');
+            const params = this.getQueryParams(redirectToUrlParts[1]);
+            this.router.navigate([redirectToUrlParts[0]], { queryParams: params });
+            localStorage.removeItem('redirectTo');
+        }
     }
 
     renderChart(data) {

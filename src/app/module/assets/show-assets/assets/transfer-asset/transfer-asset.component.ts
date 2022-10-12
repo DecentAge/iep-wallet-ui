@@ -56,6 +56,13 @@ export class TransferAssetComponent implements OnInit {
                     this.transferAssetForm.name = success.name;
                 });
             }
+
+            if (params['recipient']) {
+                this.transferAssetForm.recipientRS = params['recipientRS'];
+            }
+            if (params['units']) {
+                this.transferAssetForm.quantity = params['quantity'];
+            }
         })
     }
     bookmarkSelected(e) {
