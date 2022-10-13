@@ -57,10 +57,10 @@ export class TransferAssetComponent implements OnInit {
                 });
             }
 
-            if (params['recipient']) {
+            if (params['recipientRS']) {
                 this.transferAssetForm.recipientRS = params['recipientRS'];
             }
-            if (params['units']) {
+            if (params['quantity']) {
                 this.transferAssetForm.quantity = params['quantity'];
             }
         })
