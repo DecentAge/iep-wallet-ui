@@ -26,8 +26,9 @@
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column *ngIf="currencyType=='MY'" prop="units" [name]="'table-header.units'| translate">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value}}
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    <div [innerHTML]="value | supply:row.decimals">
+                    </div>
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column *ngIf="currencyType=='ALL'" prop="accountRS" [name]="'table-header.issuer'| translate">
