@@ -9,7 +9,7 @@ export class SupplyPipe implements PipeTransform {
     var actualPow = args;
     var divider = Math.pow(10, actualPow);
     value = value / divider;
-    return value.toLocaleString('en-US', {minimumFractionDigits: 2});
+    return value.toLocaleString('en-US', {minimumFractionDigits: actualPow});
   }
 
 }
