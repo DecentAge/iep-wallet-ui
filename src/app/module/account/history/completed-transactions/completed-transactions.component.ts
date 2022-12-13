@@ -35,7 +35,7 @@ export class CompletedTransactionsComponent implements OnInit {
         { name: 'Payment', appName: '', icon: 'icon-payment', popoverText: 'Payment', isEnabled: false },
         { name: 'Assets', appName: 'Assets', icon: 'icon-asset', popoverText: 'Asset', isEnabled: false },
         { name: 'Currencies', appName: 'Currencies', icon: 'icon-currency', popoverText: 'Currency', isEnabled: false },
-        { name: 'Messages', appName: '', icon: 'icon-messages1', popoverText: 'Messages', isEnabled: false },
+        { name: 'Messages', appName: '', icon: 'icon-bubble2', popoverText: 'Messages', isEnabled: false },
         { name: 'Voting', appName: 'Voting', icon: 'icon-voting', popoverText: 'Voting', isEnabled: false },
         { name: 'MultiSig', appName: '', icon: 'icon-multisig', popoverText: 'MultiSig', isEnabled: false },
         { name: 'Aliases', appName: 'Aliases', icon: 'icon-alias', popoverText: 'Alias', isEnabled: false },
