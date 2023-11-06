@@ -6,6 +6,7 @@ import { HttpProviderService } from './http-provider.service';
 import { NodeService } from './node.service';
 import { OptionService } from './option.service';
 import {TranslateService} from '@ngx-translate/core';
+import {Observable} from "rxjs";
 
 @Injectable()
 export class CommonService {
@@ -31,7 +32,7 @@ export class CommonService {
       return accountDetails;
   };
 
-  broadcastTransaction(transactionBytes):any {
+  broadcastTransaction(transactionBytes): Observable<any> {
 
     var params = {
         'requestType': 'broadcastTransaction',

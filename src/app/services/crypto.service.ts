@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CryptoWrapperService } from './crypto-wrapper.service';
-import {unescape} from 'querystring';
 
 declare var PassPhraseGenerator: any;
 declare var CryptoJS: any;
@@ -100,7 +99,7 @@ export class CryptoService {
   }
 
   getUtf8Bytes (str) {
-      var utf8 = unescape(encodeURIComponent(str));
+      var utf8 = decodeURIComponent(encodeURIComponent(str));
       var arr = [];
       for (var i = 0; i < utf8.length; i++) {
           arr[i] = utf8.charCodeAt(i);

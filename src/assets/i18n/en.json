@@ -1420,6 +1420,39 @@
             }
         }
     },
+    "daos": {
+        "create-dao": {
+            "title": "CREATE NEW DAO",
+            "dao-decimals-unit": "Decimals",
+            "dao-quantity-unit": "QNT",
+            "steps": {
+                "create-dao": "Create DAO",
+                "founders": "Founders",
+                "approval-accounts": "Approval Accounts",
+                "create-team": "Create Team",
+                "team-members": "Team Members"
+            },
+            "labels": {
+                "dao-name": "DAO Name",
+                "dao-prefix": "DAO Prefix",
+                "dao-decimals-label": "Decimals"
+            },
+            "placeholders": {
+                "dao-name-placeholder": "Name",
+                "dao-prefix-placeholder": "DAO Prefix",
+                "dao-description-placeholder": "Description"
+            },
+            "validation": {
+                "name-is-required": "Name is required",
+                "prefix-is-required": "Prefix is required",
+                "decimals-is-required": "Decimals is required",
+                "decimals-value-": "Decimals must be greater than 0"
+            }
+        },
+        "show-daos": {
+            "title": "Show DAOs"
+        }
+    },
     "swapps": {
         "options": {
             "title": "Options",
@@ -1478,6 +1511,10 @@
                 "Tools": {
                     "name": "Tools",
                     "desc": "Enable tools to activate the access to extensions like Market Capitalization, recent news regarding the XIN, and everything related to the XIN environment."
+                },
+                "DAOs": {
+                    "name": "DAOs",
+                    "desc": "Create ond manage DAOs"
                 }
             }
         }
@@ -1667,7 +1704,10 @@
         "Tools": "Tools",
         "SWApps": "SWApps",
         "Overview": "Overview",
-        "MaCap Viewer": "MaCap Viewer"
+        "MaCap Viewer": "MaCap Viewer",
+        "DAOs": "DAOs",
+        "Show DAOs": "Show DAOs",
+        "Create DAO": "Create DAO"
     },
     "sweet-alert": {
         "info": "Info",
@@ -2008,6 +2048,9 @@
         "marketplace": "Marketplace",
         "tag": "Tag",
         "purchase": "Purchase",
-        "macap": "MaCap"
+        "macap": "MaCap",
+        "daos": "DAOs",
+        "create-dao": "Create DAO",
+        "show-daos": "Show DAOs"
     }
 }

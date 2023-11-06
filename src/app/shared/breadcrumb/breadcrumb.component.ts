@@ -139,7 +139,10 @@ export class BreadcrumbComponent implements OnInit {
         'stop-shuffling': 'Stop Shuffling',
         'publish-exchange-offer': 'Publish Exchange Offer',
         'publish-exchange-buy-offer': 'Publish Exchange Buy Offer',
-        'publish-exchange-sell-offer': 'Publish Exchange Sell Offer'
+        'publish-exchange-sell-offer': 'Publish Exchange Sell Offer',
+        'daos': 'DAOs',
+        'create-dao': 'Create DAO',
+        'show-daos': 'Show DAOs'
     };
     @Input()
     routeChange: Subject<any>;

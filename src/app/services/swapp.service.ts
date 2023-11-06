@@ -66,6 +66,11 @@ export class SwappService {
                 icon: 'icon-Extensions',
                 isEnabled: false
             },
+            {
+                name: 'DAOs',
+                icon: 'icon-assets',
+                isEnabled: false
+            },
         ];
         this.watchList = [];
     }

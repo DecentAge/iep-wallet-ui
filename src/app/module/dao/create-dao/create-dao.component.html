@@ -1,0 +1,193 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-block main-card-block">
+                <div class="border-bt">
+                    <h2 class="main-title">{{'daos.create-dao.title' | translate}}</h2>
+                    <app-breadcrumb></app-breadcrumb>
+                </div>
+                <div class="card-body">
+                    <div class="card-block ml-md-3 mr-md-3">
+                        <aw-wizard [navBarLayout]="'large-filled-symbols'" [navigationMode]="'free'" #awWizard>
+                            <aw-wizard-step stepTitle="{{'daos.create-dao.steps.create-dao'| translate}}"
+                                            [navigationSymbol]="{ symbol: '1' }">
+
+                                <form class="form inner-form mt-5 create-dao-form" #f="ngForm" novalidate>
+                                    <div class="form-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group m-0">
+                                                    <label>{{'daos.create-dao.labels.dao-name' | translate}}</label>
+                                                    <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
+                                                        <div class="col-11 pl-0">
+                                                            <input type="text" class="form-control" name="name"
+                                                                   #name="ngModel"
+                                                                   [(ngModel)]="createDaoForm.name"
+                                                                   placeholder="{{'daos.create-dao.placeholders.dao-name-placeholder' | translate}}"
+                                                                   required>
+                                                        </div>
+                                                        <div class="col-1 pl-0"><span
+                                                                class="input-group-text">&nbsp;</span></div>
+                                                    </div>
+                                                    <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+                                                         class="input-error">
+                                                        <div *ngIf="name?.errors.required">
+                                                            {{'daos.create-dao.validation.name-is-required' | translate}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group m-0">
+                                                    <label>{{'daos.create-dao.labels.dao-prefix' | translate}}</label>
+                                                    <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
+                                                        <div class="col-11 pl-0">
+                                                            <input type="text" class="form-control" name="prefix"
+                                                                   #prefix="ngModel"
+                                                                   [(ngModel)]="createDaoForm.prefix"
+                                                                   placeholder="{{'daos.create-dao.placeholders.dao-prefix-placeholder' | translate}}"
+                                                                   required>
+                                                        </div>
+                                                        <div class="col-1 pl-0"><span
+                                                                class="input-group-text">&nbsp;</span></div>
+                                                    </div>
+                                                    <div *ngIf="prefix?.invalid && (prefix?.dirty || prefix?.touched)"
+                                                         class="input-error">
+                                                        <div *ngIf="prefix?.errors.required">
+                                                            {{'daos.create-dao.validation.prefix-is-required' | translate}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group m-0">
+                                                    <label>{{'common.quantity-label' | translate}}</label>
+                                                    <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
+                                                        <div class="col-10 pl-0">
+                                                            <input type="number"
+                                                                   class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                                   name="quantity"
+                                                                   #quantity="ngModel"
+                                                                   [(ngModel)]="createDaoForm.quantity"
+                                                                   placeholder="{{'common.quantity-label' | translate}}"
+                                                                   required>
+                                                        </div>
+                                                        <div class="col-2 text-right pl-0">
+                                                            <span class="input-group-text text-right">{{'daos.create-dao.dao-quantity-unit' | translate}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="quantity?.invalid && (quantity?.dirty || quantity?.touched)"
+                                                         class="input-error">
+                                                        <div *ngIf="quantity?.errors.required">
+                                                            {{'common.quantity-required'| translate}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <div class="form-group m-0">
+                                                    <label>{{'common.description-label' | translate}}</label>
+                                                    <div class="input-group m-0">
+                                                        <textarea rows="4" class="form-control" name="description"
+                                                                  #description="ngModel"
+                                                                  [(ngModel)]="createDaoForm.description"
+                                                                  placeholder="{{'daos.create-dao.placeholders.dao-description-placeholder' | translate}}"
+                                                                  required></textarea>
+                                                    </div>
+                                                    <div *ngIf="description?.invalid && (description?.dirty || description?.touched)"
+                                                         class="input-error">
+                                                        <div *ngIf="description?.errors.required">
+                                                            {{'common.description-required'| translate }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-4">
+                                                <label>{{'daos.create-dao.labels.dao-decimals-label' | translate}}</label>
+                                                <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
+                                                    <div class="col-8 pl-0">
+                                                        <input type="number"
+                                                               class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                               name="decimals" #decimals="ngModel"
+                                                               [(ngModel)]="createDaoForm.decimals"
+                                                               placeholder="{{'daos.create-dao.labels.dao-decimals-label' | translate}}"
+                                                               required minValue="1">
+                                                    </div>
+                                                    <div class="col-4 text-right pl-0">
+                                                        <span class="input-group-text text-right">{{'daos.create-dao.dao-decimals-unit' | translate}}</span>
+                                                    </div>
+
+                                                </div>
+                                                <div *ngIf="decimals?.invalid && (decimals?.dirty || decimals?.touched)"
+                                                     class="input-error">
+                                                    <div *ngIf="decimals?.errors.required">
+                                                        {{'daos.create-dao.validation.decimals-is-required' | translate}}
+                                                    </div>
+                                                    <div *ngIf="decimals?.errors.minValue && !decimals?.errors.required">
+                                                        {{'daos.create-dao.validation.decimals-value' | translate}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-gradient mr-1 mb-0 mt-4 float-right" (click)="createAsset()" [disabled]="f.invalid">
+                                            {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </aw-wizard-step>
+                            <aw-wizard-step stepTitle="{{'daos.create-dao.steps.founders'| translate}}"
+                                            [navigationSymbol]="{ symbol: '2' }">
+                                <div class="mt-4">
+                                    <button type="button" class="btn btn-gradient float-right" awNextStep>
+                                        {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                        <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
+                                    </button>
+                                </div>
+                            </aw-wizard-step>
+                            <aw-wizard-step stepTitle="{{'daos.create-dao.steps.approval-accounts'| translate}}"
+                                            [navigationSymbol]="{ symbol: '3' }">
+                                <div class="mt-4">
+                                    <button type="button" class="btn btn-gradient float-right" awNextStep>
+                                        {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                        <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
+                                    </button>
+                                </div>
+                            </aw-wizard-step>
+                            <aw-wizard-step stepTitle="{{'daos.create-dao.steps.create-team'| translate}}"
+                                            [navigationSymbol]="{ symbol: '4' }">
+                                <div class="mt-4">
+                                    <div class="mt-4">
+                                        <button type="button" class="btn btn-gradient float-right" awNextStep>
+                                            {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                            <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </aw-wizard-step>
+                            <aw-wizard-step stepTitle="{{'daos.create-dao.steps.team-members'| translate}}"
+                                            [navigationSymbol]="{ symbol: '5' }">
+                                <div class="mt-4">
+                                    <button type="button" class="btn btn-gradient float-right">
+                                        <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
+                                    </button>
+                                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                        <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
+                                    </button>
+                                </div>
+                            </aw-wizard-step>
+                        </aw-wizard>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

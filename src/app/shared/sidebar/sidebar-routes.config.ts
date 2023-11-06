@@ -181,6 +181,39 @@ export const ROUTES: RouteInfo[] = [
         ]
     },
     {
+        path: '/daos',
+        title: 'DAOs',
+        icon: 'icon-assets',
+        class: 'has-sub',
+        badge: '',
+        badgeClass: '',
+        isExternalLink: false,
+        submenu: [
+            {
+                path: '/daos/show-daos',
+                title: 'Show DAOs',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+            {
+                path: '/daos/create-dao',
+                title: 'Create DAO',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+        ],
+        isSwapp: true,
+        appName: 'DAOs'
+    },
+    {
         path: '/assets',
         title: 'Assets',
         icon: 'icon-assets',

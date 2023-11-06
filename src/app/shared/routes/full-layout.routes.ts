@@ -62,5 +62,9 @@ export const FULL_ROUTES: Routes = [
     {
         path: 'tools',
         loadChildren: './module/extensions/extensions.module#ExtensionsModule'
+    },
+    {
+        path: 'daos',
+        loadChildren: './module/dao/dao.module#DaoModule'
     }
 ];
