@@ -181,7 +181,7 @@ export const ROUTES: RouteInfo[] = [
         ]
     },
     {
-        path: '/daos',
+        path: '/dao',
         title: 'DAOs',
         icon: 'icon-assets',
         class: 'has-sub',
@@ -190,7 +190,7 @@ export const ROUTES: RouteInfo[] = [
         isExternalLink: false,
         submenu: [
             {
-                path: '/daos/show-daos',
+                path: '/dao/show-daos',
                 title: 'Show DAOs',
                 icon: '',
                 class: '',
@@ -200,7 +200,7 @@ export const ROUTES: RouteInfo[] = [
                 submenu: []
             },
             {
-                path: '/daos/create-dao',
+                path: '/dao/create-dao',
                 title: 'Create DAO',
                 icon: '',
                 class: '',

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, Input, ViewEncapsulation} from '@angular/core';
 import {WizardComponent} from 'angular-archwizard';
 import {DaoService} from '../dao.service';
 
@@ -8,22 +8,16 @@ import {DaoService} from '../dao.service';
     styleUrls: ['./create-dao.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class CreateDaoComponent implements OnInit {
-
-    @ViewChild('awWizard') wizard: WizardComponent;
-    public createDaoForm: { [key: string]: string } = {
-        'name': '', 'prefix': '', 'quantity': '', 'description': '', 'decimals': '', 'secretPhrase': ''
-    }
+export class CreateDaoComponent {
+    @Input() wizard: WizardComponent;
+    @Input() daoForm: { [key: string]: string };
 
     constructor(
-        private daoSevice: DaoService
+        private daoService: DaoService,
     ) {
     }
 
-    ngOnInit() {
-    }
-
-    createAsset() {
-        this.daoSevice.createAsset(this.createDaoForm, this.wizard);
+    createDAO() {
+        this.daoService.createDAO(this.daoForm, this.wizard);
     }
 }

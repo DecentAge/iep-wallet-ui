@@ -1435,16 +1435,22 @@
             "labels": {
                 "dao-name": "DAO Name",
                 "dao-prefix": "DAO Prefix",
-                "dao-decimals-label": "Decimals"
+                "dao-decimals-label": "Decimals",
+                "team-name": "Team Name",
+                "team-shortcode": "Team Short Code",
+                "team-quantity-label": "Max. team members (can't be changed afterwards)"
             },
             "placeholders": {
                 "dao-name-placeholder": "Name",
                 "dao-prefix-placeholder": "DAO Prefix",
-                "dao-description-placeholder": "Description"
+                "dao-description-placeholder": "Description",
+                "team-name-placeholder": "Team Name",
+                "team-shortcode-placeholder": "Team Short Code"
             },
             "validation": {
                 "name-is-required": "Name is required",
                 "prefix-is-required": "Prefix is required",
+                "shortcode-is-required": "Short Code is required",
                 "decimals-is-required": "Decimals is required",
                 "decimals-value-": "Decimals must be greater than 0"
             }
@@ -2049,8 +2055,12 @@
         "tag": "Tag",
         "purchase": "Purchase",
         "macap": "MaCap",
-        "daos": "DAOs",
+        "dao": "DAOs",
         "create-dao": "Create DAO",
+        "founders": "Founders",
+        "approval-accounts": "Approval Accounts",
+        "create-team": "Create Team",
+        "team-members": "Team Members",
         "show-daos": "Show DAOs"
     }
 }

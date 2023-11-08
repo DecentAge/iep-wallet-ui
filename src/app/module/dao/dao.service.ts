@@ -7,6 +7,7 @@ import {AssetsService} from '../assets/assets.service';
 import {CommonService} from '../../services/common.service';
 import {CryptoService} from '../../services/crypto.service';
 import {SessionStorageService} from '../../services/session-storage.service';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class DaoService {
@@ -24,11 +25,11 @@ export class DaoService {
         private commonService: CommonService,
         private cryptoService: CryptoService,
         private sessionStorageService: SessionStorageService,
+        private router: Router
     ) {
     }
 
-    createAsset(daoData, wizard) {
-        const name = `DAO${daoData.prefix}`;
+    createAsset(assetName, aliasName, daoData, wizard) {
         const description = daoData.description;
         const shares = daoData.quantity;
         const decimals = daoData.decimals;
@@ -53,7 +54,7 @@ export class DaoService {
             return;
         }
 
-        this.assetsService.issueAsset(name, description, quantity, decimals, publicKey, fee)
+        this.assetsService.issueAsset(assetName, description, quantity, decimals, publicKey, fee)
             .subscribe((success_) => {
                 success_.subscribe((success) => {
                     if (!success.errorCode) {
@@ -68,7 +69,7 @@ export class DaoService {
                         this.aliasURI = success.transactionJSON.senderRS;
                         this.broadcastTransaction(this.transactionBytes).subscribe(result => {
                             if (!!result) {
-                                this.setAlias(daoData.name, wizard);
+                                this.setAlias(aliasName, wizard);
                             }
                         });
                     } else {
@@ -84,12 +85,11 @@ export class DaoService {
 
     setAlias(daoAliasName, wizard) {
         const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
-        const aliasName = `DAO${daoAliasName}`;
         const alias = `acct:${this.aliasURI}@xin`;
         const fee = 1;
         const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
 
-        this.aliasesService.setAlias(publicKey, aliasName, alias, fee)
+        this.aliasesService.setAlias(publicKey, daoAliasName, alias, fee)
             .subscribe((success_) => {
                 success_.subscribe((success) => {
                     if (!success.errorCode) {
@@ -107,7 +107,13 @@ export class DaoService {
                                 let msg: string = this.commonService.translateInfoMessage('success-broadcast-message');
                                 msg += success.transaction;
                                 alertFunctions.InfoAlertBox(title, msg, 'OK', 'success').then(() => {
-                                    wizard.navigation.goToStep(3);
+                                    this.router.navigate(['dao/create-dao/create-team']).then(() => {
+                                        setTimeout(() => {
+                                            wizard.navigation.goToStep(1);
+                                            wizard.navigation.goToStep(2);
+                                            wizard.navigation.goToStep(3);
+                                        }, 100);
+                                    });
                                 });
                             }
                         });
@@ -135,5 +141,17 @@ export class DaoService {
                 }
             }));
     };
+
+    createDAO(daoData, wizard) {
+        const assetName = `DAO${daoData.prefix}`;
+        const aliasName = `DAO${daoData.name}`;
+        this.createAsset(assetName, aliasName, daoData, wizard);
+    }
+
+    createTeam(daoName, teamData, wizard) {
+        const assetName = `DAO${daoName}TT${teamData.prefix}`;
+        const aliasName = `DAO${daoName}TN${teamData.name}`;
+        this.createAsset(assetName, aliasName, teamData, wizard);
+    }
 
 }
