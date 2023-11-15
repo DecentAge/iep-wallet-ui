@@ -8,10 +8,10 @@
                 </div>
                 <div class="card-body">
                     <div class="card-block ml-md-3 mr-md-3">
-                        <aw-wizard [navBarLayout]="'large-filled-symbols'" [navigationMode]="'semi-strict'" #awWizard>
+                        <aw-wizard [navBarLayout]="'large-filled-symbols'" [navigationMode]="'free'" #awWizard>
                             <aw-wizard-step stepTitle="{{'daos.create-dao.steps.create-dao'| translate}}"
                                             [navigationSymbol]="{ symbol: '1' }">
-                                <app-create-dao [wizard]="wizard" [daoForm]="createDaoForm"></app-create-dao>
+                                <app-create-dao [wizard]="wizard" [createDaoForm]="createDaoForm"></app-create-dao>
                             </aw-wizard-step>
                             <aw-wizard-step stepTitle="{{'daos.create-dao.steps.founders'| translate}}"
                                             [navigationSymbol]="{ symbol: '2' }">
@@ -22,7 +22,7 @@
                                 <app-approval-accounts [wizard]="wizard"></app-approval-accounts>
                             </aw-wizard-step>
                             <aw-wizard-step stepTitle="{{'daos.create-dao.steps.create-team'| translate}}" [navigationSymbol]="{ symbol: '4' }">
-                                <app-create-team [wizard]="wizard" [daoForm]="createDaoForm"></app-create-team>
+                                <app-create-team [wizard]="wizard"></app-create-team>
                             </aw-wizard-step>
                             <aw-wizard-step stepTitle="{{'daos.create-dao.steps.team-members'| translate}}"
                                             [navigationSymbol]="{ symbol: '5' }">

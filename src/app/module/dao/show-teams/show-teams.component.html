@@ -7,9 +7,9 @@
           <app-breadcrumb></app-breadcrumb>
         </div>
         <div class="card-header">
-            <h3 class="card-title">
-              {{'daos.show-daos.all-daos' | translate}}
-            </h3>
+          <h3 class="card-title">
+            {{'daos.show-daos.all-teams' | translate}} {{daoName}}
+          </h3>
         </div>
         <div class="card-body">
           <div class="card-block ml-md-3 mr-md-3">
@@ -21,7 +21,7 @@
                   <a class="hyperlink" (click)="routeUri(value)">{{value}}</a>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column prop="accountRS" [name]="'table-header.root-account'| translate">
+              <ngx-datatable-column prop="accountRS" [name]="'table-header.team-account'| translate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                   {{value}}
                 </ng-template>

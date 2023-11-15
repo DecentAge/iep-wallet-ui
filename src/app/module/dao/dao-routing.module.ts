@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ShowDaosComponent} from './show-daos/show-daos.component';
 import {DaoComponent} from './dao.component';
+import {ShowTeamsComponent} from './show-teams/show-teams.component';
 
 const routes: Routes = [
     {
@@ -48,6 +49,10 @@ const routes: Routes = [
             nextRoute: null
         }
     },
+    {
+        path: 'show-daos/:daoName/teams',
+        component: ShowTeamsComponent
+    }
 ];
 
 @NgModule({

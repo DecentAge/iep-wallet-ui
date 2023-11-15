@@ -10,7 +10,7 @@ import {DaoService} from '../dao.service';
 })
 export class CreateDaoComponent {
     @Input() wizard: WizardComponent;
-    @Input() daoForm: { [key: string]: string };
+    @Input() createDaoForm: { [key: string]: string };
 
     constructor(
         private daoService: DaoService,
@@ -18,6 +18,8 @@ export class CreateDaoComponent {
     }
 
     createDAO() {
-        this.daoService.createDAO(this.daoForm, this.wizard);
+        this.daoService.createDAO(this.createDaoForm);
     }
+
+    // TODO: implement on step enter logic
 }

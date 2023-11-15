@@ -15,6 +15,7 @@ import {CreateTeamComponent} from './create-team/create-team.component';
 import {FoundersComponent} from './founders/founders.component';
 import {ApprovalAccountsComponent} from './approval-accounts/approval-accounts.component';
 import {TeamMembersComponent} from './team-members/team-members.component';
+import { ShowTeamsComponent } from './show-teams/show-teams.component';
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import {TeamMembersComponent} from './team-members/team-members.component';
         CreateTeamComponent,
         FoundersComponent,
         ApprovalAccountsComponent,
-        TeamMembersComponent
+        TeamMembersComponent,
+        ShowTeamsComponent
     ],
     providers: [
         AliasesService,

@@ -716,7 +716,11 @@
         "stage": "Stage",
         "assigne": "Assigne",
         "voter": "Voter",
-        "approvals": "approvals"
+        "approvals": "approvals",
+        "root-account": "Root Account",
+        "team-account": "Team Account",
+        "teams": "Teams",
+        "members": "Members"
     },
     "assets": {
         "show": {
@@ -1456,7 +1460,9 @@
             }
         },
         "show-daos": {
-            "title": "Show DAOs"
+            "title": "Show DAOs",
+            "all-daos": "All DAOs",
+            "all-teams": "Teams of"
         }
     },
     "swapps": {
@@ -1520,7 +1526,7 @@
                 },
                 "DAOs": {
                     "name": "DAOs",
-                    "desc": "Create ond manage DAOs"
+                    "desc": "Create and manage DAOs"
                 }
             }
         }
@@ -2061,6 +2067,7 @@
         "approval-accounts": "Approval Accounts",
         "create-team": "Create Team",
         "team-members": "Team Members",
-        "show-daos": "Show DAOs"
+        "show-daos": "Show DAOs",
+        "teams": "Teams"
     }
 }

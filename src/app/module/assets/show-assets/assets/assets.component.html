@@ -133,7 +133,7 @@
           <a class="btn btn-sm btn-grey btn-icon" (click)="goToDeleteShare(value)" triggers="mouseenter:mouseleave" container="body" placement="top" [ngbPopover]="'assets.show.delete-shares-table-action' | translate" *ngIf="assetType=='MY'">
             <i class="fa fa-minus"></i>
           </a>
-          <a class="btn btn-sm btn-grey btn-icon" [ngClass]="[this.accountRs === row.issuerAccountRS ? 'disabled' : 'enable']"  (click)="goToDeleteAsset(value)" triggers="mouseenter:mouseleave" container="body" placement="top" [ngbPopover]="'assets.show.delete-asset-table-action' | translate" *ngIf="assetType=='MY'">
+          <a class="btn btn-sm btn-grey btn-icon" [ngClass]="[this.accountRs !== row.issuerAccountRS ? 'disabled' : 'enable']"  (click)="goToDeleteAsset(value)" triggers="mouseenter:mouseleave" container="body" placement="top" [ngbPopover]="'assets.show.delete-asset-table-action' | translate" *ngIf="assetType=='MY'">
             <i class="fa fa-times"></i>
           </a>
           <a class="btn btn-sm btn-grey btn-icon" (click)="goToDividendHistory(value)" triggers="mouseenter:mouseleave" container="body" placement="top" [ngbPopover]="'assets.show.dividends-history-table-action' | translate" *ngIf="assetType=='ALL'">
