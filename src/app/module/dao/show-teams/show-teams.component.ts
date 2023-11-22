@@ -56,4 +56,14 @@ export class ShowTeamsComponent implements OnInit {
     console.log(uri);
   }
 
+  public teamToken(teamName) {
+    if (!teamName) {
+      return;
+    }
+    this.daoService.getAssetForDaoTeam(`${teamName.split('TN').shift()}TT${teamName.split('TT').pop()}`).subscribe((assets) => {
+      console.log(assets);
+    });
+    return this.daoService.getAssetForDaoTeam(`${teamName.split('TN').shift()}TT${teamName.split('TT').pop()}`);
+  }
+
 }

@@ -146,7 +146,8 @@ export class BreadcrumbComponent implements OnInit {
         'approval-accounts': 'Approval Accounts',
         'create-team': 'Create Team',
         'team-members': 'Team Members',
-        'show-daos': 'Show DAOs'
+        'show-daos': 'Show DAOs',
+        'create-teams': 'Create Teams'
     };
     @Input()
     routeChange: Subject<any>;

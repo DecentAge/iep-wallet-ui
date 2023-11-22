@@ -1,5 +1,56 @@
 <form class="form inner-form mt-5 create-dao-form" #teamForm="ngForm" novalidate>
     <div class="form-body">
+        <ng-container *ngIf="!wizard">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="form-group m-0">
+                        <label>{{'common.select-dao'| translate}}</label>
+                        <select name="type" class="form-control" [(ngModel)]="currentDao"
+                                (change)="setDao(currentDao)" required>
+                            <option *ngFor='let dao of daoList | async' [value]="dao?.aliasName">
+                                {{dao?.aliasName}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="form-group m-0">
+                        <label>{{'common.team-wallet-label'| translate}}</label>
+                        <div class="input-group m-0">
+                            <input type="text" class="form-control" name="teamWallet" #teamWallet="ngModel"
+                                   [(ngModel)]="createTeamForm.teamWallet" placeholder="XIN______-____-______"
+                                   required>
+                        </div>
+                        <div *ngIf="teamWallet?.invalid && (teamWallet?.dirty || teamWallet?.touched)"
+                             class="input-error">
+                            <div *ngIf="teamWallet?.errors.required">
+                                {{'aliases.edit-alias.uri-required'| translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group m-0">
+                        <label>{{'common.team-wallet-confirm-label'| translate}}</label>
+                        <div class="input-group m-0">
+                            <input type="text" class="form-control" name="teamWalletConfirmation"
+                                   #teamWalletConfirmation="ngModel"
+                                   [(ngModel)]="createTeamForm.teamWalletConfirmation"
+                                   placeholder="XIN______-____-______"
+                                   required>
+                        </div>
+                        <div *ngIf="teamWalletConfirmation?.invalid && (teamWalletConfirmation?.dirty || teamWalletConfirmation?.touched)"
+                             class="input-error">
+                            <div *ngIf="teamWalletConfirmation?.errors.required">
+                                {{'aliases.edit-alias.uri-required'| translate}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group m-0">
@@ -71,7 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'common.description-label' | translate}}</label>
@@ -91,11 +142,20 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-gradient float-right" (click)="createTeam()" [disabled]="teamForm.invalid">
-            {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
-        </button>
-        <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
-            <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
-        </button>
+        <ng-container *ngIf="!!wizard; else outsideOfDao">
+            <button type="button" class="btn btn-gradient float-right" (click)="createTeam()"
+                    [disabled]="teamForm.invalid">
+                {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
+            </button>
+            <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
+            </button>
+        </ng-container>
+        <ng-template #outsideOfDao>
+            <button type="button" class="btn btn-gradient float-right" (click)="createTeam()"
+                    [disabled]="teamForm.invalid">
+                {{'common.create-btn'| translate}}
+            </button>
+        </ng-template>
     </div>
 </form>
