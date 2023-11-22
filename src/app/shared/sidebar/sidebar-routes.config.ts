@@ -209,6 +209,16 @@ export const ROUTES: RouteInfo[] = [
                 isExternalLink: false,
                 submenu: []
             },
+            {
+                path: '/dao/create-teams',
+                title: 'Create Teams',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
         ],
         isSwapp: true,
         appName: 'DAOs'
@@ -632,7 +642,8 @@ export const ROUTES: RouteInfo[] = [
             },
         ],
         appName: 'Shuffling'
-    },/*
+    },
+    /*
     {
         path: '/wallet-settings/options',
         title: 'Options',

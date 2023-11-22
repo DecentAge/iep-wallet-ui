@@ -3,12 +3,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {ShowDaosComponent} from './show-daos/show-daos.component';
 import {DaoComponent} from './dao.component';
 import {ShowTeamsComponent} from './show-teams/show-teams.component';
+import {CreateTeamsComponent} from './create-teams/create-teams.component';
 
 const routes: Routes = [
-    {
-        path: 'show-daos',
-        component: ShowDaosComponent
-    },
     {
         path: 'create-dao',
         component: DaoComponent,
@@ -50,8 +47,16 @@ const routes: Routes = [
         }
     },
     {
+        path: 'show-daos',
+        component: ShowDaosComponent
+    },
+    {
         path: 'show-daos/:daoName/teams',
         component: ShowTeamsComponent
+    },
+    {
+        path: 'create-teams',
+        component: CreateTeamsComponent
     }
 ];
 

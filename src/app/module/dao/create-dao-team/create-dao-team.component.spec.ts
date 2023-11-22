@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateTeamComponent } from './create-team.component';
+import { CreateDaoTeamComponent } from './create-dao-team.component';
 
-describe('CreateTeamComponent', () => {
-  let component: CreateTeamComponent;
-  let fixture: ComponentFixture<CreateTeamComponent>;
+describe('CreateDaoTeamComponent', () => {
+  let component: CreateDaoTeamComponent;
+  let fixture: ComponentFixture<CreateDaoTeamComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateTeamComponent ]
+      declarations: [ CreateDaoTeamComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateTeamComponent);
+    fixture = TestBed.createComponent(CreateDaoTeamComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

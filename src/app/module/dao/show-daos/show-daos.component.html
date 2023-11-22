@@ -21,9 +21,9 @@
                   <a class="hyperlink" (click)="routeUri(value)">{{value}}</a>
                 </ng-template>
               </ngx-datatable-column>
-              <ngx-datatable-column prop="accountRS" [name]="'table-header.root-account'| translate">
+              <ngx-datatable-column prop="aliasURI" [name]="'table-header.root-account'| translate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                  {{value}}
+                  {{value.split('acct:').pop().split('@xin').shift()}}
                 </ng-template>
               </ngx-datatable-column>
               <!--<ngx-datatable-column prop="teams" [name]="'table-header.teams'| translate">

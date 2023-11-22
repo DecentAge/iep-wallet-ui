@@ -608,7 +608,10 @@
         "secret-phrase-label": "Secret phrase",
         "currency-ticker-label": "Currency Ticker",
         "expert-wallet": "Expert Wallet",
-        "basic-wallet": "Basic Wallet"
+        "basic-wallet": "Basic Wallet",
+        "team-wallet-label": "Team Wallet",
+        "team-wallet-confirm-label": "Confirm Team Wallet",
+        "select-dao": "Select DAO"
     },
     "transaction-details": {
         "transaction-details-label": "Transaction Details",
@@ -719,6 +722,7 @@
         "approvals": "approvals",
         "root-account": "Root Account",
         "team-account": "Team Account",
+        "team-token": "Team Token",
         "teams": "Teams",
         "members": "Members"
     },
@@ -1442,6 +1446,8 @@
                 "dao-decimals-label": "Decimals",
                 "team-name": "Team Name",
                 "team-shortcode": "Team Short Code",
+                "team-founder-name": "Team Founder Name",
+                "team-founder-shortcode": "Team Founder Short Code",
                 "team-quantity-label": "Max. team members (can't be changed afterwards)"
             },
             "placeholders": {
@@ -1449,7 +1455,9 @@
                 "dao-prefix-placeholder": "DAO Prefix",
                 "dao-description-placeholder": "Description",
                 "team-name-placeholder": "Team Name",
-                "team-shortcode-placeholder": "Team Short Code"
+                "team-shortcode-placeholder": "Team Short Code",
+                "team-founder-name-placeholder": "Team Founder Name",
+                "team-founder-shortcode-placeholder": "Team Founder Short Code"
             },
             "validation": {
                 "name-is-required": "Name is required",
@@ -1462,7 +1470,10 @@
         "show-daos": {
             "title": "Show DAOs",
             "all-daos": "All DAOs",
-            "all-teams": "Teams of"
+            "all-teams": "Teams"
+        },
+        "create-teams": {
+            "title": "Create Teams"
         }
     },
     "swapps": {
@@ -1719,7 +1730,8 @@
         "MaCap Viewer": "MaCap Viewer",
         "DAOs": "DAOs",
         "Show DAOs": "Show DAOs",
-        "Create DAO": "Create DAO"
+        "Create DAO": "Create DAO",
+        "Create Teams": "Create Teams"
     },
     "sweet-alert": {
         "info": "Info",
@@ -2068,6 +2080,7 @@
         "create-team": "Create Team",
         "team-members": "Team Members",
         "show-daos": "Show DAOs",
-        "teams": "Teams"
+        "teams": "Teams",
+        "create-teams": "Create Teams"
     }
 }

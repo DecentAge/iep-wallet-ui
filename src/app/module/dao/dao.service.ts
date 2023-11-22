@@ -40,7 +40,7 @@ export class DaoService {
         return this.currentDAOForm;
     }
 
-    createAsset(assetName, aliasName, daoData, route = '') {
+    createAsset(assetName, aliasName, daoData, route = '', aliasURI = '') {
         const description = daoData.description;
         const shares = daoData.quantity;
         const decimals = daoData.decimals;
@@ -77,7 +77,7 @@ export class DaoService {
                         this.tx_fee = success.transactionJSON.feeTQT / 100000000;
                         this.tx_amount = success.transactionJSON.amountTQT / 100000000;
                         this.tx_total = this.tx_fee + this.tx_amount;
-                        this.aliasURI = success.transactionJSON.senderRS;
+                        this.aliasURI = aliasURI === '' ? success.transactionJSON.senderRS : aliasURI;
                         this.broadcastTransaction(this.transactionBytes).subscribe(result => {
                             if (!!result.success) {
                                 this.setAlias(aliasName, route);
@@ -159,13 +159,13 @@ export class DaoService {
         const aliasName = `DAO${daoData.name}`;
         DaoService.currentDAO = daoData;
         this.currentDAOForm = daoData;
-        this.createAsset(assetName, aliasName, daoData, 'dao/create-dao/create-team');
+        this.createAsset(assetName, aliasName, daoData, 'dao/create-dao/create-team', '');
     }
 
-    createTeam(daoName, teamData) {
+    createTeam(daoName, teamData, aliasUri = '') {
         const assetName = `DAO${daoName}TT${teamData.prefix}`;
-        const aliasName = `DAO${daoName}TN${teamData.name}`;
-        this.createAsset(assetName, aliasName, teamData);
+        const aliasName = `DAO${daoName}TN${teamData.name}TT${teamData.prefix}`;
+        this.createAsset(assetName, aliasName, teamData, `dao/show-daos/DAO${daoName}/teams`, aliasUri);
     }
 
     getAliases(daoName = '') {
@@ -186,5 +186,58 @@ export class DaoService {
 
     public getDaoTeams(daoName: string) {
         return this.getAliases(daoName);
+    }
+
+    public getAssetForDaoTeam(startedWith: string) {
+        return this.assetsService.serachAssets(`${startedWith}*`, {includeCounts: true});
+    }
+
+    transferTeamToken(teamToken) {
+        if (teamToken.quantityQNT < 1) {
+            const title: string = this.commonService.translateAlertTitle('Error');
+            const errMsg: string = this.commonService.translateErrorMessageParams('Error',
+                {errorCode: -1});
+            alertFunctions.InfoAlertBox(title,
+                errMsg,
+                'OK',
+                'error').then(() => {
+            });
+            return;
+        }
+        const quantity = 1;
+        const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
+        const asset = teamToken.asset;
+        const recipientRS = teamToken.teamWallet.split('acct:').pop().split('@xin').shift();
+        const fee = 1;
+        const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
+
+        this.assetsService.transferAsset(publicKey, recipientRS, asset, quantity, fee)
+            .subscribe((success_) => {
+                success_.subscribe((success) => {
+                    if (!success.errorCode) {
+                        const unsignedBytes = success.unsignedTransactionBytes;
+                        const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                        this.transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+                        this.broadcastTransaction(this.transactionBytes).subscribe((response) => {
+                            if (!!response.success) {
+                                const title: string = this.commonService.translateAlertTitle('Success');
+                                let msg: string = this.commonService.translateInfoMessage('success-broadcast-message');
+                                msg += response.transaction;
+                                alertFunctions.InfoAlertBox(title, msg, 'OK', 'success').then(() => {
+                                });
+                            }
+                        });
+                    } else {
+                        const title: string = this.commonService.translateAlertTitle('Error');
+                        const errMsg: string = this.commonService.translateErrorMessageParams('sorry-error-occurred',
+                            success);
+                        alertFunctions.InfoAlertBox(title,
+                            errMsg,
+                            'OK',
+                            'error').then(() => {
+                        });
+                    }
+                });
+            });
     }
 }

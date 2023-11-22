@@ -11,11 +11,12 @@ import {ShowDaosComponent} from './show-daos/show-daos.component';
 import {CreateDaoComponent} from './create-dao/create-dao.component';
 import {AssetsService} from '../assets/assets.service';
 import {DaoComponent} from './dao.component';
-import {CreateTeamComponent} from './create-team/create-team.component';
 import {FoundersComponent} from './founders/founders.component';
 import {ApprovalAccountsComponent} from './approval-accounts/approval-accounts.component';
 import {TeamMembersComponent} from './team-members/team-members.component';
-import { ShowTeamsComponent } from './show-teams/show-teams.component';
+import {ShowTeamsComponent} from './show-teams/show-teams.component';
+import {CreateTeamsComponent} from './create-teams/create-teams.component';
+import {CreateDaoTeamComponent} from './create-dao-team/create-dao-team.component';
 
 @NgModule({
     imports: [
@@ -30,11 +31,12 @@ import { ShowTeamsComponent } from './show-teams/show-teams.component';
         ShowDaosComponent,
         CreateDaoComponent,
         DaoComponent,
-        CreateTeamComponent,
+        CreateDaoTeamComponent,
         FoundersComponent,
         ApprovalAccountsComponent,
         TeamMembersComponent,
-        ShowTeamsComponent
+        ShowTeamsComponent,
+        CreateTeamsComponent
     ],
     providers: [
         AliasesService,
@@ -42,7 +44,15 @@ import { ShowTeamsComponent } from './show-teams/show-teams.component';
         DaoService,
         ArchwizardModule
     ],
-    entryComponents: [DaoComponent, CreateDaoComponent, FoundersComponent, ApprovalAccountsComponent, CreateTeamComponent, TeamMembersComponent]
+    entryComponents: [
+        DaoComponent,
+        CreateDaoComponent,
+        FoundersComponent,
+        ApprovalAccountsComponent,
+        CreateDaoTeamComponent,
+        TeamMembersComponent,
+        CreateTeamsComponent
+    ]
 })
 export class DaoModule {
 }
