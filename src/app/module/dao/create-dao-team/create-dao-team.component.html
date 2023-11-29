@@ -8,7 +8,7 @@
                         <select name="type" class="form-control" [(ngModel)]="currentDao"
                                 (change)="setDao(currentDao)" required>
                             <option *ngFor='let dao of daoList | async' [value]="dao?.aliasName">
-                                {{dao?.aliasName}}
+                                {{dao?.aliasName?.split('DAO').pop()}}
                             </option>
                         </select>
                     </div>
@@ -20,7 +20,7 @@
                         <label>{{'common.team-wallet-label'| translate}}</label>
                         <div class="input-group m-0">
                             <input type="text" class="form-control" name="teamWallet" #teamWallet="ngModel"
-                                   [(ngModel)]="createTeamForm.teamWallet" placeholder="XIN______-____-______"
+                                   [(ngModel)]="createTeamForm.teamWallet" placeholder="XIN-______-____-______"
                                    required>
                         </div>
                         <div *ngIf="teamWallet?.invalid && (teamWallet?.dirty || teamWallet?.touched)"
@@ -38,7 +38,7 @@
                             <input type="text" class="form-control" name="teamWalletConfirmation"
                                    #teamWalletConfirmation="ngModel"
                                    [(ngModel)]="createTeamForm.teamWalletConfirmation"
-                                   placeholder="XIN______-____-______"
+                                   placeholder="XIN-______-____-______"
                                    required>
                         </div>
                         <div *ngIf="teamWalletConfirmation?.invalid && (teamWalletConfirmation?.dirty || teamWalletConfirmation?.touched)"
@@ -55,16 +55,12 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-name' | translate}}</label>
-                    <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
-                        <div class="col-11 pl-0">
-                            <input type="text" class="form-control" name="name"
-                                   #name="ngModel"
-                                   [(ngModel)]="createTeamForm.name"
-                                   placeholder="{{'daos.create-dao.placeholders.team' + (!!wizard ? '-founder' : '') + '-name-placeholder' | translate}}"
-                                   required>
-                        </div>
-                        <div class="col-1 pl-0"><span
-                                class="input-group-text">&nbsp;</span></div>
+                    <div class="input-group m-0 row">
+                        <input type="text" class="form-control" name="name"
+                               #name="ngModel"
+                               [(ngModel)]="createTeamForm.name"
+                               placeholder="{{'daos.create-dao.placeholders.team' + (!!wizard ? '-founder' : '') + '-name-placeholder' | translate}}"
+                               required>
                     </div>
                     <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
                          class="input-error">
@@ -77,16 +73,12 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-shortcode' | translate}}</label>
-                    <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
-                        <div class="col-11 pl-0">
-                            <input type="text" class="form-control" name="prefix"
-                                   #prefix="ngModel"
-                                   [(ngModel)]="createTeamForm.prefix"
-                                   placeholder="{{'daos.create-dao.placeholders.team' + (!!wizard ? '-founder' : '') + '-shortcode-placeholder' | translate}}"
-                                   required>
-                        </div>
-                        <div class="col-1 pl-0"><span
-                                class="input-group-text">&nbsp;</span></div>
+                    <div class="input-group m-0 row">
+                        <input type="text" class="form-control" name="prefix"
+                               #prefix="ngModel"
+                               [(ngModel)]="createTeamForm.prefix"
+                               placeholder="{{'daos.create-dao.placeholders.team' + (!!wizard ? '-founder' : '') + '-shortcode-placeholder' | translate}}"
+                               required>
                     </div>
                     <div *ngIf="prefix?.invalid && (prefix?.dirty || prefix?.touched)"
                          class="input-error">
@@ -99,8 +91,8 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'daos.create-dao.labels.team-quantity-label' | translate}}</label>
-                    <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
-                        <div class="col-10 pl-0">
+                    <div class="input-group m-0 row">
+                        <div class="col-11 pl-0">
                             <input type="number"
                                    class="pl-0 mb-0 pt-0 pb-0 form-control"
                                    name="quantity"
@@ -109,7 +101,7 @@
                                    placeholder="{{'daos.create-dao.labels.team-quantity-label' | translate}}"
                                    required>
                         </div>
-                        <div class="col-2 text-right pl-0">
+                        <div class="col-1 text-right pl-0">
                             <span class="input-group-text text-right">{{'daos.create-dao.dao-quantity-unit' | translate}}</span>
                         </div>
                     </div>

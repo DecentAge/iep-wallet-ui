@@ -537,4 +537,12 @@ export class AccountService {
       params
     );
   }
+
+  checkAccountExists(accountRS) {
+      const params = {
+          'requestType': 'getAccount',
+          'account': accountRS
+      };
+      return this.http.get(this.nodeService.getNodeUrl(), AppConstants.accountConfig.accountEndPoint, params);
+  }
 }

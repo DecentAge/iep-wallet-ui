@@ -4,7 +4,7 @@ import {ColumnMode} from '@swimlane/ngx-datatable';
 import {AssetsService} from '../../assets/assets.service';
 import {DaoService} from '../dao.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {combineLatest} from 'rxjs';
+import {AccountService} from '../../account/account.service';
 
 @Component({
     selector: 'app-show-teams',
@@ -18,8 +18,10 @@ export class ShowTeamsComponent implements OnInit {
     public columnModes = ColumnMode;
     public daoName = '';
     public teamTokens;
+    public accountRs;
 
     constructor(
+        private accountService: AccountService,
         private assetsService: AssetsService,
         private daoService: DaoService,
         private router: Router,
@@ -30,36 +32,23 @@ export class ShowTeamsComponent implements OnInit {
     ngOnInit() {
         this.daoName = this.route.snapshot.params['daoName'];
         this.setPage({offset: 0});
+        this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
     }
 
     public setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
         this.page.totalPages = 1;
-        this.daoService.getDaoTeams(`${this.daoName}TN`).subscribe((response: any) => {
-            if (!response) {
-                response = [];
-            }
-            const aliases = response;
-            if (!aliases) {
-                return;
-            }
-            const tokenNames = [];
-            aliases.forEach(el => {
-                tokenNames.push(
-                    this.daoService.getAssetForDaoTeam(`${el.aliasName.split('TN').shift()}TT${el.aliasName.split('TT').pop()}`)
-                );
-            });
-            combineLatest(tokenNames).subscribe(res => {
-                console.log(res);
-                this.teamTokens = res.map((token: any) => {
+        this.daoService.getDaoTeams(`${this.daoName}TN`).subscribe(success_ => {
+            success_.subscribe(response => {
+                this.teamTokens = response.res.map((token: any) => {
                     return token.assets[0];
                 });
-                this.rows = aliases.map((alias, index) => {
+                this.rows = response.aliases.map((alias, index) => {
                     if (!this.teamTokens[index]) {
                         return alias;
                     }
                     alias.teamToken = this.teamTokens[index];
-                    alias.teamToken.teamWallet = alias.aliasURI;
+                    alias.teamToken.teamWallet = alias.aliasURI.split('acct:').pop().split('@xin').shift();
                     return alias;
                 });
                 this.page.size = this.rows.length;
@@ -73,8 +62,9 @@ export class ShowTeamsComponent implements OnInit {
     }
 
     public routeUri(uri) {
-        this.router.navigate([`dao/show-daos/${uri}/teams`]).then();
-        console.log(uri);
+        DaoService.currentDAO = this.daoName;
+        DaoService.currentDAOTeam = uri;
+        this.router.navigate([`dao/show-daos/${this.daoName}/teams/${uri}`]).then();
     }
 
     public reload() {

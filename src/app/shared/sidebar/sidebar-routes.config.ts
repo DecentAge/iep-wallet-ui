@@ -219,6 +219,16 @@ export const ROUTES: RouteInfo[] = [
                 isExternalLink: false,
                 submenu: []
             },
+            {
+                path: '/dao/add-team-members',
+                title: 'Add Team Members',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
         ],
         isSwapp: true,
         appName: 'DAOs'

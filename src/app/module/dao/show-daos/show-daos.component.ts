@@ -49,6 +49,7 @@ export class ShowDaosComponent implements OnInit {
     }
 
     public routeUri(uri) {
+        DaoService.currentDAO = uri;
         this.router.navigate([`dao/show-daos/${uri}/teams`]).then();
         console.log(uri);
     }

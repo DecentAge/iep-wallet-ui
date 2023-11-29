@@ -10,21 +10,22 @@ import {SessionStorageService} from '../../services/session-storage.service';
 import {Router} from '@angular/router';
 import {HttpProviderService} from '../../services/http-provider.service';
 import {NodeService} from '../../services/node.service';
+import {AccountService} from '../account/account.service';
+import {combineLatest} from 'rxjs';
+import {TeamMember} from './team-members/interfaces';
 
 @Injectable()
 export class DaoService {
 
     static currentDAO: any = null;
+    static currentDAOTeam: any = null;
     private currentDAOForm: any = null;
 
     private transactionBytes: any;
-    private validBytes: any;
-    private tx_fee: any;
-    private tx_amount: any;
-    private tx_total: any;
     private aliasURI: any;
 
     constructor(
+        private accountService: AccountService,
         private aliasesService: AliasesService,
         private assetsService: AssetsService,
         private commonService: CommonService,
@@ -72,11 +73,6 @@ export class DaoService {
                         const unsignedBytes = success.unsignedTransactionBytes;
                         const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
                         this.transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
-
-                        this.validBytes = true;
-                        this.tx_fee = success.transactionJSON.feeTQT / 100000000;
-                        this.tx_amount = success.transactionJSON.amountTQT / 100000000;
-                        this.tx_total = this.tx_fee + this.tx_amount;
                         this.aliasURI = aliasURI === '' ? success.transactionJSON.senderRS : aliasURI;
                         this.broadcastTransaction(this.transactionBytes).subscribe(result => {
                             if (!!result.success) {
@@ -107,11 +103,6 @@ export class DaoService {
                         const unsignedBytes = success.unsignedTransactionBytes;
                         const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
                         this.transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
-
-                        this.validBytes = true;
-                        this.tx_fee = success.transactionJSON.feeTQT / 100000000;
-                        this.tx_amount = success.transactionJSON.amountTQT / 100000000;
-                        this.tx_total = this.tx_fee + this.tx_amount;
                         this.broadcastTransaction(this.transactionBytes).subscribe((result) => {
                             if (!!result.success) {
                                 const title: string = this.commonService.translateAlertTitle('Success');
@@ -157,7 +148,7 @@ export class DaoService {
     createDAO(daoData) {
         const assetName = `DAO${daoData.prefix}`;
         const aliasName = `DAO${daoData.name}`;
-        DaoService.currentDAO = daoData;
+        DaoService.currentDAO = daoData.name;
         this.currentDAOForm = daoData;
         this.createAsset(assetName, aliasName, daoData, 'dao/create-dao/create-team', '');
     }
@@ -165,7 +156,10 @@ export class DaoService {
     createTeam(daoName, teamData, aliasUri = '') {
         const assetName = `DAO${daoName}TT${teamData.prefix}`;
         const aliasName = `DAO${daoName}TN${teamData.name}TT${teamData.prefix}`;
-        this.createAsset(assetName, aliasName, teamData, `dao/show-daos/DAO${daoName}/teams`, aliasUri);
+        DaoService.currentDAOTeam = aliasName;
+        const route = this.router.url.toString() === '/dao/create-dao/create-team' ?
+            '/dao/create-dao/add-team-members' : `/dao/show-daos/DAO${daoName}/teams`;
+        this.createAsset(assetName, aliasName, teamData, route, aliasUri);
     }
 
     getAliases(daoName = '') {
@@ -185,7 +179,45 @@ export class DaoService {
     };
 
     public getDaoTeams(daoName: string) {
-        return this.getAliases(daoName);
+        return this.getAliases(daoName).pipe(
+            map((response: any) => {
+                if (!response) {
+                    response = [];
+                }
+                const aliases = response.filter(r => r.aliasName.indexOf('TR') === -1);
+                if (!aliases) {
+                    return;
+                }
+                const tokenNames = [];
+                aliases.forEach(el => {
+                    tokenNames.push(
+                        this.getAssetForDaoTeam(`${el.aliasName.split('TN').shift()}TT${el.aliasName.split('TT').pop()}`)
+                    );
+                });
+                return combineLatest(tokenNames).pipe(map((res: any) => {
+                    return {
+                        res,
+                        aliases
+                    }
+                }));
+            })
+        );
+    }
+
+    getTeamMembers(teamName: string) {
+        const searchString = `${teamName.split('TT').shift()}`;
+        return this.getAliases(`${searchString}TR`).pipe(
+            map((response: any) => {
+                if (!response) {
+                    response = [];
+                }
+                const aliases = response;
+                if (!aliases) {
+                    return;
+                }
+                return aliases;
+            })
+        );
     }
 
     public getAssetForDaoTeam(startedWith: string) {
@@ -204,10 +236,10 @@ export class DaoService {
             });
             return;
         }
-        const quantity = 1;
+        const quantity = teamToken.quantityQNT - 1;
         const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
         const asset = teamToken.asset;
-        const recipientRS = teamToken.teamWallet.split('acct:').pop().split('@xin').shift();
+        const recipientRS = teamToken.teamWallet;
         const fee = 1;
         const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
 
@@ -239,5 +271,171 @@ export class DaoService {
                     }
                 });
             });
+    }
+
+    checkAccountExists(accountRS) {
+        return this.accountService.checkAccountExists(accountRS);
+    }
+
+    showErrorMessage(response) {
+        const title: string = this.commonService.translateAlertTitle('Error');
+        const errMsg: string = this.commonService.translateErrorMessageParams('sorry-error-occurred',
+            response);
+        alertFunctions.InfoAlertBox(title,
+            errMsg,
+            'OK',
+            'error').then(() => {
+        });
+    }
+
+    getAccountDaos() {
+        const accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
+        return this.getAliases().pipe(
+            map((aliases: any) => {
+                return aliases.filter(alias => alias.accountRS === accountRS);
+            })
+        );
+    }
+
+    addTeamMembers(currentDao, currentTeam, addTeamMemberForm) {
+        const checkWallets = [];
+        const wallets = addTeamMemberForm.teamMembers.map((teamMember: TeamMember) => teamMember.teamMemberWallet);
+        wallets.map(wallet => {
+            checkWallets.push(this.checkAccountExists(wallet));
+        });
+        combineLatest(checkWallets).subscribe((accounts) => {
+            if (accounts.find((account: any) => account.errorCode && !account.account)) {
+                const title: string = this.commonService.translateAlertTitle('Error');
+                const errMsg: string = this.commonService.translateInfoMessage('try-later');
+                alertFunctions.InfoAlertBox(title,
+                    errMsg,
+                    'OK',
+                    'error').then(() => {
+                });
+                return;
+            }
+
+            const aliases = addTeamMemberForm.teamMembers.map((teamMember: TeamMember) =>
+                `${currentTeam.split('TT').shift()}TR${teamMember.teamMemberRole}TT${currentTeam.split('TT').pop()}`);
+            const teamToken = `${currentTeam.split('TN').shift()}TT${currentTeam.split('TT').pop()}`;
+
+            const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
+            const fee = 1;
+            const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
+
+            const aliasesToSet = [];
+            aliases.map((a, index) => {
+                aliasesToSet.push(this.aliasesService.setAlias(publicKey, a, `acct:${wallets[index]}@xin`, fee));
+            })
+
+            combineLatest(aliasesToSet).subscribe(response_ => {
+                combineLatest(response_).subscribe(response => {
+                    if (response.find((res: any) => res.errorCode)) {
+                        const title: string = this.commonService.translateAlertTitle('Error');
+                        const errMsg: string = this.commonService.translateInfoMessage('try-later');
+                        alertFunctions.InfoAlertBox(title, errMsg, 'OK', 'error').then(() => {
+                        });
+                        return;
+                    }
+                    const aliasesTransactionsToBroadcast = [];
+                    response.map((r: any) => {
+                        const unsignedBytes = r.unsignedTransactionBytes;
+                        const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                        const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+                        aliasesTransactionsToBroadcast.push(this.broadcastTransaction(transactionBytes));
+                    });
+                    this.transferTeamTokens(teamToken, wallets, aliasesTransactionsToBroadcast, currentDao, currentTeam);
+                })
+            });
+        });
+    }
+
+    transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam) {
+        this.getAssetForDaoTeam(teamToken).pipe(map((response: any) => response.assets[0])).subscribe((token: any) => {
+            if (!token || token.quantityQNT < 1) {
+                const title: string = this.commonService.translateAlertTitle('Error');
+                const errMsg: string = this.commonService.translateInfoMessage('try-later');
+                alertFunctions.InfoAlertBox(title,
+                    errMsg,
+                    'OK',
+                    'error').then(() => {
+                });
+                return;
+            }
+
+            const quantity = 1;
+            const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
+            const asset = token.asset;
+            const fee = 1;
+            const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
+
+            const transferData = [];
+            wallets.map(wallet => {
+                transferData.push(this.assetsService.transferAsset(publicKey, wallet, asset, quantity, fee));
+            });
+            combineLatest(transferData).subscribe(success_ => {
+                combineLatest(success_).subscribe(transferAssetsRequests => {
+                    if (transferAssetsRequests.find((request: any) => request.errorCode)) {
+                        const title: string = this.commonService.translateAlertTitle('Error');
+                        const errMsg: string = this.commonService.translateInfoMessage('try-later');
+                        alertFunctions.InfoAlertBox(title,
+                            errMsg,
+                            'OK',
+                            'error').then(() => {
+                        });
+                    }
+                    const transactionsToBroadcast = [];
+                    transferAssetsRequests.map((request: any) => {
+                        const unsignedBytes = request.unsignedTransactionBytes;
+                        const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                        const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+                        transactionsToBroadcast.push(this.broadcastTransaction(transactionBytes));
+                    });
+                    combineLatest([...aliasesTransactions, ...transactionsToBroadcast]).subscribe((broadcastedResponse: any) => {
+                        const successTransactionsId = [];
+                        const filedTransactionsId = [];
+                        broadcastedResponse.map((response: any) => {
+                            if (!!response.success) {
+                                successTransactionsId.push(response.transaction);
+                            } else {
+                                filedTransactionsId.push(response.transaction);
+                            }
+                        });
+                        if (successTransactionsId.length) {
+                            const title: string = this.commonService.translateAlertTitle('Success');
+                            let msg: string = this.commonService.translateInfoMessage('success-broadcast-transactions');
+                            msg += successTransactionsId.join(', ');
+                            alertFunctions.InfoAlertBox(title, msg, 'OK', 'success').then(() => {
+                                if (filedTransactionsId.length) {
+                                    const errorTitle: string = this.commonService.translateAlertTitle('Error');
+                                    let errMsg: string = this.commonService.translateInfoMessage('unable-broadcast-transactions');
+                                    errMsg += filedTransactionsId.join(', ');
+                                    alertFunctions.InfoAlertBox(errorTitle,
+                                        errMsg,
+                                        'OK',
+                                        'error').then();
+                                } else {
+                                    if (this.router.url.toString() === '/dao/create-dao/add-team-members') {
+                                        this.router.navigate(['dao/show-daos']).then();
+                                    } else {
+                                        DaoService.currentDAO = currentDao;
+                                        DaoService.currentDAOTeam = currentTeam;
+                                        this.router.navigate([`dao/show-daos/${currentDao}/teams/${currentTeam}`]).then();
+                                    }
+                                }
+                            });
+                        } else if (filedTransactionsId.length) {
+                            const title: string = this.commonService.translateAlertTitle('Error');
+                            let errMsg: string = this.commonService.translateInfoMessage('unable-broadcast-transactions');
+                            errMsg += filedTransactionsId.join(', ');
+                            alertFunctions.InfoAlertBox(title,
+                                errMsg,
+                                'OK',
+                                'error').then();
+                        }
+                    })
+                })
+            });
+        });
     }
 }

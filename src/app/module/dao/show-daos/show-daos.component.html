@@ -18,7 +18,9 @@
                            [limit]="page.size" (page)='setPage($event)' (autoRefresh)="setPage({offset: 0})">
               <ngx-datatable-column prop="aliasName" [name]="'table-header.name'| translate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                  <a class="hyperlink" (click)="routeUri(value)">{{value}}</a>
+                  <a class="hyperlink" (click)="routeUri(value)">
+                    {{value.split('DAO').pop()}}
+                  </a>
                 </ng-template>
               </ngx-datatable-column>
               <ngx-datatable-column prop="aliasURI" [name]="'table-header.root-account'| translate">

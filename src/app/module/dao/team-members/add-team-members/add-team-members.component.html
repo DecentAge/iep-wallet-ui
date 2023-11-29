@@ -1,0 +1,100 @@
+<form class="form inner-form mt-5 create-dao-form" #membersForm="ngForm" novalidate>
+    <div class="form-body">
+        <ng-container *ngIf="!wizard">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="form-group m-0">
+                        <label>{{'common.select-dao'| translate}}</label>
+                        <select name="type" class="form-control" [(ngModel)]="currentDao"
+                                (change)="setDao(currentDao)" required>
+                            <option *ngFor='let dao of daosList | async' [value]="dao?.aliasName">
+                                {{dao?.aliasName.split('DAO').pop()}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group m-0">
+                        <label>{{'common.select-team'| translate}}</label>
+                        <select name="type" class="form-control" [(ngModel)]="currentTeam"
+                                (change)="setTeam(currentTeam)" required>
+                            <option *ngFor='let team of teamsList' [value]="team?.aliasName">
+                                {{team?.aliasName.split('TN').pop().split('TT').shift()}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <div class="row mb-3"
+             *ngFor="let teamMember of addTeamMemberForm.teamMembers; index as i">
+            <div class="col-md-4">
+                <div class="form-group m-0">
+                    <label>{{'daos.add-team-members.team-member-address'| translate}}</label>
+                    <div class="input-group m-0">
+                        <input type="text" class="form-control"
+                               name="addTeamMemberForm.teamMembers[{{i}}}].teamMemberWallet" #teamMemberWallet="ngModel"
+                               [(ngModel)]="addTeamMemberForm.teamMembers[i].teamMemberWallet"
+                               placeholder="XIN-______-____-______"
+                               required>
+                    </div>
+                    <div *ngIf="teamMemberWallet?.invalid && (teamMemberWallet?.dirty || teamMemberWallet?.touched)"
+                         class="input-error">
+                        <div *ngIf="teamMemberWallet?.errors.required">
+                            {{'aliases.edit-alias.uri-required'| translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group m-0">
+                    <label>{{'daos.add-team-members.team-member-role' | translate}}</label>
+                    <div class="input-group m-0 row">
+                        <input type="text" class="form-control"
+                               name="addTeamMemberForm.teamMembers[{{i}}}].teamMemberRole"
+                               #role="ngModel"
+                               [(ngModel)]="addTeamMemberForm.teamMembers[i].teamMemberRole"
+                               placeholder="{{'daos.add-team-members.team-member-role' | translate}}"
+                               required>
+                    </div>
+                    <div *ngIf="role?.invalid && (role?.dirty || role?.touched)"
+                         class="input-error">
+                        <div *ngIf="role?.errors.required">
+                            {{'daos.create-dao.validation.name-is-required' | translate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group m-0">
+                    <label>&nbsp;</label>
+                    <a class="btn btn-icon delete-member-button" (click)="deleteTeamMember(i);"
+                       triggers="mouseenter:mouseleave" container="body" placement="top"
+                       ngbPopover="{{'common.delete-table-action'| translate}}">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="block-button">
+                <a class="btn btn-gradient mt-3 mb-0" (click)="addTeamMember();" href="javascript:void(0)">
+                    <i class="fa fa-user-plus"></i>{{'Add Team Member'| translate}}</a>
+            </div>
+        </div>
+        <ng-container *ngIf="!!wizard; else outsideOfDao">
+            <button type="button" class="btn btn-gradient float-right" (click)="finishDaoCreation()">
+                <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
+            </button>
+            <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
+            </button>
+        </ng-container>
+        <ng-template #outsideOfDao>
+            <button type="button" class="btn btn-gradient float-right" (click)="addTeamMembers()"
+                    [disabled]="membersForm.invalid || addTeamMemberForm.teamMembers.length < 1">
+                {{'common.save-btn'| translate}}
+            </button>
+        </ng-template>
+    </div>
+</form>
