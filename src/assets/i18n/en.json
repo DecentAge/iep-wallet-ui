@@ -1484,10 +1484,25 @@
         "add-team-members": {
             "title": "Add Team Members",
             "team-member-address": "Team Member Address",
-            "team-member-role": "Team Member Role"
+            "team-member-role": "Team Member Role",
+            "add-btn": "Add Team Member",
+            "transactions-pending": "Transactions pending, please wait"
         },
         "show-team-members": {
             "title": "Team Members"
+        },
+        "founders": {
+            "labels": {
+                "founder-wallet-alias": "Founder Wallet Alias",
+                "founder-wallet-address": "Wallet address",
+                "initial-allocation": "Initial Allocation"
+            },
+            "validation": {
+                "wallet-alias-is-required": "Wallet Alias is required",
+                "wallet-address-required": "Wallet Address is required",
+                "initial-allocation-is-required":  "Initial Allocation is required"
+            },
+            "add-btn": "Add Founder"
         }
     },
     "swapps": {

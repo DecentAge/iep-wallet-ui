@@ -74,4 +74,8 @@ export class ShowTeamsComponent implements OnInit {
     transferTeamToken(teamToken) {
         this.daoService.transferTeamToken(teamToken);
     }
+
+    goBack() {
+        this.router.navigate([`dao/show-daos`]).then();
+    }
 }

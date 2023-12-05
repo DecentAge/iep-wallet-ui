@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {WizardComponent} from 'angular-archwizard';
 import {DaoService} from '../../dao.service';
-import {TeamMember} from '../interfaces';
+import {Founder, TeamMember} from '../interfaces';
 import {Router} from '@angular/router';
 
 @Component({
@@ -22,6 +22,8 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
         teamMembers: Array<TeamMember>()
     };
     private teamDAO = '';
+    public isPending = true;
+    public pendingTransactions = [];
 
     constructor(
         private daoService: DaoService,
@@ -39,15 +41,23 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
         if (this.router.url.toString() === '/dao/create-dao/add-team-members') {
             if (!this.currentDao) {
                 this.router.navigate(['/dao/create-dao']).then();
-            }
-            if (!this.currentTeam) {
+            } else if (!this.currentTeam) {
                 this.router.navigate(['/dao/create-dao/create-team']).then();
+            } else {
+                this.wizard.navigation.goToStep(0);
+                this.wizard.navigation.goToStep(1);
+                this.wizard.navigation.goToStep(2);
+                this.wizard.navigation.goToStep(3);
+                this.checkTransactions();
             }
-            this.wizard.navigation.goToStep(1);
-            this.wizard.navigation.goToStep(2);
-            this.wizard.navigation.goToStep(3);
-            this.wizard.navigation.goToStep(4);
         }
+    }
+
+    checkTransactions() {
+        this.daoService.checkTransactions().subscribe(response => {
+            this.isPending = response.isPending;
+            this.pendingTransactions = response.transactions;
+        });
     }
 
     addTeamMembers() {
@@ -60,7 +70,19 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
         if (!this.addTeamMemberForm.teamMembers.length) {
             this.router.navigate([`dao/show-daos/DAO${this.currentDao}/teams`]).then();
         }
-        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.addTeamMemberForm);
+        this.daoService.currentTeamMembers = this.addTeamMemberForm.teamMembers;
+        if (DaoService.currentDAOTeamFounders.length > 0) {
+            this.daoService.currentTeamMembers = [
+                ...this.daoService.currentTeamMembers,
+                ...DaoService.currentDAOTeamFounders.map((teamFounder: Founder) => {
+                    return {
+                        teamMemberWallet: teamFounder.founderWalletAddress,
+                        teamMemberRole: teamFounder.founderWalletAlias,
+                        quantity: teamFounder.initialAllocation
+                    }
+                })];
+        }
+        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.addTeamMemberForm.teamMembers);
     }
 
     setDao(dao): void {
@@ -98,6 +120,6 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     }
 
     finishDaoCreation() {
-        this.addTeamMembers()
+        this.addTeamMembers();
     }
 }

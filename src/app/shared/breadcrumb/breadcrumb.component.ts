@@ -142,7 +142,7 @@ export class BreadcrumbComponent implements OnInit {
         'publish-exchange-sell-offer': 'Publish Exchange Sell Offer',
         'dao': 'DAOs',
         'create-dao': 'Create DAO',
-        'founders': 'Founders',
+        'add-founders': 'Founders',
         'approval-accounts': 'Approval Accounts',
         'create-team': 'Create Team',
         'team-members': 'Team Members',

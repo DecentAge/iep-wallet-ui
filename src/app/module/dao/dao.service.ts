@@ -11,18 +11,21 @@ import {Router} from '@angular/router';
 import {HttpProviderService} from '../../services/http-provider.service';
 import {NodeService} from '../../services/node.service';
 import {AccountService} from '../account/account.service';
-import {combineLatest} from 'rxjs';
-import {TeamMember} from './team-members/interfaces';
+import {combineLatest, Observable} from 'rxjs';
+import {Founder, TeamMember} from './team-members/interfaces';
 
 @Injectable()
 export class DaoService {
 
     static currentDAO: any = null;
     static currentDAOTeam: any = null;
+    static currentDAOTeamFounders: Array<Founder> = [];
+    public currentTeamMembers: Array<TeamMember> = [];
+    private pendingTransactions: Array<string> = [];
     private currentDAOForm: any = null;
-
     private transactionBytes: any;
     private aliasURI: any;
+    private accountId;
 
     constructor(
         private accountService: AccountService,
@@ -109,6 +112,7 @@ export class DaoService {
                                 let msg: string = this.commonService.translateInfoMessage('success-broadcast-message');
                                 msg += result.transaction;
                                 alertFunctions.InfoAlertBox(title, msg, 'OK', 'success').then(() => {
+                                    this.pendingTransactions.push(result.transaction);
                                     if (route !== '') {
                                         this.router.navigate([route]).then();
                                     }
@@ -150,7 +154,7 @@ export class DaoService {
         const aliasName = `DAO${daoData.name}`;
         DaoService.currentDAO = daoData.name;
         this.currentDAOForm = daoData;
-        this.createAsset(assetName, aliasName, daoData, 'dao/create-dao/create-team', '');
+        this.createAsset(assetName, aliasName, daoData, `dao/create-dao/create-team`, '');
     }
 
     createTeam(daoName, teamData, aliasUri = '') {
@@ -158,7 +162,7 @@ export class DaoService {
         const aliasName = `DAO${daoName}TN${teamData.name}TT${teamData.prefix}`;
         DaoService.currentDAOTeam = aliasName;
         const route = this.router.url.toString() === '/dao/create-dao/create-team' ?
-            '/dao/create-dao/add-team-members' : `/dao/show-daos/DAO${daoName}/teams`;
+            '/dao/create-dao/add-founders' : `/dao/show-daos/DAO${daoName}/teams`;
         this.createAsset(assetName, aliasName, teamData, route, aliasUri);
     }
 
@@ -297,12 +301,9 @@ export class DaoService {
         );
     }
 
-    addTeamMembers(currentDao, currentTeam, addTeamMemberForm) {
-        const checkWallets = [];
-        const wallets = addTeamMemberForm.teamMembers.map((teamMember: TeamMember) => teamMember.teamMemberWallet);
-        wallets.map(wallet => {
-            checkWallets.push(this.checkAccountExists(wallet));
-        });
+    addTeamMembers(currentDao, currentTeam, teamMembers) {
+        const wallets = teamMembers.map((teamMember: TeamMember) => teamMember.teamMemberWallet);
+        const checkWallets = wallets.map(wallet => this.checkAccountExists(wallet));
         combineLatest(checkWallets).subscribe((accounts) => {
             if (accounts.find((account: any) => account.errorCode && !account.account)) {
                 const title: string = this.commonService.translateAlertTitle('Error');
@@ -315,7 +316,7 @@ export class DaoService {
                 return;
             }
 
-            const aliases = addTeamMemberForm.teamMembers.map((teamMember: TeamMember) =>
+            const aliases = teamMembers.map((teamMember: TeamMember) =>
                 `${currentTeam.split('TT').shift()}TR${teamMember.teamMemberRole}TT${currentTeam.split('TT').pop()}`);
             const teamToken = `${currentTeam.split('TN').shift()}TT${currentTeam.split('TT').pop()}`;
 
@@ -362,7 +363,6 @@ export class DaoService {
                 });
                 return;
             }
-
             const quantity = 1;
             const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
             const asset = token.asset;
@@ -370,8 +370,10 @@ export class DaoService {
             const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
 
             const transferData = [];
-            wallets.map(wallet => {
-                transferData.push(this.assetsService.transferAsset(publicKey, wallet, asset, quantity, fee));
+            wallets.map((wallet, index) => {
+                const qty = this.currentTeamMembers.length > 0 && this.currentTeamMembers[index]
+                && this.currentTeamMembers[index].quantity ? this.currentTeamMembers[index].quantity : quantity;
+                transferData.push(this.assetsService.transferAsset(publicKey, wallet, asset, qty, fee));
             });
             combineLatest(transferData).subscribe(success_ => {
                 combineLatest(success_).subscribe(transferAssetsRequests => {
@@ -437,5 +439,22 @@ export class DaoService {
                 })
             });
         });
+    }
+
+    public checkTransactions(): Observable<{isPending: boolean, transactions: Array<any>}> {
+        this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
+        return this.accountService.getAccountUnconfirmedTransactions(this.accountId).pipe(
+            map((unconfirmedTransactions: any) => {
+                let isPending = false;
+                const transactions = unconfirmedTransactions
+                    .unconfirmedTransactions.map(t => t.transaction).filter(uT => this.pendingTransactions.includes(uT));
+                if (transactions.length > 0) {
+                    isPending = true;
+                }
+                return {
+                    isPending,
+                    transactions
+                }
+            }));
     }
 }

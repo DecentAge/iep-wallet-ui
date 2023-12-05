@@ -5,15 +5,13 @@
                 <div class="form-group m-0">
                     <label>{{'daos.create-dao.labels.dao-name' | translate}}</label>
                     <div class="input-group m-0 row">
-                        <div class="col-11 pl-0">
+                        <div class="col-12 pl-0">
                             <input type="text" class="form-control" name="name"
                                    #name="ngModel"
                                    [(ngModel)]="createDaoForm.name"
                                    placeholder="{{'daos.create-dao.placeholders.dao-name-placeholder' | translate}}"
                                    required>
                         </div>
-                        <div class="col-1 pl-0"><span
-                                class="input-group-text">&nbsp;</span></div>
                     </div>
                     <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
                          class="input-error">
@@ -27,15 +25,13 @@
                 <div class="form-group m-0">
                     <label>{{'daos.create-dao.labels.dao-prefix' | translate}}</label>
                     <div class="input-group m-0 row">
-                        <div class="col-11 pl-0">
+                        <div class="col-12 pl-0">
                             <input type="text" class="form-control" name="prefix"
                                    #prefix="ngModel"
                                    [(ngModel)]="createDaoForm.prefix"
                                    placeholder="{{'daos.create-dao.placeholders.dao-prefix-placeholder' | translate}}"
                                    required>
                         </div>
-                        <div class="col-1 pl-0"><span
-                                class="input-group-text">&nbsp;</span></div>
                     </div>
                     <div *ngIf="prefix?.invalid && (prefix?.dirty || prefix?.touched)"
                          class="input-error">

@@ -51,4 +51,8 @@ export class ShowTeamMembersComponent implements OnInit {
     this.setPage({offset: 0});
   }
 
+  public goBack() {
+    this.router.navigate([`dao/show-daos/${this.daoName}/teams`]).then();
+  }
+
 }

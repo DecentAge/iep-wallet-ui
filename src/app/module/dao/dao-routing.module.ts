@@ -14,11 +14,11 @@ const routes: Routes = [
         component: DaoComponent,
         data: {
             previousRoute: null,
-            nextRoute: 'create-dao/founders'
+            nextRoute: 'create-dao/add-founders'
         }
     },
     {
-        path: 'create-dao/founders',
+        path: 'create-dao/add-founders',
         component: DaoComponent,
         data: {
             previousRoute: 'create-dao',

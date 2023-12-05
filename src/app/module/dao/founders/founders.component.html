@@ -1,8 +1,94 @@
-<div class="mt-4">
-  <button type="button" class="btn btn-gradient float-right" awNextStep>
-    {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
-  </button>
-  <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
-    <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
-  </button>
-</div>
+<form class="form inner-form mt-5 create-dao-form" #f="ngForm" novalidate>
+  <div class="form-body">
+    <div class="row" *ngFor="let founder of createFounderForm.founders; index as i">
+      <div class="col-md-3">
+        <div class="form-group m-0">
+          <label>{{'daos.founders.labels.founder-wallet-alias' | translate}}</label>
+          <div class="input-group m-0 row">
+            <div class="col-12 pl-0">
+              <input type="text" class="form-control"
+                     name="founderWalletAlias-{{i}}"
+                     #founderWalletAlias="ngModel"
+                     [(ngModel)]="founder.founderWalletAlias"
+                     placeholder="{{'daos.founders.labels.founder-wallet-alias' | translate}}"
+                     required>
+            </div>
+          </div>
+          <div *ngIf="founderWalletAlias?.invalid && (founderWalletAlias?.dirty || founderWalletAlias?.touched)"
+               class="input-error">
+            <div *ngIf="founderWalletAlias?.errors.required">
+              {{'daos.founders.validation.wallet-alias-is-required' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group m-0">
+          <label>{{'daos.founders.labels.founder-wallet-address' | translate}}</label>
+          <div class="input-group m-0">
+            <input type="text" class="form-control"
+                   name="founderWalletAddress-{{i}}" #founderWalletAddress="ngModel"
+                   [(ngModel)]="founder.founderWalletAddress"
+                   placeholder="XIN-______-____-______"
+                   required>
+          </div>
+          <div *ngIf="founderWalletAddress?.invalid && (founderWalletAddress?.dirty || founderWalletAddress?.touched)"
+               class="input-error">
+            <div *ngIf="founderWalletAddress?.errors.required">
+              {{'daos.founders.validation.wallet-address-required'| translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group m-0">
+          <label>{{'daos.founders.labels.initial-allocation' | translate}}</label>
+          <div class="input-group m-0 row">
+            <div class="col-10 pl-0">
+              <input type="number"
+                     class="pl-0 mb-0 pt-0 pb-0 form-control"
+                     name="founderWalletAlias-{{i}}"
+                     #initialAllocation="ngModel"
+                     [(ngModel)]="founder.initialAllocation"
+                     placeholder="{{'daos.founders.labels.initial-allocation' | translate}}"
+                     required>
+            </div>
+            <div class="col-2 text-right pl-0">
+              <span class="input-group-text text-right">{{'daos.create-dao.dao-quantity-unit' | translate}}</span>
+            </div>
+          </div>
+          <div *ngIf="initialAllocation?.invalid && (initialAllocation?.dirty || initialAllocation?.touched)"
+               class="input-error">
+            <div *ngIf="initialAllocation?.errors.required">
+              {{'daos.founders.validation.initial-allocation-is-required' | translate}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1">
+        <div class="form-group m-0">
+          <label>&nbsp;</label>
+          <a class="btn btn-icon delete-founder-button" (click)="deleteFounder(i);"
+             triggers="mouseenter:mouseleave" container="body" placement="top"
+             ngbPopover="{{'common.delete-table-action'| translate}}">
+            <i class="fa fa-times"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="block-button">
+        <a class="btn btn-gradient mt-3 mb-0" (click)="addFounder();" href="javascript:void(0)">
+          <i class="fa fa-user-plus"></i>{{'daos.founders.add-btn'| translate}}</a>
+      </div>
+    </div>
+    <div class="mt-4">
+      <button type="button" class="btn btn-gradient float-right" (click)="nextStep()" [disabled]="(f.dirty || f.touched) && f.invalid">
+        {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
+      </button>
+      <!--<button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+        <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
+      </button>-->
+    </div>
+  </div>
+</form>

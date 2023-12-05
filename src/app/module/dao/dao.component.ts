@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {WizardComponent} from 'angular-archwizard';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {WizardComponent, WizardStep} from 'angular-archwizard';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -7,7 +7,7 @@ import {ActivatedRoute} from '@angular/router';
     templateUrl: './dao.component.html',
     styleUrls: ['./dao.component.scss']
 })
-export class DaoComponent implements OnInit {
+export class DaoComponent implements OnInit, AfterViewInit {
 
     @ViewChild('awWizard') wizard: WizardComponent;
     public createDaoForm: { [key: string]: string } = {
@@ -20,5 +20,8 @@ export class DaoComponent implements OnInit {
     ngOnInit() {
         this.route.data.subscribe(data => {
         });
+    }
+
+    ngAfterViewInit(): void {
     }
 }

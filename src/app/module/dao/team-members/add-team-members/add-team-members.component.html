@@ -26,8 +26,20 @@
                 </div>
             </div>
         </ng-container>
+        <ng-container *ngIf="!!wizard && isPending">
+            <div class="row mb-3">
+                <h3>{{'daos.add-team-members.transactions-pending' | translate}} ({{pendingTransactions.length}}) </h3>
+                <div class="btn-group btn-group-justified btn-group-raised">
+                    <a href="javascript:void(0)" class="btn btn-sm btn-grey btn-icon" (click)="checkTransactions()"
+                       triggers="mouseenter:mouseleave" container="body"
+                       placement="top" [ngbPopover]="'common.reload-filter-popover' | translate">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                </div>
+            </div>
+        </ng-container>
         <div class="row mb-3"
-             *ngFor="let teamMember of addTeamMemberForm.teamMembers; index as i">
+             *ngFor="let teamMember of addTeamMemberForm.teamMembers; trackBy: indexTracker; index as i">
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'daos.add-team-members.team-member-address'| translate}}</label>
@@ -79,11 +91,11 @@
         <div class="row">
             <div class="block-button">
                 <a class="btn btn-gradient mt-3 mb-0" (click)="addTeamMember();" href="javascript:void(0)">
-                    <i class="fa fa-user-plus"></i>{{'Add Team Member'| translate}}</a>
+                    <i class="fa fa-user-plus"></i>{{'daos.add-team-members.add-btn'| translate}}</a>
             </div>
         </div>
         <ng-container *ngIf="!!wizard; else outsideOfDao">
-            <button type="button" class="btn btn-gradient float-right" (click)="finishDaoCreation()">
+            <button type="button" class="btn btn-gradient float-right" (click)="finishDaoCreation()" [disabled]="membersForm.invalid || (isPending && addTeamMemberForm.teamMembers.length > 1)">
                 <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
             </button>
             <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>

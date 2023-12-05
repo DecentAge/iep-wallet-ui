@@ -68,9 +68,8 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
             if (!this.currentDao) {
                 this.router.navigate(['/dao/create-dao']).then();
             }
+            this.wizard.navigation.goToStep(0);
             this.wizard.navigation.goToStep(1);
-            this.wizard.navigation.goToStep(2);
-            this.wizard.navigation.goToStep(3);
         }
     }
 
