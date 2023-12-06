@@ -441,7 +441,7 @@ export class DaoService {
         });
     }
 
-    public checkTransactions(): Observable<{isPending: boolean, transactions: Array<any>}> {
+    public checkTransactions(): Observable<{ isPending: boolean, transactions: Array<any> }> {
         this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
         return this.accountService.getAccountUnconfirmedTransactions(this.accountId).pipe(
             map((unconfirmedTransactions: any) => {
@@ -451,10 +451,59 @@ export class DaoService {
                 if (transactions.length > 0) {
                     isPending = true;
                 }
+                if (!isPending) {
+                    this.pendingTransactions.length = 0;
+                }
                 return {
                     isPending,
                     transactions
                 }
             }));
+    }
+
+    setAccountControl(approvalAccountsForm, teamAccount) {
+        const quorum = approvalAccountsForm.quorum;
+        const accounts = approvalAccountsForm.accounts;
+        const fee = 1;
+        this.accountService.getAccountPublicKey(teamAccount).subscribe((response: any) => {
+            const publicKey = response.publicKey;
+            const secretPhraseHex = this.sessionStorageService.getFromSession(
+                AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY
+            );
+            this.accountService
+                .setAccountControl(publicKey, quorum, accounts, fee)
+                .subscribe(success => {
+                    if (!success.errorCode) {
+                        const unsignedBytes = success.unsignedTransactionBytes;
+                        const signatureHex = this.cryptoService.signatureHex(
+                            unsignedBytes,
+                            secretPhraseHex
+                        );
+                        const transactionBytes = this.cryptoService.signTransactionHex(
+                            unsignedBytes,
+                            signatureHex
+                        );
+
+                        this.broadcastTransaction(transactionBytes).subscribe(res => {
+                            if (!!res.success) {
+                                const title: string = this.commonService.translateAlertTitle('Success');
+                                let msg: string = this.commonService.translateInfoMessage('success-broadcast-message');
+                                msg += res.transaction;
+                                alertFunctions.InfoAlertBox(title, msg, 'OK', 'success').then(() => {
+                                });
+                            }
+                        });
+                    } else {
+                        const title: string = this.commonService.translateAlertTitle('Error');
+                        const errMsg: string = this.commonService.translateErrorMessageParams(
+                            'sorry-error-occurred',
+                            success
+                        );
+                        alertFunctions
+                            .InfoAlertBox(title, errMsg, 'OK', 'error')
+                            .then();
+                    }
+                });
+        });
     }
 }

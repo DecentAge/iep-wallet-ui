@@ -21,7 +21,6 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     public addTeamMemberForm = {
         teamMembers: Array<TeamMember>()
     };
-    private teamDAO = '';
     public isPending = true;
     public pendingTransactions = [];
 
@@ -87,7 +86,6 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 
     setDao(dao): void {
         this.currentDao = dao;
-        this.teamDAO = dao.split('DAO').join('');
         this.daosList = this.daoService.getAccountDaos();
         this.daoService.getDaoTeams(`${dao}TN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
@@ -97,11 +95,8 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
         });
     }
 
-    setTeam(team, setDao = true): void {
+    setTeam(team): void {
         this.currentTeam = team;
-        if (setDao) {
-            this.teamDAO = team.split('TN').join('');
-        }
     }
 
     addTeamMember() {

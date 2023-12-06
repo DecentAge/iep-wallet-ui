@@ -729,7 +729,8 @@
         "team-member-role": "Team Member Role",
         "team-token": "Team Token",
         "teams": "Teams",
-        "members": "Members"
+        "members": "Members",
+        "approval": "Approval Account"
     },
     "assets": {
         "show": {
@@ -1488,6 +1489,9 @@
             "add-btn": "Add Team Member",
             "transactions-pending": "Transactions pending, please wait"
         },
+        "approval-accounts": {
+            "title": "Approval Accounts"
+        },
         "show-team-members": {
             "title": "Team Members"
         },
@@ -1761,7 +1765,8 @@
         "Show DAOs": "Show DAOs",
         "Create DAO": "Create DAO",
         "Create Teams": "Create Teams",
-        "Add Team Members": "Add Team Members"
+        "Add Team Members": "Add Team Members",
+        "Approval Accounts": "Approval Accounts"
     },
     "sweet-alert": {
         "info": "Info",
@@ -2115,6 +2120,7 @@
         "show-daos": "Show DAOs",
         "teams": "Teams",
         "create-teams": "Create Teams",
-        "add-team-members": "Add Team Members"
+        "add-team-members": "Add Team Members",
+        "approval-accounts": "Approval Accounts"
     }
 }

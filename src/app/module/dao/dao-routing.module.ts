@@ -7,6 +7,7 @@ import {CreateTeamsComponent} from './create-teams/create-teams.component';
 import {AddTeamMembersComponent} from './team-members/add-team-members/add-team-members.component';
 import {TeamMembersComponent} from './team-members/team-members.component';
 import {ShowTeamMembersComponent} from './team-members/show-team-members/show-team-members.component';
+import {ApprovalAccountsComponent} from './approval-accounts/approval-accounts.component';
 
 const routes: Routes = [
     {
@@ -52,6 +53,10 @@ const routes: Routes = [
     {
         path: 'show-daos',
         component: ShowDaosComponent
+    },
+    {
+        path: 'approval-accounts',
+        component: ApprovalAccountsComponent
     },
     {
         path: 'show-daos/:daoName/teams',

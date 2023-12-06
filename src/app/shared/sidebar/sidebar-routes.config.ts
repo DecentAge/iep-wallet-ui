@@ -229,6 +229,16 @@ export const ROUTES: RouteInfo[] = [
                 isExternalLink: false,
                 submenu: []
             },
+            {
+                path: '/dao/approval-accounts',
+                title: 'Approval Accounts',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
         ],
         isSwapp: true,
         appName: 'DAOs'

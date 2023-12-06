@@ -545,4 +545,13 @@ export class AccountService {
       };
       return this.http.get(this.nodeService.getNodeUrl(), AppConstants.accountConfig.accountEndPoint, params);
   }
+
+  getAccountPublicKey(account) {
+    const params = {
+      'requestType': 'getAccountPublicKey',
+      'account': account
+    };
+
+    return this.http.get(this.nodeService.getNodeUrl(), AppConstants.accountConfig.accountEndPoint, params);
+  }
 }
