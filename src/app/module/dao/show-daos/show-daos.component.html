@@ -25,7 +25,7 @@
               </ngx-datatable-column>
               <ngx-datatable-column prop="aliasURI" [name]="'table-header.root-account'| translate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                  {{value.split('acct:').pop().split('@xin').shift()}}
+                  {{accountId(value)}}
                 </ng-template>
               </ngx-datatable-column>
               <!--<ngx-datatable-column prop="teams" [name]="'table-header.teams'| translate">
@@ -38,13 +38,19 @@
                   {{value}}
                 </ng-template>
               </ngx-datatable-column>-->
-              <ngx-datatable-column prop="poll" [name]="'table-header.actions'| translate">
+              <ngx-datatable-column prop="aliasURI" [name]="'table-header.actions'| translate">
                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                   <div class="btn-group-raised">
-                    <a class="btn btn-sm btn-grey btn-icon" (click)="daoDetails()"
+                    <!--<a class="btn btn-sm btn-grey btn-icon" (click)="daoDetails()"
                        triggers="mouseenter:mouseleave" container="body" placement="top"
                        ngbPopover="{{'common.details-table-action'| translate}}">
                       <i class="fa fa-list-ul"></i>
+                    </a>-->
+                    <a class="btn btn-sm btn-grey btn-icon"
+                       (click)="sendMessage(value)"
+                       triggers="mouseenter:mouseleave" container="body" placement="top"
+                       [ngbPopover]="'daos.show-team-members.send-message-table-action' | translate">
+                      <i class="icon-messages"></i>
                     </a>
                   </div>
                 </ng-template>

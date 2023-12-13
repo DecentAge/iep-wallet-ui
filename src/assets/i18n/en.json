@@ -1493,7 +1493,8 @@
             "title": "Approval Accounts"
         },
         "show-team-members": {
-            "title": "Team Members"
+            "title": "Team Members",
+            "send-message-table-action": "Send Message"
         },
         "founders": {
             "labels": {

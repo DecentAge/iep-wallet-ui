@@ -78,4 +78,8 @@ export class ShowTeamsComponent implements OnInit {
     goBack() {
         this.router.navigate([`dao/show-daos`]).then();
     }
+
+    sendMessage(teamToken) {
+        this.router.navigate(['/messages/send-message'], {queryParams: {recipient: teamToken.teamWallet}}).then();
+    }
 }

@@ -24,7 +24,16 @@ export const ROUTES: RouteInfo[] = [
                 isExternalLink: false,
                 submenu: []
             },
-            { path: '/account/send', title: 'Send XIN', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            {
+                path: '/account/send',
+                title: 'Send XIN',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
             {
                 path: '/account/receive-tab',
                 title: 'Receive XIN',

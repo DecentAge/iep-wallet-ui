@@ -54,4 +54,11 @@ export class ShowDaosComponent implements OnInit {
         console.log(uri);
     }
 
+    public accountId(value) {
+        return value.split('acct:').pop().split('@xin').shift();
+    }
+
+    sendMessage(aliasURI) {
+        this.router.navigate(['/messages/send-message'], {queryParams: {recipient: this.accountId(aliasURI)}}).then();
+    }
 }

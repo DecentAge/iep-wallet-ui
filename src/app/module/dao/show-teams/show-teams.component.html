@@ -62,10 +62,16 @@
                                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                                     <div class="btn-group-raised">
                                         <a class="btn btn-sm btn-grey btn-icon"
+                                           (click)="sendMessage(value)"
+                                           triggers="mouseenter:mouseleave" container="body" placement="top"
+                                           [ngbPopover]="'daos.show-team-members.send-message-table-action' | translate">
+                                            <i class="icon-messages"></i>
+                                        </a>
+                                        <a class="btn btn-sm btn-grey btn-icon"
                                            (click)="transferTeamToken(value)"
                                            triggers="mouseenter:mouseleave" container="body" placement="top"
                                            [ngbPopover]="'daos.show-daos.transfer-token-table-action' | translate"
-                                            *ngIf="value && value.accountRS === accountRs && value.teamWallet !== accountRs">
+                                           [ngClass]="[(value && value.accountRS === accountRs && value.teamWallet !== accountRs) ? 'enable' : 'disabled']">
                                             <i class="fa fa-user"></i>
                                         </a>
                                     </div>
