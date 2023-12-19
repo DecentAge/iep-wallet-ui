@@ -239,6 +239,16 @@ export const ROUTES: RouteInfo[] = [
                 submenu: []
             },
             {
+                path: '/dao/add-team-poll',
+                title: 'Add Team Poll',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+            {
                 path: '/dao/approval-accounts',
                 title: 'Approval Accounts',
                 icon: '',

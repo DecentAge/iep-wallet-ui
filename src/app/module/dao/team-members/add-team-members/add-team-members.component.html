@@ -1,30 +1,14 @@
 <form class="form inner-form mt-5 create-dao-form" #membersForm="ngForm" novalidate>
     <div class="form-body">
         <ng-container *ngIf="!wizard">
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <div class="form-group m-0">
-                        <label>{{'common.select-dao'| translate}}</label>
-                        <select name="type" class="form-control" [(ngModel)]="currentDao"
-                                (change)="setDao(currentDao)" required>
-                            <option *ngFor='let dao of daosList | async' [value]="dao?.aliasName">
-                                {{dao?.aliasName.split('DAO').pop()}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group m-0">
-                        <label>{{'common.select-team'| translate}}</label>
-                        <select name="type" class="form-control" [(ngModel)]="currentTeam"
-                                (change)="setTeam(currentTeam)" required>
-                            <option *ngFor='let team of teamsList' [value]="team?.aliasName">
-                                {{team?.aliasName.split('TN').pop().split('TT').shift()}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+            <app-select-dao-team
+                    [currentDao]="currentDao"
+                    [currentTeam]="currentTeam"
+                    [daosList]="daosList"
+                    [teamsList]="teamsList"
+                    (setDao)="setDao($event)"
+                    (setTeam)="setTeam($event)"
+            ></app-select-dao-team>
         </ng-container>
         <ng-container *ngIf="!!wizard && isPending">
             <div class="row mb-3">
@@ -95,7 +79,8 @@
             </div>
         </div>
         <ng-container *ngIf="!!wizard; else outsideOfDao">
-            <button type="button" class="btn btn-gradient float-right" (click)="finishDaoCreation()" [disabled]="membersForm.invalid || (isPending && addTeamMemberForm.teamMembers.length > 1)">
+            <button type="button" class="btn btn-gradient float-right" (click)="finishDaoCreation()"
+                    [disabled]="membersForm.invalid || (isPending && addTeamMemberForm.teamMembers.length > 1)">
                 <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
             </button>
             <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>

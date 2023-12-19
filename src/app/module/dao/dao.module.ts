@@ -19,6 +19,8 @@ import {CreateTeamsComponent} from './create-teams/create-teams.component';
 import {CreateDaoTeamComponent} from './create-dao-team/create-dao-team.component';
 import {AddTeamMembersComponent} from './team-members/add-team-members/add-team-members.component';
 import {ShowTeamMembersComponent} from './team-members/show-team-members/show-team-members.component';
+import { SelectDaoTeamComponent } from './select-dao-team/select-dao-team.component';
+import { AddTeamPollComponent } from './add-team-poll/add-team-poll.component';
 
 @NgModule({
     imports: [
@@ -40,7 +42,9 @@ import {ShowTeamMembersComponent} from './team-members/show-team-members/show-te
         ShowTeamsComponent,
         CreateTeamsComponent,
         AddTeamMembersComponent,
-        ShowTeamMembersComponent
+        ShowTeamMembersComponent,
+        SelectDaoTeamComponent,
+        AddTeamPollComponent
     ],
     providers: [
         AliasesService,
@@ -50,6 +54,7 @@ import {ShowTeamMembersComponent} from './team-members/show-team-members/show-te
     ],
     entryComponents: [
         AddTeamMembersComponent,
+        AddTeamPollComponent,
         ApprovalAccountsComponent,
         CreateDaoComponent,
         CreateDaoTeamComponent,

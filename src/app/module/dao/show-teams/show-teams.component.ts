@@ -84,7 +84,6 @@ export class ShowTeamsComponent implements OnInit {
     }
 
     createPoll(teamToken) {
-        console.log(teamToken);
         this.router.navigate(['/voting/create-poll'], {queryParams: {recipient: teamToken.asset}}).then();
     }
 }
