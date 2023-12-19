@@ -12,7 +12,7 @@ import {HttpProviderService} from '../../services/http-provider.service';
 import {NodeService} from '../../services/node.service';
 import {AccountService} from '../account/account.service';
 import {combineLatest, Observable} from 'rxjs';
-import {Founder, TeamMember} from './team-members/interfaces';
+import {Founder, TeamMember} from './interfaces';
 
 @Injectable()
 export class DaoService {

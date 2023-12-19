@@ -1490,7 +1490,11 @@
             "transactions-pending": "Transactions pending, please wait"
         },
         "approval-accounts": {
-            "title": "Approval Accounts"
+            "title": "Approval Accounts",
+            "control-enabled": "Team Account Control is Enabled"
+        },
+        "show-teams": {
+            "create-poll-table-action": "Create Poll"
         },
         "show-team-members": {
             "title": "Team Members",

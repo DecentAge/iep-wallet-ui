@@ -44,12 +44,14 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column prop="aliasURI" [name]="'table-header.actions'| translate">
                                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                                    <a class="btn btn-sm btn-grey btn-icon"
-                                       (click)="sendMessage(accountId(value))"
-                                       triggers="mouseenter:mouseleave" container="body" placement="top"
-                                       [ngbPopover]="'daos.show-team-members.send-message-table-action' | translate">
-                                        <i class="icon-messages"></i>
-                                    </a>
+                                    <div class="btn-group-raised">
+                                        <a class="btn btn-sm btn-grey btn-icon"
+                                           (click)="sendMessage(accountId(value))"
+                                           triggers="mouseenter:mouseleave" container="body" placement="top"
+                                           [ngbPopover]="'daos.show-team-members.send-message-table-action' | translate">
+                                            <i class="icon-messages"></i>
+                                        </a>
+                                    </div>
                                 </ng-template>
                             </ngx-datatable-column>
                         </ngx-datatable>

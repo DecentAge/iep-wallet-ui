@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as AlertFunctions from '../../../shared/data/sweet-alerts';
 import { CurrenciesService } from '../../../module/currencies/currencies.service';
 import { AssetsService } from '../../assets/assets.service';
@@ -43,8 +43,11 @@ export class CreatePollComponent implements OnInit {
     assetError: string = '';
     currencyError: string = '';
     errorMessage: string = '';
+    pollImmutable = false;
 
-    constructor(private router: Router,
+    constructor(
+        public activatedRoute: ActivatedRoute,
+        private router: Router,
         private currenciesService: CurrenciesService,
         private assetsService: AssetsService,
         private commonService: CommonService,
@@ -61,7 +64,14 @@ export class CreatePollComponent implements OnInit {
     }
 
     ngOnInit() {
-
+        this.activatedRoute.queryParams.subscribe((params: any) => {
+            if (params.recipient) {
+                this.assetId = params.recipient;
+                this.pollImmutable = true;
+                this.votingModel = 2;
+                this.getAsset(this.assetId);
+            }
+        });
     }
 
     min() {

@@ -82,4 +82,9 @@ export class ShowTeamsComponent implements OnInit {
     sendMessage(teamToken) {
         this.router.navigate(['/messages/send-message'], {queryParams: {recipient: teamToken.teamWallet}}).then();
     }
+
+    createPoll(teamToken) {
+        console.log(teamToken);
+        this.router.navigate(['/voting/create-poll'], {queryParams: {recipient: teamToken.asset}}).then();
+    }
 }

@@ -8,6 +8,7 @@ import {CryptoService} from '../../../services/crypto.service';
 import {CommonService} from '../../../services/common.service';
 import {SessionStorageService} from '../../../services/session-storage.service';
 import {AccountService} from '../../account/account.service';
+import {WhitelistedAccount} from '../interfaces';
 
 @Component({
     selector: 'app-approval-accounts',
@@ -29,7 +30,7 @@ export class ApprovalAccountsComponent implements OnInit {
         accounts: []
     }
     public controlDetected: boolean | null = null;
-    public whiteList: Array<string> = [];
+    public whiteList: Array<WhitelistedAccount> = [];
 
     constructor(
         private accountService: AccountService,
@@ -114,5 +115,10 @@ export class ApprovalAccountsComponent implements OnInit {
 
     setAccountControl() {
         this.daoService.setAccountControl(this.approvalAccountsForm, this.currentTeamAlias);
+    }
+
+    isCanApprove(account) {
+        const accountId = this.accountId(account);
+        return this.whiteList.filter((wlAccount: any) => wlAccount.whitelistedRS === accountId).length > 0
     }
 }

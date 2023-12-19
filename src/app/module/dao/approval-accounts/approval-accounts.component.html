@@ -40,38 +40,43 @@
                                     <div class="row mt-1 mb-2">
                                         <div class="col-md-6">
                                             <div class="form-group m-0">
-                                                <label>{{'account.control.minimum-approval-account-label'| translate}}
-                                                    <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
-                                                       placement="right" container="body"
-                                                       ngbPopover="{{'account.control.minimum-approval-account-label-popover'| translate}}">
-                                                    </i>
-                                                </label>
-                                                <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-11">
-                                                        <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
-                                                               [(ngModel)]="approvalAccountsForm.quorum" name="quorum"
-                                                               #quorum="ngModel" placeholder="{{'account.control.minimum-approval-account-label'| translate}}" required minValue="1"
-                                                               maxValue="9">
-                                                    </div>
+                                                <ng-container *ngIf="!controlDetected; else controlEnabled">
+                                                    <label>{{'account.control.minimum-approval-account-label'| translate}}
+                                                        <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
+                                                           placement="right" container="body"
+                                                           ngbPopover="{{'account.control.minimum-approval-account-label-popover'| translate}}">
+                                                        </i>
+                                                    </label>
+                                                    <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
+                                                        <div class="col-11">
+                                                            <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                                   [(ngModel)]="approvalAccountsForm.quorum" name="quorum"
+                                                                   #quorum="ngModel" placeholder="{{'account.control.minimum-approval-account-label'| translate}}" required minValue="1"
+                                                                   maxValue="9">
+                                                        </div>
 
-                                                    <div class="col-1 pl-0">
+                                                        <div class="col-1 pl-0">
                                                         <span class="input-group-text">
                                                             <i class="fa fa-users"></i>
                                                         </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div *ngIf="quorum?.invalid && (quorum?.dirty || quorum?.touched)"
-                                                     class="input-error">
-                                                    <div *ngIf="quorum?.errors.required">
-                                                        {{'account.control.quorum-required-smg'| translate}}
+                                                    <div *ngIf="quorum?.invalid && (quorum?.dirty || quorum?.touched)"
+                                                         class="input-error">
+                                                        <div *ngIf="quorum?.errors.required">
+                                                            {{'account.control.quorum-required-smg'| translate}}
+                                                        </div>
+                                                        <div *ngIf="quorum?.errors.minValue && !quorum?.errors.required">
+                                                            {{'account.control.quorum-greater-smg'| translate}}
+                                                        </div>
+                                                        <div *ngIf="quorum?.errors.maxValue && !quorum?.errors.required">
+                                                            {{'account.control.quorum-less-smg'| translate}}
+                                                        </div>
                                                     </div>
-                                                    <div *ngIf="quorum?.errors.minValue && !quorum?.errors.required">
-                                                        {{'account.control.quorum-greater-smg'| translate}}
-                                                    </div>
-                                                    <div *ngIf="quorum?.errors.maxValue && !quorum?.errors.required">
-                                                        {{'account.control.quorum-less-smg'| translate}}
-                                                    </div>
-                                                </div>
+                                                </ng-container>
+                                                <ng-template #controlEnabled>
+                                                    <label>{{'daos.approval-accounts.control-enabled' | translate}}</label>
+                                                </ng-template>
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +110,9 @@
                                                             <input type="checkbox" id="{{accountId(value)}}"
                                                                    class="custom-control-input"
                                                                    (change)="handleApproval($event)"
-                                                                   [value]="accountId(value)">
+                                                                   [disabled]="!!controlDetected"
+                                                                   [value]="accountId(value)"
+                                                                   [checked]="isCanApprove(value)">
                                                             <label class="custom-control-label"
                                                                    for="{{accountId(value)}}">&nbsp;</label>
                                                         </div>
@@ -114,7 +121,7 @@
                                             </ngx-datatable>
                                         </div>
                                     </div>
-                                    <div class="left mt-4">
+                                    <div class="left mt-4" *ngIf="!controlDetected">
                                         <button [disabled]="approvalForm.invalid || !validateForm()" type="button"
                                                 class="btn btn-gradient mr-1 mb-0 float-right"
                                                 (click)="setAccountControl()">

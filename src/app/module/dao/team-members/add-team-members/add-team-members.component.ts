@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {WizardComponent} from 'angular-archwizard';
 import {DaoService} from '../../dao.service';
-import {Founder, TeamMember} from '../interfaces';
+import {Founder, TeamMember} from '../../interfaces';
 import {Router} from '@angular/router';
 
 @Component({

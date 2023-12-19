@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {WizardComponent} from 'angular-archwizard';
-import {Founder} from '../team-members/interfaces';
+import {Founder} from '../interfaces';
 import {DaoService} from '../dao.service';
 import {Router} from '@angular/router';
 
