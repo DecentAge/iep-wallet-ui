@@ -1,69 +1,90 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Page} from '../../../config/page';
 import {ColumnMode} from '@swimlane/ngx-datatable';
 import {AssetsService} from '../../assets/assets.service';
 import {DaoService} from '../dao.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AccountService} from '../../account/account.service';
 
 @Component({
-  selector: 'app-show-teams',
-  templateUrl: './show-teams.component.html',
-  styleUrls: ['./show-teams.component.scss']
+    selector: 'app-show-teams',
+    templateUrl: './show-teams.component.html',
+    styleUrls: ['./show-teams.component.scss']
 })
 export class ShowTeamsComponent implements OnInit {
 
-  public page = new Page();
-  public rows = new Array<any>();
-  public columnModes = ColumnMode;
-  public daoName = '';
+    public page = new Page();
+    public rows = new Array<any>();
+    public columnModes = ColumnMode;
+    public daoName = '';
+    public teamTokens;
+    public accountRs;
 
-  constructor(
-      private assetsService: AssetsService,
-      private daoService: DaoService,
-      private router: Router,
-      private route: ActivatedRoute
-  ) {
-  }
-
-  ngOnInit() {
-    this.daoName = this.route.snapshot.params['daoName'];
-    this.setPage({offset: 0});
-  }
-
-  public setPage(pageInfo) {
-    this.page.pageNumber = pageInfo.offset;
-    this.page.totalPages = 1;
-    this.daoService.getDaoTeams(`${this.daoName}TN`).subscribe((response: any) => {
-      if (!response) {
-        response = [];
-      }
-      const aliases = response;
-      if (!aliases) {
-        return;
-      }
-      this.rows = aliases;
-      this.page.size = this.rows.length;
-      this.page.totalElements = this.rows.length;
-    });
-  }
-
-  public daoDetails() {
-    return;
-  }
-
-  public routeUri(uri) {
-    this.router.navigate([`dao/show-daos/${uri}/teams`]).then();
-    console.log(uri);
-  }
-
-  public teamToken(teamName) {
-    if (!teamName) {
-      return;
+    constructor(
+        private accountService: AccountService,
+        private assetsService: AssetsService,
+        private daoService: DaoService,
+        private router: Router,
+        private route: ActivatedRoute
+    ) {
     }
-    this.daoService.getAssetForDaoTeam(`${teamName.split('TN').shift()}TT${teamName.split('TT').pop()}`).subscribe((assets) => {
-      console.log(assets);
-    });
-    return this.daoService.getAssetForDaoTeam(`${teamName.split('TN').shift()}TT${teamName.split('TT').pop()}`);
-  }
 
+    ngOnInit() {
+        this.daoName = this.route.snapshot.params['daoName'];
+        this.setPage({offset: 0});
+        this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
+    }
+
+    public setPage(pageInfo) {
+        this.page.pageNumber = pageInfo.offset;
+        this.page.totalPages = 1;
+        this.daoService.getDaoTeams(`${this.daoName}TN`).subscribe(success_ => {
+            success_.subscribe(response => {
+                this.teamTokens = response.res.map((token: any) => {
+                    return token.assets[0];
+                });
+                this.rows = response.aliases.map((alias, index) => {
+                    if (!this.teamTokens[index]) {
+                        return alias;
+                    }
+                    alias.teamToken = this.teamTokens[index];
+                    alias.teamToken.teamWallet = alias.aliasURI.split('acct:').pop().split('@xin').shift();
+                    return alias;
+                });
+                this.page.size = this.rows.length;
+                this.page.totalElements = this.rows.length;
+            })
+        });
+    }
+
+    public daoDetails() {
+        return;
+    }
+
+    public routeUri(uri) {
+        DaoService.currentDAO = this.daoName;
+        DaoService.currentDAOTeam = uri;
+        this.router.navigate([`dao/show-daos/${this.daoName}/teams/${uri}`]).then();
+    }
+
+    public reload() {
+        this.setPage({offset: 0});
+    }
+
+    transferTeamToken(teamToken) {
+        this.daoService.transferTeamToken(teamToken);
+    }
+
+    goBack() {
+        this.router.navigate([`dao/show-daos`]).then();
+    }
+
+    sendMessage(teamToken) {
+        this.router.navigate(['/messages/send-message'], {queryParams: {recipient: teamToken.teamWallet}}).then();
+    }
+
+    createPoll(teamToken) {
+        console.log(teamToken);
+        this.router.navigate(['/voting/create-poll'], {queryParams: {recipient: teamToken.asset}}).then();
+    }
 }

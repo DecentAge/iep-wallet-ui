@@ -24,7 +24,16 @@ export const ROUTES: RouteInfo[] = [
                 isExternalLink: false,
                 submenu: []
             },
-            { path: '/account/send', title: 'Send XIN', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            {
+                path: '/account/send',
+                title: 'Send XIN',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
             {
                 path: '/account/receive-tab',
                 title: 'Receive XIN',
@@ -212,6 +221,26 @@ export const ROUTES: RouteInfo[] = [
             {
                 path: '/dao/create-teams',
                 title: 'Create Teams',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+            {
+                path: '/dao/add-team-members',
+                title: 'Add Team Members',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+            {
+                path: '/dao/approval-accounts',
+                title: 'Approval Accounts',
                 icon: '',
                 class: '',
                 badge: '',

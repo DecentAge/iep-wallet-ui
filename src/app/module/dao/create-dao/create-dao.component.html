@@ -4,16 +4,14 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'daos.create-dao.labels.dao-name' | translate}}</label>
-                    <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
-                        <div class="col-11 pl-0">
+                    <div class="input-group m-0 row">
+                        <div class="col-12 pl-0">
                             <input type="text" class="form-control" name="name"
                                    #name="ngModel"
                                    [(ngModel)]="createDaoForm.name"
                                    placeholder="{{'daos.create-dao.placeholders.dao-name-placeholder' | translate}}"
                                    required>
                         </div>
-                        <div class="col-1 pl-0"><span
-                                class="input-group-text">&nbsp;</span></div>
                     </div>
                     <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
                          class="input-error">
@@ -26,16 +24,14 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'daos.create-dao.labels.dao-prefix' | translate}}</label>
-                    <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
-                        <div class="col-11 pl-0">
+                    <div class="input-group m-0 row">
+                        <div class="col-12 pl-0">
                             <input type="text" class="form-control" name="prefix"
                                    #prefix="ngModel"
                                    [(ngModel)]="createDaoForm.prefix"
                                    placeholder="{{'daos.create-dao.placeholders.dao-prefix-placeholder' | translate}}"
                                    required>
                         </div>
-                        <div class="col-1 pl-0"><span
-                                class="input-group-text">&nbsp;</span></div>
                     </div>
                     <div *ngIf="prefix?.invalid && (prefix?.dirty || prefix?.touched)"
                          class="input-error">
@@ -48,7 +44,7 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'common.quantity-label' | translate}}</label>
-                    <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
+                    <div class="input-group m-0 row">
                         <div class="col-10 pl-0">
                             <input type="number"
                                    class="pl-0 mb-0 pt-0 pb-0 form-control"
@@ -93,7 +89,7 @@
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <label>{{'daos.create-dao.labels.dao-decimals-label' | translate}}</label>
-                <div class="input-group m-0 row sign_in_inputs form-border-bottom pb-1">
+                <div class="input-group m-0 row">
                     <div class="col-8 pl-0">
                         <input type="number"
                                class="pl-0 mb-0 pt-0 pb-0 form-control"

@@ -142,12 +142,14 @@ export class BreadcrumbComponent implements OnInit {
         'publish-exchange-sell-offer': 'Publish Exchange Sell Offer',
         'dao': 'DAOs',
         'create-dao': 'Create DAO',
-        'founders': 'Founders',
+        'add-founders': 'Founders',
         'approval-accounts': 'Approval Accounts',
         'create-team': 'Create Team',
         'team-members': 'Team Members',
         'show-daos': 'Show DAOs',
-        'create-teams': 'Create Teams'
+        'create-teams': 'Create Teams',
+        'add-team-members': 'Add Team Members',
+        'dao-approval-accounts': 'Approval Accounts'
     };
     @Input()
     routeChange: Subject<any>;

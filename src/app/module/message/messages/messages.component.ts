@@ -99,7 +99,7 @@ export class MessagesComponent implements OnInit {
     }
 
     messageReply(senderID) {
-        this.router.navigate(['/messages/send-message'], {queryParams: {id: senderID}});
+        this.router.navigate(['/messages/send-message'], {queryParams: {recipient: senderID}});
     }
 
     reload() {

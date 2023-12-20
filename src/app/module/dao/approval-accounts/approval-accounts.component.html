@@ -1,8 +1,139 @@
-<div class="mt-4">
-  <button type="button" class="btn btn-gradient float-right" awNextStep>
-    {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
-  </button>
-  <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
-    <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
-  </button>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-block main-card-block">
+                <div class="border-bt">
+                    <h2 class="main-title">
+                        {{'daos.approval-accounts.title' | translate}}
+                    </h2>
+                    <app-breadcrumb></app-breadcrumb>
+                </div>
+                <div class="card-body">
+                    <div class="card-block ml-md-3 mr-md-3">
+                        <form class="form inner-form mt-3" #approvalForm="ngForm" novalidate>
+                            <div class="form-body">
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <div class="form-group m-0">
+                                            <label>{{'common.select-dao'| translate}}</label>
+                                            <select name="type" class="form-control" [(ngModel)]="currentDao"
+                                                    (change)="setDao(currentDao)" required>
+                                                <option *ngFor='let dao of daosList | async' [value]="dao?.aliasName">
+                                                    {{dao?.aliasName.split('DAO').pop()}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group m-0">
+                                            <label>{{'common.select-team'| translate}}</label>
+                                            <select name="type" class="form-control" [(ngModel)]="currentTeam"
+                                                    (change)="setTeam(currentTeam)" required>
+                                                <option *ngFor='let team of teamsList' [value]="team?.aliasName">
+                                                    {{team?.aliasName.split('TN').pop().split('TT').shift()}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ng-container *ngIf="!!currentTeam">
+                                    <div class="row mt-1 mb-2">
+                                        <div class="col-md-6">
+                                            <div class="form-group m-0">
+                                                <ng-container *ngIf="!controlDetected; else controlEnabled">
+                                                    <label>{{'account.control.minimum-approval-account-label'| translate}}
+                                                        <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
+                                                           placement="right" container="body"
+                                                           ngbPopover="{{'account.control.minimum-approval-account-label-popover'| translate}}">
+                                                        </i>
+                                                    </label>
+                                                    <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
+                                                        <div class="col-11">
+                                                            <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                                   [(ngModel)]="approvalAccountsForm.quorum" name="quorum"
+                                                                   #quorum="ngModel" placeholder="{{'account.control.minimum-approval-account-label'| translate}}" required minValue="1"
+                                                                   maxValue="9">
+                                                        </div>
+
+                                                        <div class="col-1 pl-0">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-users"></i>
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="quorum?.invalid && (quorum?.dirty || quorum?.touched)"
+                                                         class="input-error">
+                                                        <div *ngIf="quorum?.errors.required">
+                                                            {{'account.control.quorum-required-smg'| translate}}
+                                                        </div>
+                                                        <div *ngIf="quorum?.errors.minValue && !quorum?.errors.required">
+                                                            {{'account.control.quorum-greater-smg'| translate}}
+                                                        </div>
+                                                        <div *ngIf="quorum?.errors.maxValue && !quorum?.errors.required">
+                                                            {{'account.control.quorum-less-smg'| translate}}
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-template #controlEnabled>
+                                                    <label>{{'daos.approval-accounts.control-enabled' | translate}}</label>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-12">
+                                            <ngx-datatable
+                                                    class="material" [rows]="rows" [columnMode]="columnModes.force"
+                                                    [rowHeight]="'auto'"
+                                                    [footerHeight]="50" [externalPaging]="true"
+                                                    [count]="page.totalElements"
+                                                    [offset]="page.pageNumber"
+                                                    [limit]="page.size" (page)='setPage($event)'
+                                                    (autoRefresh)="setPage({offset: 0})">
+                                                <ngx-datatable-column prop="aliasURI"
+                                                                      [name]="'table-header.team-member-account'| translate">
+                                                    <ng-template let-value="value" ngx-datatable-cell-template>
+                                                        {{value.split('acct:').pop().split('@xin').shift()}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+                                                <ngx-datatable-column prop="aliasName"
+                                                                      [name]="'table-header.team-member-role'| translate">
+                                                    <ng-template let-value="value" ngx-datatable-cell-template>
+                                                        {{value.split('TR').pop().split('TT').shift()}}
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+                                                <ngx-datatable-column prop="aliasURI"
+                                                                      [name]="'table-header.approval'| translate">
+                                                    <ng-template let-value="value" let-row="row"
+                                                                 ngx-datatable-cell-template>
+                                                        <div class="custom-control form-list custom-checkbox">
+                                                            <input type="checkbox" id="{{accountId(value)}}"
+                                                                   class="custom-control-input"
+                                                                   (change)="handleApproval($event)"
+                                                                   [disabled]="!!controlDetected"
+                                                                   [value]="accountId(value)"
+                                                                   [checked]="isCanApprove(value)">
+                                                            <label class="custom-control-label"
+                                                                   for="{{accountId(value)}}">&nbsp;</label>
+                                                        </div>
+                                                    </ng-template>
+                                                </ngx-datatable-column>
+                                            </ngx-datatable>
+                                        </div>
+                                    </div>
+                                    <div class="left mt-4" *ngIf="!controlDetected">
+                                        <button [disabled]="approvalForm.invalid || !validateForm()" type="button"
+                                                class="btn btn-gradient mr-1 mb-0 float-right"
+                                                (click)="setAccountControl()">
+                                            <i class="fa fa-chevron-right"></i>{{'common.save-btn'| translate}}
+                                        </button>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

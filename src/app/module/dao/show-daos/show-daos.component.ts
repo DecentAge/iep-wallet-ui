@@ -49,8 +49,16 @@ export class ShowDaosComponent implements OnInit {
     }
 
     public routeUri(uri) {
+        DaoService.currentDAO = uri;
         this.router.navigate([`dao/show-daos/${uri}/teams`]).then();
         console.log(uri);
     }
 
+    public accountId(value) {
+        return value.split('acct:').pop().split('@xin').shift();
+    }
+
+    sendMessage(aliasURI) {
+        this.router.navigate(['/messages/send-message'], {queryParams: {recipient: this.accountId(aliasURI)}}).then();
+    }
 }

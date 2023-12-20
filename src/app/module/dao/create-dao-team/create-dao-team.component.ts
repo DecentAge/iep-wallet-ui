@@ -3,6 +3,8 @@ import {WizardComponent} from 'angular-archwizard';
 import {DaoService} from '../dao.service';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
+import {AccountService} from '../../account/account.service';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-create-dao-team',
@@ -30,40 +32,49 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
     daoList: Observable<Array<any>>;
 
     constructor(
+        private accountService: AccountService,
         private daoService: DaoService,
         private router: Router
     ) {
-        this.daoList = this.daoService.getAliases();
+        const accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
+        this.daoList = this.daoService.getAliases().pipe(
+            map((aliases: any) => {
+                return aliases.filter(alias => alias.accountRS === accountRS);
+            })
+        );
     }
 
 
     ngOnInit() {
-        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO.name : '';
+        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
     }
 
     createTeam() {
         if (this.router.url.toString() === '/dao/create-dao/create-team') {
-            this.daoService.createTeam(`${DaoService.currentDAO.name}`, this.createTeamForm);
+            this.daoService.createTeam(`${DaoService.currentDAO}`, this.createTeamForm);
             return;
         }
-        this.daoService.createTeam(`${this.teamDAO}`, this.createTeamForm, this.createTeamForm.teamWallet);
-        this.transferTeamToken();
+        this.daoService.checkAccountExists(this.createTeamForm.teamWallet).subscribe((response: any) => {
+            if (response.errorCode) {
+                this.daoService.showErrorMessage(response);
+            } else {
+                this.daoService.createTeam(`${this.teamDAO}`, this.createTeamForm, this.createTeamForm.teamWallet);
+            }
+        })
     }
 
     ngAfterViewInit(): void {
         if (this.router.url.toString() === '/dao/create-dao/create-team') {
+            if (!this.currentDao) {
+                this.router.navigate(['/dao/create-dao']).then();
+            }
+            this.wizard.navigation.goToStep(0);
             this.wizard.navigation.goToStep(1);
-            this.wizard.navigation.goToStep(2);
-            this.wizard.navigation.goToStep(3);
         }
     }
 
     setDao(dao): void {
         this.currentDao = dao;
         this.teamDAO = dao.split('DAO').join('');
-    }
-
-    transferTeamToken() {
-        // this.daoService.transferTeamToken(this.currentDao.split('DAO').join(''), this.createTeamForm);
     }
 }
