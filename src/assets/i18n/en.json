@@ -1478,7 +1478,11 @@
             "title": "Show DAOs",
             "all-daos": "All DAOs",
             "all-teams": "Teams",
-            "transfer-token-table-action": "Transfer Token"
+            "transfer-token-table-action": "Transfer Token",
+            "web-page-url": "DAO Web Page URL",
+            "chat-channel": "Chat Channel",
+            "shared-data-link": "Shared Data Link",
+            "official-address": "Official Address"
         },
         "create-teams": {
             "title": "Create Teams"

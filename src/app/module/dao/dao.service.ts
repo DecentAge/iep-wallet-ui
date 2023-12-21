@@ -176,8 +176,12 @@ export class DaoService {
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.aliasesConfig.aliasesEndPoint, params).pipe(
             map((aliases: any) => {
                 return daoName === '' ?
-                    aliases.aliases.filter(alias => alias.aliasName.indexOf('TN') === -1 && alias.aliasName.indexOf('TT') === -1) :
-                    aliases.aliases;
+                    aliases.aliases.filter(alias =>
+                        alias.aliasName.indexOf('TN') === -1 &&
+                        alias.aliasName.indexOf('TT') === -1 &&
+                        alias.aliasName.indexOf('UL') === -1 &&
+                        alias.aliasName.indexOf('CT') === -1)
+                    : aliases.aliases;
             })
         );
     };
@@ -435,8 +439,8 @@ export class DaoService {
                                 'OK',
                                 'error').then();
                         }
-                    })
-                })
+                    });
+                });
             });
         });
     }
@@ -505,5 +509,85 @@ export class DaoService {
                     }
                 });
         });
+    }
+
+    getDaoExternalLinks(daoName) {
+        const queries = [
+            this.getAliases(`${daoName}UL`),
+            this.getAliases(`${daoName}CT`),
+            this.getAliases(`${daoName}SL`)
+        ];
+        return combineLatest(queries).pipe(
+            map((response: any) => {
+                const result = response.filter(r => r.length > 0).map(r => r[0]);
+                const webPageUrl = result.filter(r => r.aliasName.indexOf('UL') !== -1);
+                const chatChannel = result.filter(r => r.aliasName.indexOf('CT') !== -1);
+                const sharedDataLink = result.filter(r => r.aliasName.indexOf('SL') !== -1);
+                return {
+                    webPageUrl,
+                    chatChannel,
+                    sharedDataLink
+                };
+            })
+        );
+    }
+
+    updateExternalDaoInfo(queriesList: Array<Observable<any>>) {
+        const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
+        combineLatest(queriesList).subscribe((success_) =>
+            combineLatest(success_).subscribe((updateDaoInfoTransactionRequests) => {
+                if (updateDaoInfoTransactionRequests.find((request: any) => request.errorCode)) {
+                    const title: string = this.commonService.translateAlertTitle('Error');
+                    const errMsg: string = this.commonService.translateInfoMessage('try-later');
+                    alertFunctions.InfoAlertBox(title,
+                        errMsg,
+                        'OK',
+                        'error').then(() => {
+                    });
+                }
+                const transactionsToBroadcast = [];
+                updateDaoInfoTransactionRequests.map((request: any) => {
+                    const unsignedBytes = request.unsignedTransactionBytes;
+                    const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                    const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+                    transactionsToBroadcast.push(this.broadcastTransaction(transactionBytes));
+                });
+                combineLatest(transactionsToBroadcast).subscribe((broadcastedResponse: any) => {
+                    const successTransactionsId = [];
+                    const filedTransactionsId = [];
+                    broadcastedResponse.map((response: any) => {
+                        if (!!response.success) {
+                            successTransactionsId.push(response.transaction);
+                        } else {
+                            filedTransactionsId.push(response.transaction);
+                        }
+                    });
+                    if (successTransactionsId.length) {
+                        const title: string = this.commonService.translateAlertTitle('Success');
+                        let msg: string = this.commonService.translateInfoMessage('success-broadcast-transactions');
+                        msg += successTransactionsId.join(', ');
+                        alertFunctions.InfoAlertBox(title, msg, 'OK', 'success').then(() => {
+                            if (filedTransactionsId.length) {
+                                const errorTitle: string = this.commonService.translateAlertTitle('Error');
+                                let errMsg: string = this.commonService.translateInfoMessage('unable-broadcast-transactions');
+                                errMsg += filedTransactionsId.join(', ');
+                                alertFunctions.InfoAlertBox(errorTitle,
+                                    errMsg,
+                                    'OK',
+                                    'error').then();
+                            }
+                        });
+                    } else if (filedTransactionsId.length) {
+                        const title: string = this.commonService.translateAlertTitle('Error');
+                        let errMsg: string = this.commonService.translateInfoMessage('unable-broadcast-transactions');
+                        errMsg += filedTransactionsId.join(', ');
+                        alertFunctions.InfoAlertBox(title,
+                            errMsg,
+                            'OK',
+                            'error').then();
+                    }
+                })
+            })
+        )
     }
 }

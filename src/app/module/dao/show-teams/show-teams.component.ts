@@ -5,6 +5,9 @@ import {AssetsService} from '../../assets/assets.service';
 import {DaoService} from '../dao.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AccountService} from '../../account/account.service';
+import {SessionStorageService} from '../../../services/session-storage.service';
+import {CommonService} from '../../../services/common.service';
+import {AliasesService} from '../../aliases/aliases.service';
 
 @Component({
     selector: 'app-show-teams',
@@ -19,13 +22,23 @@ export class ShowTeamsComponent implements OnInit {
     public daoName = '';
     public teamTokens;
     public accountRs;
+    public editMode = false;
+    public webPageUrl;
+    public chatChannelUrl;
+    public sharedDataLinkUrl;
+    public sharedDataLinkAlias;
+    public webPageUrlAlias;
+    public chatChannelUrlAlias;
 
     constructor(
         private accountService: AccountService,
         private assetsService: AssetsService,
         private daoService: DaoService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private sessionStorageService: SessionStorageService,
+        private commonService: CommonService,
+        private aliasesService: AliasesService
     ) {
     }
 
@@ -33,6 +46,20 @@ export class ShowTeamsComponent implements OnInit {
         this.daoName = this.route.snapshot.params['daoName'];
         this.setPage({offset: 0});
         this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
+        this.daoService.getDaoExternalLinks(this.daoName).subscribe((response) => {
+            if (response.webPageUrl.length > 0) {
+                this.webPageUrlAlias = response.webPageUrl.shift()
+                this.webPageUrl = this.webPageUrlAlias.aliasURI.split('url:').pop().split('@xin').shift();
+            }
+            if (response.chatChannel.length > 0) {
+                this.chatChannelUrlAlias = response.chatChannel.shift();
+                this.chatChannelUrl = this.chatChannelUrlAlias.aliasURI.split('url:').pop().split('@xin').shift();
+            }
+            if (response.sharedDataLink.length > 0) {
+                this.sharedDataLinkAlias = response.sharedDataLink.shift();
+                this.sharedDataLinkUrl = this.sharedDataLinkAlias.aliasURI.split('url:').pop().split('@xin').shift();
+            }
+        })
     }
 
     public setPage(pageInfo) {
@@ -55,10 +82,6 @@ export class ShowTeamsComponent implements OnInit {
                 this.page.totalElements = this.rows.length;
             })
         });
-    }
-
-    public daoDetails() {
-        return;
     }
 
     public routeUri(uri) {
@@ -85,5 +108,30 @@ export class ShowTeamsComponent implements OnInit {
 
     createPoll(teamToken) {
         this.router.navigate(['/voting/create-poll'], {queryParams: {recipient: teamToken.asset}}).then();
+    }
+
+    toggleEditMode() {
+        this.editMode = !this.editMode;
+    }
+
+    updateExternalDaoInfo() {
+        const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
+        const fee = 1;
+        const queries = []
+
+        const webUrlAliasName = `${this.daoName}UL`;
+        const webPageAlias = !this.webPageUrl ? '' : `url:${this.webPageUrl}@xin`;
+        queries.push(this.aliasesService.setAlias(publicKey, webUrlAliasName, webPageAlias, fee));
+
+        const chatChannelAliasName = `${this.daoName}CT`;
+        const chatChannelAlias = !this.chatChannelUrl ? '' : `url:${this.chatChannelUrl}@xin`;
+        queries.push(this.aliasesService.setAlias(publicKey, chatChannelAliasName, chatChannelAlias, fee));
+
+        const sharedDataLinkAliasName = `${this.daoName}SL`;
+        const sharedDataLinkAlias = !this.sharedDataLinkUrl ? '' : `url:${this.sharedDataLinkUrl}@xin`;
+        queries.push(this.aliasesService.setAlias(publicKey, sharedDataLinkAliasName, sharedDataLinkAlias, fee));
+
+        this.daoService.updateExternalDaoInfo(queries);
+        this.editMode = false;
     }
 }

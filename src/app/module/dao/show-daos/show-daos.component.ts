@@ -30,6 +30,10 @@ export class ShowDaosComponent implements OnInit {
     public setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
         this.page.totalPages = 1;
+        this.getExternalLinks();
+    }
+
+    public getExternalLinks() {
         this.daoService.getAliases().subscribe((response: any) => {
             if (!response) {
                 response = [];
@@ -42,10 +46,6 @@ export class ShowDaosComponent implements OnInit {
             this.page.size = this.rows.length;
             this.page.totalElements = this.rows.length;
         });
-    }
-
-    public daoDetails() {
-        return;
     }
 
     public routeUri(uri) {
