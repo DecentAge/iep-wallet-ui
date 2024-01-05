@@ -52,6 +52,12 @@
                        [ngbPopover]="'daos.show-team-members.send-message-table-action' | translate">
                       <i class="icon-messages"></i>
                     </a>
+                    <a class="btn btn-sm btn-grey btn-icon"
+                       (click)="showDaoPolls(value)"
+                       triggers="mouseenter:mouseleave" container="body" placement="top"
+                       [ngbPopover]="'daos.show-daos.show-dao-polls-table-action' | translate">
+                      <i class="icon-Voting"></i>
+                    </a>
                   </div>
                 </ng-template>
               </ngx-datatable-column>

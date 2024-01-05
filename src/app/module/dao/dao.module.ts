@@ -21,6 +21,9 @@ import {AddTeamMembersComponent} from './team-members/add-team-members/add-team-
 import {ShowTeamMembersComponent} from './team-members/show-team-members/show-team-members.component';
 import { SelectDaoTeamComponent } from './select-dao-team/select-dao-team.component';
 import { AddTeamPollComponent } from './add-team-poll/add-team-poll.component';
+import { ShowDaoPollsComponent } from './show-dao-polls/show-dao-polls.component';
+import {PollsComponent} from '../voting/show-polls/polls/polls.component';
+import {VotingModule} from '../voting/voting.module';
 
 @NgModule({
     imports: [
@@ -29,7 +32,8 @@ import { AddTeamPollComponent } from './add-team-poll/add-team-poll.component';
         NgxDatatableModule,
         SharedModule,
         FormsModule,
-        ArchwizardModule
+        ArchwizardModule,
+        VotingModule
     ],
     declarations: [
         ShowDaosComponent,
@@ -44,7 +48,8 @@ import { AddTeamPollComponent } from './add-team-poll/add-team-poll.component';
         AddTeamMembersComponent,
         ShowTeamMembersComponent,
         SelectDaoTeamComponent,
-        AddTeamPollComponent
+        AddTeamPollComponent,
+        ShowDaoPollsComponent
     ],
     providers: [
         AliasesService,
@@ -62,7 +67,9 @@ import { AddTeamPollComponent } from './add-team-poll/add-team-poll.component';
         DaoComponent,
         FoundersComponent,
         TeamMembersComponent,
-        ShowTeamMembersComponent
+        ShowTeamMembersComponent,
+        ShowDaoPollsComponent,
+        PollsComponent
     ]
 })
 export class DaoModule {

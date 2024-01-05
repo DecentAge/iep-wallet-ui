@@ -180,7 +180,8 @@ export class DaoService {
                         alias.aliasName.indexOf('TN') === -1 &&
                         alias.aliasName.indexOf('TT') === -1 &&
                         alias.aliasName.indexOf('UL') === -1 &&
-                        alias.aliasName.indexOf('CT') === -1)
+                        alias.aliasName.indexOf('CT') === -1 &&
+                        alias.aliasName.indexOf('SL') === -1)
                     : aliases.aliases;
             })
         );

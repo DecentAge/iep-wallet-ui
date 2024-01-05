@@ -61,4 +61,9 @@ export class ShowDaosComponent implements OnInit {
     sendMessage(aliasURI) {
         this.router.navigate(['/messages/send-message'], {queryParams: {recipient: this.accountId(aliasURI)}}).then();
     }
+
+    showDaoPolls(value) {
+        this.router.navigate([`dao/show-polls/${this.accountId(value)}`]).then();
+        console.log(value);
+    }
 }

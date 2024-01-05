@@ -38,6 +38,9 @@ import { ShowPollsComponent } from './show-polls/show-polls.component';
         PollVoteComponent,
         PollVotersComponent,
         ShowPollsComponent
+    ],
+    exports: [
+        PollsComponent
     ]
 })
 export class VotingModule {

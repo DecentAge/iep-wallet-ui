@@ -69,7 +69,15 @@ export class PollsComponent implements OnInit {
             this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
             this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
 
-            this.setPage({ offset: 0 });
+            if (this.pollType === 'DAO') {
+                this.accountRs = this.route.snapshot.params['daoId'];
+                this.accountService.getAccountDetails(this.accountRs).subscribe((res: any) => {
+                    this.accountId = res.account;
+                    this.setPage({ offset: 0 });
+                });
+            } else {
+                this.setPage({ offset: 0 });
+            }
         });
     }
 

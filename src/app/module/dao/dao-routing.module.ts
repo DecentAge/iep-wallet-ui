@@ -9,6 +9,8 @@ import {TeamMembersComponent} from './team-members/team-members.component';
 import {ShowTeamMembersComponent} from './team-members/show-team-members/show-team-members.component';
 import {ApprovalAccountsComponent} from './approval-accounts/approval-accounts.component';
 import {AddTeamPollComponent} from './add-team-poll/add-team-poll.component';
+import {ShowDaoPollsComponent} from './show-dao-polls/show-dao-polls.component';
+import {PollsComponent} from '../voting/show-polls/polls/polls.component';
 
 const routes: Routes = [
     {
@@ -74,6 +76,14 @@ const routes: Routes = [
     {
         path: 'add-team-members',
         component: TeamMembersComponent
+    },
+    {
+        path: 'show-polls/:daoId',
+        component: ShowDaoPollsComponent,
+        data: {
+            pollType: 'DAO',
+            title: 'DAO Polls'
+        }
     },
     {
         path: 'add-team-poll',

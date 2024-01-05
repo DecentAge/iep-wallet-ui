@@ -26,7 +26,7 @@ export class MessageService {
     getMessages(account, firstIndex, lastIndex, type, subtype) {
         let params = {
             'requestType': 'getBlockchainTransactions',
-            'account': account,
+            'account': '9709733506401501395', //account,
             'firstIndex': firstIndex,
             'lastIndex': lastIndex,
             'type': type,

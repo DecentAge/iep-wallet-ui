@@ -239,14 +239,35 @@ export const ROUTES: RouteInfo[] = [
                 submenu: []
             },
             {
-                path: '/dao/add-team-poll',
-                title: 'Add Team Poll',
+                path: '/dao/voting',
+                title: 'Voting',
                 icon: '',
-                class: '',
+                class: 'has-sub',
                 badge: '',
                 badgeClass: '',
                 isExternalLink: false,
-                submenu: []
+                submenu: [
+                    {
+                        path: '/dao/show-polls',
+                        title: 'Show DAO Polls',
+                        icon: '',
+                        class: '',
+                        badge: '',
+                        badgeClass: '',
+                        isExternalLink: false,
+                        submenu: []
+                    },
+                    {
+                        path: '/dao/add-team-poll',
+                        title: 'Add Team Poll',
+                        icon: '',
+                        class: '',
+                        badge: '',
+                        badgeClass: '',
+                        isExternalLink: false,
+                        submenu: []
+                    },
+                ]
             },
             {
                 path: '/dao/approval-accounts',
