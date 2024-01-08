@@ -83,7 +83,6 @@ export class DaoService {
                             }
                         });
                     } else {
-                        console.log('success.errCode', success.errCode);
                         const title: string = this.commonService.translateAlertTitle('Error');
                         const errMsg: string = this.commonService.translateErrorMessageParams('sorry-error-occurred', success);
                         alertFunctions.InfoAlertBox(title, errMsg, 'OK', 'error').then(() => {
@@ -590,5 +589,20 @@ export class DaoService {
                 })
             })
         )
+    }
+
+    getMyDaoTokens(account) {
+        return this.assetsService.getAccountAssets(account).pipe(map((response: any) => {
+            const daoAssets = response.accountAssets.filter((accountAsset: any) => accountAsset.name.startsWith('DAO'));
+            return daoAssets.filter(daoAsset => daoAsset.name.includes('TT'));
+        }))
+    }
+
+    getDAO(daoName) {
+        const params = {
+            'requestType': 'getAlias',
+            'aliasName': daoName
+        };
+        return this.http.get(this.nodeService.getNodeUrl(), AppConstants.aliasesConfig.aliasesEndPoint, params);
     }
 }

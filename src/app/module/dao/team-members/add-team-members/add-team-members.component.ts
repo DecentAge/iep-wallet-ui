@@ -34,6 +34,9 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
         this.daosList = this.daoService.getAccountDaos();
         this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
         this.currentTeam = DaoService.currentDAOTeam ? DaoService.currentDAOTeam : '';
+        if (this.currentDao !== '') {
+            this.setDao(this.currentDao);
+        }
     }
 
     ngAfterViewInit(): void {

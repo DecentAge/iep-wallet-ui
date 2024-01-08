@@ -29,6 +29,7 @@ export class ShowTeamsComponent implements OnInit {
     public sharedDataLinkAlias;
     public webPageUrlAlias;
     public chatChannelUrlAlias;
+    public daoAccountRs = null;
 
     constructor(
         private accountService: AccountService,
@@ -44,6 +45,9 @@ export class ShowTeamsComponent implements OnInit {
 
     ngOnInit() {
         this.daoName = this.route.snapshot.params['daoName'];
+        this.daoService.getDAO(this.daoName).subscribe((alias: any) => {
+            this.daoAccountRs = alias.accountRS;
+        });
         this.setPage({offset: 0});
         this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
         this.daoService.getDaoExternalLinks(this.daoName).subscribe((response) => {

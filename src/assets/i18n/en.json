@@ -1481,6 +1481,7 @@
         "show-daos": {
             "title": "Show DAOs",
             "all-daos": "All DAOs",
+            "my-daos": "My DAOs",
             "all-teams": "Teams",
             "transfer-token-table-action": "Transfer Token",
             "web-page-url": "DAO Web Page URL",
