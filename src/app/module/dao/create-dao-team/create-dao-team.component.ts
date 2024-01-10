@@ -47,9 +47,12 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
+        if (this.currentDao !== '') {
+            this.setDao(this.currentDao);
+        }
     }
 
-    createTeam() {
+    createTeam(): void {
         if (this.router.url.toString() === '/dao/create-dao/create-team') {
             this.daoService.createTeam(`${DaoService.currentDAO}`, this.createTeamForm);
             return;

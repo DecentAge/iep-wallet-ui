@@ -53,9 +53,9 @@ import {VotingModule} from '../voting/voting.module';
     ],
     providers: [
         AliasesService,
+        ArchwizardModule,
         AssetsService,
-        DaoService,
-        ArchwizardModule
+        DaoService
     ],
     entryComponents: [
         AddTeamMembersComponent,

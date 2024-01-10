@@ -63,7 +63,7 @@ export class ShowTeamsComponent implements OnInit {
                 this.sharedDataLinkAlias = response.sharedDataLink.shift();
                 this.sharedDataLinkUrl = this.sharedDataLinkAlias.aliasURI.split('url:').pop().split('@xin').shift();
             }
-        })
+        });
     }
 
     public setPage(pageInfo) {
