@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AssetsService} from '../../assets/assets.service';
 import {Page} from '../../../config/page';
 import {DaoService} from '../dao.service';
 import {ColumnMode} from '@swimlane/ngx-datatable';
 import {Router} from '@angular/router';
 import {AccountService} from '../../account/account.service';
-import {Subject} from 'rxjs';
 
 @Component({
     selector: 'app-show-daos',
@@ -19,8 +17,8 @@ export class ShowDaosComponent implements OnInit {
     public rows = new Array<any>();
     public myRows = new Array<any>();
     public columnModes = ColumnMode;
-    private account;
     public modeAll = true;
+    private account;
 
     constructor(
         private accountService: AccountService,
@@ -35,6 +33,7 @@ export class ShowDaosComponent implements OnInit {
     }
 
     public setPage(pageInfo) {
+        this.rows = [];
         this.page.pageNumber = pageInfo.offset;
         this.page.totalPages = 1;
         this.getDaosAliases();
@@ -81,5 +80,6 @@ export class ShowDaosComponent implements OnInit {
 
     onTabChange() {
         this.modeAll = !this.modeAll;
+        this.setPage({offset: 0});
     }
 }

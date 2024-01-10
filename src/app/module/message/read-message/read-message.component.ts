@@ -62,7 +62,6 @@ export class ReadMessageComponent implements OnInit {
                     let recipientPublicKey = success.publicKey;
 
                     let encrypted;
-                    let encrypted2;
 
                     if (accountRS === senderRS) {
 
@@ -71,10 +70,6 @@ export class ReadMessageComponent implements OnInit {
                                 recipientPublicKey);
 
                     } else {
-
-                        encrypted2 =
-                            this.cryptoService.decryptMessage(encrpytedMessageData, encrpytedMessageNonce, secretHex,
-                                recipientPublicKey);
                         encrypted =
                             this.cryptoService.decryptMessage(encrpytedMessageData, encrpytedMessageNonce, secretHex,
                                 senderPublicKey);
