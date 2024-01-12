@@ -111,7 +111,7 @@ export class ShowTeamsComponent implements OnInit {
     }
 
     createPoll(teamToken) {
-        this.router.navigate(['/voting/create-poll'], {queryParams: {recipient: teamToken.asset}}).then();
+        this.router.navigate(['/voting/create-poll'], {queryParams: {recipient: teamToken.asset, dao: this.daoName}}).then();
     }
 
     toggleEditMode() {

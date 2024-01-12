@@ -120,7 +120,7 @@
                                     {{value?.name?.split('TT').pop()}}
                                 </ng-template>
                             </ngx-datatable-column>
-                            <ngx-datatable-column prop="teamToken" [name]="'currentsupply' | translate">
+                            <ngx-datatable-column prop="teamToken" [name]="'Max. team members' | translate">
                                 <ng-template let-value="value" ngx-datatable-cell-template>
                                     {{value ? (value.quantityQNT! | supply:value.decimals) : ''}}
                                 </ng-template>

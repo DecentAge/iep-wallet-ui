@@ -75,7 +75,7 @@ export class ShowDaosComponent implements OnInit {
     }
 
     showDaoPolls(value) {
-        this.router.navigate([`dao/show-polls/${this.accountId(value)}`]).then();
+        this.router.navigate([`dao/show-polls/${value.aliasName}`]).then();
     }
 
     onTabChange() {
