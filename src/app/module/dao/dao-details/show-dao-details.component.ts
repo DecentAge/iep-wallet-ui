@@ -1,35 +1,31 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {DaoService} from '../../dao.service';
+import {DaoService} from '../dao.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ShowDaosMode} from '../../enums';
+import {ShowDaosMode} from '../enums';
 import {Subject} from 'rxjs';
 
 @Component({
-    selector: 'app-show-team-members',
-    templateUrl: './show-team-members.component.html',
-    styleUrls: ['./show-team-members.component.scss']
+    selector: 'app-show-dao-details',
+    templateUrl: './show-dao-details.component.html',
+    styleUrls: ['./show-dao-details.component.scss']
 })
-export class ShowTeamMembersComponent implements OnInit, OnDestroy {
+export class ShowDaoDetailsComponent implements OnInit, OnDestroy {
 
     public viewModes = ShowDaosMode;
     public viewMode: ShowDaosMode = ShowDaosMode.all;
     public routeChange = new Subject();
-    public daoName;
-    public teamName;
 
     constructor(
         private cdRef: ChangeDetectorRef,
         private daoService: DaoService,
-        private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) {
     }
 
     ngOnInit() {
-        this.daoName = this.route.snapshot.params['daoName'];
-        this.teamName = this.route.snapshot.params['teamName'];
-        DaoService.currentDAO = this.daoName;
-        DaoService.currentDAOTeam = this.route.snapshot.params['teamName'];
+        DaoService.currentDAO = this.route.snapshot.params['daoName'];
+        DaoService.showDaoMode = this.route.snapshot.params['mode'];
         this.daoService.daoViewModeChanged$.subscribe(response => {
             if (this.viewMode !== response) {
                 this.viewMode = response;
@@ -42,11 +38,11 @@ export class ShowTeamMembersComponent implements OnInit, OnDestroy {
 
     onTabChange() {
         this.routeChange.next();
+        this.cdRef.detectChanges();
     }
 
-    public goBack() {
-        const viewMode = DaoService.showDaoMode;
-        this.router.navigate([`dao/show-daos/${viewMode}/${this.daoName}/teams`]).then();
+    goBack() {
+        this.router.navigate([`dao/show-daos/${this.viewMode}`]).then();
     }
 
     ngOnDestroy(): void {

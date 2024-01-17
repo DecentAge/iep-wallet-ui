@@ -1,0 +1,72 @@
+<div class="card-header-custom">
+  <div class="pull-right filter-group">
+    <div class="btn-group btn-group-justified btn-group-raised">
+      <a href="javascript:void(0)" class="btn btn-sm btn-grey btn-icon" (click)="reload()" triggers="mouseenter:mouseleave"
+         container="body" placement="top" [ngbPopover]="'common.reload-filter-popover' | translate">
+        <i class="fa fa-refresh"></i>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="card-body">
+  <div class="card-block pt-0">
+    <ngx-datatable class="
+                            material" [rows]="polls" [columnMode]="columnModes.force" [rowHeight]="'auto'"
+                   [footerHeight]="50" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size"
+                   (page)='setPage($event)' (autoRefresh)="reload()">
+      <ngx-datatable-column prop="name" [name]="'table-header.name' | translate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="votingModel" [name]="'table-header.model' | translate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <div [innerHTML]="value | votingModelLabel" ngbPopover="{{value | votingModel}}" triggers="mouseenter:mouseleave"></div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="options" [name]="'table-header.options' | translate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value.length}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="finished" [name]="'table-header.finished' | translate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <div [innerHTML]="value | isEnabled">
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="finishHeight" [name]="'table-header.height' | translate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="finishHeight" [name]="'table-header.days' | translate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <div [innerHTML]="getDays(value) | pollDays"></div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="poll" [name]="'table-header.actions' | translate">
+        <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+          <div class="btn-group btn-group-justified btn-group-raised">
+            <a class="btn btn-sm btn-grey btn-icon" (click)="onCustom({action: 'details', poll: value})"
+               triggers="mouseenter:mouseleave" container="body" placement="top" [ngbPopover]="'common.details-table-action' | translate">
+              <i class="fa fa-list-ul"></i>
+            </a>
+            <a class="btn btn-sm btn-grey btn-icon" (click)="onCustom({action: 'result', poll: value})"
+               triggers="mouseenter:mouseleave" container="body" placement="top" [ngbPopover]="'common.result-table-action' | translate">
+              <i class="fa fa-area-chart"></i>
+            </a>
+            <a class="btn btn-sm btn-grey btn-icon" [ngClass]="{'disabled':row.finished}" (click)="onCustom({action: 'vote', poll: value})"
+               triggers="mouseenter:mouseleave" container="body" placement="top" [ngbPopover]="'common.vote-table-action' | translate">
+              <i class="fa fa-signal"></i>
+            </a>
+            <a class="btn btn-sm btn-grey btn-icon" [ngClass]="{'disabled':row.finished}" (click)="onCustom({action: 'voters', poll: value})"
+               triggers="mouseenter:mouseleave" container="body" placement="top" [ngbPopover]="'common.voters-table-action' | translate">
+              <i class="fa fa-user"></i>
+            </a>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

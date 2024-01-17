@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import {AppConstants} from "../../config/constants";
-import {SessionStorageService} from "../../services/session-storage.service";
-import {NodeService} from "../../services/node.service";
-import {OptionService} from "../../services/option.service";
-import {HttpProviderService} from "../../services/http-provider.service";
-import {TransactionService} from "../../services/transaction.service";
+import {Injectable} from '@angular/core';
+import {AppConstants} from '../../config/constants';
+import {SessionStorageService} from '../../services/session-storage.service';
+import {NodeService} from '../../services/node.service';
+import {OptionService} from '../../services/option.service';
+import {HttpProviderService} from '../../services/http-provider.service';
+import {TransactionService} from '../../services/transaction.service';
 
 @Injectable()
 export class MessageService {
@@ -16,7 +16,7 @@ export class MessageService {
               public transactionService: TransactionService) { }
 
     getAccountDetailsFromSession(keyName) {
-        let accountDetails = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_DETAILS_KEY);
+        const accountDetails = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_DETAILS_KEY);
         if (keyName) {
             return accountDetails[keyName];
         }
@@ -24,9 +24,9 @@ export class MessageService {
     }
 
     getMessages(account, firstIndex, lastIndex, type, subtype) {
-        let params = {
+        const params = {
             'requestType': 'getBlockchainTransactions',
-            'account': '9709733506401501395', //account,
+            'account': account,
             'firstIndex': firstIndex,
             'lastIndex': lastIndex,
             'type': type,
@@ -37,7 +37,7 @@ export class MessageService {
     };
 
     getAccountDetails(accountRS) {
-        let params = {
+        const params = {
             'requestType': 'getAccount',
             'account': accountRS
         };
@@ -45,7 +45,7 @@ export class MessageService {
     };
 
     sendMessage(senderPublicKey, recipientRS, fee, data, nonce, recipientPublicKey, prunable) {
-        let params = {
+        const params = {
             'requestType': 'sendMessage',
             'publicKey': senderPublicKey,
             'recipient': recipientRS,
@@ -64,14 +64,22 @@ export class MessageService {
     };
 
     broadcastMessage(transactionBytes, prunableAttachmentJSON) {
-        let params = {
+        const params = {
             'requestType': 'broadcastTransaction',
             'transactionBytes': transactionBytes,
         };
-        if(prunableAttachmentJSON){
+        if (prunableAttachmentJSON) {
             params['prunableAttachmentJSON'] = JSON.stringify(prunableAttachmentJSON);
         }
         return this.http.post(this.nodeService.getNodeUrl(), AppConstants.messagesConfig.messagesEndPoint, params);
+    };
 
+    getMessagesByAccountId(account) {
+        const params = {
+            'requestType': 'getBlockchainTransactions',
+            'account': account,
+            'withMessage': true
+        };
+        return this.http.get(this.nodeService.getNodeUrl(), AppConstants.messagesConfig.messagesEndPoint, params);
     };
 }

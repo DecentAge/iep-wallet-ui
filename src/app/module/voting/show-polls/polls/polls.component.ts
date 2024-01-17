@@ -18,7 +18,7 @@ export class PollsComponent implements OnInit {
     public polls: any[] = [];
     public pollType: any = 'ALL';
     public searchQuery: any = '';
-    daoAssets: Array<string> = [];
+    private daoAssets: Array<string> = [];
     public filters = [
         {name: 'Active Polls', icon: 'fa-hourglass-2', popoverText: 'filter-active-polls-popover', isEnabled: false},
     ];
@@ -74,20 +74,7 @@ export class PollsComponent implements OnInit {
     }
 
     getDays(value) {
-        const currentHeight = this.sessionStorageService.getFromSession(AppConstants.baseConfig.SESSION_CURRENT_BLOCK);
-        let days: number;
-
-        if (currentHeight && currentHeight < value) {
-            days = (parseInt(value, 10) - currentHeight) / 1440;
-        } else {
-            days = 0;
-        }
-
-        if (days < 0) {
-            days = 0;
-        }
-
-        return days.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2});
+        return this.votingService.getDays(value);
     }
 
     setPage(pageInfo) {
@@ -132,25 +119,7 @@ export class PollsComponent implements OnInit {
     }
 
     onCustom(event) {
-        const navigationExtras: NavigationExtras = {
-            queryParams: {
-                id: event.poll
-            }
-        };
-        switch (event.action) {
-            case 'result':
-                this.router.navigate(['/voting/show-polls/result'], navigationExtras).then();
-                break;
-            case 'details':
-                this.router.navigate(['/voting/show-polls/details'], navigationExtras).then();
-                break;
-            case 'vote':
-                this.router.navigate(['/voting/show-polls/vote'], navigationExtras).then();
-                break;
-            case 'voters':
-                this.router.navigate(['/voting/show-polls/voters'], navigationExtras).then();
-                break;
-        }
+        this.votingService.detailsActions(event);
     }
 
     onSearchChange(query) {

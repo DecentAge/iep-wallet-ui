@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AppConstants} from '../../config/constants';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
-import {map} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {AliasesService} from '../aliases/aliases.service';
 import {AssetsService} from '../assets/assets.service';
 import {CommonService} from '../../services/common.service';
@@ -11,14 +11,16 @@ import {Router} from '@angular/router';
 import {HttpProviderService} from '../../services/http-provider.service';
 import {NodeService} from '../../services/node.service';
 import {AccountService} from '../account/account.service';
-import {combineLatest, Observable} from 'rxjs';
+import {combineLatest, Observable, Subject} from 'rxjs';
 import {Founder, TeamMember} from './interfaces';
+import {ShowDaosMode} from './enums';
 
 @Injectable()
 export class DaoService {
 
     static currentDAO: any = null;
     static currentDAOTeam: any = null;
+    static showDaoMode: any = 'all';
     static currentDAOTeamFounders: Array<Founder> = [];
     public currentTeamMembers: Array<TeamMember> = [];
     private pendingTransactions: Array<string> = [];
@@ -26,6 +28,8 @@ export class DaoService {
     private transactionBytes: any;
     private aliasURI: any;
     private accountId;
+    private unsubscribe$: Subject<void> = new Subject<void>();
+    private daoViewModeChange: Subject<ShowDaosMode> = new Subject<ShowDaosMode>();
 
     constructor(
         private accountService: AccountService,
@@ -42,6 +46,12 @@ export class DaoService {
 
     public get daoForm() {
         return this.currentDAOForm;
+    }
+
+    get daoViewModeChanged$(): Observable<ShowDaosMode> {
+        return this.daoViewModeChange.asObservable().pipe(
+            takeUntil(this.unsubscribe$)
+        );
     }
 
     createAsset(assetName, aliasName, daoData, route = '', aliasURI = '') {
@@ -426,7 +436,13 @@ export class DaoService {
                                     } else {
                                         DaoService.currentDAO = currentDao;
                                         DaoService.currentDAOTeam = currentTeam;
-                                        this.router.navigate([`dao/show-daos/${currentDao}/teams/${currentTeam}`]).then();
+                                        let isMobile = false;
+                                        const ua = navigator.userAgent;
+                                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
+                                            isMobile = true;
+                                        }
+                                        const viewMode = isMobile ? 'mobile' : 'my';
+                                        this.router.navigate([`dao/show-daos/${viewMode}/${currentDao}/teams/${currentTeam}`]).then();
                                     }
                                 }
                             });
@@ -532,8 +548,24 @@ export class DaoService {
         );
     }
 
-    updateExternalDaoInfo(queriesList: Array<Observable<any>>) {
+    updateExternalDaoInfo(daoName, webPageUrl, chatChannelUrl, sharedDataLinkUrl) {
+        const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
+        const fee = 1;
+        const queriesList: Array<Observable<any>> = [];
         const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
+
+        const webUrlAliasName = `${daoName}UL`;
+        const chatChannelAliasName = `${daoName}CT`;
+        const sharedDataLinkAliasName = `${daoName}SL`;
+
+        const webPageAlias = !webPageUrl ? '' : `url:${webPageUrl}@xin`;
+        const chatChannelAlias = !chatChannelUrl ? '' : `url:${chatChannelUrl}@xin`;
+        const sharedDataLinkAlias = !sharedDataLinkUrl ? '' : `url:${sharedDataLinkUrl}@xin`;
+
+        queriesList.push(this.aliasesService.setAlias(publicKey, webUrlAliasName, webPageAlias, fee));
+        queriesList.push(this.aliasesService.setAlias(publicKey, chatChannelAliasName, chatChannelAlias, fee));
+        queriesList.push(this.aliasesService.setAlias(publicKey, sharedDataLinkAliasName, sharedDataLinkAlias, fee));
+
         combineLatest(queriesList).subscribe((success_) =>
             combineLatest(success_).subscribe((updateDaoInfoTransactionRequests) => {
                 if (updateDaoInfoTransactionRequests.find((request: any) => request.errorCode)) {
@@ -598,11 +630,20 @@ export class DaoService {
         }))
     }
 
-    getDAO(daoName) {
+    getDAOAlias(daoName) {
         const params = {
             'requestType': 'getAlias',
             'aliasName': daoName
         };
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.aliasesConfig.aliasesEndPoint, params);
+    }
+
+    changeDaoViewMode(viewMode: ShowDaosMode): void {
+        this.daoViewModeChange.next(viewMode);
+    }
+
+    destroyChangeDaoViewMode(): void {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 }

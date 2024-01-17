@@ -1480,15 +1480,20 @@
         },
         "show-daos": {
             "title": "Show DAOs",
-            "all-daos": "All DAOs",
-            "my-daos": "My DAOs",
+            "all": "All DAOs",
+            "my": "My DAOs",
+            "mobile": "My DAOs",
             "all-teams": "Teams",
             "transfer-token-table-action": "Transfer Token",
             "web-page-url": "DAO Web Page URL",
             "chat-channel": "Chat Channel",
             "shared-data-link": "Shared Data Link",
             "official-address": "Official Address",
-            "show-dao-polls-table-action": "Show DAO Polls"
+            "show-dao-polls-table-action": "Show DAO Polls",
+            "general-info": "General Info",
+            "dao-messages": "Messages",
+            "dao-polls": "Polls",
+            "team-members": "Team Members"
         },
         "create-teams": {
             "title": "Create Teams"
@@ -1507,8 +1512,8 @@
         "show-teams": {
             "create-poll-table-action": "Create Poll"
         },
-        "show-team-members": {
-            "title": "Team Members",
+        "show-team-details": {
+            "title": "Details",
             "send-message-table-action": "Send Message"
         },
         "founders": {
@@ -1615,7 +1620,8 @@
         "broadcast-transaction": "Broadcast Transaction",
         "calculate-hash": "Calculate Hash",
         "chain-statistics": "Chain Statistics",
-        "user-guide": "User Guide"
+        "user-guide": "User Guide",
+        "show-daos-popover": "Show DAOs"
     },
     "tool-pages": {
         "transaction-types": {
@@ -2147,6 +2153,10 @@
         "create-teams": "Create Teams",
         "add-team-members": "Add Team Members",
         "add-team-poll": "Add Team Poll",
-        "show-dao-polls": "Show Dao Polls"
+        "show-dao-polls": "Show Dao Polls",
+        "mobile": "My DAOs",
+        "general-info": "General Info",
+        "polls": "Polls",
+        "members": "Team Members"
     }
 }

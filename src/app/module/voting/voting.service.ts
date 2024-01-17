@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpProviderService } from '../../services/http-provider.service';
-import { NodeService } from '../../services/node.service';
-import { AppConstants } from '../../config/constants';
-import { OptionService } from '../../services/option.service';
-import { SessionStorageService } from '../../services/session-storage.service';
-import { TransactionService } from '../../services/transaction.service';
+import {Injectable} from '@angular/core';
+import {HttpProviderService} from '../../services/http-provider.service';
+import {NodeService} from '../../services/node.service';
+import {AppConstants} from '../../config/constants';
+import {OptionService} from '../../services/option.service';
+import {SessionStorageService} from '../../services/session-storage.service';
+import {TransactionService} from '../../services/transaction.service';
 import {map} from 'rxjs/operators';
 import {VotingModels} from './enums';
+import {NavigationExtras, Router} from '@angular/router';
 
 @Injectable()
 export class VotingService {
@@ -16,7 +17,8 @@ export class VotingService {
         private nodeService: NodeService,
         private optionsService: OptionService,
         private sessionStorageService: SessionStorageService,
-        private transactionService: TransactionService
+        private transactionService: TransactionService,
+        private router: Router
     ) {
 
     }
@@ -185,5 +187,44 @@ export class VotingService {
         };
 
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.aliasesConfig.aliasesEndPoint, params);
+    }
+
+    detailsActions(event) {
+        const navigationExtras: NavigationExtras = {
+            queryParams: {
+                id: event.poll
+            }
+        };
+        switch (event.action) {
+            case 'result':
+                this.router.navigate(['/voting/show-polls/result'], navigationExtras).then();
+                break;
+            case 'details':
+                this.router.navigate(['/voting/show-polls/details'], navigationExtras).then();
+                break;
+            case 'vote':
+                this.router.navigate(['/voting/show-polls/vote'], navigationExtras).then();
+                break;
+            case 'voters':
+                this.router.navigate(['/voting/show-polls/voters'], navigationExtras).then();
+                break;
+        }
+    }
+
+    getDays(value) {
+        const currentHeight = this.sessionStorageService.getFromSession(AppConstants.baseConfig.SESSION_CURRENT_BLOCK);
+        let days: number;
+
+        if (currentHeight && currentHeight < value) {
+            days = (parseInt(value, 10) - currentHeight) / 1440;
+        } else {
+            days = 0;
+        }
+
+        if (days < 0) {
+            days = 0;
+        }
+
+        return days.toLocaleString('en-US', {maximumFractionDigits: 2, minimumFractionDigits: 2});
     }
 }

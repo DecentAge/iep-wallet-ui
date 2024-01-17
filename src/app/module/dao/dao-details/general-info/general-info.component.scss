@@ -1,0 +1,13 @@
+.flex-row-10 {
+  display: flex;
+  gap: 10px;
+
+  &.mobile {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.clear {
+  clear: both;
+}
