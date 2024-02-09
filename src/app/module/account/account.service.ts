@@ -242,8 +242,8 @@ export class AccountService {
   }
 
   getVoterPhasedTransactions(account, firstIndex, lastIndex): any {
-    let params = {
-      requestType: "getVoterPhasedTransactions",
+    const params = {
+      requestType: 'getVoterPhasedTransactions',
       account: account,
       firstIndex: firstIndex,
       lastIndex: lastIndex

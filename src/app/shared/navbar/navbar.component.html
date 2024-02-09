@@ -62,6 +62,15 @@
                     <!--<i class="fa fa-eur"></i>-->
                     <!--</a>-->
                     <!--</li>-->
+                    <ng-container *isAppEnabled="'DAOs'">
+                        <li *ngIf="isMobile">
+                            <a class="btn btn-default btn-md btn-circle navbar-btn pull-left nav-item nav-link position-relative"
+                               triggers="mouseenter:mouseleave" container="body" placement="bottom" ngbPopover="{{'navbar.show-daos-popover'| translate}} "
+                               (click)="showMyDaos()">
+                                <i class="icon-send_assets"></i>
+                            </a>
+                        </li>
+                    </ng-container>
                     <li>
                         <a class="btn btn-default btn-md btn-circle navbar-btn pull-left nav-item nav-link position-relative"
                             triggers="mouseenter:mouseleave" container="body" placement="bottom" ngbPopover="{{'navbar.send-message-popover'| translate}}"

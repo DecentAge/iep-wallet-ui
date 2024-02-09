@@ -3,8 +3,8 @@
         <div class="card">
             <div class="card-block main-card-block">
                 <div class="border-bt">
-                    <h2 class="main-title">{{teamName.split('TN').pop().split('TT').shift()}} {{'daos.show-team-details.title' | translate}}</h2>
-                    <app-breadcrumb></app-breadcrumb>
+                    <h2 class="main-title">{{'daos.show-daos.title' | translate}}</h2>
+                    <app-breadcrumb [routeChange]="routeChange"></app-breadcrumb>
                     <h3 class="back-button" (click)="goBack()">
                         <i class="fa fa-chevron-left"></i> {{'common.back-btn'| translate}}
                     </h3>
@@ -12,7 +12,11 @@
                 <ul class="nav nav-tabs nav-fill nav-auto mt-4" (click)="onTabChange();" *ngIf="viewMode !== viewModes.mobile">
                     <li class="nav-item">
                         <a class="nav-link"
-                           routerLinkActive="active" [routerLink]="['members']">{{'daos.show-daos.team-members' | translate}}</a>
+                           routerLinkActive="active" [routerLink]="['general-info']">{{'daos.show-daos.general-info' | translate}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           routerLinkActive="active" [routerLink]="['teams']">{{'daos.show-daos.all-teams' | translate}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"

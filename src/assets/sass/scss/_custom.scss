@@ -1030,6 +1030,11 @@ aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:b
     overflow: scroll;
     width: 800px !important;
 }
+.mobile-dao .ngx-datatable .datatable-header, .mobile-dao .ngx-datatable .datatable-body {
+    display: block;
+    overflow: scroll;
+    width: unset !important;
+}
 .ngx-datatable .datatable-header{
   font-size: 9px !important;
 }

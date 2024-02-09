@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import * as AlertFunctions from '../../../shared/data/sweet-alerts';
-import { CurrenciesService } from '../../../module/currencies/currencies.service';
-import { AssetsService } from '../../assets/assets.service';
-import { SessionStorageService } from '../../../services/session-storage.service';
-import { CommonService } from '../../../services/common.service';
-import { CryptoService } from '../../../services/crypto.service';
-import { AppConstants } from '../../../config/constants';
-import { VotingService } from '../voting.service';
+import {CurrenciesService} from '../../currencies/currencies.service';
+import {AssetsService} from '../../assets/assets.service';
+import {SessionStorageService} from '../../../services/session-storage.service';
+import {CommonService} from '../../../services/common.service';
+import {CryptoService} from '../../../services/crypto.service';
+import {AppConstants} from '../../../config/constants';
+import {VotingService} from '../voting.service';
+import {VotingModels} from '../enums';
 
 @Component({
     selector: 'app-create-poll',
@@ -19,16 +20,16 @@ export class CreatePollComponent implements OnInit {
     votingOptions: any[] = [];
     pollOptions: any[] = [];
 
-    minimumBalance: number = 0;
+    minimumBalance = 0;
     assetId: string;
     currency: string;
     name: string;
     description: string;
     currentHeight: number;
-    minNumberOfOptions: number = 1;
-    maxNumberOfOptions: number = 1;
-    finishHeight: number = 1440;
-    finHeight: number = 1440;
+    minNumberOfOptions = 1;
+    maxNumberOfOptions = 1;
+    finishHeight = 1440;
+    finHeight = 1440;
     holding: any;
     secretPhrase: any;
 
@@ -36,14 +37,15 @@ export class CreatePollComponent implements OnInit {
     tx_fee: number;
     tx_amount: number;
     tx_total: number;
-    validBytes: boolean = false;
-    signedTx: boolean = true;
+    validBytes = false;
+    signedTx = true;
 
-    isSecondStepValid: boolean = false;
-    assetError: string = '';
-    currencyError: string = '';
-    errorMessage: string = '';
+    isSecondStepValid = false;
+    assetError = '';
+    currencyError = '';
+    errorMessage = '';
     pollImmutable = false;
+    dao: string | null = null;
 
     constructor(
         public activatedRoute: ActivatedRoute,
@@ -56,10 +58,10 @@ export class CreatePollComponent implements OnInit {
         private votingService: VotingService) {
         this.votingModel = 0;
         this.votingOptions = [
-            { label: 'Account', value: 0 },
-            { label: 'Balance', value: 1 },
-            { label: 'Asset', value: 2 },
-            { label: 'Currency', value: 3 }
+            { label: 'Account', value: VotingModels.Account },
+            { label: 'Balance', value: VotingModels.Balance },
+            { label: 'Asset', value: VotingModels.Asset },
+            { label: 'Currency', value: VotingModels.Currency }
         ];
     }
 
@@ -67,6 +69,9 @@ export class CreatePollComponent implements OnInit {
         this.activatedRoute.queryParams.subscribe((params: any) => {
             if (params.recipient) {
                 this.assetId = params.recipient;
+                if (params.dao) {
+                    this.dao = params.dao
+                }
                 this.pollImmutable = true;
                 this.votingModel = 2;
                 this.getAsset(this.assetId);
@@ -108,17 +113,17 @@ export class CreatePollComponent implements OnInit {
     }
 
     validateStepOne() {
-        if (this.votingModel == 1 && this.minimumBalance == null) {
+        if (this.votingModel === VotingModels.Balance && this.minimumBalance == null) {
             this.showError('Enter minimum balance');
             return;
         }
 
-        if (this.votingModel == 2 && !this.assetId) {
+        if (this.votingModel === VotingModels.Asset && !this.assetId) {
             this.showError('Enter the asset ID');
             return;
         }
 
-        if (this.votingModel == 3 && !this.currency) {
+        if (this.votingModel === VotingModels.Currency && !this.currency) {
             this.showError('Enter the currency ticker');
             return;
         }
@@ -173,7 +178,7 @@ export class CreatePollComponent implements OnInit {
             return;
         }
 
-        let invalidOptions = this.pollOptions.filter((option, index) => {
+        const invalidOptions = this.pollOptions.filter((option) => {
             if (!option.value || (option.value && option.value == null)) {
                 return option
             }
@@ -185,19 +190,18 @@ export class CreatePollComponent implements OnInit {
         }
 
         if (this.pollOptions.length < this.maxNumberOfOptions) {
-            let title: string = this.commonService.translateAlertTitle('Error');
-            let errMsg : string = this.commonService.translateInfoMessageWithParams('enter-minimum-options', this.maxNumberOfOptions);
+            const title: string = this.commonService.translateAlertTitle('Error');
+            const errMsg: string = this.commonService.translateInfoMessageWithParams('enter-minimum-options', this.maxNumberOfOptions);
             AlertFunctions.InfoAlertBox(title,
                 errMsg,
                 'OK',
                 'error')
-                .then((isConfirm: any) => {
-                });
-            // this.errorMessage = 'Enter minimum ' + this.maxNumberOfOptions + ' option(s) & maximum 10 options for the voters to choose from.';
+                .then();
+            // this.errorMessage='Enter minimum '+this.maxNumberOfOptions+' option(s) & maximum 10 options for the voters to choose from.';
             return;
         }
 
-        if (this.errorMessage == '') {
+        if (this.errorMessage === '') {
             this.isSecondStepValid = true;
         }
     }
@@ -226,8 +230,8 @@ export class CreatePollComponent implements OnInit {
     }
 
     createPoll() {
-        if (this.errorMessage == '') {
-            let pollJson = {
+        if (this.errorMessage === '') {
+            const pollJson = {
                 'name': this.name,
                 'description': this.description,
                 'votingModel': this.votingModel,
@@ -248,10 +252,10 @@ export class CreatePollComponent implements OnInit {
             };
 
             if (pollJson.votingModel === 3) {
-                //pollJson.holding = this.currency;
+                // pollJson.holding = this.currency;
             }
 
-            let secret = this.secretPhrase;
+            const secret = this.secretPhrase;
             let secretPhraseHex;
 
             if (secret) {
@@ -263,7 +267,7 @@ export class CreatePollComponent implements OnInit {
             this.votingService.createPoll(pollJson).subscribe((transaction) => {
                 transaction.subscribe((success) => {
                     if (!success.errorCode) {
-                        let unsignedBytes = success.unsignedTransactionBytes,
+                        const unsignedBytes = success.unsignedTransactionBytes,
                             signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
 
                         this.transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
@@ -275,14 +279,13 @@ export class CreatePollComponent implements OnInit {
                         this.validBytes = true;
 
                     } else {
-                        let title: string = this.commonService.translateAlertTitle('Error');
-                        let errMsg: string = this.commonService.translateErrorMessageParams('sorry-error-occurred',
+                        const title: string = this.commonService.translateAlertTitle('Error');
+                        const errMsg: string = this.commonService.translateErrorMessageParams('sorry-error-occurred',
                         success);
                         AlertFunctions.InfoAlertBox(title,
                             errMsg,
                             'OK',
-                            'error').then((isConfirm: any) => {
-                            });
+                            'error').then();
                     }
                 })
             });
@@ -294,38 +297,38 @@ export class CreatePollComponent implements OnInit {
     broadcastTransaction(transactionBytes: string) {
         this.commonService.broadcastTransaction(transactionBytes).subscribe((success) => {
             if (!success.errorCode) {
-                let title: string = this.commonService.translateAlertTitle('Success');
+                const title: string = this.commonService.translateAlertTitle('Success');
                 let msg: string = this.commonService.translateInfoMessage('success-broadcast-message');
                 msg += success.transaction;
                 AlertFunctions.InfoAlertBox(title,
                     msg,
                     'OK',
-                    'success').then((isConfirm: any) => {
-                        this.router.navigate(['/voting/show-polls/my']);
+                    'success').then(() => {
+                        if (this.dao) {
+                            this.router.navigate([`/dao/show-polls/${this.dao}`]).then();
+                            return;
+                        }
+                        this.router.navigate(['/voting/show-polls/my']).then();
                     });
             } else {
-                console.log('success1', success);
-                let title: string = this.commonService.translateAlertTitle('Error');
-                let errMsg: string = this.commonService.translateErrorMessage('unable-broadcast-transaction', success);
+                const title: string = this.commonService.translateAlertTitle('Error');
+                const errMsg: string = this.commonService.translateErrorMessage('unable-broadcast-transaction', success);
                 AlertFunctions.InfoAlertBox(title,
                     errMsg,
                     'OK',
-                    'error').then((isConfirm: any) => {
-                    });
+                    'error').then();
             }
         })
     }
 
     showError(message: string): void {
-        let title: string = this.commonService.translateAlertTitle('Error');
-        let errMsg : string = this.commonService.translateInfoMessage(message);
+        const title: string = this.commonService.translateAlertTitle('Error');
+        const errMsg: string = this.commonService.translateInfoMessage(message);
         AlertFunctions.InfoAlertBox(title,
             errMsg,
             'OK',
             'error')
-            .then((isConfirm: any) => {
-
-            });
+            .then();
     }
 
     getBlockChainStatus() {

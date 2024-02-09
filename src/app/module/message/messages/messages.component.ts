@@ -45,7 +45,7 @@ export class MessagesComponent implements OnInit {
                 break;
         }
         this.filters.forEach(obj => {
-            obj.isEnabled = (obj.name == filter.name) ? true : false;
+            obj.isEnabled = (obj.name === filter.name);
         });
 
         this.setPage({offset: 0});
@@ -64,9 +64,8 @@ export class MessagesComponent implements OnInit {
 
     setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
-        let account = this.commonsService.getAccountDetailsFromSession('accountId');
+        const account = this.commonsService.getAccountDetailsFromSession('accountId');
         this.accountRS = this.commonsService.getAccountDetailsFromSession('accountRs');
-        ;
         this.messageService.getMessages(
             account,
             this.page.pageNumber * 10,
