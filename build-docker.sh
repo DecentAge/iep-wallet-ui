@@ -6,6 +6,7 @@ set -o nounset
 RELEASE_VERSION=$(cat release-version.txt)
 docker build -t decentage/iep-wallet-ui:${RELEASE_VERSION} .
 
+docker container list --all
 CONTAINER_ID=$(docker create --rm --name iep-wallet-ui-extr decentage/iep-wallet-ui:${RELEASE_VERSION})
 mkdir -p ./build
 docker cp ${CONTAINER_ID}:/build/iep-wallet-ui.zip ./build
