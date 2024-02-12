@@ -10,5 +10,5 @@ COPY . .
 RUN npm run-script update-version --release_version=$(cat release-version.txt) 
 RUN npm run build-prod
 
-#RUN mkdir -p /build
-#RUN cd dist; zip -r /build/iep-wallet-ui.zip ./*
+RUN mkdir -p /build
+RUN cd dist; zip -r /build/iep-wallet-ui.zip ./*
