@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
-import { LoginService } from '../../../services/login.service';
-import { SwappService } from '../../../services/swapp.service';
+import { Router } from '@angular/router';
+import { LoginService } from 'app/services/login.service';
+import { SwappService } from 'app/services/swapp.service';
 
 @Component({
     selector: 'app-login',

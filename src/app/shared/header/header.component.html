@@ -3,6 +3,16 @@
     <div class="container-fluid">
         <div class="header-box card">
             <div class="card-block row">
+                <div class="stat-box col-12">
+                    <span class="stat-label">{{'header.account-address-label'| translate}}</span>
+                    <small *ngIf="accountRS">
+                        <input [ngModel]="accountRS" #accountRsValue style="display: none;" />
+                        <a (click)="copyAccountRs(accountRsValue, tooltip);" ngbPopover="{{'common.copied-popover'| translate}}"
+                           #tooltip="ngbPopover" triggers="manual">
+                            {{accountRS}}
+                        </a>
+                    </small>
+                </div>
                 <div class="stat-box col-4 col-xl-2">
                     <span class="stat-label">Network</span>
                     <small>{{ currentModeText | uppercase }}</small>
