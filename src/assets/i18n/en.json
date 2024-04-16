@@ -61,6 +61,9 @@
         "transactions-btn": "Transactions",
         "market-txt": "Market"
     },
+    "header": {
+        "account-address-label": "Wallet Address"
+    },
     "footer": {
         "project-info": "This app is owned by the <span>Infinity community</span> and managed by the <span>Infinity Foundation</span>.",
         "project-title": "Infinity SmartWallet",

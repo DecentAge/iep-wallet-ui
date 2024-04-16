@@ -80,6 +80,13 @@ export class WelcomeComponent implements OnInit {
   signUp() {
     this.router.navigateByUrl("/sign-up/step-1");
   }
+
+  public getEnvironmentClass(): string {
+    return AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT === 'testnet' ||
+    AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT === 'devnet' ?
+      'testing' :
+      '';
+  }
 }
 
 class Login {
