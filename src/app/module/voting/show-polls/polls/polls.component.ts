@@ -93,6 +93,11 @@ export class PollsComponent implements OnInit {
             this.votingService.getDaoTeamTokens(this.daoName).subscribe((response: any) => {
                 this.daoAssets = response.assets.map(a => a.asset);
                 this.votingService.getAllPolls().subscribe(polls => {
+                    console.log(this.daoAssets);
+                    if (this.daoName.startsWith('XIN-')) {
+                        this.setUpPage(polls.filter(poll => poll.accountRS === this.accountRs));
+                        return;
+                    }
                     this.setUpPage(polls.filter(poll => this.daoAssets.includes(poll.holding)));
                 })
             });

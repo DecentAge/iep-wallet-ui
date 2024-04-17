@@ -4,7 +4,13 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <div class="form-group m-0">
-                        <label>{{'common.select-dao'| translate}}</label>
+                        <label>
+                            {{'common.select-dao'| translate}}
+                            <i class="fa fa-question-circle-o ml-1 info-yellow"
+                               container="body" placement="right" triggers="mouseenter:mouseleave"
+                               ngbPopover="{{'daos.create-teams.popovers.select-dao'| translate}}">
+                            </i>
+                        </label>
                         <select name="type" class="form-control" [(ngModel)]="currentDao"
                                 (change)="setDao(currentDao)" required>
                             <option *ngFor='let dao of daoList | async' [value]="dao?.aliasName">
@@ -17,7 +23,13 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <div class="form-group m-0">
-                        <label>{{'common.team-wallet-label'| translate}}</label>
+                        <label>
+                            {{'common.team-wallet-label'| translate}}
+                            <i class="fa fa-question-circle-o ml-1 info-yellow"
+                               container="body" placement="right" triggers="mouseenter:mouseleave"
+                               ngbPopover="{{'daos.create-teams.popovers.team-wallet'| translate}}">
+                            </i>
+                        </label>
                         <div class="input-group m-0">
                             <input type="text" class="form-control" name="teamWallet" #teamWallet="ngModel"
                                    [(ngModel)]="createTeamForm.teamWallet" placeholder="XIN-______-____-______"
@@ -33,7 +45,13 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group m-0">
-                        <label>{{'common.team-wallet-confirm-label'| translate}}</label>
+                        <label>
+                            {{'common.team-wallet-confirm-label'| translate}}
+                            <i class="fa fa-question-circle-o ml-1 info-yellow"
+                               container="body" placement="right" triggers="mouseenter:mouseleave"
+                               ngbPopover="{{'daos.create-teams.popovers.confirm-team-wallet'| translate}}">
+                            </i>
+                        </label>
                         <div class="input-group m-0">
                             <input type="text" class="form-control" name="teamWalletConfirmation"
                                    #teamWalletConfirmation="ngModel"
@@ -54,7 +72,13 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-name' | translate}}</label>
+                    <label>
+                        {{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-name' | translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.create-teams.popovers.team' + (!!wizard ? '-founder' : '') + '-name'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control" name="name"
                                #name="ngModel"
@@ -72,7 +96,13 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-shortcode' | translate}}</label>
+                    <label>
+                        {{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-shortcode' | translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.create-teams.popovers.team' + (!!wizard ? '-founder' : '') + '-shortcode'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control" name="prefix"
                                #prefix="ngModel"
@@ -90,7 +120,13 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'daos.create-dao.labels.team-quantity-label' | translate}}</label>
+                    <label>
+                        {{'daos.create-dao.labels.team-quantity-label' | translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.create-teams.popovers.team-members-quantity'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0 row">
                         <div class="col-11 pl-0">
                             <input type="number"
@@ -117,7 +153,13 @@
         <div class="row mt-3">
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'common.description-label' | translate}}</label>
+                    <label>
+                        {{'common.description-label' | translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.create-teams.popovers.description'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0">
                                                         <textarea rows="4" class="form-control" name="description"
                                                                   #description="ngModel"
