@@ -62,7 +62,8 @@
         "market-txt": "Market"
     },
     "header": {
-        "account-address-label": "Wallet Address"
+        "account-address-label": "Wallet Address",
+        "account-name-label": "Account Name"
     },
     "footer": {
         "project-info": "This app is owned by the <span>Infinity community</span> and managed by the <span>Infinity Foundation</span>.",
@@ -1479,6 +1480,12 @@
                 "shortcode-is-required": "Short Code is required",
                 "decimals-is-required": "Decimals is required",
                 "decimals-value-": "Decimals must be greater than 0"
+            },
+            "popovers": {
+                "dao-name": "The DAO name you like to create.",
+                "dao-prefix": "The prefix you like to use in DAO token",
+                "quantity": "The teams quantity of DAO you like to create",
+                "description": "The DAO description you like to create"
             }
         },
         "show-daos": {
@@ -1499,7 +1506,10 @@
             "team-members": "Team Members"
         },
         "create-teams": {
-            "title": "Create Teams"
+            "title": "Create Teams",
+            "popovers": {
+
+            }
         },
         "add-team-members": {
             "title": "Add Team Members",
@@ -1538,6 +1548,9 @@
         "add-team-poll": {
             "title": "Add Team Poll",
             "next-btn": "Next"
+        },
+        "team-polls": {
+            "team-token": "Team Token"
         }
     },
     "swapps": {

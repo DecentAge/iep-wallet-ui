@@ -22,7 +22,7 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
         'prefix': '',
         'quantity': '',
         'description': '',
-        'decimals': '2',
+        'decimals': '1',
         'secretPhrase': ''
     }
 

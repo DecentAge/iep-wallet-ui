@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
     currentModeText: string = '';
     selectedLanguage: string;
     accountRS: string;
+    accountName: string | undefined = undefined;
     lastBlock: any;
 
     constructor(
@@ -42,6 +43,9 @@ export class HeaderComponent implements OnInit {
             this.ngOnInit();
         });
         this.accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
+        this.accountService.getAccountDetails(this.accountRS).subscribe((success: any) => {
+            this.accountName = success.name || undefined;
+        });
     }
 
     ngOnInit() {

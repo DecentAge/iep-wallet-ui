@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="header-box card">
             <div class="card-block row">
-                <div class="stat-box col-12">
+                <div class="stat-box col-xl-2 col-6">
                     <span class="stat-label">{{'header.account-address-label'| translate}}</span>
                     <small *ngIf="accountRS">
                         <input [ngModel]="accountRS" #accountRsValue style="display: none;" />
@@ -11,6 +11,12 @@
                            #tooltip="ngbPopover" triggers="manual">
                             {{accountRS}}
                         </a>
+                    </small>
+                </div>
+                <div class="stat-box col-xl-10 col-6">
+                    <span class="stat-label">{{'header.account-name-label'| translate}}</span>
+                    <small *ngIf="accountName">
+                        {{accountName}}
                     </small>
                 </div>
                 <div class="stat-box col-4 col-xl-2">
