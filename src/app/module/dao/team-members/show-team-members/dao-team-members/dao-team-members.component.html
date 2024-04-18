@@ -12,7 +12,7 @@
 <div class="card-body">
     <div class="card-block ml-md-3 mr-md-3">
         <ngx-datatable class="material" [rows]="rows" [columnMode]="columnModes.force"
-                       [rowHeight]="'auto'"
+                       [rowHeight]="undefined"
                        [footerHeight]="50" [externalPaging]="true" [count]="page.totalElements"
                        [offset]="page.pageNumber"
                        [limit]="page.size" (page)='setPage($event)'

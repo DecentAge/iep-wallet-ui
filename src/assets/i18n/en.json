@@ -1471,8 +1471,8 @@
                 "dao-description-placeholder": "Description",
                 "team-name-placeholder": "Team Name",
                 "team-shortcode-placeholder": "Team Short Code",
-                "team-founder-name-placeholder": "Founder Team Name",
-                "team-founder-shortcode-placeholder": "Founder Team Short Code"
+                "founder-team-name-placeholder": "Founder Team Name",
+                "founder-team-shortcode-placeholder": "Founder Team Short Code"
             },
             "validation": {
                 "name-is-required": "Name is required",
@@ -1503,12 +1503,25 @@
             "general-info": "General Info",
             "dao-messages": "Messages",
             "dao-polls": "Polls",
-            "team-members": "Team Members"
+            "team-members": "Team Members",
+            "popovers": {
+                "web-page": "DAO website URL",
+                "chat-channel": "DAO chat channel",
+                "shared-data-link": "DAO shared data link URL"
+            }
         },
         "create-teams": {
             "title": "Create Teams",
             "popovers": {
-
+                "select-dao": "Select the DAO in which you like to create a team",
+                "team-wallet": "Wallet address of the team you like to create",
+                "confirm-team-wallet": "Wallet address confirmation of the team you like to create",
+                "founder-team-name": "Name of the founder team you like to create",
+                "team-name": "Name of the team you like to create",
+                "founder-team-shortcode": "Short code you like to use in Founder Team token",
+                "team-shortcode": "Short code you like to use in Team token",
+                "team-members-quantity": "Maximum of members in the team you like to create",
+                "description": "Information about the team you like to create"
             }
         },
         "add-team-members": {
@@ -1516,8 +1529,13 @@
             "team-member-address": "Team Member Address",
             "team-member-role": "Team Member Role",
             "add-btn": "Add Team Member",
-            "issue-dao-tokens": "Issue DAO tokens",
-            "transactions-pending": "Transactions pending, please wait"
+            "transactions-pending": "Transactions pending, please wait",
+            "popovers": {
+                "team-member-address": "Wallet address of the team member you like to add",
+                "team-member-role": "Team member role you like to add",
+                "select-dao": "Select the DAO in which you like to select a team",
+                "select-team": "Select the team in which you like to add a team member"
+            }
         },
         "approval-accounts": {
             "title": "Approval Accounts",
@@ -1531,6 +1549,7 @@
             "send-message-table-action": "Send Message"
         },
         "founders": {
+            "add-btn": "Add Founder",
             "labels": {
                 "founder-wallet-alias": "Founder Wallet Alias",
                 "founder-wallet-address": "Wallet address",
@@ -1541,7 +1560,11 @@
                 "wallet-address-required": "Wallet Address is required",
                 "initial-allocation-is-required":  "Initial Allocation is required"
             },
-            "add-btn": "Add Founder"
+            "popovers": {
+                "founder-wallet-alias": "The wallet alias of the founder you like to add as a team member",
+                "founder-wallet-address": "The wallet address of the founder you like to add as a team member",
+                "initial-allocation": "The initial number of team tokens you like to send to the founder"
+            }
         },
         "show-dao-polls": {
             "title": "Show Dao Polls"

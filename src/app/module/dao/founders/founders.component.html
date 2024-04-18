@@ -3,7 +3,13 @@
     <div class="row" *ngFor="let founder of createFounderForm.founders; index as i">
       <div class="col-md-3">
         <div class="form-group m-0">
-          <label>{{'daos.founders.labels.founder-wallet-alias' | translate}}</label>
+          <label>
+            {{'daos.founders.labels.founder-wallet-alias' | translate}}
+            <i class="fa fa-question-circle-o ml-1 info-yellow"
+               container="body" placement="right" triggers="mouseenter:mouseleave"
+               ngbPopover="{{'daos.founders.popovers.founder-wallet-alias'| translate}}">
+            </i>
+          </label>
           <div class="input-group m-0 row">
             <div class="col-12 pl-0">
               <input type="text" class="form-control"
@@ -24,7 +30,13 @@
       </div>
       <div class="col-md-3">
         <div class="form-group m-0">
-          <label>{{'daos.founders.labels.founder-wallet-address' | translate}}</label>
+          <label>
+            {{'daos.founders.labels.founder-wallet-address' | translate}}
+            <i class="fa fa-question-circle-o ml-1 info-yellow"
+               container="body" placement="right" triggers="mouseenter:mouseleave"
+               ngbPopover="{{'daos.founders.popovers.founder-wallet-address'| translate}}">
+            </i>
+          </label>
           <div class="input-group m-0">
             <input type="text" class="form-control"
                    name="founderWalletAddress-{{i}}" #founderWalletAddress="ngModel"
@@ -42,7 +54,13 @@
       </div>
       <div class="col-md-3">
         <div class="form-group m-0">
-          <label>{{'daos.founders.labels.initial-allocation' | translate}}</label>
+          <label>
+            {{'daos.founders.labels.initial-allocation' | translate}}
+            <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
+               placement="right" container="body"
+               ngbPopover="{{'daos.founders.popovers.initial-allocation'| translate}}">
+            </i>
+          </label>
           <div class="input-group m-0 row">
             <div class="col-10 pl-0">
               <input type="number"

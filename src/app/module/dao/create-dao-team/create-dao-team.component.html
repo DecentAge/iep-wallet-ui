@@ -76,14 +76,14 @@
                         {{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-name' | translate}}
                         <i class="fa fa-question-circle-o ml-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
-                           ngbPopover="{{'daos.create-teams.popovers.team' + (!!wizard ? '-founder' : '') + '-name'| translate}}">
+                           ngbPopover="{{'daos.create-teams.popovers.' + (!!wizard ? 'founder-' : '') + 'team-name'| translate}}">
                         </i>
                     </label>
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control" name="name"
                                #name="ngModel"
                                [(ngModel)]="createTeamForm.name"
-                               placeholder="{{'daos.create-dao.placeholders.team' + (!!wizard ? '-founder' : '') + '-name-placeholder' | translate}}"
+                               placeholder="{{'daos.create-dao.placeholders.' + (!!wizard ? 'founder-' : '') + 'team-name-placeholder' | translate}}"
                                required>
                     </div>
                     <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
@@ -100,14 +100,14 @@
                         {{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-shortcode' | translate}}
                         <i class="fa fa-question-circle-o ml-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
-                           ngbPopover="{{'daos.create-teams.popovers.team' + (!!wizard ? '-founder' : '') + '-shortcode'| translate}}">
+                           ngbPopover="{{'daos.create-teams.popovers.' + (!!wizard ? 'founder-' : '') + 'team-shortcode'| translate}}">
                         </i>
                     </label>
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control" name="prefix"
                                #prefix="ngModel"
                                [(ngModel)]="createTeamForm.prefix"
-                               placeholder="{{'daos.create-dao.placeholders.team' + (!!wizard ? '-founder' : '') + '-shortcode-placeholder' | translate}}"
+                               placeholder="{{'daos.create-dao.placeholders.' + (!!wizard ? 'founder-' : '') + 'team-shortcode-placeholder' | translate}}"
                                required>
                     </div>
                     <div *ngIf="prefix?.invalid && (prefix?.dirty || prefix?.touched)"
