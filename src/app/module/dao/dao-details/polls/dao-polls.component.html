@@ -11,7 +11,7 @@
 <div class="card-body">
   <div class="card-block pt-0">
     <ngx-datatable class="
-                            material" [rows]="polls" [columnMode]="columnModes.force" [rowHeight]="'auto'"
+                            material" [rows]="polls" [columnMode]="columnModes.force" [rowHeight]="undefined"
                    [footerHeight]="50" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size"
                    (page)='setPage($event)' (autoRefresh)="reload()">
       <ngx-datatable-column prop="name" [name]="'table-header.name' | translate">
