@@ -12,6 +12,7 @@
                     <div class="input-group m-0 row">
                         <div class="col-12 pl-0">
                             <input type="text" class="form-control" name="name"
+                                   [pattern]="alphanumericPattern"
                                    #name="ngModel"
                                    [(ngModel)]="createDaoForm.name"
                                    placeholder="{{'daos.create-dao.placeholders.dao-name-placeholder' | translate}}"
@@ -22,6 +23,9 @@
                          class="input-error">
                         <div *ngIf="name?.errors.required">
                             {{'daos.create-dao.validation.name-is-required' | translate}}
+                        </div>
+                        <div *ngIf="name?.errors.pattern">
+                            {{'daos.create-dao.validation.name-is-incorrect' | translate}}
                         </div>
                     </div>
                 </div>
@@ -37,6 +41,7 @@
                     <div class="input-group m-0 row">
                         <div class="col-12 pl-0">
                             <input type="text" class="form-control" name="prefix"
+                                   [pattern]="alphanumericPattern"
                                    #prefix="ngModel"
                                    [(ngModel)]="createDaoForm.prefix"
                                    placeholder="{{'daos.create-dao.placeholders.dao-prefix-placeholder' | translate}}"
@@ -47,6 +52,9 @@
                          class="input-error">
                         <div *ngIf="prefix?.errors.required">
                             {{'daos.create-dao.validation.prefix-is-required' | translate}}
+                        </div>
+                        <div *ngIf="prefix?.errors.pattern">
+                            {{'daos.create-dao.validation.prefix-is-invalid' | translate}}
                         </div>
                     </div>
                 </div>

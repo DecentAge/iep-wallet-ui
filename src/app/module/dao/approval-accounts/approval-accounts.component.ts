@@ -117,6 +117,10 @@ export class ApprovalAccountsComponent implements OnInit {
         this.daoService.setAccountControl(this.approvalAccountsForm, this.currentTeamAlias);
     }
 
+    removeAccountControl() {
+        this.daoService.removeAccountControl();
+    }
+
     isCanApprove(account) {
         const accountId = this.accountId(account);
         return this.whiteList.filter((wlAccount: any) => wlAccount.whitelistedRS === accountId).length > 0

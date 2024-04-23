@@ -527,6 +527,69 @@ export class DaoService {
         });
     }
 
+    public removeAccountControl() {
+        const fee = 1;
+        const publicKey = this.commonService.getAccountDetailsFromSession(
+          'publicKey'
+        );
+
+        const secretPhraseHex = this.sessionStorageService.getFromSession(
+          AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY
+        );
+        this.accountService
+          .removeAccountControl(publicKey, fee)
+          .subscribe(success_ => {
+              success_.subscribe(success => {
+                  if (!success.errorCode) {
+                      const unsignedBytes = success.unsignedTransactionBytes;
+                      const signatureHex = this.cryptoService.signatureHex(
+                        unsignedBytes,
+                        secretPhraseHex
+                      );
+                      const transactionBytes = this.cryptoService.signTransactionHex(
+                        unsignedBytes,
+                        signatureHex
+                      );
+
+                      this.accountService
+                        .broadcastTransaction(transactionBytes)
+                        .subscribe((successBroadcastTransaction: any) => {
+                            if (!successBroadcastTransaction.errorCode) {
+                                const title: string = this.commonService.translateAlertTitle('Success');
+                                let msg: string = this.commonService.translateInfoMessage(
+                                  'success-broadcast-message'
+                                );
+                                msg += successBroadcastTransaction.transaction;
+                                alertFunctions
+                                  .InfoAlertBox(title, msg, 'OK', 'success')
+                                  .then((isConfirm: any) => {
+                                      this.router.navigate(['/account/transactions/pending']).then();
+                                  });
+                            } else {
+                                const title: string = this.commonService.translateAlertTitle('Error');
+                                const errMsg: string = this.commonService.translateErrorMessage(
+                                  'unable-broadcast-transaction',
+                                  successBroadcastTransaction
+                                );
+                                alertFunctions
+                                  .InfoAlertBox(title, errMsg, 'OK', 'error')
+                                  .then((isConfirm: any) => {});
+                            }
+                        });
+                  } else {
+                      const title: string = this.commonService.translateAlertTitle('Error');
+                      const errMsg: string = this.commonService.translateErrorMessageParams(
+                        'sorry-error-occurred',
+                        success
+                      );
+                      alertFunctions
+                        .InfoAlertBox(title, errMsg, 'OK', 'error')
+                        .then((isConfirm: any) => {});
+                  }
+              });
+          });
+    }
+
     getDaoExternalLinks(daoName) {
         const queries = [
             this.getAliases(`${daoName}UL`),
