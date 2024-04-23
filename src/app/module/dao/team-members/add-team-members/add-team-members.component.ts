@@ -24,6 +24,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     };
     public isPending = true;
     public pendingTransactions = [];
+    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
 
     constructor(
         private daoService: DaoService,

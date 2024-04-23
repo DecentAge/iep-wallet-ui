@@ -81,6 +81,7 @@
                     </label>
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control" name="name"
+                               [pattern]="alphanumericPattern"
                                #name="ngModel"
                                [(ngModel)]="createTeamForm.name"
                                placeholder="{{'daos.create-dao.placeholders.' + (!!wizard ? 'founder-' : '') + 'team-name-placeholder' | translate}}"
@@ -90,6 +91,9 @@
                          class="input-error">
                         <div *ngIf="name?.errors.required">
                             {{'daos.create-dao.validation.name-is-required' | translate}}
+                        </div>
+                        <div *ngIf="name?.errors.pattern">
+                            {{'daos.create-dao.validation.name-is-invalid' | translate}}
                         </div>
                     </div>
                 </div>
@@ -105,6 +109,7 @@
                     </label>
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control" name="prefix"
+                               [pattern]="alphanumericPattern"
                                #prefix="ngModel"
                                [(ngModel)]="createTeamForm.prefix"
                                placeholder="{{'daos.create-dao.placeholders.' + (!!wizard ? 'founder-' : '') + 'team-shortcode-placeholder' | translate}}"
@@ -114,6 +119,9 @@
                          class="input-error">
                         <div *ngIf="prefix?.errors.required">
                             {{'daos.create-dao.validation.shortcode-is-required' | translate}}
+                        </div>
+                        <div *ngIf="prefix?.errors.pattern">
+                            {{'daos.create-dao.validation.shortcode-is-invalid' | translate}}
                         </div>
                     </div>
                 </div>

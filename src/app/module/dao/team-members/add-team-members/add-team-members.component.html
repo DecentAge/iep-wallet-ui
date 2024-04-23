@@ -60,6 +60,7 @@
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control"
                                name="addTeamMemberForm.teamMembers[{{i}}}].teamMemberRole"
+                               [pattern]="alphanumericPattern"
                                #role="ngModel"
                                [(ngModel)]="addTeamMemberForm.teamMembers[i].teamMemberRole"
                                placeholder="{{'daos.add-team-members.team-member-role' | translate}}"
@@ -68,7 +69,10 @@
                     <div *ngIf="role?.invalid && (role?.dirty || role?.touched)"
                          class="input-error">
                         <div *ngIf="role?.errors.required">
-                            {{'daos.create-dao.validation.name-is-required' | translate}}
+                            {{'daos.create-dao.validation.role-is-required' | translate}}
+                        </div>
+                        <div *ngIf="role?.errors.pattern">
+                            {{'daos.create-dao.validation.role-is-invalid' | translate}}
                         </div>
                     </div>
                 </div>

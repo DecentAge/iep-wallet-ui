@@ -12,6 +12,8 @@ export class CreateDaoComponent {
     @Input() wizard: WizardComponent;
     @Input() createDaoForm: { [key: string]: string };
 
+    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
+
     constructor(
         private daoService: DaoService,
     ) {
@@ -21,5 +23,4 @@ export class CreateDaoComponent {
         this.daoService.createDAO(this.createDaoForm);
     }
 
-    // TODO: implement on step enter logic
 }

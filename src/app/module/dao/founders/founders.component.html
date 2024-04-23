@@ -14,6 +14,7 @@
             <div class="col-12 pl-0">
               <input type="text" class="form-control"
                      name="founderWalletAlias-{{i}}"
+                     [pattern]="alphanumericPattern"
                      #founderWalletAlias="ngModel"
                      [(ngModel)]="founder.founderWalletAlias"
                      placeholder="{{'daos.founders.labels.founder-wallet-alias' | translate}}"
@@ -24,6 +25,9 @@
                class="input-error">
             <div *ngIf="founderWalletAlias?.errors.required">
               {{'daos.founders.validation.wallet-alias-is-required' | translate}}
+            </div>
+            <div *ngIf="founderWalletAlias?.errors.pattern">
+              {{'daos.founders.validation.wallet-alias-is-invalid' | translate}}
             </div>
           </div>
         </div>

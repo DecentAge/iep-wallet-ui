@@ -17,6 +17,7 @@ export class FoundersComponent implements OnInit, AfterViewInit {
     };
     private currentDao;
     private currentTeam;
+    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
 
     constructor(private router: Router) {
     }
