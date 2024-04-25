@@ -1,9 +1,15 @@
 import { RouteInfo } from './sidebar.metadata';
 
-//Sidebar menu Routes and data
+// Sidebar menu Routes and data
 export const ROUTES: RouteInfo[] = [
     // {
-    //     path: '/dashboard', title: 'Dashboard', icon: 'fa fa-home', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []
+    //   path: '/dashboard',
+    //   title: 'Dashboard',
+    //   icon: 'fa fa-home',
+    //   class: '', badge: '',
+    //   badgeClass: '',
+    //   isExternalLink: false,
+    //   submenu: []
     // },
     {
         path: '',
@@ -255,7 +261,8 @@ export const ROUTES: RouteInfo[] = [
                         badge: '',
                         badgeClass: '',
                         isExternalLink: false,
-                        submenu: []
+                        submenu: [],
+                        includeAccountRs: true
                     },
                     {
                         path: '/dao/add-team-poll',

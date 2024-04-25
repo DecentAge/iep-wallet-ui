@@ -1,13 +1,14 @@
-import { Component, HostBinding, OnInit, ViewEncapsulation } from '@angular/core';
-import { NodeService } from '../../services/node.service';
-import { OptionService } from '../../services/option.service';
-import { TransactionService } from '../../services/transaction.service';
-import { SessionStorageService } from '../../services/session-storage.service';
-import { LocalhostService } from '../../services/localhost.service';
-import { BroadcastService } from '../../services/broadcast.service';
-import { AppConstants } from '../../config/constants';
-import { RootScope } from '../../config/root-scope';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { NodeService } from 'app/services/node.service';
+import { OptionService } from 'app/services/option.service';
+import { TransactionService } from 'app/services/transaction.service';
+import { SessionStorageService } from 'app/services/session-storage.service';
+import { LocalhostService } from 'app/services/localhost.service';
+import { BroadcastService } from 'app/services/broadcast.service';
+import { AppConstants } from 'app/config/constants';
+import { RootScope } from 'app/config/root-scope';
 import { TranslateService } from '@ngx-translate/core';
+import {AccountService} from 'app/module/account/account.service';
 
 @Component({
     selector: 'app-header',
@@ -24,10 +25,12 @@ export class HeaderComponent implements OnInit {
     options: any = {};
     currentModeText: string = '';
     selectedLanguage: string;
-
+    accountRS: string;
+    accountName: string | undefined = undefined;
     lastBlock: any;
 
     constructor(
+        private accountService: AccountService,
         private nodeService: NodeService,
         private broadcastService: BroadcastService,
         private localhostService: LocalhostService,
@@ -38,6 +41,10 @@ export class HeaderComponent implements OnInit {
     ) {
         this.optionService.optionsChanged$.subscribe(res => {
             this.ngOnInit();
+        });
+        this.accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
+        this.accountService.getAccountDetails(this.accountRS).subscribe((success: any) => {
+            this.accountName = success.name || undefined;
         });
     }
 
@@ -79,5 +86,14 @@ export class HeaderComponent implements OnInit {
                 this.peerState = success;
             });
     };
+
+    public copyAccountRs(element, tooltip): void {
+        element.select();
+        tooltip.open();
+        document.execCommand('copy');
+        setTimeout(() => {
+            tooltip.close();
+        }, 5000)
+    }
 
 }

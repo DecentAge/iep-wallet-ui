@@ -78,11 +78,11 @@ export class ProgressSyncComponent implements OnInit {
             }
             if (!blocksLeft || blocksLeft < lastNumBlocks / 2) {
                 // TOTAL PROGRESS DONE
-                console.log('TOTAL PROGRESS DONE');
+                // console.log('TOTAL PROGRESS DONE');
                 this.totalProgress = 100;
             } else {
                 // TOTAL PROGRESS = percentageTotal
-                console.log('TOTAL PROGRESS', percentageTotal);
+                // console.log('TOTAL PROGRESS', percentageTotal);
                 this.totalProgress = percentageTotal;
             }
             if (blocksLeft) {

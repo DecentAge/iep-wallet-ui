@@ -24,8 +24,6 @@ export class AddTeamPollComponent implements OnInit {
 
     ngOnInit() {
         this.daosList = this.daoService.getAccountDaos();
-        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
-        this.currentTeam = DaoService.currentDAOTeam ? DaoService.currentDAOTeam : '';
     }
 
     setDao(dao): void {

@@ -5,7 +5,7 @@
   <div class="card-block {{this.viewMode}}-dao">
     <ngx-datatable class="material" [rows]="rows"
                    [columnMode]="columnModes.force"
-                   [rowHeight]="'auto'"
+                   [rowHeight]="undefined"
                    [footerHeight]="50" [externalPaging]="true"
                    [count]="page.totalElements"
                    [offset]="page.pageNumber"

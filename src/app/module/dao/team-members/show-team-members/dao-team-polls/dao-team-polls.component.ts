@@ -17,6 +17,7 @@ export class DaoTeamPollsComponent implements OnInit {
   private accountId: any;
   private daoName: string;
   public teamName: string;
+  public teamToken: string;
   private teamAssets: Array<string> = [];
   public columnModes = ColumnMode;
 
@@ -30,16 +31,20 @@ export class DaoTeamPollsComponent implements OnInit {
     this.daoName = DaoService.currentDAO;
     this.teamName = DaoService.currentDAOTeam;
     this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
+    this.teamToken = `TT${this.teamName.split('TT').pop()}`;
     this.setPage({offset: 0});
   }
 
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    const teamToken = `${this.daoName}TT${this.teamName.split('TT').pop()}`;
     this.votingService.getDaoTeamTokens(this.daoName).subscribe((response: any) => {
-      this.teamAssets = response.assets.filter(a => a.name === teamToken).map(a => a.asset);
+      this.teamAssets = response.assets.filter(a => a.name === `${this.daoName}${this.teamToken}`).map(a => a.asset);
       this.votingService.getAllPolls().subscribe(polls => {
-        this.setUpPage(polls.filter(poll => this.teamAssets.includes(poll.holding)));
+        this.setUpPage(polls.filter(poll => this.teamAssets.includes(poll.holding)).map(poll => {
+          const asset = response.assets.find((ast: any) => ast.asset === poll.holding);
+          poll.assetName = asset.name;
+          return poll;
+        }));
       });
     });
   }

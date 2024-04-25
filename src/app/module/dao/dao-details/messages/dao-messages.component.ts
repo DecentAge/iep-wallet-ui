@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {DataStoreService} from '../../../../services/data-store.service';
-import {Page} from '../../../../config/page';
-import {CommonService} from '../../../../services/common.service';
+import {DataStoreService} from 'app/services/data-store.service';
+import {Page} from 'app/config/page';
+import {CommonService} from 'app/services/common.service';
 import {MessageService} from '../../../message/message.service';
 import {Router} from '@angular/router';
 import {ColumnMode} from '@swimlane/ngx-datatable';
@@ -40,7 +40,7 @@ export class DaoMessagesComponent implements OnInit {
                 const account = accountDetails.account;
                 this.messageService.getMessagesByAccountId(account).subscribe((messagesResponse: any) => {
                     this.rows = messagesResponse.transactions;
-                    this.page.totalElements = this.rows.length;
+                    this.page.totalElements = this.rows ? this.rows.length : 0;
                 });
             }));
         });

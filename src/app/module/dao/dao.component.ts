@@ -11,7 +11,7 @@ export class DaoComponent implements OnInit, AfterViewInit {
 
     @ViewChild('awWizard') wizard: WizardComponent;
     public createDaoForm: { [key: string]: string } = {
-        'name': '', 'prefix': '', 'quantity': '', 'description': '', 'decimals': '', 'secretPhrase': ''
+        'name': '', 'prefix': '', 'quantity': '', 'description': '', 'decimals': '1', 'secretPhrase': ''
     }
 
     constructor(private route: ActivatedRoute) {

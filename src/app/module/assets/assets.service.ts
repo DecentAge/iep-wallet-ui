@@ -33,7 +33,7 @@ export class AssetsService {
     };
 
     getAsset(asset, includeCounts?) {
-        let params = {
+        const params = {
             'requestType': 'getAsset',
             'asset': asset,
             'includeCounts': includeCounts

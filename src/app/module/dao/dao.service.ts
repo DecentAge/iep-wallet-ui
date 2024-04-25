@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
-import {AppConstants} from '../../config/constants';
+import {AppConstants} from 'app/config/constants';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
 import {map, takeUntil} from 'rxjs/operators';
 import {AliasesService} from '../aliases/aliases.service';
 import {AssetsService} from '../assets/assets.service';
-import {CommonService} from '../../services/common.service';
-import {CryptoService} from '../../services/crypto.service';
-import {SessionStorageService} from '../../services/session-storage.service';
+import {CommonService} from 'app/services/common.service';
+import {CryptoService} from 'app/services/crypto.service';
+import {SessionStorageService} from 'app/services/session-storage.service';
 import {Router} from '@angular/router';
-import {HttpProviderService} from '../../services/http-provider.service';
-import {NodeService} from '../../services/node.service';
+import {HttpProviderService} from 'app/services/http-provider.service';
+import {NodeService} from 'app/services/node.service';
 import {AccountService} from '../account/account.service';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {Founder, TeamMember} from './interfaces';
@@ -525,6 +525,69 @@ export class DaoService {
                     }
                 });
         });
+    }
+
+    public removeAccountControl() {
+        const fee = 1;
+        const publicKey = this.commonService.getAccountDetailsFromSession(
+          'publicKey'
+        );
+
+        const secretPhraseHex = this.sessionStorageService.getFromSession(
+          AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY
+        );
+        this.accountService
+          .removeAccountControl(publicKey, fee)
+          .subscribe(success_ => {
+              success_.subscribe(success => {
+                  if (!success.errorCode) {
+                      const unsignedBytes = success.unsignedTransactionBytes;
+                      const signatureHex = this.cryptoService.signatureHex(
+                        unsignedBytes,
+                        secretPhraseHex
+                      );
+                      const transactionBytes = this.cryptoService.signTransactionHex(
+                        unsignedBytes,
+                        signatureHex
+                      );
+
+                      this.accountService
+                        .broadcastTransaction(transactionBytes)
+                        .subscribe((successBroadcastTransaction: any) => {
+                            if (!successBroadcastTransaction.errorCode) {
+                                const title: string = this.commonService.translateAlertTitle('Success');
+                                let msg: string = this.commonService.translateInfoMessage(
+                                  'success-broadcast-message'
+                                );
+                                msg += successBroadcastTransaction.transaction;
+                                alertFunctions
+                                  .InfoAlertBox(title, msg, 'OK', 'success')
+                                  .then(() => {
+                                      this.router.navigate(['/account/transactions/pending']).then();
+                                  });
+                            } else {
+                                const title: string = this.commonService.translateAlertTitle('Error');
+                                const errMsg: string = this.commonService.translateErrorMessage(
+                                  'unable-broadcast-transaction',
+                                  successBroadcastTransaction
+                                );
+                                alertFunctions
+                                  .InfoAlertBox(title, errMsg, 'OK', 'error')
+                                  .then();
+                            }
+                        });
+                  } else {
+                      const title: string = this.commonService.translateAlertTitle('Error');
+                      const errMsg: string = this.commonService.translateErrorMessageParams(
+                        'sorry-error-occurred',
+                        success
+                      );
+                      alertFunctions
+                        .InfoAlertBox(title, errMsg, 'OK', 'error')
+                        .then();
+                  }
+              });
+          });
     }
 
     getDaoExternalLinks(daoName) {

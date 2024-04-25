@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {WizardComponent} from 'angular-archwizard';
 import {DaoService} from '../dao.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {AccountService} from '../../account/account.service';
 import {map} from 'rxjs/operators';
@@ -22,19 +22,21 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
         'prefix': '',
         'quantity': '',
         'description': '',
-        'decimals': '2',
+        'decimals': '1',
         'secretPhrase': ''
     }
 
     public currentDao = '';
     private teamDAO = '';
+    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
 
     daoList: Observable<Array<any>>;
 
     constructor(
         private accountService: AccountService,
         private daoService: DaoService,
-        private router: Router
+        private router: Router,
+        private route: ActivatedRoute
     ) {
         const accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
         this.daoList = this.daoService.getAliases().pipe(
@@ -44,9 +46,10 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
         );
     }
 
-
     ngOnInit() {
-        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
+        if (this.route.snapshot.routeConfig.path === 'create-dao/create-team') {
+            this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
+        }
         if (this.currentDao !== '') {
             this.setDao(this.currentDao);
         }

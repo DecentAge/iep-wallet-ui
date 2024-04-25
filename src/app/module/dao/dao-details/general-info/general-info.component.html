@@ -31,7 +31,13 @@
         <div class="row mb-1">
           <div class="col-md-4">
             <div class="form-group m-0">
-              <label>{{'daos.show-daos.web-page-url'| translate}}</label>
+              <label>
+                {{'daos.show-daos.web-page-url'| translate}}
+                <i class="fa fa-question-circle-o ml-1 info-yellow"
+                   container="body" placement="right" triggers="mouseenter:mouseleave"
+                   ngbPopover="{{'daos.show-daos.popovers.web-page'| translate}}">
+                </i>
+              </label>
               <div class="input-group m-0">
                 <input type="text" class="form-control" name="webPageUrl" #webPage="ngModel"
                        [(ngModel)]="webPageUrl" placeholder="{{'common.url-label'| translate}}">
@@ -42,7 +48,13 @@
         <div class="row mb-1">
           <div class="col-md-4">
             <div class="form-group m-0">
-              <label>{{'daos.show-daos.chat-channel'| translate}}</label>
+              <label>
+                {{'daos.show-daos.chat-channel'| translate}}
+                <i class="fa fa-question-circle-o ml-1 info-yellow"
+                   container="body" placement="right" triggers="mouseenter:mouseleave"
+                   ngbPopover="{{'daos.show-daos.popovers.chat-channel'| translate}}">
+                </i>
+              </label>
               <div class="input-group m-0">
                 <input type="text" class="form-control" name="chatChannelUrl" #chatChannel="ngModel"
                        [(ngModel)]="chatChannelUrl" placeholder="{{'common.url-label'| translate}}">
@@ -53,7 +65,13 @@
         <div class="row mb-1">
           <div class="col-md-4">
             <div class="form-group m-0">
-              <label>{{'daos.show-daos.shared-data-link'| translate}}</label>
+              <label>
+                {{'daos.show-daos.shared-data-link'| translate}}
+                <i class="fa fa-question-circle-o ml-1 info-yellow"
+                   container="body" placement="right" triggers="mouseenter:mouseleave"
+                   ngbPopover="{{'daos.show-daos.popovers.shared-data-link'| translate}}">
+                </i>
+              </label>
               <div class="input-group m-0">
                 <input type="text" class="form-control" name="sharedDataLinkUrl" #sharedDataLink="ngModel"
                        [(ngModel)]="sharedDataLinkUrl" placeholder="{{'common.url-label'| translate}}">

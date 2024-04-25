@@ -15,6 +15,10 @@ export class AppComponent {
         this.translate.setDefaultLang('en');
         this.setLanguage();
         document.title = 'Infinity Economics Wallet | ' + AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT;
+        if (AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT === 'testnet' ||
+          AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT === 'devnet') {
+            document.getElementById('page-loading').className += ' testing';
+        }
     }
 
     setLanguage() {

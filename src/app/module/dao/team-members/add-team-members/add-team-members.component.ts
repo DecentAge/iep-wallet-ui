@@ -23,6 +23,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     };
     public isPending = true;
     public pendingTransactions = [];
+    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
 
     constructor(
         private daoService: DaoService,
@@ -32,15 +33,12 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.daosList = this.daoService.getAccountDaos();
-        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
-        this.currentTeam = DaoService.currentDAOTeam ? DaoService.currentDAOTeam : '';
-        if (this.currentDao !== '') {
-            this.setDao(this.currentDao);
-        }
     }
 
     ngAfterViewInit(): void {
         if (this.router.url.toString() === '/dao/create-dao/add-team-members') {
+            this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
+            this.currentTeam = DaoService.currentDAOTeam ? DaoService.currentDAOTeam : '';
             if (!this.currentDao) {
                 this.router.navigate(['/dao/create-dao']).then();
             } else if (!this.currentTeam) {
@@ -69,10 +67,8 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
         if (!this.currentTeam) {
             this.currentTeam = DaoService.currentDAOTeam;
         }
-        if (!this.addTeamMemberForm.teamMembers.length) {
-            this.router.navigate([`dao/show-daos/DAO${this.currentDao}/teams`]).then();
-        }
-        this.daoService.currentTeamMembers = this.addTeamMemberForm.teamMembers;
+
+        this.daoService.currentTeamMembers = this.addTeamMemberForm.teamMembers.length ? this.addTeamMemberForm.teamMembers : [];
         if (DaoService.currentDAOTeamFounders.length > 0) {
             this.daoService.currentTeamMembers = [
                 ...this.daoService.currentTeamMembers,
@@ -84,7 +80,10 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
                     }
                 })];
         }
-        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.addTeamMemberForm.teamMembers);
+        if (!this.addTeamMemberForm.teamMembers.length && !DaoService.currentDAOTeamFounders.length) {
+            this.router.navigate([`dao/show-daos/DAO${this.currentDao}/teams`]).then();
+        }
+        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.daoService.currentTeamMembers);
     }
 
     setDao(dao): void {
@@ -113,7 +112,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
         this.addTeamMemberForm.teamMembers.splice(index, 1);
     }
 
-    indexTracker(index: number, value: any) {
+    indexTracker(index: number) {
         return index;
     }
 

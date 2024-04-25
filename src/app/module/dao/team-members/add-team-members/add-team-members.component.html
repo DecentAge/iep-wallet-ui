@@ -26,7 +26,13 @@
              *ngFor="let teamMember of addTeamMemberForm.teamMembers; trackBy: indexTracker; index as i">
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'daos.add-team-members.team-member-address'| translate}}</label>
+                    <label>
+                        {{'daos.add-team-members.team-member-address'| translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.add-team-members.popovers.team-member-address'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0">
                         <input type="text" class="form-control"
                                name="addTeamMemberForm.teamMembers[{{i}}}].teamMemberWallet" #teamMemberWallet="ngModel"
@@ -44,10 +50,17 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'daos.add-team-members.team-member-role' | translate}}</label>
+                    <label>
+                        {{'daos.add-team-members.team-member-role' | translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.add-team-members.popovers.team-member-role'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control"
                                name="addTeamMemberForm.teamMembers[{{i}}}].teamMemberRole"
+                               [pattern]="alphanumericPattern"
                                #role="ngModel"
                                [(ngModel)]="addTeamMemberForm.teamMembers[i].teamMemberRole"
                                placeholder="{{'daos.add-team-members.team-member-role' | translate}}"
@@ -56,7 +69,10 @@
                     <div *ngIf="role?.invalid && (role?.dirty || role?.touched)"
                          class="input-error">
                         <div *ngIf="role?.errors.required">
-                            {{'daos.create-dao.validation.name-is-required' | translate}}
+                            {{'daos.create-dao.validation.role-is-required' | translate}}
+                        </div>
+                        <div *ngIf="role?.errors.pattern">
+                            {{'daos.create-dao.validation.role-is-invalid' | translate}}
                         </div>
                     </div>
                 </div>
@@ -74,8 +90,9 @@
         </div>
         <div class="row">
             <div class="block-button">
-                <a class="btn btn-gradient mt-3 mb-0" (click)="addTeamMember();" href="javascript:void(0)">
-                    <i class="fa fa-user-plus"></i>{{'daos.add-team-members.add-btn'| translate}}</a>
+                <button type="button" class="btn btn-gradient mt-3 mb-0" (click)="addTeamMember();" href="javascript:void(0)"
+                   [disabled]="!currentDao || !currentTeam">
+                    <i class="fa fa-user-plus"></i>{{'daos.add-team-members.add-btn'| translate}}</button>
             </div>
         </div>
         <ng-container *ngIf="!!wizard; else outsideOfDao">
