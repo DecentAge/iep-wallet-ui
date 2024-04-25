@@ -1,0 +1,24 @@
+<div class="row mb-3">
+    <div class="col-md-4">
+        <div class="form-group m-0">
+            <label>{{'common.select-dao'| translate}}</label>
+            <select name="type" class="form-control" [(ngModel)]="currentDao"
+                    (change)="changeDao(currentDao)" required>
+                <option *ngFor='let dao of daosList | async' [value]="dao?.aliasName">
+                    {{dao?.aliasName.split('DAO').pop()}}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group m-0">
+            <label>{{'common.select-team'| translate}}</label>
+            <select name="type" class="form-control" [(ngModel)]="currentTeam"
+                    (change)="changeTeam(currentTeam)" required>
+                <option *ngFor='let team of teamsList' [value]="team?.aliasName">
+                    {{team?.aliasName.split('TN').pop().split('TT').shift()}}
+                </option>
+            </select>
+        </div>
+    </div>
+</div>

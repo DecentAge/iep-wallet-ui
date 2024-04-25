@@ -14,7 +14,9 @@
                                     <div class="form-group">
                                         <div class="position-relative">
                                             <input type="text" class="form-control input-search pb-2" name="form-control-with-icon"
-                                                [(ngModel)]="searchText" placeholder="{{'aliases.show-aliases.search-alias' | translate}}">
+                                                   [(ngModel)]="searchText"
+                                                   (input)="onSearchChange($event.target.value)"
+                                                   placeholder="{{'aliases.show-aliases.search-alias' | translate}}">
                                             <div class="form-control-position btn-search">
                                                 <i class="ft-search info mr-2"></i>{{'common.search-btn'| translate}}
                                             </div>

@@ -136,10 +136,11 @@ export class AssetsService {
         return this.transactionService.createTransaction(params, '', '');
     };
 
-    serachAssets(query) {
-        let params = {
+    serachAssets(query, additionalParams = {}) {
+        const params = {
             'requestType': 'searchAssets',
-            'query': query
+            'query': query,
+            ...additionalParams
         };
 
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.assetsConfig.assetsEndPoint, params );

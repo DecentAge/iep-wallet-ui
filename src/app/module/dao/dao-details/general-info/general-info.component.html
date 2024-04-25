@@ -1,0 +1,72 @@
+<div class="card-header">
+  <div class="flex-row-10">
+    <h3 class="card-title">{{daoName}}</h3>
+    <div class="btn-group btn-group-justified btn-group-raised" *ngIf="daoAccountRs === accountRs">
+      <a class="btn btn-sm btn-grey btn-icon" (click)="toggleEditMode()"
+         triggers="mouseenter:mouseleave" container="body" placement="top"
+         ngbPopover="{{'common.edit-table-action'| translate}}">
+        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+      </a>
+    </div>
+  </div>
+  <ng-container *ngIf="!editMode">
+    <form>
+      <div class="flex-row-10 {{viewMode}}" *ngIf="!!webPageUrl">
+        <label>{{'daos.show-daos.web-page-url'| translate}}</label>
+        <a href="{{webPageUrl}}" target="_blank">{{webPageUrl}}</a>
+      </div>
+      <div class="flex-row-10 {{viewMode}}" *ngIf="!!chatChannelUrl">
+        <label>{{'daos.show-daos.chat-channel'| translate}}</label>
+        <a href="{{chatChannelUrl}}" target="_blank">{{chatChannelUrl}}</a>
+      </div>
+      <div class="flex-row-10 {{viewMode}}" *ngIf="!!sharedDataLinkUrl">
+        <label>{{'daos.show-daos.shared-data-link'| translate}}</label>
+        <a href="{{sharedDataLinkUrl}}" target="_blank">{{sharedDataLinkUrl}}</a>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="!!editMode">
+    <form class="form inner-form" #daoAdditionalInfoForm="ngForm" novalidate>
+      <div class="form-body">
+        <div class="row mb-1">
+          <div class="col-md-4">
+            <div class="form-group m-0">
+              <label>{{'daos.show-daos.web-page-url'| translate}}</label>
+              <div class="input-group m-0">
+                <input type="text" class="form-control" name="webPageUrl" #webPage="ngModel"
+                       [(ngModel)]="webPageUrl" placeholder="{{'common.url-label'| translate}}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-md-4">
+            <div class="form-group m-0">
+              <label>{{'daos.show-daos.chat-channel'| translate}}</label>
+              <div class="input-group m-0">
+                <input type="text" class="form-control" name="chatChannelUrl" #chatChannel="ngModel"
+                       [(ngModel)]="chatChannelUrl" placeholder="{{'common.url-label'| translate}}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-md-4">
+            <div class="form-group m-0">
+              <label>{{'daos.show-daos.shared-data-link'| translate}}</label>
+              <div class="input-group m-0">
+                <input type="text" class="form-control" name="sharedDataLinkUrl" #sharedDataLink="ngModel"
+                       [(ngModel)]="sharedDataLinkUrl" placeholder="{{'common.url-label'| translate}}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" (click)="updateExternalDaoInfo()"
+                class="btn btn-primary mr-1 mt-1 mb-0 btn-gradient">
+          {{'common.save-btn'| translate}}
+        </button>
+      </div>
+      <div class="clear"></div>
+    </form>
+  </ng-container>
+</div>

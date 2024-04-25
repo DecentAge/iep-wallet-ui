@@ -29,6 +29,7 @@ export class SendMessageComponent implements OnInit {
         message: '',
         pubkey: ''
     };
+    recipientImmutable = false;
     openBookMarks: boolean = false;
     isPrunable = [
         { label: 'On Chain (160 chars.)', value: 'false' },
@@ -64,6 +65,7 @@ export class SendMessageComponent implements OnInit {
         this.activatedRoute.queryParams.subscribe((params: any) => {
             if (params.recipient) {
                 this.sendMessageForm.recipientRS = params.recipient;
+                this.recipientImmutable = true;
             }
         });
         this.sendMessageForm.prunable = this.isPrunable[0].value;
@@ -272,6 +274,10 @@ export class SendMessageComponent implements OnInit {
                     msg,
                     'OK',
                     'success').then((isConfirm: any) => {
+                        if (this.recipientImmutable) {
+                            this._location.back();
+                            return;
+                        }
                         this.router.navigate(['/account/transactions/pending']);
                     });
             } else {

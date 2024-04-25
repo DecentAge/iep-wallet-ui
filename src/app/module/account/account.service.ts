@@ -242,8 +242,8 @@ export class AccountService {
   }
 
   getVoterPhasedTransactions(account, firstIndex, lastIndex): any {
-    let params = {
-      requestType: "getVoterPhasedTransactions",
+    const params = {
+      requestType: 'getVoterPhasedTransactions',
       account: account,
       firstIndex: firstIndex,
       lastIndex: lastIndex
@@ -536,5 +536,22 @@ export class AccountService {
       AppConstants.accountConfig.accountEndPoint,
       params
     );
+  }
+
+  checkAccountExists(accountRS) {
+      const params = {
+          'requestType': 'getAccount',
+          'account': accountRS
+      };
+      return this.http.get(this.nodeService.getNodeUrl(), AppConstants.accountConfig.accountEndPoint, params);
+  }
+
+  getAccountPublicKey(account) {
+    const params = {
+      'requestType': 'getAccountPublicKey',
+      'account': account
+    };
+
+    return this.http.get(this.nodeService.getNodeUrl(), AppConstants.accountConfig.accountEndPoint, params);
   }
 }

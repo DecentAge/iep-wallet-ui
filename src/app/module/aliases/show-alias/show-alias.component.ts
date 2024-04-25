@@ -26,7 +26,7 @@ export class ShowAliasComponent implements OnInit {
 
     setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
-        let account = this.commonsService.getAccountDetailsFromSession('accountId');
+        const account = this.commonsService.getAccountDetailsFromSession('accountId');
         this.aliasesService.getAccountAliases(account,
             this.page.pageNumber * 10,
             ((this.page.pageNumber + 1) * 10) - 1).subscribe((response: any) => {
@@ -37,31 +37,30 @@ export class ShowAliasComponent implements OnInit {
                 this.onSearchChange(this.searchText);
             } else {
                 this.rows = response.aliases;
-                if (this.page.pageNumber === 0 && this.rows.length < 10) {
-                    this.page.totalElements = this.rows.length;
-                } else if (this.page.pageNumber > 0 && this.rows.length < 10) {
-                    this.page.totalElements = this.page.pageNumber * 10 + this.rows.length;
-                    this.page.totalPages = this.page.pageNumber;
-                }
+                this.setPageSize();
             }
 
         });
     }
 
     onSearchChange(query) {
-        if (query !== '') {
+        if (query !== '' && query.length >= 2) {
             this.aliasesService.searchAlias(query, this.page.pageNumber * 10, ((this.page.pageNumber + 1) * 10) - 1)
                 .subscribe((success) => {
                     this.rows = success.aliases;
-                    if (this.page.pageNumber === 0 && this.rows.length < 10) {
-                        this.page.totalElements = this.rows.length;
-                    } else if (this.page.pageNumber > 0 && this.rows.length < 10) {
-                        this.page.totalElements = this.page.pageNumber * 10 + this.rows.length;
-                        this.page.totalPages = this.page.pageNumber;
-                    }
+                    this.setPageSize();
                 });
         } else {
             this.reload();
+        }
+    }
+
+    setPageSize() {
+        if (this.page.pageNumber === 0 && this.rows.length < 10) {
+            this.page.totalElements = this.rows.length;
+        } else if (this.page.pageNumber > 0 && this.rows.length < 10) {
+            this.page.totalElements = this.page.pageNumber * 10 + this.rows.length;
+            this.page.totalPages = this.page.pageNumber;
         }
     }
 

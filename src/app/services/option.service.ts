@@ -154,7 +154,7 @@ export class OptionService {
     };
 
     clearOptions(publicKey, successCallback, errorCallback) {
-        this.clear(AppConstants.optionsConfig.tableOptions,'public_key_idx', publicKey, successCallback, errorCallback);
+        this.clear(AppConstants.optionsConfig.tableOptions, 'public_key_idx', publicKey, successCallback, errorCallback);
     };
 
     loadOptions(publicKey, successCallback, errorCallback) {

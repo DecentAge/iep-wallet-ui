@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-block main-card-block">
+                <div class="border-bt">
+                    <h2 class="main-title">
+                        {{'daos.add-team-poll.title' | translate}}
+                    </h2>
+                    <app-breadcrumb></app-breadcrumb>
+                </div>
+                <div class="card-body">
+                    <div class="card-block ml-md-3 mr-md-3">
+                        <form class="form inner-form mt-5 create-dao-form" #selectDaoTeamsForm="ngForm" novalidate>
+                            <div class="form-body">
+                                <app-select-dao-team
+                                        [currentDao]="currentDao"
+                                        [currentTeam]="currentTeam"
+                                        [daosList]="daosList"
+                                        [teamsList]="teamsList"
+                                        (setDao)="setDao($event)"
+                                        (setTeam)="setTeam($event)"
+                                ></app-select-dao-team>
+                                <button type="button" class="btn btn-gradient float-right" (click)="addTeamPoll()"
+                                        [disabled]="!pollWalletRecipient">
+                                    {{'daos.add-team-poll.next-btn'| translate}}
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

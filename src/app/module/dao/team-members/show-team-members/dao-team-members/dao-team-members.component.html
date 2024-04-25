@@ -1,0 +1,45 @@
+<div class="card-header-custom">
+    <div class="pull-right filter-group">
+        <div class="btn-group btn-group-justified btn-group-raised">
+            <a href="javascript:void(0)" class="btn btn-sm btn-grey btn-icon" (click)="reload()"
+               triggers="mouseenter:mouseleave" container="body"
+               placement="top" [ngbPopover]="'common.reload-filter-popover' | translate">
+                <i class="fa fa-refresh"></i>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="card-body">
+    <div class="card-block ml-md-3 mr-md-3">
+        <ngx-datatable class="material" [rows]="rows" [columnMode]="columnModes.force"
+                       [rowHeight]="'auto'"
+                       [footerHeight]="50" [externalPaging]="true" [count]="page.totalElements"
+                       [offset]="page.pageNumber"
+                       [limit]="page.size" (page)='setPage($event)'
+                       (autoRefresh)="setPage({offset: 0})">
+            <ngx-datatable-column prop="aliasURI"
+                                  [name]="'table-header.team-member-account'| translate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{accountId(value)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="aliasName" [name]="'table-header.team-member-role'| translate">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value.split('TR').pop().split('TT').shift()}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="aliasURI" [name]="'table-header.actions'| translate">
+                <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
+                    <div class="btn-group-raised">
+                        <a class="btn btn-sm btn-grey btn-icon"
+                           (click)="sendMessage(accountId(value))"
+                           triggers="mouseenter:mouseleave" container="body" placement="top"
+                           [ngbPopover]="'daos.show-team-details.send-message-table-action' | translate">
+                            <i class="icon-messages"></i>
+                        </a>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>

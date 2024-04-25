@@ -355,7 +355,7 @@ padding-top: 15px;
     top: 4px;
 }
 .app-sidebar .navigation li ul li ul li a{
-    padding: 0px 0px 0px 36%;
+    padding: 0 0 0 44%;
 }
 .app-sidebar .navigation li li:hover > a, .app-sidebar .navigation li li.active > a{
   background: #fff !important;
@@ -1029,6 +1029,11 @@ aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:b
     display: block;
     overflow: scroll;
     width: 800px !important;
+}
+.mobile-dao .ngx-datatable .datatable-header, .mobile-dao .ngx-datatable .datatable-body {
+    display: block;
+    overflow: scroll;
+    width: unset !important;
 }
 .ngx-datatable .datatable-header{
   font-size: 9px !important;

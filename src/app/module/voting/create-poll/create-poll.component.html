@@ -23,10 +23,13 @@
                                                 </label>
                                                 <div class="position-relative">
                                                     <select [(ngModel)]="votingModel" id="votingModel" name="votingModel"
-                                                        class="form-control" #model="ngModel" required>
-                                                        <option *ngFor="let option of votingOptions" value="{{ option.value }}">{{
-                                                            'voting.create-poll.voting-options.'+option.label |
-                                                            translate }}
+                                                        class="form-control" #model="ngModel" required
+                                                            [disabled]="!!pollImmutable"
+                                                    >
+                                                        <option *ngFor="let option of votingOptions" value="{{ option.value }}"
+                                                                [selected]="!!pollImmutable && votingModel === 2"
+                                                        >
+                                                            {{'voting.create-poll.voting-options.'+option.label | translate }}
                                                         </option>
                                                     </select>
                                                     <div *ngIf="model?.invalid && (model?.dirty || model?.touched)"
@@ -77,6 +80,7 @@
                                                 <div>
                                                     <input type="text" id="asset" class="form-control" placeholder="{{'voting.create-poll.asset-id-placeholder' | translate}}"
                                                         name="asset" #asset="ngModel" [(ngModel)]="assetId" (input)="getAsset(assetId)"
+                                                           [readOnly]="!!pollImmutable"
                                                         required>
                                                     <div *ngIf="(asset?.invalid && (asset?.dirty || asset?.touched)) || assetError != ''"
                                                         class="input-error">
