@@ -24,6 +24,11 @@
           <div [innerHTML]="value | votingModelLabel" ngbPopover="{{value | votingModel}}" triggers="mouseenter:mouseleave"></div>
         </ng-template>
       </ngx-datatable-column>
+      <ngx-datatable-column prop="assetName" [name]="'table-header.asset-name' | translate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
       <ngx-datatable-column prop="options" [name]="'table-header.options' | translate">
         <ng-template let-value="value" ngx-datatable-cell-template>
           {{value.length}}
