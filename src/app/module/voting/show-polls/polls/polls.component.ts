@@ -6,6 +6,8 @@ import {SessionStorageService} from '../../../../services/session-storage.servic
 import {AppConstants} from '../../../../config/constants';
 import {Page} from '../../../../config/page';
 import {AccountService} from '../../../account/account.service';
+import {AssetsService} from 'app/module/assets/assets.service';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-polls',
@@ -27,11 +29,12 @@ export class PollsComponent implements OnInit {
     private accountRs: any;
     private daoName: string;
 
-    constructor(public router: Router,
-                public votingService: VotingService,
-                public sessionStorageService: SessionStorageService,
-                public route: ActivatedRoute,
-                public accountService: AccountService) {
+    constructor(private router: Router,
+                private votingService: VotingService,
+                private sessionStorageService: SessionStorageService,
+                private route: ActivatedRoute,
+                private accountService: AccountService,
+                private assetsService: AssetsService) {
         this.page.pageNumber = 0;
         this.page.size = 10;
     }
@@ -93,12 +96,22 @@ export class PollsComponent implements OnInit {
             this.votingService.getDaoTeamTokens(this.daoName).subscribe((response: any) => {
                 this.daoAssets = response.assets.map(a => a.asset);
                 this.votingService.getAllPolls().subscribe(polls => {
-                    console.log(this.daoAssets);
                     if (this.daoName.startsWith('XIN-')) {
-                        this.setUpPage(polls.filter(poll => poll.accountRS === this.accountRs));
+                        const daoPolls = polls.filter(poll => poll.accountRS === this.accountRs);
+                        const assetsRequests = [...daoPolls.map(poll => this.getAsset(poll.holding))];
+                        forkJoin(assetsRequests).subscribe(resp => {
+                            resp.map((r: any, index) => {
+                                daoPolls[index].assetName = r;
+                            });
+                            this.setUpPage(daoPolls);
+                        })
                         return;
                     }
-                    this.setUpPage(polls.filter(poll => this.daoAssets.includes(poll.holding)));
+                    this.setUpPage(polls.filter(poll => this.daoAssets.includes(poll.holding)).map(poll => {
+                        const asset = response.assets.find((ast: any) => ast.asset === poll.holding);
+                        poll.assetName = asset.name;
+                        return poll;
+                    }));
                 })
             });
         } else {
@@ -107,6 +120,10 @@ export class PollsComponent implements OnInit {
                     this.setUpPage(success.polls);
                 });
         }
+    }
+
+    getAsset(assetId) {
+        return this.assetsService.getAsset(assetId).pipe(map((asset: any) => asset.name));
     }
 
     setUpPage(data) {

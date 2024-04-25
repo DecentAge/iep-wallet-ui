@@ -736,7 +736,8 @@
         "team-token": "Team Token",
         "teams": "Teams",
         "members": "Members",
-        "approval": "Approval Account"
+        "approval": "Approval Account",
+        "asset-name": "Asset"
     },
     "assets": {
         "show": {
