@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
-import {AppConstants} from '../../config/constants';
+import {AppConstants} from 'app/config/constants';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
 import {map, takeUntil} from 'rxjs/operators';
 import {AliasesService} from '../aliases/aliases.service';
 import {AssetsService} from '../assets/assets.service';
-import {CommonService} from '../../services/common.service';
-import {CryptoService} from '../../services/crypto.service';
-import {SessionStorageService} from '../../services/session-storage.service';
+import {CommonService} from 'app/services/common.service';
+import {CryptoService} from 'app/services/crypto.service';
+import {SessionStorageService} from 'app/services/session-storage.service';
 import {Router} from '@angular/router';
-import {HttpProviderService} from '../../services/http-provider.service';
-import {NodeService} from '../../services/node.service';
+import {HttpProviderService} from 'app/services/http-provider.service';
+import {NodeService} from 'app/services/node.service';
 import {AccountService} from '../account/account.service';
 import {combineLatest, Observable, Subject} from 'rxjs';
 import {Founder, TeamMember} from './interfaces';
@@ -562,7 +562,7 @@ export class DaoService {
                                 msg += successBroadcastTransaction.transaction;
                                 alertFunctions
                                   .InfoAlertBox(title, msg, 'OK', 'success')
-                                  .then((isConfirm: any) => {
+                                  .then(() => {
                                       this.router.navigate(['/account/transactions/pending']).then();
                                   });
                             } else {
@@ -573,7 +573,7 @@ export class DaoService {
                                 );
                                 alertFunctions
                                   .InfoAlertBox(title, errMsg, 'OK', 'error')
-                                  .then((isConfirm: any) => {});
+                                  .then();
                             }
                         });
                   } else {
@@ -584,7 +584,7 @@ export class DaoService {
                       );
                       alertFunctions
                         .InfoAlertBox(title, errMsg, 'OK', 'error')
-                        .then((isConfirm: any) => {});
+                        .then();
                   }
               });
           });
