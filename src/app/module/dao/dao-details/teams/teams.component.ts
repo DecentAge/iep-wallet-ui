@@ -59,6 +59,7 @@ export class TeamsComponent implements OnInit {
                     }
                     alias.teamToken = this.teamTokens[index];
                     alias.teamToken.teamWallet = alias.aliasURI.split('acct:').pop().split('@xin').shift();
+                    alias.teamToken.asset = alias.aliasName;
                     return alias;
                 });
                 this.page.size = this.rows.length;
@@ -83,7 +84,13 @@ export class TeamsComponent implements OnInit {
     }
 
     sendMessage(teamToken) {
-        this.router.navigate(['/messages/send-message'], {queryParams: {recipient: teamToken.teamWallet}}).then();
+        this.router
+          .navigate(['/messages/send-message'], {
+              queryParams: {
+                  recipient: teamToken.teamWallet,
+                  teamName: teamToken.asset
+              }
+          }).then();
     }
 
     createPoll(teamToken) {

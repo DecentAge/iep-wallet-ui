@@ -94,7 +94,7 @@
                                                 <div class="position-relative sign_in_inputs">
                                                     <textarea rows="3" placeholder="{{'common.message-label'| translate}}"
                                                         name="message" [(ngModel)]="sendMessageForm.message"
-                                                        (ngModelChange)="onChangeMessageInfo($event)" class="form-control pl-0"></textarea>
+                                                        (ngModelChange)="onChangeMessageInfo()" class="form-control pl-0"></textarea>
                                                 </div>
                                             </div>
                                             <button type="button" [ngClass]="{'btn-success': !hasReceiverPublicKey, 'btn-danger': hasReceiverPublicKey}"
