@@ -19,7 +19,8 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     public currentDao = '';
     public currentTeam = '';
     public addTeamMemberForm = {
-        teamMembers: Array<TeamMember>()
+        teamMembers: Array<TeamMember>(),
+        issueDaoTokens: false
     };
     public isPending = true;
     public pendingTransactions = [];
@@ -84,7 +85,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
                     }
                 })];
         }
-        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.addTeamMemberForm.teamMembers);
+        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.addTeamMemberForm.teamMembers, this.addTeamMemberForm.issueDaoTokens);
     }
 
     setDao(dao): void {
@@ -100,6 +101,10 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 
     setTeam(team): void {
         this.currentTeam = team;
+    }
+
+    setIssueDaoTokens() {
+        this.addTeamMemberForm.issueDaoTokens = !this.addTeamMemberForm.issueDaoTokens;
     }
 
     addTeamMember() {

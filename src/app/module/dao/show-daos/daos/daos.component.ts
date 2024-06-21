@@ -99,4 +99,6 @@ export class DaosComponent implements OnInit, OnChanges {
         this.router.navigate([`dao/show-polls/${value.aliasName}`]).then();
     }
 
+    getDaoName = this.daoService.getDaoName;
+
 }

@@ -80,4 +80,6 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
         this.currentDao = dao;
         this.teamDAO = dao.split('DAO').join('');
     }
+
+    getDaoName = this.daoService.getDaoName;
 }

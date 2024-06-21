@@ -121,4 +121,6 @@ export class ApprovalAccountsComponent implements OnInit {
         const accountId = this.accountId(account);
         return this.whiteList.filter((wlAccount: any) => wlAccount.whitelistedRS === accountId).length > 0
     }
+
+    getDaoName = this.daoService.getDaoName;
 }

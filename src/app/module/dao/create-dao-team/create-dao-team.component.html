@@ -8,7 +8,7 @@
                         <select name="type" class="form-control" [(ngModel)]="currentDao"
                                 (change)="setDao(currentDao)" required>
                             <option *ngFor='let dao of daoList | async' [value]="dao?.aliasName">
-                                {{dao?.aliasName?.split('DAO').pop()}}
+                                {{getDaoName(dao?.aliasName)}}
                             </option>
                         </select>
                     </div>

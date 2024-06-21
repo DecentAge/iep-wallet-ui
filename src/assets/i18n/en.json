@@ -1503,6 +1503,7 @@
             "team-member-address": "Team Member Address",
             "team-member-role": "Team Member Role",
             "add-btn": "Add Team Member",
+            "issue-dao-tokens": "Issue DAO tokens",
             "transactions-pending": "Transactions pending, please wait"
         },
         "approval-accounts": {

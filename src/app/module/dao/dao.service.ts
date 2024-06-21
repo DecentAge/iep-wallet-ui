@@ -54,6 +54,11 @@ export class DaoService {
         );
     }
 
+    getDaoName(value) {
+        const name = value.split(/DAO(.*)/s);
+        return name[1];
+    }
+
     createAsset(assetName, aliasName, daoData, route = '', aliasURI = '') {
         const description = daoData.description;
         const shares = daoData.quantity;
@@ -167,6 +172,7 @@ export class DaoService {
     }
 
     createTeam(daoName, teamData, aliasUri = '') {
+        // todo: daoName is full name but for the asset name it should only be dao prefix
         const assetName = `DAO${daoName}TT${teamData.prefix}`;
         const aliasName = `DAO${daoName}TN${teamData.name}TT${teamData.prefix}`;
         DaoService.currentDAOTeam = aliasName;
@@ -195,6 +201,32 @@ export class DaoService {
             })
         );
     };
+
+    public getDaoAssets(daoName) {
+        const prefix = daoName === '' ? 'DAO' : daoName;
+        const params = {
+            'requestType': 'searchAssets',
+            'query': `${prefix}*`,
+        };
+
+        console.log("GET ASSETS")
+
+        this.http.get(this.nodeService.getNodeUrl(), AppConstants.assetsConfig.assetsEndPoint, params).subscribe((l) => console.log(l))
+
+        return this.http.get(this.nodeService.getNodeUrl(), AppConstants.assetsConfig.assetsEndPoint, params).pipe(
+            map((assets: any) => {
+                return console.log("ASSETS",assets)/*
+                return daoName === '' ?
+                    assets.assets.filter(alias =>
+                        alias.aliasName.indexOf('TN') === -1 &&
+                        alias.aliasName.indexOf('TT') === -1 &&
+                        alias.aliasName.indexOf('UL') === -1 &&
+                        alias.aliasName.indexOf('CT') === -1 &&
+                        alias.aliasName.indexOf('SL') === -1)
+                    : assets.assets;*/
+            })
+        );
+    }
 
     public getDaoTeams(daoName: string) {
         return this.getAliases(daoName).pipe(
@@ -315,7 +347,7 @@ export class DaoService {
         );
     }
 
-    addTeamMembers(currentDao, currentTeam, teamMembers) {
+    addTeamMembers(currentDao, currentTeam, teamMembers, issueDaoTokens) {
         const wallets = teamMembers.map((teamMember: TeamMember) => teamMember.teamMemberWallet);
         const checkWallets = wallets.map(wallet => this.checkAccountExists(wallet));
         combineLatest(checkWallets).subscribe((accounts) => {
@@ -359,105 +391,109 @@ export class DaoService {
                         const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
                         aliasesTransactionsToBroadcast.push(this.broadcastTransaction(transactionBytes));
                     });
-                    this.transferTeamTokens(teamToken, wallets, aliasesTransactionsToBroadcast, currentDao, currentTeam);
+                    this.transferTeamTokens(teamToken, wallets, aliasesTransactionsToBroadcast, currentDao, currentTeam, issueDaoTokens);
                 })
             });
         });
     }
 
-    transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam) {
+    transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam, issueDaoTokens) {
         this.getAssetForDaoTeam(teamToken).pipe(map((response: any) => response.assets[0])).subscribe((token: any) => {
-            if (!token || token.quantityQNT < 1) {
-                const title: string = this.commonService.translateAlertTitle('Error');
-                const errMsg: string = this.commonService.translateInfoMessage('try-later');
-                alertFunctions.InfoAlertBox(title,
-                    errMsg,
-                    'OK',
-                    'error').then(() => {
-                });
-                return;
-            }
-            const quantity = 1;
-            const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
-            const asset = token.asset;
-            const fee = 1;
-            const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
-
-            const transferData = [];
-            wallets.map((wallet, index) => {
-                const qty = this.currentTeamMembers.length > 0 && this.currentTeamMembers[index]
-                && this.currentTeamMembers[index].quantity ? this.currentTeamMembers[index].quantity : quantity;
-                transferData.push(this.assetsService.transferAsset(publicKey, wallet, asset, qty, fee));
-            });
-            combineLatest(transferData).subscribe(success_ => {
-                combineLatest(success_).subscribe(transferAssetsRequests => {
-                    if (transferAssetsRequests.find((request: any) => request.errorCode)) {
-                        const title: string = this.commonService.translateAlertTitle('Error');
-                        const errMsg: string = this.commonService.translateInfoMessage('try-later');
-                        alertFunctions.InfoAlertBox(title,
-                            errMsg,
-                            'OK',
-                            'error').then(() => {
-                        });
-                    }
-                    const transactionsToBroadcast = [];
-                    transferAssetsRequests.map((request: any) => {
-                        const unsignedBytes = request.unsignedTransactionBytes;
-                        const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
-                        const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
-                        transactionsToBroadcast.push(this.broadcastTransaction(transactionBytes));
+            this.getAssetForDaoTeam(currentDao).pipe(map((response: any) => response.assets[0])).subscribe((daoToken) => {
+                if (!token || token.quantityQNT < 1 || (issueDaoTokens && (!daoToken || daoToken.quantityQNT < 1))) {
+                    const title: string = this.commonService.translateAlertTitle('Error');
+                    const errMsg: string = this.commonService.translateInfoMessage('try-later');
+                    alertFunctions.InfoAlertBox(title,
+                        errMsg,
+                        'OK',
+                        'error').then(() => {
                     });
-                    combineLatest([...aliasesTransactions, ...transactionsToBroadcast]).subscribe((broadcastedResponse: any) => {
-                        const successTransactionsId = [];
-                        const filedTransactionsId = [];
-                        broadcastedResponse.map((response: any) => {
-                            if (!!response.success) {
-                                successTransactionsId.push(response.transaction);
-                            } else {
-                                filedTransactionsId.push(response.transaction);
-                            }
-                        });
-                        if (successTransactionsId.length) {
-                            const title: string = this.commonService.translateAlertTitle('Success');
-                            let msg: string = this.commonService.translateInfoMessage('success-broadcast-transactions');
-                            msg += successTransactionsId.join(', ');
-                            alertFunctions.InfoAlertBox(title, msg, 'OK', 'success').then(() => {
-                                if (filedTransactionsId.length) {
-                                    const errorTitle: string = this.commonService.translateAlertTitle('Error');
-                                    let errMsg: string = this.commonService.translateInfoMessage('unable-broadcast-transactions');
-                                    errMsg += filedTransactionsId.join(', ');
-                                    alertFunctions.InfoAlertBox(errorTitle,
-                                        errMsg,
-                                        'OK',
-                                        'error').then();
-                                } else {
-                                    if (this.router.url.toString() === '/dao/create-dao/add-team-members') {
-                                        this.router.navigate(['dao/show-daos']).then();
-                                    } else {
-                                        DaoService.currentDAO = currentDao;
-                                        DaoService.currentDAOTeam = currentTeam;
-                                        let isMobile = false;
-                                        const ua = navigator.userAgent;
-                                        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
-                                            isMobile = true;
-                                        }
-                                        const viewMode = isMobile ? 'mobile' : 'my';
-                                        this.router.navigate([`dao/show-daos/${viewMode}/${currentDao}/teams/${currentTeam}`]).then();
-                                    }
-                                }
-                            });
-                        } else if (filedTransactionsId.length) {
+                    return;
+                }
+                const quantity = 1;
+                const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
+                const asset = token.asset;
+                const daoAsset = daoToken.asset;
+                const fee = 1;
+                const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
+
+                const transferData = [];
+                wallets.map((wallet, index) => {
+                    const qty = this.currentTeamMembers.length > 0 && this.currentTeamMembers[index]
+                    && this.currentTeamMembers[index].quantity ? this.currentTeamMembers[index].quantity : quantity;
+                    transferData.push(this.assetsService.transferAsset(publicKey, wallet, asset, qty, fee));
+                    if (issueDaoTokens) transferData.push(this.assetsService.transferAsset(publicKey, wallet, daoAsset, qty, fee));
+                });
+                combineLatest(transferData).subscribe(success_ => {
+                    combineLatest(success_).subscribe(transferAssetsRequests => {
+                        if (transferAssetsRequests.find((request: any) => request.errorCode)) {
                             const title: string = this.commonService.translateAlertTitle('Error');
-                            let errMsg: string = this.commonService.translateInfoMessage('unable-broadcast-transactions');
-                            errMsg += filedTransactionsId.join(', ');
+                            const errMsg: string = this.commonService.translateInfoMessage('try-later');
                             alertFunctions.InfoAlertBox(title,
                                 errMsg,
                                 'OK',
-                                'error').then();
+                                'error').then(() => {
+                            });
                         }
+                        const transactionsToBroadcast = [];
+                        transferAssetsRequests.map((request: any) => {
+                            const unsignedBytes = request.unsignedTransactionBytes;
+                            const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                            const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+                            transactionsToBroadcast.push(this.broadcastTransaction(transactionBytes));
+                        });
+                        combineLatest([...aliasesTransactions, ...transactionsToBroadcast]).subscribe((broadcastedResponse: any) => {
+                            const successTransactionsId = [];
+                            const filedTransactionsId = [];
+                            broadcastedResponse.map((response: any) => {
+                                if (!!response.success) {
+                                    successTransactionsId.push(response.transaction);
+                                } else {
+                                    filedTransactionsId.push(response.transaction);
+                                }
+                            });
+                            if (successTransactionsId.length) {
+                                const title: string = this.commonService.translateAlertTitle('Success');
+                                let msg: string = this.commonService.translateInfoMessage('success-broadcast-transactions');
+                                msg += successTransactionsId.join(', ');
+                                alertFunctions.InfoAlertBox(title, msg, 'OK', 'success').then(() => {
+                                    if (filedTransactionsId.length) {
+                                        const errorTitle: string = this.commonService.translateAlertTitle('Error');
+                                        let errMsg: string = this.commonService.translateInfoMessage('unable-broadcast-transactions');
+                                        errMsg += filedTransactionsId.join(', ');
+                                        alertFunctions.InfoAlertBox(errorTitle,
+                                            errMsg,
+                                            'OK',
+                                            'error').then();
+                                    } else {
+                                        if (this.router.url.toString() === '/dao/create-dao/add-team-members') {
+                                            this.router.navigate(['dao/show-daos']).then();
+                                        } else {
+                                            DaoService.currentDAO = currentDao;
+                                            DaoService.currentDAOTeam = currentTeam;
+                                            let isMobile = false;
+                                            const ua = navigator.userAgent;
+                                            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
+                                                isMobile = true;
+                                            }
+                                            const viewMode = isMobile ? 'mobile' : 'my';
+                                            this.router.navigate([`dao/show-daos/${viewMode}/${currentDao}/teams/${currentTeam}`]).then();
+                                        }
+                                    }
+                                });
+                            } else if (filedTransactionsId.length) {
+                                const title: string = this.commonService.translateAlertTitle('Error');
+                                let errMsg: string = this.commonService.translateInfoMessage('unable-broadcast-transactions');
+                                errMsg += filedTransactionsId.join(', ');
+                                alertFunctions.InfoAlertBox(title,
+                                    errMsg,
+                                    'OK',
+                                    'error').then();
+                            }
+                        });
                     });
                 });
-            });
+            })
         });
     }
 
