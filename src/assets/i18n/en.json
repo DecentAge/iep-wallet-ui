@@ -1534,6 +1534,7 @@
             "team-member-address": "Team Member Address",
             "team-member-role": "Team Member Role",
             "add-btn": "Add Team Member",
+            "issue-dao-tokens": "Issue DAO tokens",
             "transactions-pending": "Transactions pending, please wait",
             "popovers": {
                 "team-member-address": "Wallet address of the team member you like to add",
