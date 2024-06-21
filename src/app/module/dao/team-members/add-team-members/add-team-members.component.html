@@ -98,7 +98,7 @@
         <div class="row">
                 <label class="custom-control custom-checkbox ml-2" for="issueTeamToken">
                     <input type="checkbox" class="custom-control-input"
-                           (change)="setIssueDaoToken()" [(ngModel)]="issueDaoTokens"
+                           (change)="setIssueDaoTokens()" [(ngModel)]="addTeamMemberForm.issueDaoTokens"
                            [ngModelOptions]="{standalone: true}" id="issueTeamToken">
                     <div class="custom-control-label">
                         {{'daos.add-team-members.issue-dao-tokens' | translate}}</div>
