@@ -172,7 +172,6 @@ export class DaoService {
     }
 
     createTeam(daoName, teamData, aliasUri = '') {
-        // todo: daoName is full name but for the asset name it should only be dao prefix
         const assetName = `DAO${daoName}TT${teamData.prefix}`;
         const aliasName = `DAO${daoName}TN${teamData.name}TT${teamData.prefix}`;
         DaoService.currentDAOTeam = aliasName;
@@ -347,7 +346,7 @@ export class DaoService {
         );
     }
 
-    addTeamMembers(currentDao, currentTeam, teamMembers, issueDaoTokens) {
+    addTeamMembers(currentDao, currentTeam, teamMembers) {
         const wallets = teamMembers.map((teamMember: TeamMember) => teamMember.teamMemberWallet);
         const checkWallets = wallets.map(wallet => this.checkAccountExists(wallet));
         combineLatest(checkWallets).subscribe((accounts) => {
@@ -391,16 +390,16 @@ export class DaoService {
                         const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
                         aliasesTransactionsToBroadcast.push(this.broadcastTransaction(transactionBytes));
                     });
-                    this.transferTeamTokens(teamToken, wallets, aliasesTransactionsToBroadcast, currentDao, currentTeam, issueDaoTokens);
+                    this.transferTeamTokens(teamToken, wallets, aliasesTransactionsToBroadcast, currentDao, currentTeam);
                 })
             });
         });
     }
 
-    transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam, issueDaoTokens) {
+    transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam) {
         this.getAssetForDaoTeam(teamToken).pipe(map((response: any) => response.assets[0])).subscribe((token: any) => {
             this.getAssetForDaoTeam(currentDao).pipe(map((response: any) => response.assets[0])).subscribe((daoToken) => {
-                if (!token || token.quantityQNT < 1 || (issueDaoTokens && (!daoToken || daoToken.quantityQNT < 1))) {
+                if (!token || token.quantityQNT < 1 || (!daoToken || daoToken.quantityQNT < 1)) {
                     const title: string = this.commonService.translateAlertTitle('Error');
                     const errMsg: string = this.commonService.translateInfoMessage('try-later');
                     alertFunctions.InfoAlertBox(title,
@@ -421,8 +420,9 @@ export class DaoService {
                 wallets.map((wallet, index) => {
                     const qty = this.currentTeamMembers.length > 0 && this.currentTeamMembers[index]
                     && this.currentTeamMembers[index].quantity ? this.currentTeamMembers[index].quantity : quantity;
+                    const issueDaoToken = this.currentTeamMembers[index].issueDaoToken;
                     transferData.push(this.assetsService.transferAsset(publicKey, wallet, asset, qty, fee));
-                    if (issueDaoTokens) transferData.push(this.assetsService.transferAsset(publicKey, wallet, daoAsset, qty, fee));
+                    if (issueDaoToken) transferData.push(this.assetsService.transferAsset(publicKey, wallet, daoAsset, 1, fee));
                 });
                 combineLatest(transferData).subscribe(success_ => {
                     combineLatest(success_).subscribe(transferAssetsRequests => {

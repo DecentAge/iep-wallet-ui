@@ -45,7 +45,8 @@ export class FoundersComponent implements OnInit, AfterViewInit {
         this.createFounderForm.founders.push({
             founderWalletAlias: '',
             founderWalletAddress: '',
-            initialAllocation: ''
+            initialAllocation: '',
+            issueDaoToken: true
         });
         DaoService.currentDAOTeamFounders = [...this.createFounderForm.founders];
     }

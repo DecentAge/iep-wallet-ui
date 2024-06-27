@@ -82,11 +82,12 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
                     return {
                         teamMemberWallet: teamFounder.founderWalletAddress,
                         teamMemberRole: teamFounder.founderWalletAlias,
-                        quantity: teamFounder.initialAllocation
+                        quantity: teamFounder.initialAllocation,
+                        issueDaoToken: teamFounder.issueDaoToken
                     }
                 })];
         }
-        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.addTeamMemberForm.teamMembers, this.addTeamMemberForm.issueDaoTokens);
+        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.addTeamMemberForm.teamMembers);
     }
 
     setDao(dao): void {
@@ -107,7 +108,8 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     addTeamMember() {
         this.addTeamMemberForm.teamMembers.push({
             teamMemberWallet: '',
-            teamMemberRole: ''
+            teamMemberRole: '',
+            issueDaoToken: true
         });
     }
 

@@ -62,6 +62,21 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-3">
+                <label class="custom-control custom-checkbox ml-2 mt-4" for="issueDaoTokens{{i}}">
+                    <input type="checkbox" class="custom-control-input" [(ngModel)]="addTeamMemberForm.teamMembers[i].issueDaoToken"
+                           [ngModelOptions]="{standalone: true}" id="issueDaoTokens{{i}}">
+                    <div class="custom-control-label">
+                        {{'daos.add-team-members.issue-dao-tokens' | translate}}
+
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.add-team-members.issue-dao-tokens-desc'| translate}}">
+                        </i>
+                    </div>
+                    <div class="custom-control-icon"></div>
+                </label>
+            </div>
             <div class="col-md-1">
                 <div class="form-group m-0">
                     <label>&nbsp;</label>
@@ -78,21 +93,6 @@
                 <a class="btn btn-gradient mt-3 mb-3" (click)="addTeamMember();" href="javascript:void(0)">
                     <i class="fa fa-user-plus"></i>{{'daos.add-team-members.add-btn'| translate}}</a>
             </div>
-        </div>
-        <div class="row">
-                <label class="custom-control custom-checkbox ml-2" for="issueDaoTokens">
-                    <input type="checkbox" class="custom-control-input" [(ngModel)]="addTeamMemberForm.issueDaoTokens"
-                           [ngModelOptions]="{standalone: true}" id="issueDaoTokens">
-                    <div class="custom-control-label">
-                        {{'daos.add-team-members.issue-dao-tokens' | translate}}
-
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
-                           container="body" placement="right" triggers="mouseenter:mouseleave"
-                           ngbPopover="{{'daos.add-team-members.issue-dao-tokens-desc'| translate}}">
-                        </i>
-                    </div>
-                    <div class="custom-control-icon"></div>
-                </label>
         </div>
         <ng-container *ngIf="!!wizard; else outsideOfDao">
             <button type="button" class="btn btn-gradient float-right" (click)="finishDaoCreation()"
