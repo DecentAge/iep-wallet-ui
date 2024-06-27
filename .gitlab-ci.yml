@@ -9,3 +9,5 @@ trigger-iep-node:
   trigger:
     project: infinity-economics/iep-node
     branch: $CI_COMMIT_BRANCH
+    forward:
+      yaml_variables: false
