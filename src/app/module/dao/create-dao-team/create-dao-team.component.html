@@ -109,7 +109,7 @@
                     </label>
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control" name="prefix"
-                               [pattern]="alphanumericPattern"
+                               [pattern]="alphanumericPatternMax6"
                                #prefix="ngModel"
                                [(ngModel)]="createTeamForm.prefix"
                                placeholder="{{'daos.create-dao.placeholders.' + (!!wizard ? 'founder-' : '') + 'team-shortcode-placeholder' | translate}}"

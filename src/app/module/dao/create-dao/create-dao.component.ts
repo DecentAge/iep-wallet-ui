@@ -13,6 +13,7 @@ export class CreateDaoComponent {
     @Input() createDaoForm: { [key: string]: string };
 
     public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
+    public readonly alphanumericPatternMax7: RegExp = new RegExp('^[a-zA-Z0-9_]{1,7}$');
 
     constructor(
         private daoService: DaoService,

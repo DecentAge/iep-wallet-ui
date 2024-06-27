@@ -5,6 +5,7 @@ import {ShowDaosMode} from '../../enums';
 import {AccountService} from '../../../account/account.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Page} from '../../../../config/page';
+import {filter} from "rxjs/operators";
 
 @Component({
     selector: 'app-daos',
@@ -33,7 +34,7 @@ export class DaosComponent implements OnInit, OnChanges {
             this.viewMode = data.mode;
         });
         this.daoService.changeDaoViewMode(this.viewMode);
-        this.setPage({offset: 0});
+        this.setPage({offset: 0, size: 3});
         this.account = this.accountService.getAccountDetailsFromSession('accountId');
     }
 
@@ -44,7 +45,6 @@ export class DaosComponent implements OnInit, OnChanges {
     public setPage(pageInfo) {
         this.rows = [];
         this.page.pageNumber = pageInfo.offset;
-        this.page.totalPages = 1;
         this.getDaosAliases();
     }
 
@@ -60,8 +60,7 @@ export class DaosComponent implements OnInit, OnChanges {
                     return;
                 }
                 this.rows = aliases;
-                this.page.size = this.rows.length;
-                this.page.totalElements = this.rows.length;
+                this.page.totalElements = aliases.length;
             });
         } else {
             // My and Mobile views
@@ -74,9 +73,10 @@ export class DaosComponent implements OnInit, OnChanges {
                     return;
                 }
                 this.daoService.getMyDaoTokens(this.account).subscribe(assets => {
-                    this.rows = aliases.filter(al => assets.map(ass => ass.name.split('TT').shift()).includes(al.aliasName));
-                    this.page.size = this.rows.length;
-                    this.page.totalElements = this.rows.length;
+                    console.log("MY ASSETS:", assets)
+                    const filtered = aliases.filter(al => assets.map(ass => ass.name.split('TT').shift()).includes(al.aliasName));
+                    this.rows = filtered;
+                    this.page.totalElements = filtered.length;
                 });
             });
         }

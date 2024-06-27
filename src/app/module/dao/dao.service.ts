@@ -409,7 +409,7 @@ export class DaoService {
                     });
                     return;
                 }
-                const quantity = 1;
+                const quantity = 10;
                 const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
                 const asset = token.asset;
                 const daoAsset = daoToken.asset;
@@ -422,7 +422,7 @@ export class DaoService {
                     && this.currentTeamMembers[index].quantity ? this.currentTeamMembers[index].quantity : quantity;
                     const issueDaoToken = this.currentTeamMembers[index].issueDaoToken;
                     transferData.push(this.assetsService.transferAsset(publicKey, wallet, asset, qty, fee));
-                    if (issueDaoToken) transferData.push(this.assetsService.transferAsset(publicKey, wallet, daoAsset, 1, fee));
+                    if (issueDaoToken) transferData.push(this.assetsService.transferAsset(publicKey, wallet, daoAsset, 10, fee));
                 });
                 combineLatest(transferData).subscribe(success_ => {
                     combineLatest(success_).subscribe(transferAssetsRequests => {

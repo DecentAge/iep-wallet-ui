@@ -29,6 +29,7 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
     public currentDao = '';
     private teamDAO = '';
     public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
+    public readonly alphanumericPatternMax6: RegExp = new RegExp('^[a-zA-Z0-9_]{1,6}$');
 
     daoList: Observable<Array<any>>;
 

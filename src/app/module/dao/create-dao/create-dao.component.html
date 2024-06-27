@@ -41,7 +41,7 @@
                     <div class="input-group m-0 row">
                         <div class="col-12 pl-0">
                             <input type="text" class="form-control" name="prefix"
-                                   [pattern]="alphanumericPattern"
+                                   [pattern]="alphanumericPatternMax7"
                                    #prefix="ngModel"
                                    [(ngModel)]="createDaoForm.prefix"
                                    placeholder="{{'daos.create-dao.placeholders.dao-prefix-placeholder' | translate}}"
