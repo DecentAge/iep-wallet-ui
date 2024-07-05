@@ -94,16 +94,6 @@
                     <i class="fa fa-user-plus"></i>{{'daos.add-team-members.add-btn'| translate}}</a>
             </div>
         </div>
-        <div class="row">
-                <label class="custom-control custom-checkbox ml-2" for="issueTeamToken">
-                    <input type="checkbox" class="custom-control-input"
-                           (change)="setIssueDaoTokens()" [(ngModel)]="addTeamMemberForm.issueDaoTokens"
-                           [ngModelOptions]="{standalone: true}" id="issueTeamToken">
-                    <div class="custom-control-label">
-                        {{'daos.add-team-members.issue-dao-tokens' | translate}}</div>
-                    <div class="custom-control-icon"></div>
-                </label>
-        </div>
         <ng-container *ngIf="!!wizard; else outsideOfDao">
             <button type="button" class="btn btn-gradient float-right" (click)="finishDaoCreation()"
                     [disabled]="membersForm.invalid || (isPending && addTeamMemberForm.teamMembers.length > 1)">

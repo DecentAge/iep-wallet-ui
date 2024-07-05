@@ -16,20 +16,18 @@ import {Founder, TeamMember} from './interfaces';
 import {ShowDaosMode} from './enums';
 
 export class DAO {
-    private namePrefix = 'DAO';
+    protected namePrefix = 'DAO';
+    protected shortcodePrefix = 'DT';
 
     private Name = '';
-
-    private shortcodePrefix = 'DD';
-
     private Shortcode = '';
 
     getFullAssetName = () => {
-        // return this.namePrefix + .....
+        return `${this.namePrefix}${this.Name}${this.shortcodePrefix}${this.shortcode}`
     }
 
     getFullAliasName = () => {
-        // return this.namePrefix + .....
+        return `${this.namePrefix}${this.shortcode}`
     }
 
     get name() {
@@ -50,21 +48,22 @@ export class DAO {
 }
 
 export class DAOTeam extends DAO {
+    private DAONamePrefix = 'DAO';
 
-    private teamPrefix = 'TT';
+    private tmNamePrefix = 'TN';
+    private tmShortcodePrefix = 'TT';
+
+    private DAOName = '';
 
     private teamName = '';
-
-    private teamShortcodePrefix = 'TN';
-
     private teamShortcode = '';
 
     getFullAssetName = () => {
-        // return this.namePrefix + .....
+        return `${this.DAONamePrefix}${this.DAOName}${this.tmShortcodePrefix}${this.teamShortcode}`
     }
 
     getFullAliasName = () => {
-        // return this.namePrefix + .....
+        return `${this.DAONamePrefix}${this.DAOName}${this.tmNamePrefix}${this.teamName}${this.tmShortcodePrefix}${this.teamShortcode}`
     }
 
     get name() {
@@ -75,9 +74,28 @@ export class DAOTeam extends DAO {
         this.teamName = name;
     };
 
-
-    getShortcode = () => {
+    get shortcode(): string {
         return this.teamShortcode;
+    };
+
+    set shortcode(shortcode) {
+        this.teamShortcode = shortcode;
+    };
+
+    get teamNamePrefix(): string {
+        return this.tmNamePrefix;
+    };
+
+    set teamNamePrefix(namePrefix) {
+        this.tmNamePrefix = namePrefix;
+    };
+
+    get teamShortcodePrefix(): string {
+        return this.tmShortcodePrefix;
+    };
+
+    set teamShortcodePrefix(shortcodePrefix) {
+        this.tmShortcodePrefix = shortcodePrefix;
     };
 }
 
@@ -118,16 +136,6 @@ export class DaoService {
         return this.daoViewModeChange.asObservable().pipe(
             takeUntil(this.unsubscribe$)
         );
-    }
-
-    getDaoName(value) {
-        const name = value.split(/DAO(.*)/s);
-        return name[1];
-    }
-
-    public getDaoNameFromDAOAlias(alias) {
-        const nameWithoutToken = alias.split(/DT(.*)/s);
-        return nameWithoutToken[0];
     }
 
     createAsset(assetName, aliasName, daoData, route = '', aliasURI = '') {
@@ -263,8 +271,8 @@ export class DaoService {
             map((aliases: any) => {
                 return daoName === '' ?
                     aliases.aliases.filter(alias =>
-                        alias.aliasName.indexOf('TN') === -1 &&
-                        alias.aliasName.indexOf('TT') === -1 &&
+                        alias.aliasName.indexOf(DaoService.currentDAOTeam.teamNamePrefix) === -1 &&
+                        alias.aliasName.indexOf(DaoService.currentDAOTeam.teamShortcodePrefix) === -1 &&
                         alias.aliasName.indexOf('UL') === -1 &&
                         alias.aliasName.indexOf('CT') === -1 &&
                         alias.aliasName.indexOf('SL') === -1)
@@ -272,32 +280,6 @@ export class DaoService {
             })
         );
     };
-
-    public getDaoAssets(daoName) {
-        const prefix = daoName === '' ? 'DAO' : daoName;
-        const params = {
-            'requestType': 'searchAssets',
-            'query': `${prefix}*`,
-        };
-
-        console.log('GET ASSETS');
-
-        this.http.get(this.nodeService.getNodeUrl(), AppConstants.assetsConfig.assetsEndPoint, params).subscribe((l) => console.log(l))
-
-        return this.http.get(this.nodeService.getNodeUrl(), AppConstants.assetsConfig.assetsEndPoint, params).pipe(
-            map((assets: any) => {
-                return console.log('ASSETS', assets); /*
-                return daoName === '' ?
-                    assets.assets.filter(alias =>
-                        alias.aliasName.indexOf('TN') === -1 &&
-                        alias.aliasName.indexOf('TT') === -1 &&
-                        alias.aliasName.indexOf('UL') === -1 &&
-                        alias.aliasName.indexOf('CT') === -1 &&
-                        alias.aliasName.indexOf('SL') === -1)
-                    : assets.assets;*/
-            })
-        );
-    }
 
     public getDaoTeams(daoName: string) {
         return this.getAliases(daoName).pipe(
@@ -312,7 +294,9 @@ export class DaoService {
                 const tokenNames = [];
                 aliases.forEach(el => {
                     tokenNames.push(
-                        this.getAssetForDaoTeam(`${el.aliasName.split('TN').shift()}TT${el.aliasName.split('TT').pop()}`)
+                        this.getAssetForDaoTeam(
+                          `${el.aliasName.split('TN').shift()}TT${el.aliasName.split(DaoService.currentDAOTeam.teamShortcodePrefix).pop()}`
+                        )
                     );
                 });
                 return combineLatest(tokenNames).pipe(map((res: any) => {
@@ -326,7 +310,7 @@ export class DaoService {
     }
 
     getTeamMembers(teamName: string) {
-        const searchString = `${teamName.split('TT').shift()}`;
+        const searchString = `${teamName.split(DaoService.currentDAOTeam.teamShortcodePrefix).shift()}`;
         return this.getAliases(`${searchString}TR`).pipe(
             map((response: any) => {
                 if (!response) {
@@ -432,10 +416,10 @@ export class DaoService {
                 });
                 return;
             }
-
+            const teamShortCode = DaoService.currentDAOTeam.teamShortcodePrefix;
             const aliases = teamMembers.map((teamMember: TeamMember) =>
-                `${currentTeam.split('TT').shift()}TR${teamMember.teamMemberRole}TT${currentTeam.split('TT').pop()}`);
-            const teamToken = `${currentTeam.split('TN').shift()}TT${currentTeam.split('TT').pop()}`;
+              `${currentTeam.split(teamShortCode).shift()}TR${teamMember.teamMemberRole}TT${currentTeam.split(teamShortCode).pop()}`);
+            const teamToken = `${currentTeam.split('TN').shift()}${teamShortCode}${currentTeam.split(teamShortCode).pop()}`;
 
             const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
             const fee = 1;
@@ -799,14 +783,14 @@ export class DaoService {
         )
     }
 
-    getMyDaoTokens(account) {
+    public getMyDaoTokens(account) {
         return this.assetsService.getAccountAssets(account).pipe(map((response: any) => {
             const daoAssets = response.accountAssets.filter((accountAsset: any) => accountAsset.name.startsWith('DAO'));
-            return daoAssets.filter(daoAsset => daoAsset.name.includes('TT'));
+            return daoAssets.filter(daoAsset => daoAsset.name.includes(DaoService.currentDAOTeam.teamShortcodePrefix));
         }))
     }
 
-    getDAOAlias(daoName) {
+    public getDAOAlias(daoName) {
         const params = {
             'requestType': 'getAlias',
             'aliasName': daoName
@@ -814,12 +798,32 @@ export class DaoService {
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.aliasesConfig.aliasesEndPoint, params);
     }
 
-    changeDaoViewMode(viewMode: ShowDaosMode): void {
+    public changeDaoViewMode(viewMode: ShowDaosMode): void {
         this.daoViewModeChange.next(viewMode);
     }
 
-    destroyChangeDaoViewMode(): void {
+    public destroyChangeDaoViewMode(): void {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
+
+    public getDaoName(value: string): string {
+        const name = value.split(/DAO(.*)/s);
+        return name[1];
+    }
+
+    public getAccountId(account: string): string {
+        const xinAccount = account.split(/acct:(.*)/s)[1];
+        return xinAccount.split(/@(.*)/s)[0];
+    }
+
+    public getDaoNameFromDAOAlias(alias: string): string {
+        const nameWithoutToken = alias.split(/DT(.*)/s);
+        return nameWithoutToken[0];
+    }
+
+    public getDaoNameFromTeamToken(teamToken: string): string {
+        const daoName = teamToken.split(/TT(.*)/s);
+        return daoName[0];
     }
 }

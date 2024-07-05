@@ -105,10 +105,6 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
         this.currentTeam = team;
     }
 
-    setIssueDaoTokens() {
-        this.addTeamMemberForm.issueDaoTokens = !this.addTeamMemberForm.issueDaoTokens;
-    }
-
     addTeamMember() {
         this.addTeamMemberForm.teamMembers.push({
             teamMemberWallet: '',

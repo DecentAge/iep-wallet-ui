@@ -75,7 +75,10 @@ export class DaosComponent implements OnInit, OnChanges {
                 }
                 this.daoService.getMyDaoTokens(this.account).subscribe(assets => {
                     console.log('MY ASSETS:', assets)
-                    const filtered = aliases.filter(al => assets.map(ass => ass.name.split('TT').shift()).includes(al.aliasName));
+                    const filtered = aliases
+                      .filter(al => assets
+                        .map(asset => this.daoService.getDaoNameFromTeamToken(asset.name))
+                        .includes(this.daoService.getDaoNameFromDAOAlias(al.aliasName)));
                     this.rows = filtered;
                     this.page.totalElements = filtered.length;
                 });
@@ -89,7 +92,7 @@ export class DaosComponent implements OnInit, OnChanges {
     }
 
     public accountId(value) {
-        return value.split('acct:').pop().split('@xin').shift();
+        return this.daoService.getAccountId(value);
     }
 
     sendMessage(aliasURI) {
@@ -99,5 +102,4 @@ export class DaosComponent implements OnInit, OnChanges {
     showDaoPolls(value) {
         this.router.navigate([`dao/show-polls/${value.aliasName}`]).then();
     }
-
 }
