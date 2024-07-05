@@ -28,8 +28,8 @@ export class DaoTeamPollsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.daoName = DaoService.currentDAO;
-    this.teamName = DaoService.currentDAOTeam;
+    this.daoName = DaoService.currentDAO.name;
+    this.teamName = DaoService.currentDAOTeam.name;
     this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
     this.teamToken = `TT${this.teamName.split('TT').pop()}`;
     this.setPage({offset: 0});

@@ -1479,9 +1479,9 @@
                 "name-is-required": "Name is required",
                 "name-is-invalid": "Name must contain only digits and latin letters",
                 "prefix-is-required": "Prefix is required",
-                "prefix-is-invalid": "Prefix must contain only digits and latin letters with a max of 7 characters",
+                "prefix-is-invalid": "Prefix must contain only digits and latin letters with a max of 6 characters",
                 "shortcode-is-required": "Short Code is required",
-                "shortcode-is-invalid": "Short Code must contain only digits and latin letters with a max of 6 characters",
+                "shortcode-is-invalid": "Short Code must contain only digits and latin letters with a max of 5 characters",
                 "decimals-is-required": "Decimals is required",
                 "role-is-required": "Role is required",
                 "role-is-invalid": "Role must contain only digits and latin letters"

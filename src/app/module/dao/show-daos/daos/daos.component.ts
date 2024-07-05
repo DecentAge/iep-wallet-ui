@@ -4,8 +4,7 @@ import {ColumnMode} from '@swimlane/ngx-datatable';
 import {ShowDaosMode} from '../../enums';
 import {AccountService} from '../../../account/account.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Page} from '../../../../config/page';
-import {filter} from "rxjs/operators";
+import {Page} from 'app/config/page';
 
 @Component({
     selector: 'app-daos',
@@ -13,6 +12,8 @@ import {filter} from "rxjs/operators";
     styleUrls: ['./daos.component.scss']
 })
 export class DaosComponent implements OnInit, OnChanges {
+
+    getDaoName = this.daoService.getDaoName;
 
     public columnModes = ColumnMode;
     public viewMode: ShowDaosMode;
@@ -73,7 +74,7 @@ export class DaosComponent implements OnInit, OnChanges {
                     return;
                 }
                 this.daoService.getMyDaoTokens(this.account).subscribe(assets => {
-                    console.log("MY ASSETS:", assets)
+                    console.log('MY ASSETS:', assets)
                     const filtered = aliases.filter(al => assets.map(ass => ass.name.split('TT').shift()).includes(al.aliasName));
                     this.rows = filtered;
                     this.page.totalElements = filtered.length;
@@ -83,7 +84,7 @@ export class DaosComponent implements OnInit, OnChanges {
     }
 
     public showDaoDetails(daoName) {
-        DaoService.currentDAO = daoName;
+        DaoService.currentDAO.name = daoName;
         this.router.navigate([`dao/show-daos/${this.viewMode}/${daoName}/general-info`]).then();
     }
 
@@ -98,7 +99,5 @@ export class DaosComponent implements OnInit, OnChanges {
     showDaoPolls(value) {
         this.router.navigate([`dao/show-polls/${value.aliasName}`]).then();
     }
-
-    getDaoName = this.daoService.getDaoName;
 
 }

@@ -15,11 +15,77 @@ import {combineLatest, Observable, Subject} from 'rxjs';
 import {Founder, TeamMember} from './interfaces';
 import {ShowDaosMode} from './enums';
 
+export class DAO {
+    private namePrefix = 'DAO';
+
+    private Name = '';
+
+    private shortcodePrefix = 'DD';
+
+    private Shortcode = '';
+
+    getFullAssetName = () => {
+        // return this.namePrefix + .....
+    }
+
+    getFullAliasName = () => {
+        // return this.namePrefix + .....
+    }
+
+    get name() {
+        return this.Name;
+    }
+
+    set name(name) {
+        this.Name = name;
+    }
+
+    get shortcode() {
+        return this.Shortcode;
+    }
+
+    set shortcode(shortCode) {
+        this.Shortcode = shortCode;
+    }
+}
+
+export class DAOTeam extends DAO {
+
+    private teamPrefix = 'TT';
+
+    private teamName = '';
+
+    private teamShortcodePrefix = 'TN';
+
+    private teamShortcode = '';
+
+    getFullAssetName = () => {
+        // return this.namePrefix + .....
+    }
+
+    getFullAliasName = () => {
+        // return this.namePrefix + .....
+    }
+
+    get name() {
+        return this.teamName;
+    };
+
+    set name(name) {
+        this.teamName = name;
+    };
+
+
+    getShortcode = () => {
+        return this.teamShortcode;
+    };
+}
+
 @Injectable()
 export class DaoService {
 
-    static currentDAO: any = null;
-    static currentDAOTeam: any = null;
+    static currentDAO: DAO = new DAO();
+    static currentDAOTeam: DAOTeam = new DAOTeam();
     static showDaoMode: any = 'all';
     static currentDAOTeamFounders: Array<Founder> = [];
     public currentTeamMembers: Array<TeamMember> = [];
@@ -57,6 +123,11 @@ export class DaoService {
     getDaoName(value) {
         const name = value.split(/DAO(.*)/s);
         return name[1];
+    }
+
+    public getDaoNameFromDAOAlias(alias) {
+        const nameWithoutToken = alias.split(/DT(.*)/s);
+        return nameWithoutToken[0];
     }
 
     createAsset(assetName, aliasName, daoData, route = '', aliasURI = '') {
@@ -165,8 +236,9 @@ export class DaoService {
 
     createDAO(daoData) {
         const assetName = `DAO${daoData.prefix}`;
-        const aliasName = `DAO${daoData.name}`;
-        DaoService.currentDAO = daoData.name;
+        const aliasName = `DAO${daoData.name}DT${daoData.prefix}`;
+        DaoService.currentDAO.name = daoData.name;
+        DaoService.currentDAO.shortcode = daoData.prefix;
         this.currentDAOForm = daoData;
         this.createAsset(assetName, aliasName, daoData, `dao/create-dao/create-team`, '');
     }
@@ -174,7 +246,7 @@ export class DaoService {
     createTeam(daoName, teamData, aliasUri = '') {
         const assetName = `DAO${daoName}TT${teamData.prefix}`;
         const aliasName = `DAO${daoName}TN${teamData.name}TT${teamData.prefix}`;
-        DaoService.currentDAOTeam = aliasName;
+        DaoService.currentDAOTeam.name = aliasName;
         const route = this.router.url.toString() === '/dao/create-dao/create-team' ?
             '/dao/create-dao/add-founders' : `/dao/show-daos/DAO${daoName}/teams`;
         this.createAsset(assetName, aliasName, teamData, route, aliasUri);
@@ -208,13 +280,13 @@ export class DaoService {
             'query': `${prefix}*`,
         };
 
-        console.log("GET ASSETS")
+        console.log('GET ASSETS');
 
         this.http.get(this.nodeService.getNodeUrl(), AppConstants.assetsConfig.assetsEndPoint, params).subscribe((l) => console.log(l))
 
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.assetsConfig.assetsEndPoint, params).pipe(
             map((assets: any) => {
-                return console.log("ASSETS",assets)/*
+                return console.log('ASSETS', assets); /*
                 return daoName === '' ?
                     assets.assets.filter(alias =>
                         alias.aliasName.indexOf('TN') === -1 &&
@@ -398,7 +470,8 @@ export class DaoService {
 
     transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam) {
         this.getAssetForDaoTeam(teamToken).pipe(map((response: any) => response.assets[0])).subscribe((token: any) => {
-            this.getAssetForDaoTeam(currentDao).pipe(map((response: any) => response.assets[0])).subscribe((daoToken) => {
+            this.getAssetForDaoTeam(this.getDaoNameFromDAOAlias(currentDao))
+              .pipe(map((response: any) => response.assets[0])).subscribe((daoToken) => {
                 if (!token || token.quantityQNT < 1 || (!daoToken || daoToken.quantityQNT < 1)) {
                     const title: string = this.commonService.translateAlertTitle('Error');
                     const errMsg: string = this.commonService.translateInfoMessage('try-later');
@@ -422,7 +495,9 @@ export class DaoService {
                     && this.currentTeamMembers[index].quantity ? this.currentTeamMembers[index].quantity : quantity;
                     const issueDaoToken = this.currentTeamMembers[index].issueDaoToken;
                     transferData.push(this.assetsService.transferAsset(publicKey, wallet, asset, qty, fee));
-                    if (issueDaoToken) transferData.push(this.assetsService.transferAsset(publicKey, wallet, daoAsset, 10, fee));
+                    if (issueDaoToken) {
+                        transferData.push(this.assetsService.transferAsset(publicKey, wallet, daoAsset, qty, fee));
+                    }
                 });
                 combineLatest(transferData).subscribe(success_ => {
                     combineLatest(success_).subscribe(transferAssetsRequests => {
@@ -469,11 +544,13 @@ export class DaoService {
                                         if (this.router.url.toString() === '/dao/create-dao/add-team-members') {
                                             this.router.navigate(['dao/show-daos']).then();
                                         } else {
-                                            DaoService.currentDAO = currentDao;
-                                            DaoService.currentDAOTeam = currentTeam;
+                                            DaoService.currentDAO.name = currentDao;
+                                            DaoService.currentDAOTeam.name = currentTeam;
                                             let isMobile = false;
                                             const ua = navigator.userAgent;
-                                            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
+                                            if (
+                                              /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+                                            ) {
                                                 isMobile = true;
                                             }
                                             const viewMode = isMobile ? 'mobile' : 'my';

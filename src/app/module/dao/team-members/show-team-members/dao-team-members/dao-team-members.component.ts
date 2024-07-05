@@ -30,8 +30,8 @@ export class DaoTeamMembersComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.daoName = DaoService.currentDAO;
-        this.teamName = DaoService.currentDAOTeam;
+        this.daoName = DaoService.currentDAO.name;
+        this.teamName = DaoService.currentDAOTeam.name;
         this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
         this.setPage({offset: 0});
     }

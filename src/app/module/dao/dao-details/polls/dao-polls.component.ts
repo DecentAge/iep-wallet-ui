@@ -26,7 +26,7 @@ export class DaoPollsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.daoName = DaoService.currentDAO;
+        this.daoName = DaoService.currentDAO.name;
         this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
         this.setPage({offset: 0});
     }

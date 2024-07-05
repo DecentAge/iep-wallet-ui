@@ -34,8 +34,8 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.daosList = this.daoService.getAccountDaos();
-        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
-        this.currentTeam = DaoService.currentDAOTeam ? DaoService.currentDAOTeam : '';
+        this.currentDao = DaoService.currentDAO.name;
+        this.currentTeam = DaoService.currentDAOTeam.name;
         if (this.currentDao !== '') {
             this.setDao(this.currentDao);
         }
@@ -66,10 +66,10 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 
     addTeamMembers() {
         if (!this.currentDao) {
-            this.currentDao = DaoService.currentDAO;
+            this.currentDao = DaoService.currentDAO.name;
         }
         if (!this.currentTeam) {
-            this.currentTeam = DaoService.currentDAOTeam;
+            this.currentTeam = DaoService.currentDAOTeam.name;
         }
         if (!this.addTeamMemberForm.teamMembers.length) {
             this.router.navigate([`dao/show-daos/DAO${this.currentDao}/teams`]).then();
@@ -93,7 +93,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     setDao(dao): void {
         this.currentDao = dao;
         this.daosList = this.daoService.getAccountDaos();
-        this.daoService.getDaoTeams(`${dao}TN`).subscribe(success_ => {
+        this.daoService.getDaoTeams(`${this.daoService.getDaoNameFromDAOAlias(dao)}TN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
                 this.teamTokens = response.res.assets;
@@ -103,6 +103,10 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 
     setTeam(team): void {
         this.currentTeam = team;
+    }
+
+    setIssueDaoTokens() {
+        this.addTeamMemberForm.issueDaoTokens = !this.addTeamMemberForm.issueDaoTokens;
     }
 
     addTeamMember() {

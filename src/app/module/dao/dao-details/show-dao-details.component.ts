@@ -24,7 +24,7 @@ export class ShowDaoDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        DaoService.currentDAO = this.route.snapshot.params['daoName'];
+        DaoService.currentDAO.name = this.route.snapshot.params['daoName'];
         DaoService.showDaoMode = this.route.snapshot.params['mode'];
         this.daoService.daoViewModeChanged$.subscribe(response => {
             if (this.viewMode !== response) {

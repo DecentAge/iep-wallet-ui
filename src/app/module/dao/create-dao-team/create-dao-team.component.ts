@@ -13,6 +13,8 @@ import {map} from 'rxjs/operators';
 })
 export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
+    getDaoName = this.daoService.getDaoName;
+
     @Input() wizard: WizardComponent | null = null;
     public createTeamForm: { [key: string]: string } = {
         'daoName': '',
@@ -29,7 +31,7 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
     public currentDao = '';
     private teamDAO = '';
     public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
-    public readonly alphanumericPatternMax6: RegExp = new RegExp('^[a-zA-Z0-9_]{1,6}$');
+    public readonly alphanumericPatternMax5: RegExp = new RegExp('^[a-zA-Z0-9_]{1,5}$');
 
     daoList: Observable<Array<any>>;
 
@@ -49,7 +51,7 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         if (this.route.snapshot.routeConfig.path === 'create-dao/create-team') {
-            this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
+            this.currentDao = DaoService.currentDAO.name;
         }
         if (this.currentDao !== '') {
             this.setDao(this.currentDao);
@@ -58,7 +60,7 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     createTeam(): void {
         if (this.router.url.toString() === '/dao/create-dao/create-team') {
-            this.daoService.createTeam(`${DaoService.currentDAO}`, this.createTeamForm);
+            this.daoService.createTeam(`${DaoService.currentDAO.shortcode}`, this.createTeamForm);
             return;
         }
         this.daoService.checkAccountExists(this.createTeamForm.teamWallet).subscribe((response: any) => {
@@ -82,8 +84,6 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     setDao(dao): void {
         this.currentDao = dao;
-        this.teamDAO = dao.split('DAO').join('');
+        this.teamDAO = this.daoService.getDaoName(this.daoService.getDaoNameFromDAOAlias(dao));
     }
-
-    getDaoName = this.daoService.getDaoName;
 }

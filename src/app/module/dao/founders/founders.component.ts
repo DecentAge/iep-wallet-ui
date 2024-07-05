@@ -23,8 +23,8 @@ export class FoundersComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
-        this.currentTeam = DaoService.currentDAOTeam ? DaoService.currentDAOTeam : '';
+        this.currentDao = DaoService.currentDAO.name;
+        this.currentTeam = DaoService.currentDAOTeam.name;
     }
 
     ngAfterViewInit(): void {
