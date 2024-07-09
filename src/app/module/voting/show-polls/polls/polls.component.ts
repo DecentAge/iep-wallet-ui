@@ -1,13 +1,13 @@
 import {forkJoin} from 'rxjs';
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {VotingService} from '../../voting.service';
 import {SessionStorageService} from '../../../../services/session-storage.service';
-import {AppConstants} from '../../../../config/constants';
 import {Page} from '../../../../config/page';
 import {AccountService} from '../../../account/account.service';
 import {AssetsService} from 'app/module/assets/assets.service';
 import {map} from 'rxjs/operators';
+import {DaoService} from 'app/module/dao/dao.service';
 
 @Component({
     selector: 'app-polls',
@@ -34,7 +34,8 @@ export class PollsComponent implements OnInit {
                 private sessionStorageService: SessionStorageService,
                 private route: ActivatedRoute,
                 private accountService: AccountService,
-                private assetsService: AssetsService) {
+                private assetsService: AssetsService,
+                private daoService: DaoService) {
         this.page.pageNumber = 0;
         this.page.size = 10;
     }
@@ -93,7 +94,7 @@ export class PollsComponent implements OnInit {
                     this.setUpPage(success.polls);
                 });
         } else if (this.pollType === 'DAO') {
-            this.votingService.getDaoTeamTokens(this.daoName).subscribe((response: any) => {
+            this.votingService.getDaoTeamTokens(this.daoService.getDaoNameFromDAOAlias(this.daoName)).subscribe((response: any) => {
                 this.daoAssets = response.assets.map(a => a.asset);
                 this.votingService.getAllPolls().subscribe(polls => {
                     if (this.daoName.startsWith('XIN-')) {
