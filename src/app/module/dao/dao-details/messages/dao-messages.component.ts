@@ -34,7 +34,7 @@ export class DaoMessagesComponent implements OnInit {
     setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
         this.accountRs = this.commonsService.getAccountDetailsFromSession('accountRs');
-        this.daoService.getDAOAlias(DaoService.currentDAO).subscribe((alias: any) => {
+        this.daoService.getDAOAlias(DaoService.currentDAO.name).subscribe((alias: any) => {
             const accountRs = alias.accountRS;
             this.messageService.getAccountDetails(accountRs).subscribe(((accountDetails: any) => {
                 const account = accountDetails.account;
