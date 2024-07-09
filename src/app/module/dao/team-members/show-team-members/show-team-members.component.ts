@@ -16,6 +16,7 @@ export class ShowTeamMembersComponent implements OnInit, OnDestroy {
     public routeChange = new Subject();
     public daoName;
     public teamName;
+    public teamAccountRs;
 
     constructor(
         private cdRef: ChangeDetectorRef,
@@ -28,6 +29,9 @@ export class ShowTeamMembersComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.daoName = this.route.snapshot.params['daoName'];
         this.teamName = this.route.snapshot.params['teamName'];
+        this.route.queryParams.subscribe((params: any) => {
+            this.teamAccountRs = params.teamAccountRs;
+        });
         DaoService.currentDAO.name = this.daoName;
         DaoService.currentDAOTeam.name = this.route.snapshot.params['teamName'];
         this.daoService.daoViewModeChanged$.subscribe(response => {

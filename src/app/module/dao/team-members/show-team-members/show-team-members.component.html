@@ -12,15 +12,15 @@
                 <ul class="nav nav-tabs nav-fill nav-auto mt-4" (click)="onTabChange();" *ngIf="viewMode !== viewModes.mobile">
                     <li class="nav-item">
                         <a class="nav-link"
-                           routerLinkActive="active" [routerLink]="['members']">{{'daos.show-daos.team-members' | translate}}</a>
+                           routerLinkActive="active" [routerLink]="['members']" [queryParams]="{'teamAccountRs': teamAccountRs}"> {{'daos.show-daos.team-members' | translate}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           routerLinkActive="active" [routerLink]="['messages']">{{'daos.show-daos.dao-messages' | translate}}</a>
+                           routerLinkActive="active" [routerLink]="['messages']" [queryParams]="{'teamAccountRs': teamAccountRs}">{{'daos.show-daos.dao-messages' | translate}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           routerLinkActive="active" [routerLink]="['polls']">{{'daos.show-daos.dao-polls' | translate}}</a>
+                           routerLinkActive="active" [routerLink]="['polls']" [queryParams]="{'teamAccountRs': teamAccountRs}">{{'daos.show-daos.dao-polls' | translate}}</a>
                     </li>
                 </ul>
                 <div class="tab-content">

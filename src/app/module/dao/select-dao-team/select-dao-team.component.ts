@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Observable} from 'rxjs';
-import {DaoService} from "../dao.service";
+import {DaoService} from '../dao.service';
 
 @Component({
     selector: 'app-select-dao-team',
@@ -16,6 +16,8 @@ export class SelectDaoTeamComponent implements OnInit {
     @Output() setDao = new EventEmitter<any>();
     @Output() setTeam = new EventEmitter<any>();
 
+    getDaoName = this.daoService.getDaoName;
+
     constructor(
         private daoService: DaoService
     ) {
@@ -30,6 +32,4 @@ export class SelectDaoTeamComponent implements OnInit {
     changeTeam(currentTeam) {
       this.setTeam.emit(currentTeam);
     }
-
-    getDaoName = this.daoService.getDaoName;
 }

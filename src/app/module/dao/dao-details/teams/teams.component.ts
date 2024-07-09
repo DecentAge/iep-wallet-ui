@@ -68,11 +68,14 @@ export class TeamsComponent implements OnInit {
         });
     }
 
-    public routeUri(uri) {
+    public routeUri(teamToken) {
         DaoService.currentDAO.name = this.daoName;
-        DaoService.currentDAOTeam.name = uri;
+        DaoService.currentDAOTeam.name = teamToken.teamName;
         const viewMode = DaoService.showDaoMode;
-        this.router.navigate([`dao/show-daos/${viewMode}/${this.daoName}/teams/${uri}`]).then();
+        this.router.navigate(
+          [`dao/show-daos/${viewMode}/${this.daoName}/teams/${teamToken.teamName}`],
+          {queryParams: {teamAccountRs: teamToken.teamWallet}}
+        ).then();
     }
 
     public reload() {
@@ -95,5 +98,9 @@ export class TeamsComponent implements OnInit {
 
     createPoll(teamToken) {
         this.router.navigate(['/voting/create-poll'], {queryParams: {recipient: teamToken.asset, dao: this.daoName}}).then();
+    }
+
+    getTeamName(value) {
+        return value.teamName.split('TN').pop().split('TT').shift()
     }
 }

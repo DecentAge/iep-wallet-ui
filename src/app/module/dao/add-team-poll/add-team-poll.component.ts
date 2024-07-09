@@ -29,7 +29,8 @@ export class AddTeamPollComponent implements OnInit {
     setDao(dao): void {
         this.currentDao = dao;
         this.daosList = this.daoService.getAccountDaos();
-        this.daoService.getDaoTeams(`${dao}TN`).subscribe(success_ => {
+        const daoName = this.daoService.getDaoNameFromDAOAlias(dao);
+        this.daoService.getDaoTeams(`${daoName}TN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
                 this.pollWalletRecipient = null;

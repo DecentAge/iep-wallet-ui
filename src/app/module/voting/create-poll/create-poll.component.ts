@@ -3,10 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import * as AlertFunctions from '../../../shared/data/sweet-alerts';
 import {CurrenciesService} from '../../currencies/currencies.service';
 import {AssetsService} from '../../assets/assets.service';
-import {SessionStorageService} from '../../../services/session-storage.service';
-import {CommonService} from '../../../services/common.service';
-import {CryptoService} from '../../../services/crypto.service';
-import {AppConstants} from '../../../config/constants';
+import {SessionStorageService} from 'app/services/session-storage.service';
+import {CommonService} from 'app/services/common.service';
+import {CryptoService} from 'app/services/crypto.service';
+import {AppConstants} from 'app/config/constants';
 import {VotingService} from '../voting.service';
 import {VotingModels} from '../enums';
 

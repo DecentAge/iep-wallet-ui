@@ -12,10 +12,11 @@ import { PollVoteComponent } from './show-polls/polls/poll-vote/poll-vote.compon
 import { PollVotersComponent } from './show-polls/polls/poll-voters/poll-voters.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { SharedModule } from "../../shared/shared.module";
-import { CurrenciesModule } from "../currencies/currencies.module";
-import { AssetsModule } from "../assets/assets.module";
+import { SharedModule } from '../../shared/shared.module';
+import { CurrenciesModule } from '../currencies/currencies.module';
+import { AssetsModule } from '../assets/assets.module';
 import { ShowPollsComponent } from './show-polls/show-polls.component';
+import {DaoService} from 'app/module/dao/dao.service';
 
 @NgModule({
     imports: [
@@ -41,6 +42,9 @@ import { ShowPollsComponent } from './show-polls/show-polls.component';
     ],
     exports: [
         PollsComponent
+    ],
+    providers: [
+        DaoService
     ]
 })
 export class VotingModule {
