@@ -57,4 +57,10 @@ export class DaoTeamMembersComponent implements OnInit {
     public accountId(aliasURI) {
         return aliasURI.split('acct:').pop().split('@xin').shift()
     }
+
+    getTeamMemberRole(alias) {
+        const roleWithToken = alias.split(/TR(.*)/s);
+        const role = roleWithToken[1].split(/TT(.*)/s);
+        return role[0];
+    }
 }

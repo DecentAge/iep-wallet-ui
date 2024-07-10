@@ -294,9 +294,7 @@ export class DaoService {
                 const tokenNames = [];
                 aliases.forEach(el => {
                     tokenNames.push(
-                        this.getAssetForDaoTeam(
-                          `${el.aliasName.split('TN').shift()}TT${el.aliasName.split(DaoService.currentDAOTeam.teamShortcodePrefix).pop()}`
-                        )
+                        this.getAssetForDaoTeam(this.getAssetNameFromTeamAlias(el.aliasName))
                     );
                 });
                 return combineLatest(tokenNames).pipe(map((res: any) => {
@@ -830,5 +828,9 @@ export class DaoService {
     public getDaoNameFromTeamToken(teamToken: string): string {
         const daoName = teamToken.split(/TT(.*)/s);
         return daoName[0];
+    }
+
+    public getAssetNameFromTeamAlias(alias: string): string {
+        return `${alias.split(/TN(.*)/s)[0]}${DaoService.currentDAOTeam.teamShortcodePrefix}${alias.split(/TT(.*)/s)[1]}`;
     }
 }

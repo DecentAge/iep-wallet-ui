@@ -25,7 +25,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column prop="aliasName" [name]="'table-header.team-member-role'| translate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value.split('TR').pop().split('TT').shift()}}
+                    {{getTeamMemberRole(value)}}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column prop="aliasURI" [name]="'table-header.actions'| translate">
