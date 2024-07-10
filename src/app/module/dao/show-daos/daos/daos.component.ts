@@ -75,10 +75,11 @@ export class DaosComponent implements OnInit, OnChanges {
                 }
                 this.daoService.getMyDaoTokens(this.account).subscribe(assets => {
                     console.log('MY ASSETS:', assets)
+                    console.log(aliases.map(al => this.daoService.getDaoNameFromDAOAlias(al.aliasName)));
                     const filtered = aliases
                       .filter(al => assets
-                        .map(asset => this.daoService.getDaoNameFromTeamToken(asset.name))
-                        .includes(this.daoService.getDaoNameFromDAOAlias(al.aliasName)));
+                        .map(asset => asset.name)
+                        .includes(this.daoService.getDaoTokenFromDAOAlias(al.aliasName)));
                     this.rows = filtered;
                     this.page.totalElements = filtered.length;
                 });

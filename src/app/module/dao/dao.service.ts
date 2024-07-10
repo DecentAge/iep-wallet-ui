@@ -786,7 +786,7 @@ export class DaoService {
     public getMyDaoTokens(account) {
         return this.assetsService.getAccountAssets(account).pipe(map((response: any) => {
             const daoAssets = response.accountAssets.filter((accountAsset: any) => accountAsset.name.startsWith('DAO'));
-            return daoAssets.filter(daoAsset => daoAsset.name.includes(DaoService.currentDAOTeam.teamShortcodePrefix));
+            return daoAssets.filter(daoAsset => !daoAsset.name.includes(DaoService.currentDAOTeam.teamShortcodePrefix));
         }))
     }
 
@@ -820,6 +820,11 @@ export class DaoService {
     public getDaoNameFromDAOAlias(alias: string): string {
         const nameWithoutToken = alias.split(/DT(.*)/s);
         return nameWithoutToken[0];
+    }
+
+    public getDaoTokenFromDAOAlias(alias: string): string {
+        const tokenWithoutName = alias.split(/DT(.*)/s);
+        return `DAO${tokenWithoutName[1]}`;
     }
 
     public getDaoNameFromTeamToken(teamToken: string): string {
