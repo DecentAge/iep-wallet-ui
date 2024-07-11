@@ -1458,7 +1458,7 @@
             },
             "labels": {
                 "dao-name": "DAO Name",
-                "dao-prefix": "DAO Prefix",
+                "dao-prefix": "Short Code",
                 "dao-decimals-label": "Decimals",
                 "team-name": "Team Name",
                 "team-shortcode": "Team Short Code",
@@ -1468,7 +1468,7 @@
             },
             "placeholders": {
                 "dao-name-placeholder": "Name",
-                "dao-prefix-placeholder": "DAO Prefix",
+                "dao-prefix-placeholder": "Short Code",
                 "dao-description-placeholder": "Description",
                 "team-name-placeholder": "Team Name",
                 "team-shortcode-placeholder": "Team Short Code",
@@ -1477,9 +1477,9 @@
             },
             "validation": {
                 "name-is-required": "Name is required",
-                "name-is-invalid": "Name must contain only digits and latin letters",
+                "name-is-invalid": "Name must contain only digits and latin letters with a max of 12 characters",
                 "prefix-is-required": "Prefix is required",
-                "prefix-is-invalid": "Prefix must contain only digits and latin letters with a max of 6 characters",
+                "prefix-is-invalid": "Prefix must contain only digits and latin letters with a max of 5 characters",
                 "shortcode-is-required": "Short Code is required",
                 "shortcode-is-invalid": "Short Code must contain only digits and latin letters with a max of 5 characters",
                 "decimals-is-required": "Decimals is required",

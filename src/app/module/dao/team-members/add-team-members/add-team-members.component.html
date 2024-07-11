@@ -59,6 +59,9 @@
                         <div *ngIf="role?.errors.required">
                             {{'daos.create-dao.validation.name-is-required' | translate}}
                         </div>
+                        <div *ngIf="role?.errors.pattern">
+                            {{'daos.create-dao.validation.role-is-invalid' | translate}}
+                        </div>
                     </div>
                 </div>
             </div>

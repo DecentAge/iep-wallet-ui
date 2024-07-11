@@ -251,12 +251,12 @@ export class DaoService {
         this.createAsset(assetName, aliasName, daoData, `dao/create-dao/create-team`, '');
     }
 
-    createTeam(daoName, teamData, aliasUri = '') {
+    createTeam(daoName, teamData, aliasUri = '', fullDaoName = '') {
         const assetName = `DAO${daoName}TT${teamData.prefix}`;
         const aliasName = `DAO${daoName}TN${teamData.name}TT${teamData.prefix}`;
         DaoService.currentDAOTeam.name = aliasName;
         const route = this.router.url.toString() === '/dao/create-dao/create-team' ?
-            '/dao/create-dao/add-founders' : `/dao/show-daos/DAO${daoName}/teams`;
+            '/dao/create-dao/add-founders' : `/dao/show-daos/all/${fullDaoName}/teams`;
         this.createAsset(assetName, aliasName, teamData, route, aliasUri);
     }
 

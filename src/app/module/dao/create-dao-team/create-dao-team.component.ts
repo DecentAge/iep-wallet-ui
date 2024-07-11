@@ -30,7 +30,7 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     public currentDao = '';
     private teamDAO = '';
-    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
+    public readonly alphanumericPattern12: RegExp = new RegExp('^[a-zA-Z0-9_]{1,12}$');
     public readonly alphanumericPatternMax5: RegExp = new RegExp('^[a-zA-Z0-9_]{1,5}$');
 
     daoList: Observable<Array<any>>;
@@ -67,7 +67,7 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
             if (response.errorCode) {
                 this.daoService.showErrorMessage(response);
             } else {
-                this.daoService.createTeam(`${this.teamDAO}`, this.createTeamForm, this.createTeamForm.teamWallet);
+                this.daoService.createTeam(`${this.teamDAO}`, this.createTeamForm, this.createTeamForm.teamWallet, this.currentDao);
             }
         })
     }
@@ -84,6 +84,6 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     setDao(dao): void {
         this.currentDao = dao;
-        this.teamDAO = this.daoService.getDaoName(this.daoService.getDaoNameFromDAOAlias(dao));
+        this.teamDAO = this.daoService.getDaoName(this.daoService.getDaoTokenFromDAOAlias(dao));
     }
 }

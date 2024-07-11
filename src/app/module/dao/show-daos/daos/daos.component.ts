@@ -14,6 +14,7 @@ import {Page} from 'app/config/page';
 export class DaosComponent implements OnInit, OnChanges {
 
     getDaoName = this.daoService.getDaoName;
+    getDaoNameFromDAOAlias = this.daoService.getDaoNameFromDAOAlias;
 
     public columnModes = ColumnMode;
     public viewMode: ShowDaosMode;

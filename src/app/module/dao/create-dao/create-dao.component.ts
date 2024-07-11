@@ -12,8 +12,8 @@ export class CreateDaoComponent {
     @Input() wizard: WizardComponent;
     @Input() createDaoForm: { [key: string]: string };
 
-    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
-    public readonly alphanumericPatternMax6: RegExp = new RegExp('^[a-zA-Z0-9_]{1,6}$');
+    public readonly alphanumericPattern12: RegExp = new RegExp('^[a-zA-Z0-9_]{1,12}$');
+    public readonly alphanumericPatternMax5: RegExp = new RegExp('^[a-zA-Z0-9_]{1,5}$');
 
     constructor(
         private daoService: DaoService,

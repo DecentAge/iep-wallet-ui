@@ -48,7 +48,7 @@ export class TeamsComponent implements OnInit {
     public setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
         this.page.totalPages = 1;
-        this.daoService.getDaoTeams(`${this.daoService.getDaoNameFromDAOAlias(this.daoName)}TN`).subscribe(success_ => {
+        this.daoService.getDaoTeams(`${this.daoService.getDaoTokenFromDAOAlias(this.daoName)}TN`).subscribe(success_ => {
             success_.subscribe(response => {
                 this.teamTokens = response.res.map((token: any) => {
                     return token.assets[0];
