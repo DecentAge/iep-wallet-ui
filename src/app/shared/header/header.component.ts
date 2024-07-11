@@ -88,9 +88,10 @@ export class HeaderComponent implements OnInit {
     };
 
     public copyAccountRs(element, tooltip): void {
+        element.focus();
         element.select();
-        tooltip.open();
         document.execCommand('copy');
+        tooltip.open();
         setTimeout(() => {
             tooltip.close();
         }, 5000)

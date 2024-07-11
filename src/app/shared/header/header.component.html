@@ -6,7 +6,7 @@
                 <div class="stat-box col-xl-2 col-6">
                     <span class="stat-label">{{'header.account-address-label'| translate}}</span>
                     <small *ngIf="accountRS">
-                        <input [ngModel]="accountRS" #accountRsValue style="display: none;" />
+                        <input type="text" [ngModel]="accountRS" #accountRsValue style="position: fixed; top: 0; left: 0; opacity: 0" />
                         <a (click)="copyAccountRs(accountRsValue, tooltip);" ngbPopover="{{'common.copied-popover'| translate}}"
                            #tooltip="ngbPopover" triggers="manual">
                             {{accountRS}}

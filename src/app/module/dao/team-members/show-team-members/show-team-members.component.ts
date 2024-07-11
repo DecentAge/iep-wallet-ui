@@ -17,6 +17,7 @@ export class ShowTeamMembersComponent implements OnInit, OnDestroy {
     public daoName;
     public teamName;
     public teamAccountRs;
+    getTeamName = this.daoService.getTeamName;
 
     constructor(
         private cdRef: ChangeDetectorRef,

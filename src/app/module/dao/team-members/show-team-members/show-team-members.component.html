@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-block main-card-block">
                 <div class="border-bt">
-                    <h2 class="main-title">{{teamName.split('TN').pop().split('TT').shift()}} {{'daos.show-team-details.title' | translate}}</h2>
+                    <h2 class="main-title">{{getTeamName(teamName)}} {{'daos.show-team-details.title' | translate}}</h2>
                     <app-breadcrumb></app-breadcrumb>
                     <h3 class="back-button" (click)="goBack()">
                         <i class="fa fa-chevron-left"></i> {{'common.back-btn'| translate}}

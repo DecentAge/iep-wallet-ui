@@ -42,7 +42,7 @@
                                             <select name="type" class="form-control" [(ngModel)]="currentTeam"
                                                     (change)="setTeam(currentTeam)" required>
                                                 <option *ngFor='let team of teamsList' [value]="team?.aliasName">
-                                                    {{team?.aliasName.split('TN').pop().split('TT').shift()}}
+                                                    {{getTeamName(team?.aliasName)}}
                                                 </option>
                                             </select>
                                         </div>
@@ -105,13 +105,13 @@
                                                 <ngx-datatable-column prop="aliasURI"
                                                                       [name]="'table-header.team-member-account'| translate">
                                                     <ng-template let-value="value" ngx-datatable-cell-template>
-                                                        {{value.split('acct:').pop().split('@xin').shift()}}
+                                                        {{getAccountId(value)}}
                                                     </ng-template>
                                                 </ngx-datatable-column>
                                                 <ngx-datatable-column prop="aliasName"
                                                                       [name]="'table-header.team-member-role'| translate">
                                                     <ng-template let-value="value" ngx-datatable-cell-template>
-                                                        {{value.split('TR').pop().split('TT').shift()}}
+                                                        {{getTeamMemberRole(value)}}
                                                     </ng-template>
                                                 </ngx-datatable-column>
                                                 <ngx-datatable-column prop="aliasURI"

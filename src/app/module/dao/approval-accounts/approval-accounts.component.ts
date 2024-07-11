@@ -32,6 +32,12 @@ export class ApprovalAccountsComponent implements OnInit {
     public controlDetected: boolean | null = null;
     public whiteList: Array<WhitelistedAccount> = [];
 
+    public getDaoName = this.daoService.getDaoName;
+    public getTeamName = this.daoService.getTeamName;
+    public getAccountId = this.daoService.getAccountId;
+    public getTeamMemberRole = this.daoService.getTeamMemberRole;
+    public getDaoNameFromDAOAlias = this.daoService.getDaoNameFromDAOAlias;
+
     constructor(
         private accountService: AccountService,
         private daoService: DaoService,
@@ -58,7 +64,7 @@ export class ApprovalAccountsComponent implements OnInit {
     setDao(dao): void {
         this.currentDao = dao;
         this.daosList = this.daoService.getAccountDaos();
-        this.daoService.getDaoTeams(`${dao}TN`).subscribe(success_ => {
+        this.daoService.getDaoTeams(`${this.getDaoNameFromDAOAlias(dao)}TN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
             })
@@ -125,6 +131,4 @@ export class ApprovalAccountsComponent implements OnInit {
         const accountId = this.accountId(account);
         return this.whiteList.filter((wlAccount: any) => wlAccount.whitelistedRS === accountId).length > 0
     }
-
-    getDaoName = this.daoService.getDaoName;
 }

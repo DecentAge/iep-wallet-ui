@@ -833,4 +833,16 @@ export class DaoService {
     public getAssetNameFromTeamAlias(alias: string): string {
         return `${alias.split(/TN(.*)/s)[0]}${DaoService.currentDAOTeam.teamShortcodePrefix}${alias.split(/TT(.*)/s)[1]}`;
     }
+
+    public  getTeamName(alias: string): string {
+        const aliasName = alias.split(/TN(.*)/s);
+        const teamName = aliasName[1].split(/TT(.*)/s);
+        return teamName[0];
+    }
+
+    public getTeamMemberRole(teamMemberAlias: string): string {
+        const teamMember = teamMemberAlias.split(/TR(.*)/s);
+        const memberRole = teamMember[1].split(/TT(.*)/s);
+        return memberRole[0];
+    }
 }
