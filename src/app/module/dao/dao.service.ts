@@ -260,22 +260,34 @@ export class DaoService {
         this.createAsset(assetName, aliasName, teamData, route, aliasUri);
     }
 
-    getAliases(daoName = '') {
+    getAliases(daoName = '', first = 0, last = 0) {
         const prefix = daoName === '' ? 'DAO' : daoName;
         const params = {
-            'requestType': 'getAliasesLike',
-            'aliasPrefix': prefix,
+            requestType: 'getAliasesLike',
+            aliasPrefix: prefix,
+            firstIndex: undefined,
+            lastIndex: undefined
         };
+        if (daoName === '') {
+            params.firstIndex = first;
+            params.lastIndex = last;
+        }
 
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.aliasesConfig.aliasesEndPoint, params).pipe(
             map((aliases: any) => {
+                if (aliases.aliases.length > 0) {
+                    aliases.moreItems = true;
+                }
                 return daoName === '' ?
-                    aliases.aliases.filter(alias =>
+                  {
+                      aliases: aliases.aliases.filter(alias =>
                         alias.aliasName.indexOf(DaoService.currentDAOTeam.teamNamePrefix) === -1 &&
                         alias.aliasName.indexOf(DaoService.currentDAOTeam.teamShortcodePrefix) === -1 &&
                         alias.aliasName.indexOf('UL') === -1 &&
                         alias.aliasName.indexOf('CT') === -1 &&
-                        alias.aliasName.indexOf('SL') === -1)
+                        alias.aliasName.indexOf('SL') === -1),
+                      moreItems: aliases.moreItems
+                  }
                     : aliases.aliases;
             })
         );
@@ -395,7 +407,7 @@ export class DaoService {
         const accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
         return this.getAliases().pipe(
             map((aliases: any) => {
-                return aliases.filter(alias => alias.accountRS === accountRS);
+                return aliases.aliases.filter(alias => alias.accountRS === accountRS);
             })
         );
     }

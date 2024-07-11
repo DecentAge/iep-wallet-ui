@@ -91,6 +91,9 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     }
 
     setDao(dao): void {
+        if (!!this.wizard) {
+            return;
+        }
         this.currentDao = dao;
         this.daosList = this.daoService.getAccountDaos();
         this.daoService.getDaoTeams(`${this.daoService.getDaoNameFromDAOAlias(dao)}TN`).subscribe(success_ => {

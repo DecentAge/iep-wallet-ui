@@ -44,7 +44,7 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
         const accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
         this.daoList = this.daoService.getAliases().pipe(
             map((aliases: any) => {
-                return aliases.filter(alias => alias.accountRS === accountRS);
+                return aliases.aliases.filter(alias => alias.accountRS === accountRS);
             })
         );
     }
