@@ -13,7 +13,7 @@
                         </label>
                         <select name="type" class="form-control" [(ngModel)]="currentDao"
                                 (change)="setDao(currentDao)" required>
-                            <option *ngFor='let dao of daoList | async' [value]="dao?.aliasName">
+                            <option *ngFor="let dao of daoList" [value]="dao?.aliasName">
                                 {{getDaoName(dao?.aliasName)}}
                             </option>
                         </select>

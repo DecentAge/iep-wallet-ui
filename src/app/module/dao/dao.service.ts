@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AppConstants} from 'app/config/constants';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
-import {map, takeUntil} from 'rxjs/operators';
+import {expand, map, takeUntil} from 'rxjs/operators';
 import {AliasesService} from '../aliases/aliases.service';
 import {AssetsService} from '../assets/assets.service';
 import {CommonService} from 'app/services/common.service';
@@ -11,9 +11,9 @@ import {Router} from '@angular/router';
 import {HttpProviderService} from 'app/services/http-provider.service';
 import {NodeService} from 'app/services/node.service';
 import {AccountService} from '../account/account.service';
-import {combineLatest, Observable, Subject} from 'rxjs';
+import {combineLatest, EMPTY, Observable, Subject} from 'rxjs';
 import {Founder, TeamMember} from './interfaces';
-import {ShowDaosMode} from './enums';
+import {DEFAULT_FIRST_INDEX, DEFAULT_INDEX_INCREMENT, DEFAULT_LAST_INDEX, ShowDaosMode} from './enums';
 
 export class DAO {
     protected namePrefix = 'DAO';
@@ -405,9 +405,9 @@ export class DaoService {
 
     getAccountDaos() {
         const accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
-        return this.getAliases().pipe(
-            map((aliases: any) => {
-                return aliases.aliases.filter(alias => alias.accountRS === accountRS);
+        return this.getAllDaos().pipe(
+            map((response: any) => {
+                return response.aliases.filter(alias => alias.accountRS === accountRS);
             })
         );
     }
@@ -856,5 +856,24 @@ export class DaoService {
         const teamMember = teamMemberAlias.split(/TR(.*)/s);
         const memberRole = teamMember[1].split(/TT(.*)/s);
         return memberRole[0];
+    }
+
+    getAllDaos(): Observable<any> {
+        let first = DEFAULT_FIRST_INDEX, last = DEFAULT_LAST_INDEX;
+        const getDao = () => {
+            return this.getAliases('', first, last);
+        }
+
+        return getDao().pipe(
+          expand((response, index) => {
+              if (!!response.moreItems) {
+                  first += DEFAULT_INDEX_INCREMENT;
+                  last += DEFAULT_INDEX_INCREMENT;
+                  return getDao();
+              } else {
+                  return EMPTY
+              }
+          })
+        )
     }
 }

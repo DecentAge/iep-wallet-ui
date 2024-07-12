@@ -13,7 +13,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 
     @Input() wizard: WizardComponent | null = null;
 
-    public daosList;
+    public daosList: Array<any> = [];
     public teamsList = [];
     public teamTokens;
     public currentDao = '';
@@ -33,7 +33,16 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.daosList = this.daoService.getAccountDaos();
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
         this.currentDao = DaoService.currentDAO.name;
         this.currentTeam = DaoService.currentDAOTeam.name;
         if (this.currentDao !== '') {
@@ -95,7 +104,16 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
             return;
         }
         this.currentDao = dao;
-        this.daosList = this.daoService.getAccountDaos();
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
         this.daoService.getDaoTeams(`${this.daoService.getDaoNameFromDAOAlias(dao)}TN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;

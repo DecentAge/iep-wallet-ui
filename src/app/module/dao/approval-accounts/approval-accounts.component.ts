@@ -24,7 +24,7 @@ export class ApprovalAccountsComponent implements OnInit {
     public currentTeam = '';
     public currentTeamAlias;
     public teamsList;
-    public daosList;
+    public daosList: Array<any> =[];
     public approvalAccountsForm = {
         quorum: 0,
         accounts: []
@@ -48,7 +48,16 @@ export class ApprovalAccountsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.daosList = this.daoService.getAccountDaos();
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
     }
 
     public setPage(pageInfo) {
@@ -63,7 +72,16 @@ export class ApprovalAccountsComponent implements OnInit {
 
     setDao(dao): void {
         this.currentDao = dao;
-        this.daosList = this.daoService.getAccountDaos();
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
         this.daoService.getDaoTeams(`${this.getDaoNameFromDAOAlias(dao)}TN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;

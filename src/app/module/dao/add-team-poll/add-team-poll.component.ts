@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class AddTeamPollComponent implements OnInit {
 
-    public daosList;
+    public daosList: Array<any> = [];
     public teamsList = [];
     public currentDao = '';
     public currentTeam = '';
@@ -23,12 +23,31 @@ export class AddTeamPollComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.daosList = this.daoService.getAccountDaos();
+        // this.daosList = this.daoService.getAccountDaos();
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
     }
 
     setDao(dao): void {
         this.currentDao = dao;
-        this.daosList = this.daoService.getAccountDaos();
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
         const daoName = this.daoService.getDaoNameFromDAOAlias(dao);
         this.daoService.getDaoTeams(`${daoName}TN`).subscribe(success_ => {
             success_.subscribe((response: any) => {

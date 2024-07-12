@@ -2,9 +2,7 @@ import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {WizardComponent} from 'angular-archwizard';
 import {DaoService} from '../dao.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs';
 import {AccountService} from '../../account/account.service';
-import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-create-dao-team',
@@ -30,23 +28,19 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     public currentDao = '';
     private teamDAO = '';
+    private tempList = new Array<any>();
+    private account;
     public readonly alphanumericPattern12: RegExp = new RegExp('^[a-zA-Z0-9_]{1,12}$');
     public readonly alphanumericPatternMax5: RegExp = new RegExp('^[a-zA-Z0-9_]{1,5}$');
 
-    daoList: Observable<Array<any>>;
+    public daoList: Array<any>= [];
 
     constructor(
-        private accountService: AccountService,
-        private daoService: DaoService,
-        private router: Router,
-        private route: ActivatedRoute
+      private accountService: AccountService,
+      private daoService: DaoService,
+      private router: Router,
+      private route: ActivatedRoute
     ) {
-        const accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
-        this.daoList = this.daoService.getAliases().pipe(
-            map((aliases: any) => {
-                return aliases.aliases.filter(alias => alias.accountRS === accountRS);
-            })
-        );
     }
 
     ngOnInit() {
@@ -56,6 +50,17 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
         if (this.currentDao !== '') {
             this.setDao(this.currentDao);
         }
+        this.account = this.accountService.getAccountDetailsFromSession('accountId');
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daoList = tempDaoList;
+            }
+        });
     }
 
     createTeam(): void {

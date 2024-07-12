@@ -10,7 +10,7 @@ import {DaoService} from '../dao.service';
 export class SelectDaoTeamComponent implements OnInit {
 
     @Input() currentDao;
-    @Input() daosList: Observable<any>;
+    @Input() daosList: Array<any>;
     @Input() currentTeam;
     @Input() teamsList: Array<any>;
     @Output() setDao = new EventEmitter<any>();
