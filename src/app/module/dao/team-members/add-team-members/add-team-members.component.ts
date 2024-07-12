@@ -44,7 +44,12 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
             }
         });
         this.currentDao = DaoService.currentDAO.name;
-        this.currentTeam = DaoService.currentDAOTeam.name;
+        if (!!this.wizard) {
+            this.currentTeam = DaoService.currentDAOTeam.name;
+        } else {
+            this.daoService.currentTeamMembers = [];
+            DaoService.currentDAOTeamFounders = [];
+        }
         if (this.currentDao !== '') {
             this.setDao(this.currentDao);
         }
@@ -80,10 +85,12 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
         if (!this.currentTeam) {
             this.currentTeam = DaoService.currentDAOTeam.name;
         }
-        if (!this.addTeamMemberForm.teamMembers.length) {
+        if (!this.addTeamMemberForm.teamMembers.length &&
+          !DaoService.currentDAOTeamFounders.length &&
+          !this.daoService.currentTeamMembers.length) {
             this.router.navigate([`dao/show-daos/DAO${this.currentDao}/teams`]).then();
         }
-        this.daoService.currentTeamMembers = this.addTeamMemberForm.teamMembers;
+        this.daoService.currentTeamMembers = [...this.daoService.currentTeamMembers, ...this.addTeamMemberForm.teamMembers];
         if (DaoService.currentDAOTeamFounders.length > 0) {
             this.daoService.currentTeamMembers = [
                 ...this.daoService.currentTeamMembers,
@@ -114,12 +121,13 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
                 this.daosList = tempDaoList;
             }
         });
-        this.daoService.getDaoTeams(`${this.daoService.getDaoNameFromDAOAlias(dao)}TN`).subscribe(success_ => {
+        this.daoService.getDaoTeams(`${this.daoService.getDaoTokenFromDAOAlias(dao)}TN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
                 this.teamTokens = response.res.assets;
             })
         });
+        this.setTeam('');
     }
 
     setTeam(team): void {

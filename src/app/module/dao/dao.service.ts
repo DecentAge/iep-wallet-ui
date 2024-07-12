@@ -464,7 +464,7 @@ export class DaoService {
 
     transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam) {
         this.getAssetForDaoTeam(teamToken).pipe(map((response: any) => response.assets[0])).subscribe((token: any) => {
-            this.getAssetForDaoTeam(this.getDaoNameFromDAOAlias(currentDao))
+            this.getAssetForDaoTeam(this.getDaoTokenFromDAOAlias(currentDao))
               .pipe(map((response: any) => response.assets[0])).subscribe((daoToken) => {
                 if (!token || token.quantityQNT < 1 || (!daoToken || daoToken.quantityQNT < 1)) {
                     const title: string = this.commonService.translateAlertTitle('Error');
@@ -540,6 +540,8 @@ export class DaoService {
                                         } else {
                                             DaoService.currentDAO.name = currentDao;
                                             DaoService.currentDAOTeam.name = currentTeam;
+                                            DaoService.currentDAOTeamFounders = [];
+                                            this.currentTeamMembers = [];
                                             let isMobile = false;
                                             const ua = navigator.userAgent;
                                             if (

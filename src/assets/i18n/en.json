@@ -1506,6 +1506,7 @@
             "official-address": "Official Address",
             "show-dao-polls-table-action": "Show DAO Polls",
             "general-info": "General Info",
+            "dao-token-label": "DAO Token: ",
             "dao-messages": "Messages",
             "dao-polls": "Polls",
             "team-members": "Team Members",
