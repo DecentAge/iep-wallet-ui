@@ -17,6 +17,7 @@ export class SelectDaoTeamComponent implements OnInit {
     @Output() setTeam = new EventEmitter<any>();
 
     getDaoName = this.daoService.getDaoName;
+    getDaoNameFromDAOAlias = this.daoService.getDaoNameFromDAOAlias;
 
     constructor(
         private daoService: DaoService

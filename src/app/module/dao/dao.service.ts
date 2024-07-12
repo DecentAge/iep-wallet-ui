@@ -245,7 +245,7 @@ export class DaoService {
     createDAO(daoData) {
         const assetName = `DAO${daoData.prefix}`;
         const aliasName = `DAO${daoData.name}DT${daoData.prefix}`;
-        DaoService.currentDAO.name = daoData.name;
+        DaoService.currentDAO.name = aliasName;
         DaoService.currentDAO.shortcode = daoData.prefix;
         this.currentDAOForm = daoData;
         this.createAsset(assetName, aliasName, daoData, `dao/create-dao/create-team`, '');
@@ -837,11 +837,6 @@ export class DaoService {
         return `DAO${tokenWithoutName[1]}`;
     }
 
-    public getDaoNameFromTeamToken(teamToken: string): string {
-        const daoName = teamToken.split(/TT(.*)/s);
-        return daoName[0];
-    }
-
     public getAssetNameFromTeamAlias(alias: string): string {
         return `${alias.split(/TN(.*)/s)[0]}${DaoService.currentDAOTeam.teamShortcodePrefix}${alias.split(/TT(.*)/s)[1]}`;
     }
@@ -865,7 +860,7 @@ export class DaoService {
         }
 
         return getDao().pipe(
-          expand((response, index) => {
+          expand((response) => {
               if (!!response.moreItems) {
                   first += DEFAULT_INDEX_INCREMENT;
                   last += DEFAULT_INDEX_INCREMENT;

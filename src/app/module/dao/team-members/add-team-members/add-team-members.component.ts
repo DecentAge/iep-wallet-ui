@@ -96,7 +96,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
                     }
                 })];
         }
-        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.addTeamMemberForm.teamMembers);
+        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.daoService.currentTeamMembers);
     }
 
     setDao(dao): void {

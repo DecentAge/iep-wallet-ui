@@ -12,6 +12,7 @@ import {AccountService} from '../../account/account.service';
 export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     getDaoName = this.daoService.getDaoName;
+    getDaoNameFromDAOAlias = this.daoService.getDaoNameFromDAOAlias;
 
     @Input() wizard: WizardComponent | null = null;
     public createTeamForm: { [key: string]: string } = {
@@ -28,7 +29,6 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     public currentDao = '';
     private teamDAO = '';
-    private tempList = new Array<any>();
     private account;
     public readonly alphanumericPattern12: RegExp = new RegExp('^[a-zA-Z0-9_]{1,12}$');
     public readonly alphanumericPatternMax5: RegExp = new RegExp('^[a-zA-Z0-9_]{1,5}$');
