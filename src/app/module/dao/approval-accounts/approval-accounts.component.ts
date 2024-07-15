@@ -37,6 +37,7 @@ export class ApprovalAccountsComponent implements OnInit {
     public getAccountId = this.daoService.getAccountId;
     public getTeamMemberRole = this.daoService.getTeamMemberRole;
     public getDaoNameFromDAOAlias = this.daoService.getDaoNameFromDAOAlias;
+    public getDaoTokenFromAlias = this.daoService.getDaoTokenFromDAOAlias;
 
     constructor(
         private accountService: AccountService,
@@ -82,7 +83,7 @@ export class ApprovalAccountsComponent implements OnInit {
                 this.daosList = tempDaoList;
             }
         });
-        this.daoService.getDaoTeams(`${this.getDaoNameFromDAOAlias(dao)}TN`).subscribe(success_ => {
+        this.daoService.getDaoTeams(`${this.getDaoTokenFromAlias(dao)}TN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
             })

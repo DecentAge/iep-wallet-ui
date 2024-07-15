@@ -25,7 +25,7 @@
                                             <select name="type" class="form-control" [(ngModel)]="currentDao"
                                                     (change)="setDao(currentDao)" required>
                                                 <option *ngFor='let dao of daosList' [value]="dao?.aliasName">
-                                                    {{getDaoName(dao?.aliasName)}}
+                                                    {{getDaoNameFromDAOAlias(getDaoName(dao?.aliasName))}}
                                                 </option>
                                             </select>
                                         </div>
