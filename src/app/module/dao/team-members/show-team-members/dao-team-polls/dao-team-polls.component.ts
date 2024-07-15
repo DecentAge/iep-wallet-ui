@@ -32,7 +32,7 @@ export class DaoTeamPollsComponent implements OnInit {
     this.daoName = DaoService.currentDAO.name;
     this.teamName = DaoService.currentDAOTeam.name;
     this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
-    this.teamToken = `TT${this.teamName.split('TT').pop()}`;
+    this.teamToken = `XE${this.teamName.split('XE').pop()}`;
     this.setPage({offset: 0});
   }
 

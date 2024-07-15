@@ -1477,14 +1477,14 @@
             },
             "validation": {
                 "name-is-required": "Name is required",
-                "name-is-invalid": "Name must contain only digits and latin letters with a max of 12 characters",
-                "prefix-is-required": "Prefix is required",
-                "prefix-is-invalid": "Prefix must contain only digits and latin letters with a max of 5 characters",
+                "name-is-invalid": "Name must contain only digits and latin letters with a max of 12 characters (X letter is restricted)",
+                "prefix-is-required": "Short Code is required",
+                "prefix-is-invalid": "Short Code must contain only digits and latin letters with a max of 5 characters (X letter is restricted)",
                 "shortcode-is-required": "Short Code is required",
-                "shortcode-is-invalid": "Short Code must contain only digits and latin letters with a max of 5 characters",
+                "shortcode-is-invalid": "Short Code must contain only digits and latin letters with a max of 5 characters (X letter is restricted)",
                 "decimals-is-required": "Decimals is required",
                 "role-is-required": "Role is required",
-                "role-is-invalid": "Role must contain only digits and latin letters"
+                "role-is-invalid": "Role must contain only digits and latin letters (X letter is restricted)"
             },
             "popovers": {
                 "dao-name": "The DAO name you like to create.",
@@ -1570,7 +1570,7 @@
             },
             "validation": {
                 "wallet-alias-is-required": "Wallet Alias is required",
-                "wallet-alias-is-invalid": "Wallet Alias must contain only digits and latin letters",
+                "wallet-alias-is-invalid": "Wallet Alias must contain only digits and latin letters (X letter is restricted)",
                 "wallet-address-required": "Wallet Address is required",
                 "initial-allocation-is-required":  "Initial Allocation is required"
             },
@@ -2199,6 +2199,7 @@
         "dao": "DAOs",
         "create-dao": "Create DAO",
         "founders": "Founders",
+        "add-founders": "Founders",
         "approval-accounts": "Approval Accounts",
         "create-team": "Create Team",
         "team-members": "Team Members",

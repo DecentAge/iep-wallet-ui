@@ -24,7 +24,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     };
     public isPending = true;
     public pendingTransactions = [];
-    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-Z0-9_]*$');
+    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-WY-Z0-9]*$');
 
     constructor(
         private daoService: DaoService,
@@ -121,7 +121,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
                 this.daosList = tempDaoList;
             }
         });
-        this.daoService.getDaoTeams(`${this.daoService.getDaoTokenFromDAOAlias(dao)}TN`).subscribe(success_ => {
+        this.daoService.getDaoTeams(`${this.daoService.getDaoTokenFromDAOAlias(dao)}XN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
                 this.teamTokens = response.res.assets;

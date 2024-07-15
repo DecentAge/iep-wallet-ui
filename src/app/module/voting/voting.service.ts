@@ -183,7 +183,7 @@ export class VotingService {
     getDaoTeamTokens(daoName) {
         const params = {
             'requestType': 'searchAssets',
-            'query': `${daoName}TT*`,
+            'query': `${daoName}XE*`,
         };
 
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.aliasesConfig.aliasesEndPoint, params);

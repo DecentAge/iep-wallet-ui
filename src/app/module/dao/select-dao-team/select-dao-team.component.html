@@ -28,7 +28,7 @@
             <select name="type" class="form-control" [(ngModel)]="currentTeam"
                     (change)="changeTeam(currentTeam)" required>
                 <option *ngFor='let team of teamsList' [value]="team?.aliasName">
-                    {{team?.aliasName.split('TN').pop().split('TT').shift()}}
+                    {{team?.aliasName.split('XN').pop().split('XE').shift()}}
                 </option>
             </select>
         </div>

@@ -17,7 +17,7 @@ import {DEFAULT_FIRST_INDEX, DEFAULT_INDEX_INCREMENT, DEFAULT_LAST_INDEX, ShowDa
 
 export class DAO {
     protected namePrefix = 'DAO';
-    protected shortcodePrefix = 'DT';
+    protected shortcodePrefix = 'XT';
 
     private Name = '';
     private Shortcode = '';
@@ -50,8 +50,8 @@ export class DAO {
 export class DAOTeam extends DAO {
     private DAONamePrefix = 'DAO';
 
-    private tmNamePrefix = 'TN';
-    private tmShortcodePrefix = 'TT';
+    private tmNamePrefix = 'XN';
+    private tmShortcodePrefix = 'XE';
 
     private DAOName = '';
 
@@ -244,7 +244,7 @@ export class DaoService {
 
     createDAO(daoData) {
         const assetName = `DAO${daoData.prefix}`;
-        const aliasName = `DAO${daoData.name}DT${daoData.prefix}`;
+        const aliasName = `DAO${daoData.name}XT${daoData.prefix}`;
         DaoService.currentDAO.name = aliasName;
         DaoService.currentDAO.shortcode = daoData.prefix;
         this.currentDAOForm = daoData;
@@ -252,8 +252,8 @@ export class DaoService {
     }
 
     createTeam(daoName, teamData, aliasUri = '', fullDaoName = '') {
-        const assetName = `DAO${daoName}TT${teamData.prefix}`;
-        const aliasName = `DAO${daoName}TN${teamData.name}TT${teamData.prefix}`;
+        const assetName = `DAO${daoName}XE${teamData.prefix}`;
+        const aliasName = `DAO${daoName}XN${teamData.name}XE${teamData.prefix}`;
         DaoService.currentDAOTeam.name = aliasName;
         const route = this.router.url.toString() === '/dao/create-dao/create-team' ?
             '/dao/create-dao/add-founders' : `/dao/show-daos/all/${fullDaoName}/teams`;
@@ -283,9 +283,9 @@ export class DaoService {
                       aliases: aliases.aliases.filter(alias =>
                         alias.aliasName.indexOf(DaoService.currentDAOTeam.teamNamePrefix) === -1 &&
                         alias.aliasName.indexOf(DaoService.currentDAOTeam.teamShortcodePrefix) === -1 &&
-                        alias.aliasName.indexOf('UL') === -1 &&
-                        alias.aliasName.indexOf('CT') === -1 &&
-                        alias.aliasName.indexOf('SL') === -1),
+                        alias.aliasName.indexOf('XU') === -1 &&
+                        alias.aliasName.indexOf('XC') === -1 &&
+                        alias.aliasName.indexOf('XD') === -1),
                       moreItems: aliases.moreItems
                   }
                     : aliases.aliases;
@@ -299,7 +299,7 @@ export class DaoService {
                 if (!response) {
                     response = [];
                 }
-                const aliases = response.filter(r => r.aliasName.indexOf('TR') === -1);
+                const aliases = response.filter(r => r.aliasName.indexOf('XR') === -1);
                 if (!aliases) {
                     return;
                 }
@@ -321,7 +321,7 @@ export class DaoService {
 
     getTeamMembers(teamName: string) {
         const searchString = `${teamName.split(DaoService.currentDAOTeam.teamShortcodePrefix).shift()}`;
-        return this.getAliases(`${searchString}TR`).pipe(
+        return this.getAliases(`${searchString}XR`).pipe(
             map((response: any) => {
                 if (!response) {
                     response = [];
@@ -428,8 +428,8 @@ export class DaoService {
             }
             const teamShortCode = DaoService.currentDAOTeam.teamShortcodePrefix;
             const aliases = teamMembers.map((teamMember: TeamMember) =>
-              `${currentTeam.split(teamShortCode).shift()}TR${teamMember.teamMemberRole}TT${currentTeam.split(teamShortCode).pop()}`);
-            const teamToken = `${currentTeam.split('TN').shift()}${teamShortCode}${currentTeam.split(teamShortCode).pop()}`;
+              `${currentTeam.split(teamShortCode).shift()}XR${teamMember.teamMemberRole}XE${currentTeam.split(teamShortCode).pop()}`);
+            const teamToken = `${currentTeam.split('XN').shift()}${teamShortCode}${currentTeam.split(teamShortCode).pop()}`;
 
             const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
             const fee = 1;
@@ -465,7 +465,10 @@ export class DaoService {
     transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam) {
         this.getAssetForDaoTeam(teamToken).pipe(map((response: any) => response.assets[0])).subscribe((token: any) => {
             this.getAssetForDaoTeam(this.getDaoTokenFromDAOAlias(currentDao))
-              .pipe(map((response: any) => response.assets[0])).subscribe((daoToken) => {
+              .pipe(map((response: any) => response.assets
+                .filter(asset => !asset.name.includes(DaoService.currentDAOTeam.teamShortcodePrefix))[0])
+              )
+              .subscribe((daoToken) => {
                 if (!token || token.quantityQNT < 1 || (!daoToken || daoToken.quantityQNT < 1)) {
                     const title: string = this.commonService.translateAlertTitle('Error');
                     const errMsg: string = this.commonService.translateInfoMessage('try-later');
@@ -701,16 +704,16 @@ export class DaoService {
 
     getDaoExternalLinks(daoName) {
         const queries = [
-            this.getAliases(`${daoName}UL`),
-            this.getAliases(`${daoName}CT`),
-            this.getAliases(`${daoName}SL`)
+            this.getAliases(`${daoName}XU`),
+            this.getAliases(`${daoName}XC`),
+            this.getAliases(`${daoName}XD`)
         ];
         return combineLatest(queries).pipe(
             map((response: any) => {
                 const result = response.filter(r => r.length > 0).map(r => r[0]);
-                const webPageUrl = result.filter(r => r.aliasName.indexOf('UL') !== -1);
-                const chatChannel = result.filter(r => r.aliasName.indexOf('CT') !== -1);
-                const sharedDataLink = result.filter(r => r.aliasName.indexOf('SL') !== -1);
+                const webPageUrl = result.filter(r => r.aliasName.indexOf('XU') !== -1);
+                const chatChannel = result.filter(r => r.aliasName.indexOf('XC') !== -1);
+                const sharedDataLink = result.filter(r => r.aliasName.indexOf('XD') !== -1);
                 return {
                     webPageUrl,
                     chatChannel,
@@ -726,9 +729,9 @@ export class DaoService {
         const queriesList: Array<Observable<any>> = [];
         const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
 
-        const webUrlAliasName = `${daoName}UL`;
-        const chatChannelAliasName = `${daoName}CT`;
-        const sharedDataLinkAliasName = `${daoName}SL`;
+        const webUrlAliasName = `${daoName}XU`;
+        const chatChannelAliasName = `${daoName}XC`;
+        const sharedDataLinkAliasName = `${daoName}XD`;
 
         const webPageAlias = !webPageUrl ? '' : `url:${webPageUrl}@xin`;
         const chatChannelAlias = !chatChannelUrl ? '' : `url:${chatChannelUrl}@xin`;
@@ -826,32 +829,34 @@ export class DaoService {
 
     public getAccountId(account: string): string {
         const xinAccount = account.split(/acct:(.*)/s)[1];
-        return xinAccount.split(/@(.*)/s)[0];
+        if (xinAccount) {
+            return xinAccount.split(/@(.*)/s)[0];
+        }
     }
 
     public getDaoNameFromDAOAlias(alias: string): string {
-        const nameWithoutToken = alias.split(/DT(.*)/s);
+        const nameWithoutToken = alias.split(/XT(.*)/s);
         return nameWithoutToken[0];
     }
 
     public getDaoTokenFromDAOAlias(alias: string): string {
-        const tokenWithoutName = alias.split(/DT(.*)/s);
+        const tokenWithoutName = alias.split(/XT(.*)/s);
         return `DAO${tokenWithoutName[1]}`;
     }
 
     public getAssetNameFromTeamAlias(alias: string): string {
-        return `${alias.split(/TN(.*)/s)[0]}${DaoService.currentDAOTeam.teamShortcodePrefix}${alias.split(/TT(.*)/s)[1]}`;
+        return `${alias.split(/XN(.*)/s)[0]}${DaoService.currentDAOTeam.teamShortcodePrefix}${alias.split(/XE(.*)/s)[1]}`;
     }
 
     public  getTeamName(alias: string): string {
-        const aliasName = alias.split(/TN(.*)/s);
-        const teamName = aliasName[1].split(/TT(.*)/s);
+        const aliasName = alias.split(/XN(.*)/s);
+        const teamName = aliasName[1].split(/XE(.*)/s);
         return teamName[0];
     }
 
     public getTeamMemberRole(teamMemberAlias: string): string {
-        const teamMember = teamMemberAlias.split(/TR(.*)/s);
-        const memberRole = teamMember[1].split(/TT(.*)/s);
+        const teamMember = teamMemberAlias.split(/XR(.*)/s);
+        const memberRole = teamMember[1].split(/XE(.*)/s);
         return memberRole[0];
     }
 

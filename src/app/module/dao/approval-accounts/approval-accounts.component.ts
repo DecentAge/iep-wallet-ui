@@ -83,7 +83,7 @@ export class ApprovalAccountsComponent implements OnInit {
                 this.daosList = tempDaoList;
             }
         });
-        this.daoService.getDaoTeams(`${this.getDaoTokenFromAlias(dao)}TN`).subscribe(success_ => {
+        this.daoService.getDaoTeams(`${this.getDaoTokenFromAlias(dao)}XN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
             })

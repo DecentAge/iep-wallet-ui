@@ -49,7 +49,7 @@ export class AddTeamPollComponent implements OnInit {
             }
         });
         const daoToken = this.daoService.getDaoTokenFromDAOAlias(dao);
-        this.daoService.getDaoTeams(`${daoToken}TN`).subscribe(success_ => {
+        this.daoService.getDaoTeams(`${daoToken}XN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
                 this.pollWalletRecipient = null;
@@ -60,7 +60,7 @@ export class AddTeamPollComponent implements OnInit {
 
     setTeam(team): void {
         this.currentTeam = team;
-        this.daoService.getAssetForDaoTeam(`${team.split('TN').shift()}TT${team.split('TT').pop()}`)
+        this.daoService.getAssetForDaoTeam(`${team.split('XN').shift()}XE${team.split('XE').pop()}`)
             .pipe(map((response: any) => response.assets[0]))
             .subscribe(response => {
                 this.pollWalletRecipient = response.asset;

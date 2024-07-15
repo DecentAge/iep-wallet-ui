@@ -59,8 +59,8 @@ export class DaoTeamMembersComponent implements OnInit {
     }
 
     getTeamMemberRole(alias) {
-        const roleWithToken = alias.split(/TR(.*)/s);
-        const role = roleWithToken[1].split(/TT(.*)/s);
+        const roleWithToken = alias.split(/XR(.*)/s);
+        const role = roleWithToken[1].split(/XE(.*)/s);
         return role[0];
     }
 }

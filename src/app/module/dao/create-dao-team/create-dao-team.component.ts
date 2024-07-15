@@ -30,8 +30,8 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
     public currentDao = '';
     private teamDAO = '';
     private account;
-    public readonly alphanumericPattern12: RegExp = new RegExp('^[a-zA-Z0-9_]{1,12}$');
-    public readonly alphanumericPatternMax5: RegExp = new RegExp('^[a-zA-Z0-9_]{1,5}$');
+    public readonly alphanumericPattern12: RegExp = new RegExp('^[a-zA-WY-Z0-9]{1,12}$');
+    public readonly alphanumericPatternMax5: RegExp = new RegExp('^[a-zA-WY-Z0-9]{1,5}$');
 
     public daoList: Array<any>= [];
 
