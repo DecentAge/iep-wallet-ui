@@ -63,7 +63,7 @@
                            (click)="transferTeamToken(value)"
                            triggers="mouseenter:mouseleave" container="body" placement="top"
                            [ngbPopover]="'daos.show-daos.transfer-token-table-action' | translate"
-                           [ngClass]="(value && value.accountRS === accountRs && value.teamWallet !== accountRs) ? 'enable' : 'disabled'">
+                           [ngClass]="(value && value.accountRS === daoAccountRs && value.teamWallet !== daoAccountRs) ? 'enable' : 'disabled'">
                             <i class="fa fa-user"></i>
                         </a>
                     </div>

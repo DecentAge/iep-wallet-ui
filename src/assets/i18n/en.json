@@ -1457,13 +1457,13 @@
                 "team-members": "Team Members"
             },
             "labels": {
-                "dao-name": "DAO Name",
-                "dao-prefix": "Short Code",
+                "dao-name": "DAO Name (\"X\" is not supported)",
+                "dao-prefix": "Short Code (\"X\" is not supported)",
                 "dao-decimals-label": "Decimals",
-                "team-name": "Team Name",
-                "team-shortcode": "Team Short Code",
-                "team-founder-name": "Founder Team Name",
-                "team-founder-shortcode": "Founder Team Short Code",
+                "team-name": "Team Name (\"X\" is not supported)",
+                "team-shortcode": "Team Short Code (\"X\" is not supported)",
+                "team-founder-name": "Founder Team Name (\"X\" is not supported)",
+                "team-founder-shortcode": "Founder Team Short Code (\"X\" is not supported)",
                 "team-quantity-label": "Max. team members (can't be changed afterwards)"
             },
             "placeholders": {
@@ -1477,18 +1477,18 @@
             },
             "validation": {
                 "name-is-required": "Name is required",
-                "name-is-invalid": "Name must contain only digits and latin letters with a max of 12 characters (X letter is restricted)",
+                "name-is-invalid": "Name must contain only digits and latin letters with a max of 12 characters (\"X\" is not supported)",
                 "prefix-is-required": "Short Code is required",
-                "prefix-is-invalid": "Short Code must contain only digits and latin letters with a max of 5 characters (X letter is restricted)",
+                "prefix-is-invalid": "Short Code must contain only digits and latin letters with a max of 5 characters (\"X\" is not supported)",
                 "shortcode-is-required": "Short Code is required",
-                "shortcode-is-invalid": "Short Code must contain only digits and latin letters with a max of 5 characters (X letter is restricted)",
+                "shortcode-is-invalid": "Short Code must contain only digits and latin letters with a max of 5 characters (\"X\" is not supported)",
                 "decimals-is-required": "Decimals is required",
                 "role-is-required": "Role is required",
-                "role-is-invalid": "Role must contain only digits and latin letters (X letter is restricted)"
+                "role-is-invalid": "Role must contain only digits and latin letters (\"X\" is not supported)"
             },
             "popovers": {
                 "dao-name": "The DAO name you like to create.",
-                "dao-prefix": "The prefix you like to use in DAO token",
+                "dao-prefix": "The short code you like to use in DAO token",
                 "quantity": "The teams quantity of DAO you like to create",
                 "description": "The DAO description you like to create"
             }
@@ -1533,7 +1533,8 @@
         "add-team-members": {
             "title": "Add Team Members",
             "team-member-address": "Team Member Address",
-            "team-member-role": "Team Member Role",
+            "team-member-role": "Team Member Role (\"X\" is not supported)",
+            "team-member-role-placeholder": "Team Member Role",
             "add-btn": "Add Team Member",
             "issue-dao-tokens": "Issue DAO token",
             "issue-dao-tokens-desc": "Issue DAO token to the team members, additional to the team token.",
@@ -1564,13 +1565,13 @@
         "founders": {
             "add-btn": "Add Founder",
             "labels": {
-                "founder-wallet-alias": "Founder Wallet Alias",
+                "founder-wallet-alias": "Founder Wallet Alias (\"X\" is not supported)",
                 "founder-wallet-address": "Wallet address",
                 "initial-allocation": "Initial Allocation"
             },
             "validation": {
                 "wallet-alias-is-required": "Wallet Alias is required",
-                "wallet-alias-is-invalid": "Wallet Alias must contain only digits and latin letters (X letter is restricted)",
+                "wallet-alias-is-invalid": "Wallet Alias must contain only digits and latin letters (\"X\" is not supported)",
                 "wallet-address-required": "Wallet Address is required",
                 "initial-allocation-is-required":  "Initial Allocation is required"
             },

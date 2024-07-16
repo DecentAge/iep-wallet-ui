@@ -51,7 +51,7 @@
                                [pattern]="alphanumericPattern"
                                #role="ngModel"
                                [(ngModel)]="addTeamMemberForm.teamMembers[i].teamMemberRole"
-                               placeholder="{{'daos.add-team-members.team-member-role' | translate}}"
+                               placeholder="{{'daos.add-team-members.team-member-role-placeholder' | translate}}"
                                required>
                     </div>
                     <div *ngIf="role?.invalid && (role?.dirty || role?.touched)"

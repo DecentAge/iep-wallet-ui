@@ -38,8 +38,8 @@ export class DaoTeamPollsComponent implements OnInit {
 
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.votingService.getDaoTeamTokens(this.daoService.getDaoNameFromDAOAlias(this.daoName)).subscribe((response: any) => {
-      this.teamAssets = response.assets.filter(a => a.name === `${this.daoName}${this.teamToken}`).map(a => a.asset);
+    this.votingService.getDaoTeamTokens(this.daoService.getDaoTokenFromDAOAlias(this.daoName)).subscribe((response: any) => {
+      this.teamAssets = response.assets.filter(a => a.name === this.daoService.getAssetNameFromTeamAlias(this.teamName)).map(a => a.asset);
       this.votingService.getAllPolls().subscribe(polls => {
         this.setUpPage(polls.filter(poll => this.teamAssets.includes(poll.holding)).map(poll => {
           const asset = response.assets.find((ast: any) => ast.asset === poll.holding);

@@ -94,7 +94,7 @@ export class PollsComponent implements OnInit {
                     this.setUpPage(success.polls);
                 });
         } else if (this.pollType === 'DAO') {
-            this.votingService.getDaoTeamTokens(this.daoService.getDaoNameFromDAOAlias(this.daoName)).subscribe((response: any) => {
+            this.votingService.getDaoTeamTokens(this.daoService.getDaoTokenFromDAOAlias(this.daoName)).subscribe((response: any) => {
                 this.daoAssets = response.assets.map(a => a.asset);
                 this.votingService.getAllPolls().subscribe(polls => {
                     if (this.daoName.startsWith('XIN-')) {

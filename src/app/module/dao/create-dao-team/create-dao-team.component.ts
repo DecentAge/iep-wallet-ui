@@ -3,6 +3,7 @@ import {WizardComponent} from 'angular-archwizard';
 import {DaoService} from '../dao.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AccountService} from '../../account/account.service';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-create-dao-team',
@@ -72,7 +73,14 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
             if (response.errorCode) {
                 this.daoService.showErrorMessage(response);
             } else {
-                this.daoService.createTeam(`${this.teamDAO}`, this.createTeamForm, this.createTeamForm.teamWallet, this.currentDao);
+                this.daoService.getAssetForDaoTeam(this.daoService.getDaoTokenFromDAOAlias(this.currentDao))
+                  .pipe(map((resp: any) => resp.assets
+                    .filter(asset => !asset.name.includes(DaoService.currentDAOTeam.teamShortcodePrefix))[0])
+                  )
+                  .subscribe((daoToken) => {
+                      this.daoService
+                        .createTeam(`${this.teamDAO}`, this.createTeamForm, this.createTeamForm.teamWallet, this.currentDao, daoToken);
+                  });
             }
         })
     }

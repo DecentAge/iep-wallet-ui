@@ -23,7 +23,7 @@ export class DAO {
     private Shortcode = '';
 
     getFullAssetName = () => {
-        return `${this.namePrefix}${this.Name}${this.shortcodePrefix}${this.shortcode}`
+        return `${this.namePrefix}${this.Name}${this.shortcodePrefix}${this.Shortcode}`
     }
 
     getFullAliasName = () => {
@@ -138,7 +138,7 @@ export class DaoService {
         );
     }
 
-    createAsset(assetName, aliasName, daoData, route = '', aliasURI = '') {
+    createAsset(assetName, aliasName, daoData, route = '', aliasURI = '', daoToken = null) {
         const description = daoData.description;
         const shares = daoData.quantity;
         const decimals = daoData.decimals;
@@ -173,6 +173,34 @@ export class DaoService {
                         this.aliasURI = aliasURI === '' ? success.transactionJSON.senderRS : aliasURI;
                         this.broadcastTransaction(this.transactionBytes).subscribe(result => {
                             if (!!result.success) {
+                                if (!!daoToken) {
+                                    const qty = 1;
+                                    const asset = daoToken.asset;
+                                    const recipientRS = daoData.teamWallet;
+                                    const daoFee = 1;
+                                    this.assetsService.transferAsset(publicKey, recipientRS, asset, qty, daoFee)
+                                      .subscribe((resp_) => {
+                                          resp_.subscribe((resp) => {
+                                              if (!resp.errorCode) {
+                                                  const unsBytes = resp.unsignedTransactionBytes;
+                                                  const signHex = this.cryptoService.signatureHex(unsBytes, secretPhraseHex);
+                                                  const tBytes = this.cryptoService.signTransactionHex(unsBytes, signHex);
+                                                  this.broadcastTransaction(tBytes).subscribe((response) => {
+                                                      if (!!response.success) {
+                                                          this.setAlias(aliasName, route);
+                                                      }
+                                                  });
+                                              } else {
+                                                  const title: string = this.commonService.translateAlertTitle('Error');
+                                                  const errMsg: string = this.commonService
+                                                    .translateErrorMessageParams('sorry-error-occurred', resp);
+                                                  alertFunctions.InfoAlertBox(title, errMsg, 'OK', 'error')
+                                                    .then();
+                                              }
+                                          });
+                                      });
+                                    return;
+                                }
                                 this.setAlias(aliasName, route);
                             }
                         });
@@ -251,13 +279,13 @@ export class DaoService {
         this.createAsset(assetName, aliasName, daoData, `dao/create-dao/create-team`, '');
     }
 
-    createTeam(daoName, teamData, aliasUri = '', fullDaoName = '') {
+    createTeam(daoName, teamData, aliasUri = '', fullDaoName = '', daoToken = null) {
         const assetName = `DAO${daoName}XE${teamData.prefix}`;
         const aliasName = `DAO${daoName}XN${teamData.name}XE${teamData.prefix}`;
         DaoService.currentDAOTeam.name = aliasName;
         const route = this.router.url.toString() === '/dao/create-dao/create-team' ?
             '/dao/create-dao/add-founders' : `/dao/show-daos/all/${fullDaoName}/teams`;
-        this.createAsset(assetName, aliasName, teamData, route, aliasUri);
+        this.createAsset(assetName, aliasName, teamData, route, aliasUri, daoToken);
     }
 
     getAliases(daoName = '', first = 0, last = 0) {

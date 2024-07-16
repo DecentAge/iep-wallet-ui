@@ -34,7 +34,7 @@ export class DaoPollsComponent implements OnInit {
 
     setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
-        this.votingService.getDaoTeamTokens(this.daoService.getDaoNameFromDAOAlias(this.daoName)).subscribe((response: any) => {
+        this.votingService.getDaoTeamTokens(this.daoService.getDaoTokenFromDAOAlias(this.daoName)).subscribe((response: any) => {
             this.daoAssets = response.assets.map(a => a.asset);
             this.votingService.getAllPolls().subscribe(polls => {
                 this.setUpPage(polls.filter(poll => this.daoAssets.includes(poll.holding)).map(poll => {
