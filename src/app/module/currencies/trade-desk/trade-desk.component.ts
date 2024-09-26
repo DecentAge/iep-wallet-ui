@@ -8,7 +8,6 @@ import { AppConstants } from "../../../config/constants";
 import { DataStoreService } from "../../../services/data-store.service";
 import * as alertFunctions from "../../../shared/data/sweet-alerts";
 import { Page } from "../../../config/page";
-import "rxjs/add/observable/forkJoin";
 import { QuantToAmountPipe } from "../../../pipes/quant-to-amount.pipe";
 import { ShareToQuantityPipe } from "../../../pipes/share-to-quantity.pipe";
 import { QuantityToSharePipe } from "../../../pipes/quantity-to-share.pipe";

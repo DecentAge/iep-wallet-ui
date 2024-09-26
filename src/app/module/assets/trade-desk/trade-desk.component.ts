@@ -1,5 +1,5 @@
 
-import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
+import {forkJoin as observableForkJoin } from 'rxjs';
 import { Component, OnInit } from "@angular/core";
 import { AssetsService } from "../assets.service";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -7,7 +7,6 @@ import { Location } from "@angular/common";
 import { AmChart, AmChartsService } from "@amcharts/amcharts3-angular";
 import { Page } from "../../../config/page";
 import { CommonService } from "../../../services/common.service";
-import "rxjs/add/observable/forkJoin";
 import { QuantToAmountPipe } from "../../../pipes/quant-to-amount.pipe";
 import { ShareToQuantityPipe } from "../../../pipes/share-to-quantity.pipe";
 import { QuantityToSharePipe } from "../../../pipes/quantity-to-share.pipe";

@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { AppConstants } from '../config/constants';
 import { HttpProviderService } from './http-provider.service';
 import {shareReplay} from 'rxjs/operators';
-import 'rxjs/add/observable/from';
+
 import {Observable} from 'rxjs';
+import { of } from 'rxjs';
+
 
 @Injectable()
 export class FiatService {
@@ -16,7 +18,7 @@ export class FiatService {
     }
 
     getXinPrice() {
-        return Observable.from([{USD: 0.00038717}]);
+        return of([{USD: 0.00038717}]);
         /*
         if (!this.cache$ || new Date().getTime() - this.lastFetch > 1000 * 60 * 10 ) {
             this.lastFetch = new Date().getTime();
