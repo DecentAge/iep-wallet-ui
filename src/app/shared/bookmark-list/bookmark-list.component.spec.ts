@@ -1,6 +1,7 @@
+import 'jasmine';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BookmarkComponent } from './bookmark.component';
+import { BookmarkComponent } from '../../module/account/bookmark/bookmark.component';
 
 describe('BookmarkComponent', () => {
   let component: BookmarkComponent;

@@ -1,3 +1,4 @@
+import 'jasmine';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WalletSettingsComponent } from './swapps-settings.component';

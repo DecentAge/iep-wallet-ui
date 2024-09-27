@@ -11,6 +11,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -24,8 +25,8 @@
             "styles": [
               "src/assets/css/prism.min.css",
               "node_modules/sweetalert2/dist/sweetalert2.min.css",
-              "node_modules/@swimlane/ngx-datatable/release/index.css",
-              "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+              "node_modules/@swimlane/ngx-datatable/index.css",
+              "node_modules/@swimlane/ngx-datatable/assets/icons.css",
               "src/assets/css/demo.css",
               "src/assets/sass/app.scss",
               "src/styles.css"
@@ -56,6 +57,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -181,7 +188,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

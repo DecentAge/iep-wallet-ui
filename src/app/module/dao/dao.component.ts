@@ -9,7 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class DaoComponent implements OnInit, AfterViewInit {
 
-    @ViewChild('awWizard') wizard: WizardComponent;
+    @ViewChild('awWizard', { static: true }) wizard: WizardComponent;
     public createDaoForm: { [key: string]: string } = {
         'name': '', 'prefix': '', 'quantity': '', 'description': '', 'decimals': '1', 'secretPhrase': ''
     }

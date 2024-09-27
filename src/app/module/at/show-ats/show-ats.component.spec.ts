@@ -1,6 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
 
 import { ShowAtsComponent } from './show-ats.component';
+import {async, ComponentFixture, TestBed} from "@angular/core/testing";
 
 describe('ShowAtsComponent', () => {
   let component: ShowAtsComponent;
