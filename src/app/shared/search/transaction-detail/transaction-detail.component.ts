@@ -13,6 +13,8 @@ export class TransactionDetailComponent implements OnInit {
 
     transaction: any = {};
     view: string;
+    activeTab: any = 1;
+    activeTabTransactions: any = 1;
 
     constructor(
         private route: ActivatedRoute,

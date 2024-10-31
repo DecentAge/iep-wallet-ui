@@ -39,7 +39,7 @@ import { PocComponent } from './overview/poc/poc.component';
         HttpClientModule,
         NgxDatatableModule,
         ChartsModule,
-        NgbModule.forRoot()
+        NgbModule
     ],
     declarations: [
         OverviewComponent,

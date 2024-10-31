@@ -13,6 +13,8 @@ export class AccountDetailComponent implements OnInit {
   account: any = {};
   accountRs: any = {};
   accountId: any = '';
+  activeTab: any = 1;
+
   constructor(public searchService: SearchService,
               public activatedRoute: ActivatedRoute,
               private _location: Location) { }

@@ -20,7 +20,7 @@ import { ToolsService } from './tools.service';
         CommonModule,
         ToolsPagesRoutingModule,
         FormsModule,
-        NgbModule.forRoot(),
+        NgbModule,
         SharedModule
     ],
     declarations: [

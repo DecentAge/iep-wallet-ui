@@ -97,13 +97,13 @@
 
                         <div class="row mt-4">
                             <div class="col-md-12 col-lg-12">
-                                <ngb-tabset type="tabs" class="nav-auto">
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+                                    <li [ngbNavItem]="1">
+                                        <button ngbNavLink>
                                             <i class="fa fa-key"></i> {{'transaction-details.sender-public-key-tab'|
                                             translate}}
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                        </button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <input disabled="true" type="text" value="{{ transaction.senderPublicKey }}"
@@ -111,13 +111,12 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
-                                            <i class="fa fa-hashtag"></i> {{'transaction-details.full-hash-tab'|
-                                            translate}}
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                    </li>
+                                    <li [ngbNavItem]="2">
+                                        <button ngbNavLink>
+                                        <i class="fa fa-hashtag"></i> {{'transaction-details.full-hash-tab'|
+                                            translate}}</button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <input disabled="true" type="text" value="{{ transaction.fullHash }}"
@@ -125,13 +124,13 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
-                                            <i class="fa fa-hashtag"></i> {{'transaction-details.signature-hash-tab'|
-                                            translate}}
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                    </li>
+                                    <li [ngbNavItem]="3">
+                                        <button ngbNavLink>
+                                        <i class="fa fa-hashtag"></i> {{'transaction-details.signature-hash-tab'|
+                                        translate}}
+                                        </button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <input disabled="true" type="text" value="{{ transaction.signatureHash }}"
@@ -139,13 +138,13 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                    </li>
+                                        <li [ngbNavItem]="4">
+                                            <button ngbNavLink>
                                             <i class="fa fa-hashtag"></i> {{'transaction-details.signature-tab'|
                                             translate}}
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                            </button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <textarea rows="3" disabled="true" type="text" value="{{ transaction.signature }}"
@@ -153,13 +152,13 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                    </li>
+                                    <li [ngbNavItem]="5">
+                                                <button ngbNavLink>
                                             <i class="fa fa-bookmark-o"></i> {{'transaction-details.attachment-tab'|
                                             translate}}
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                                </button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <textarea disabled="true" type="text" rows="3" value="{{ transaction.attachment | json }}"
@@ -167,8 +166,8 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                </ngb-tabset>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -254,12 +253,12 @@
 
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
-                                <ngb-tabset type="pills">
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabTransactions" class="nav-tabs">
+                                    <li [ngbNavItem]="1">
+                                        <button ngbNavLink>
                                             <i class="fa fa-key"></i> Public Key
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                        </button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <input disabled="true" type="text" value="{{ transaction.generatorPublicKey }}"
@@ -267,12 +266,12 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                    </li>
+                                    <li [ngbNavItem]="2">
+                                        <button ngbNavLink>
                                             <i class="fa fa-hashtag"></i> Payload
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                        </button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <input disabled="true" type="text" value="{{ transaction.payloadHash }}"
@@ -280,12 +279,12 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                    </li>
+                                    <li [ngbNavItem]="3">
+                                        <button ngbNavLink>
                                             <i class="fa fa-hashtag"></i> Signature
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                        </button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <input disabled="true" type="text" value="{{ transaction.generationSignature }}"
@@ -293,12 +292,12 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                    </li>
+                                    <li [ngbNavItem]="4">
+                                        <button ngbNavLink>
                                             <i class="fa fa-hashtag"></i> Previous Block
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                        </button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <input disabled="true" type="text" value="{{ transaction.previousBlockHash }}"
@@ -306,12 +305,12 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                    </li>
+                                    <li [ngbNavItem]="5">
+                                        <button ngbNavLink>
                                             <i class="fa fa-bookmark-o"></i> Block Signature
-                                        </ng-template>
-                                        <ng-template ngbTabContent>
+                                        </button>
+                                        <ng-template ngbNavContent>
                                             <div class="form-group">
                                                 <div class="position-relative sign_in_inputs">
                                                     <textarea disabled="true" type="text" rows="2" value="{{ transaction.blockSignature }}"
@@ -319,8 +318,8 @@
                                                 </div>
                                             </div>
                                         </ng-template>
-                                    </ngb-tab>
-                                </ngb-tabset>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

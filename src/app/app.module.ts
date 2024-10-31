@@ -70,7 +70,7 @@ export function createTranslateLoader(http: HttpClient) {
         StoreModule.forRoot({}),
         SharedModule,
         HttpClientModule,
-        NgbModule.forRoot(),
+        NgbModule,
         AppRoutingModule,
         MatchHeightModule,
         FormsModule,

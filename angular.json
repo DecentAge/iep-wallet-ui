@@ -27,6 +27,7 @@
               "node_modules/sweetalert2/dist/sweetalert2.min.css",
               "node_modules/@swimlane/ngx-datatable/index.css",
               "node_modules/@swimlane/ngx-datatable/assets/icons.css",
+              "node_modules/ngx-ui-switch/ui-switch.component.css",
               "src/assets/css/demo.css",
               "src/assets/sass/app.scss",
               "src/styles.css"

@@ -109,24 +109,24 @@
                     <div class="card-block mr-3 ml-3">
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
-                                <ngb-tabset type="tabs" class="nav-auto">
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+                                    <li [ngbNavItem]="1">
+                                        <button ngbNavLink>
                                             <i class="fa fa-code"></i> {{'at.at-details.machine-code-tab'| translate}}
-                                        </ng-template>
+                                        </button>
                                         <ng-template ngbTabContent>
                                             <h4> {{atDetails.machineCode}} </h4>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                    </li>
+                                    <li [ngbNavItem]="2">
+                                        <button ngbNavLink>
                                             <i class="fa fa-code"></i> {{'at.at-details.machine-data-tab'| translate}}
-                                        </ng-template>
+                                        </button>
                                         <ng-template ngbTabContent>
                                             <p> {{atDetails.machineData}} </p>
                                         </ng-template>
-                                    </ngb-tab>
-                                </ngb-tabset>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

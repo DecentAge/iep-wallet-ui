@@ -11,7 +11,7 @@ import {SharedModule} from "../../shared/shared.module";
         CommonModule,
         SwappsRoutingModule,
         FormsModule,
-        NgbModule.forRoot(),
+        NgbModule,
         SharedModule
     ],
     declarations: [WalletSettingsComponent, OptionsComponent]
