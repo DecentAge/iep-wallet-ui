@@ -23,7 +23,7 @@ import { ReadNewsComponent } from './news-center/read-news/read-news.component';
 import { NewsCenterService } from "./news-center/news-center.service";
 import { BlockTransactionsPipe } from "../../pipes/block-transactions.pipe";
 import { SearchTermPipe } from "../../pipes/search-term.pipe";
-import { ChartsModule  } from "ng2-charts";
+import { NgChartsModule  } from "ng2-charts";
 import { AllComponent } from './overview/all/all.component';
 import { OnlineComponent } from './overview/online/online.component';
 import { DevelopmentComponent } from './overview/development/development.component';
@@ -38,7 +38,7 @@ import { PocComponent } from './overview/poc/poc.component';
         FormsModule,
         HttpClientModule,
         NgxDatatableModule,
-        ChartsModule,
+        NgChartsModule,
         NgbModule
     ],
     declarations: [

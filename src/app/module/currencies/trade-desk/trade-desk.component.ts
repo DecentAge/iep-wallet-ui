@@ -11,7 +11,7 @@ import { Page } from "../../../config/page";
 import { QuantToAmountPipe } from "../../../pipes/quant-to-amount.pipe";
 import { ShareToQuantityPipe } from "../../../pipes/share-to-quantity.pipe";
 import { QuantityToSharePipe } from "../../../pipes/quantity-to-share.pipe";
-import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
+//import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
 import { RootScope } from "../../../config/root-scope";
 import { NumericalStringPipe } from "../../../pipes/numerical-string.pipe";
 
@@ -51,7 +51,7 @@ export class TradeDeskComponent implements OnInit {
   enableBuy: any;
   askLength: any;
 
-  chart: AmChart;
+  //chart: AmChart;
 
   constructor(
     private currenciesService: CurrenciesService,
@@ -61,7 +61,7 @@ export class TradeDeskComponent implements OnInit {
     private quantToAmountPipe: QuantToAmountPipe,
     private shareToQuantityPipe: ShareToQuantityPipe,
     private quantityToSharePipe: QuantityToSharePipe,
-    private amChartsService: AmChartsService,
+    //private amChartsService: AmChartsService,
     private numericalStringPipe: NumericalStringPipe
   ) {}
 
@@ -317,7 +317,7 @@ export class TradeDeskComponent implements OnInit {
   }
 
   renderChart() {
-    this.chart = this.amChartsService.makeChart("currencyChartDiv", {
+    /*this.chart = this.amChartsService.makeChart("currencyChartDiv", {
       type: "serial",
       theme: "light",
       fontFamily: "Montserrat",
@@ -380,7 +380,7 @@ export class TradeDeskComponent implements OnInit {
         enabled: true,
         position: "bottom-right"
       }
-    });
+    });*/
   }
 
   goToDetails(value) {

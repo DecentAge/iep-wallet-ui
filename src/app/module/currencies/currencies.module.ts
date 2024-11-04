@@ -18,7 +18,7 @@ import { TradeDeskComponent } from './trade-desk/trade-desk.component';
 import { QuantToAmountPipe } from '../../pipes/quant-to-amount.pipe';
 import { ShareToQuantityPipe } from '../../pipes/share-to-quantity.pipe';
 import { QuantityToSharePipe } from '../../pipes/quantity-to-share.pipe';
-import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
+//import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
 import { NumericalStringPipe } from '../../pipes/numerical-string.pipe';
 import { TradeDeskSellComponent } from './trade-desk/trade-desk-sell/trade-desk-sell.component';
 import { TradeDeskBuyComponent } from './trade-desk/trade-desk-buy/trade-desk-buy.component';
@@ -70,7 +70,7 @@ import { MyExchangesComponent } from './my-exchanges/my-exchanges.component';
         QuantToAmountPipe,
         ShareToQuantityPipe,
         QuantityToSharePipe,
-        AmChartsService,
+        //AmChartsService,
         NumericalStringPipe,
         AmountTknPipe,
         AliasesService

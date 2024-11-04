@@ -8,7 +8,7 @@
                 </div>
                 <div class="card-body">
                     <div class="card-block ml-md-3 mr-md-3">
-                        <aw-wizard [navBarLayout]="'large-filled-symbols'" [navigationMode]="'semi-strict'" #awWizard>
+                        <aw-wizard [navBarLayout]="'large-filled-symbols'" #awWizard>
                             <aw-wizard-step stepTitle="{{'daos.create-dao.steps.create-dao'| translate}}"
                                             [navigationSymbol]="{ symbol: '1' }">
                                 <app-create-dao [wizard]="wizard" [createDaoForm]="createDaoForm"></app-create-dao>

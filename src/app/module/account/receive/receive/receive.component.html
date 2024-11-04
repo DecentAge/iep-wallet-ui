@@ -5,7 +5,7 @@
     <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
         <div class="row" id="print-section">
             <div class="col-sm-12">
-                <qrcode [qrdata]="accountRs" [size]="160" [level]="'M'"></qrcode>
+                <qrcode [qrdata]="accountRs" [width]="160" [errorCorrectionLevel]="'M'"></qrcode>
                 <p class="font-medium-1 text-center text-danger qr-address mt-4 mb-1">{{'account.receive-xin.xin-wallet-address-label'|
                     translate}}</p>
                 <p class="font-small-1 text-center mt-1 mb-0 qr-note text-muted mb-5">{{'account.receive-xin.only-send-xin-text'|

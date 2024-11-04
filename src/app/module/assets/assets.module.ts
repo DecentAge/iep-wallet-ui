@@ -30,7 +30,7 @@ import { DeleteSharesComponent } from './show-assets/assets/delete-shares/delete
 import { DeleteAssetComponent } from './show-assets/assets/delete-asset/delete-asset.component';
 import { DividentHistoryComponent } from './show-assets/assets/divident-history/divident-history.component';
 import {QuantityToSharePipe} from '../../pipes/quantity-to-share.pipe';
-import {AmChartsService} from '@amcharts/amcharts3-angular';
+//import {AmChartsService} from '@amcharts/amcharts3-angular';
 import {NumericalStringPipe} from '../../pipes/numerical-string.pipe';
 import { TradeDeskSellAssetComponent } from './trade-desk/trade-desk-sell-asset/trade-desk-sell-asset.component';
 import { TradeDeskBuyAssetComponent } from './trade-desk/trade-desk-buy-asset/trade-desk-buy-asset.component';
@@ -94,7 +94,7 @@ import {PricePerShareBuyOrderPipe} from '../../pipes/price-per-share-buy-order.p
         RateTqtToPricePipe,
         PricePerShareSellOrderPipe,
         PricePerShareBuyOrderPipe,
-        AmChartsService
+        //AmChartsService
     ],
     entryComponents: [ShowAssetsComponent],
 })

@@ -1,5 +1,5 @@
 @import "scss/variables";
-@import "../../../node_modules/bootstrap/scss/bootstrap";
+@import "bootstrap/scss/bootstrap";
 @import "scss/core/palette";
 @import "scss/app-variables";
 @import "scss/mixins";
@@ -15,27 +15,24 @@ aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:a
   color: #cacaca !important;
       font-size: 20px !important;
 }
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.current:after {
+aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.current .step-indicator {
  @include set-gradient-background-color(#e72d45, #f3931b);
   color: #ffffff !important;
 }
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.default:after {
+aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li .step-indicator {
   color: #ffffff !important;
 }
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.done:after {
+aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:after {
+  background-color: #f1f2f3 !important;
+  height: 6px!important;
+  top: -29px!important;
+}
+aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.done .step-indicator {
   background-color: #e72d45 !important;
   color: #ffffff !important;
 }
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.editing:after {
-  background-color: theme-color("danger") !important;
-  color: #ffffff !important;
-}
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:not(:last-child):before {
-    background-color: #f1f2f3 !important;
-    height: 6px!important;
-    top: -29px!important;
-}
-aw-wizard-navigation-bar.horizontal ul.steps-indicator li div a {
+
+aw-wizard-navigation-bar.horizontal ul.steps-indicator li a {
     color: #333 !important;
     line-height: 20px !important;
     font-size: 15px !important;

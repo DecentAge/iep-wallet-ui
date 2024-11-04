@@ -35,9 +35,9 @@ export class FoundersComponent implements OnInit, AfterViewInit {
             if (!this.currentTeam) {
                 this.router.navigate(['/dao/create-dao/create-team']).then();
             }
-            this.wizard.navigation.goToStep(0);
-            this.wizard.navigation.goToStep(1);
-            this.wizard.navigation.goToStep(2);
+            this.wizard.navigation.goToStep(this.wizard, 0);
+            this.wizard.navigation.goToStep(this.wizard,1);
+            this.wizard.navigation.goToStep(this.wizard,2);
         }
     }
 
