@@ -95,8 +95,7 @@ import {PricePerShareBuyOrderPipe} from '../../pipes/price-per-share-buy-order.p
         PricePerShareSellOrderPipe,
         PricePerShareBuyOrderPipe,
         //AmChartsService
-    ],
-    entryComponents: [ShowAssetsComponent],
+    ]
 })
 export class AssetsModule {
 }

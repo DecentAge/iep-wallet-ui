@@ -74,20 +74,6 @@ import { DaoTeamPollsComponent } from './team-members/show-team-members/dao-team
         AssetsService,
         DaoService,
         MessageService
-    ],
-    entryComponents: [
-        AddTeamMembersComponent,
-        AddTeamPollComponent,
-        ApprovalAccountsComponent,
-        CreateDaoComponent,
-        CreateDaoTeamComponent,
-        CreateTeamsComponent,
-        DaoComponent,
-        FoundersComponent,
-        TeamMembersComponent,
-        ShowTeamMembersComponent,
-        ShowDaoPollsComponent,
-        PollsComponent
     ]
 })
 export class DaoModule {
