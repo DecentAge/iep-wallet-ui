@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { DashboardService } from './dashboard.service';
 import { NodeService } from '../../services/node.service';
 import { OptionService } from '../../services/option.service';
-//import { AmChartsModule } from "@amcharts/amcharts3-angular";
+
 @NgModule({
     imports: [
         CommonModule,
@@ -21,8 +21,7 @@ import { OptionService } from '../../services/option.service';
         NgbModule,
         MatchHeightModule,
         SharedModule,
-        FormsModule,
-        //AmChartsModule
+        FormsModule
     ],
     exports: [],
     declarations: [

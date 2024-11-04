@@ -4,7 +4,6 @@ import { Component, OnInit } from "@angular/core";
 import { AssetsService } from "../assets.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from "@angular/common";
-//import { AmChart, AmChartsService } from "@amcharts/amcharts3-angular";
 import { Page } from "../../../config/page";
 import { CommonService } from "../../../services/common.service";
 import { QuantToAmountPipe } from "../../../pipes/quant-to-amount.pipe";
@@ -53,8 +52,6 @@ export class TradeDeskComponent implements OnInit {
   enableBuy: any;
   askLength: any;
 
-  //chart: AmChart;
-
   constructor(
     private assetsService: AssetsService,
     private activatedRoute: ActivatedRoute,
@@ -66,7 +63,6 @@ export class TradeDeskComponent implements OnInit {
     private quantityToSharePipe: QuantityToSharePipe,
     private numericalStringPipe: NumericalStringPipe,
     private rateTqtToPricePipe: RateTqtToPricePipe,
-    //private amChartsService: AmChartsService,
     private _location: Location
   ) {}
 

@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { SessionStorageService } from '../../../services/session-storage.service';
 import { DashboardService } from '../dashboard.service';
 import { RootScope } from '../../../config/root-scope';
-//import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -25,13 +24,10 @@ export class DashboardComponent implements OnInit {
         private dashboardService: DashboardService,
         public translate: TranslateService,
         private sessionStorageService: SessionStorageService,
-        //private amChartsService: AmChartsService
     ) {
         this.accountValuation = 0.00;
         this.accountRs = "";
     }
-
-    //private chart: AmChart;
 
     ngOnInit() {
         this.getAccountAssetsAndBalances();

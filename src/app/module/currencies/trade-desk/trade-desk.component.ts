@@ -11,7 +11,6 @@ import { Page } from "../../../config/page";
 import { QuantToAmountPipe } from "../../../pipes/quant-to-amount.pipe";
 import { ShareToQuantityPipe } from "../../../pipes/share-to-quantity.pipe";
 import { QuantityToSharePipe } from "../../../pipes/quantity-to-share.pipe";
-//import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
 import { RootScope } from "../../../config/root-scope";
 import { NumericalStringPipe } from "../../../pipes/numerical-string.pipe";
 
@@ -51,8 +50,6 @@ export class TradeDeskComponent implements OnInit {
   enableBuy: any;
   askLength: any;
 
-  //chart: AmChart;
-
   constructor(
     private currenciesService: CurrenciesService,
     private route: ActivatedRoute,
@@ -61,7 +58,6 @@ export class TradeDeskComponent implements OnInit {
     private quantToAmountPipe: QuantToAmountPipe,
     private shareToQuantityPipe: ShareToQuantityPipe,
     private quantityToSharePipe: QuantityToSharePipe,
-    //private amChartsService: AmChartsService,
     private numericalStringPipe: NumericalStringPipe
   ) {}
 
