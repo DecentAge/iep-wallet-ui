@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {WizardComponent, WizardStep} from 'angular-archwizard';
+import {WizardComponent, WizardStep} from '../../shared/archwizard';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({

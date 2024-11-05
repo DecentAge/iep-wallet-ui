@@ -5,7 +5,7 @@ import { MyOpenOffersComponent } from './my-open-offers/my-open-offers.component
 import { MyTransfersComponent } from './my-transfers/my-transfers.component';
 import { IssueCurrencyComponent } from './issue-currency/issue-currency.component';
 import { CurrenciesRoutingModule } from './currencies-routing.module';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { SharedModule } from '../../shared/shared.module';
 import { CurrencyDetailsComponent } from './currency-details/currency-details.component';
 import { CurrenciesService } from './currencies.service';

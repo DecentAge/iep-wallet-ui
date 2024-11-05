@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {WizardComponent} from 'angular-archwizard';
+import {WizardComponent} from '../../../shared/archwizard';
 import {DaoService} from '../dao.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';

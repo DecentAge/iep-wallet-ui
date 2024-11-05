@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {WizardComponent} from 'angular-archwizard';
+import {WizardComponent} from '../../../shared/archwizard';
 
 @Component({
     selector: 'app-team-members',

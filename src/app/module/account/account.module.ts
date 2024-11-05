@@ -14,7 +14,7 @@ import { HistoryComponent } from './history/history.component';
 import { ControlComponent } from './control/control.component';
 import { BalanceLeaseComponent } from './balance-lease/balance-lease.component';
 import { SearchAccountComponent } from './search-account/search-account.component';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { LessorsComponent } from './lessors/lessors.component';
 import { PropertiesComponent } from './properties/properties.component';

@@ -4,7 +4,7 @@ import { ShowCampaignsComponent } from './show-campaigns/show-campaigns.componen
 import { CreateCampaignComponent } from './create-campaign/create-campaign.component';
 import { CrowdfundingRoutingModule } from './crowdfunding-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { FormsModule } from '@angular/forms';
 import { CampaignsComponent } from './show-campaigns/campaigns/campaigns.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';

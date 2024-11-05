@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { PollsComponent } from './show-polls/polls/polls.component';
 import { CreatePollComponent } from './create-poll/create-poll.component';
 import { VotingRoutingModule } from './voting-routing.module';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { FormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PollDetailsComponent } from './show-polls/polls/poll-details/poll-details.component';
