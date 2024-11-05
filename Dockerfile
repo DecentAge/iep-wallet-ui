@@ -1,5 +1,5 @@
 # build environment
-FROM node:14 AS node-builder
+FROM node:14-alpine AS node-builder
 WORKDIR /app
 RUN apk add --no-cache git
 RUN apk add --no-cache zip
