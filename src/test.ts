@@ -25,3 +25,4 @@ getTestBed().initTestEnvironment(
 );
 // Finally, start Karma to run the tests.
 __karma__.start();
+
