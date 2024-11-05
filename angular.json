@@ -57,10 +57,7 @@
               "src/app/crypto/qrcode.js",
               "src/app/crypto/rsaddress.js",
               "src/app/crypto/seedrandom.js",
-              "src/app/crypto/sha256.js",
-              "node_modules/amcharts3/amcharts/amcharts.js",
-              "node_modules/amcharts3/amcharts/serial.js",
-              "node_modules/amcharts3/amcharts/themes/light.js"
+              "src/app/crypto/sha256.js"
             ]
           },
           "configurations": {
@@ -131,10 +128,7 @@
               "src/app/crypto/qrcode.js",
               "src/app/crypto/rsaddress.js",
               "src/app/crypto/seedrandom.js",
-              "src/app/crypto/sha256.js",
-              "node_modules/amcharts3/amcharts/amcharts.js",
-              "node_modules/amcharts3/amcharts/serial.js",
-              "node_modules/amcharts3/amcharts/themes/light.js"
+              "src/app/crypto/sha256.js"
             ],
             "styles": [
               "src/assets/css/prism.min.css",

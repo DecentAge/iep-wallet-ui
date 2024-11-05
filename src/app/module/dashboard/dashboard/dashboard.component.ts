@@ -129,12 +129,6 @@ export class DashboardComponent implements OnInit {
         });*/
     }
 
-    ngOnDestroy() {
-        /*if (this.chart) {
-            this.amChartsService.destroyChart(this.chart);
-        }*/
-    }
-
     getAccountAssetsAndBalances() {
 
         RootScope.onChange.subscribe(data => {
