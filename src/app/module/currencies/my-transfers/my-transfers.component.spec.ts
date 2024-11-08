@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyTransfersComponent } from './my-transfers.component';
 
@@ -7,7 +7,7 @@ describe('MyTransfersComponent', () => {
   let component: MyTransfersComponent;
   let fixture: ComponentFixture<MyTransfersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MyTransfersComponent ]
     })

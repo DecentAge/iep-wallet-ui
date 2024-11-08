@@ -1,13 +1,13 @@
 import 'jasmine';
 
 import { ShowAtsComponent } from './show-ats.component';
-import {async, ComponentFixture, TestBed} from "@angular/core/testing";
+import {waitForAsync, ComponentFixture, TestBed} from "@angular/core/testing";
 
 describe('ShowAtsComponent', () => {
   let component: ShowAtsComponent;
   let fixture: ComponentFixture<ShowAtsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ShowAtsComponent ]
     })

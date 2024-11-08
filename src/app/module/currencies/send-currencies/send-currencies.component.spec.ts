@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SendCurrenciesComponent } from './send-currencies.component';
 
@@ -7,7 +7,7 @@ describe('SendCurrenciesComponent', () => {
   let component: SendCurrenciesComponent;
   let fixture: ComponentFixture<SendCurrenciesComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SendCurrenciesComponent ]
     })

@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DividentHistoryComponent } from './divident-history.component';
 
@@ -7,7 +7,7 @@ describe('DividentHistoryComponent', () => {
   let component: DividentHistoryComponent;
   let fixture: ComponentFixture<DividentHistoryComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DividentHistoryComponent ]
     })

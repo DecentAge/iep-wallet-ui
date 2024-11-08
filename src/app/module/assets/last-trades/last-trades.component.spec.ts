@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LastTradesComponent } from './last-trades.component';
 
@@ -7,7 +7,7 @@ describe('LastTradesComponent', () => {
   let component: LastTradesComponent;
   let fixture: ComponentFixture<LastTradesComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LastTradesComponent ]
     })

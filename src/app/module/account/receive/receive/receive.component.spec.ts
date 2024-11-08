@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReceiveComponent } from './receive.component';
 
@@ -7,7 +7,7 @@ describe('ReceiveTabComponent', () => {
   let component: ReceiveComponent;
   let fixture: ComponentFixture<ReceiveComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ReceiveComponent ]
     })

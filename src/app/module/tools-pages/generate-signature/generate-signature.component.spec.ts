@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GenerateSignatureComponent } from './generate-signature.component';
 
@@ -7,7 +7,7 @@ describe('GenerateSignatureComponent', () => {
   let component: GenerateSignatureComponent;
   let fixture: ComponentFixture<GenerateSignatureComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ GenerateSignatureComponent ]
     })

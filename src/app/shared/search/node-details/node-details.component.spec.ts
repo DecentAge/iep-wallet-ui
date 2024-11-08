@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NodeDetailsComponent } from './node-details.component';
 
@@ -7,7 +7,7 @@ describe('NodeDetailsComponent', () => {
   let component: NodeDetailsComponent;
   let fixture: ComponentFixture<NodeDetailsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ NodeDetailsComponent ]
     })

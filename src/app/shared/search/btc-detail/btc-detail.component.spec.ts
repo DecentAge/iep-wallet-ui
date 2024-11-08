@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BtcDetailComponent } from './btc-detail.component';
 
@@ -7,7 +7,7 @@ describe('BtcDetailComponent', () => {
   let component: BtcDetailComponent;
   let fixture: ComponentFixture<BtcDetailComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BtcDetailComponent ]
     })

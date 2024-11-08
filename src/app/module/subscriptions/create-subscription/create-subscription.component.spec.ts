@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateSubscriptionComponent } from './create-subscription.component';
 
@@ -7,7 +7,7 @@ describe('CreateSubscriptionComponent', () => {
   let component: CreateSubscriptionComponent;
   let fixture: ComponentFixture<CreateSubscriptionComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CreateSubscriptionComponent ]
     })

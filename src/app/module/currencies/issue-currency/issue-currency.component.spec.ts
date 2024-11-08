@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { IssueCurrencyComponent } from './issue-currency.component';
 
@@ -7,7 +7,7 @@ describe('IssueCurrencyComponent', () => {
   let component: IssueCurrencyComponent;
   let fixture: ComponentFixture<IssueCurrencyComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ IssueCurrencyComponent ]
     })

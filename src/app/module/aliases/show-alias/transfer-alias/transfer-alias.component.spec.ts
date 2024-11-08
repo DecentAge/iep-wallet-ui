@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TransferAliasComponent } from './transfer-alias.component';
 
@@ -7,7 +7,7 @@ describe('TransferAliasComponent', () => {
   let component: TransferAliasComponent;
   let fixture: ComponentFixture<TransferAliasComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TransferAliasComponent ]
     })

@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TransactionTypesComponent } from './transaction-types.component';
 
@@ -7,7 +7,7 @@ describe('TransactionTypesComponent', () => {
   let component: TransactionTypesComponent;
   let fixture: ComponentFixture<TransactionTypesComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ TransactionTypesComponent ]
     })

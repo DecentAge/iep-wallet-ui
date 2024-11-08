@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LedgerViewComponent } from './ledger-view.component';
 
@@ -7,7 +7,7 @@ describe('LedgerViewComponent', () => {
   let component: LedgerViewComponent;
   let fixture: ComponentFixture<LedgerViewComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ LedgerViewComponent ]
     })

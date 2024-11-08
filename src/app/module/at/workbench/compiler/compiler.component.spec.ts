@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CompilerComponent } from './compiler.component';
 
@@ -7,7 +7,7 @@ describe('CompilerComponent', () => {
   let component: CompilerComponent;
   let fixture: ComponentFixture<CompilerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CompilerComponent ]
     })

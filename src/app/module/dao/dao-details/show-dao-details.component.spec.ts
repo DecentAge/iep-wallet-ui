@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShowDaoDetailsComponent } from './show-dao-details.component';
 
@@ -7,7 +7,7 @@ describe('ShowDaoDetailsComponent', () => {
   let component: ShowDaoDetailsComponent;
   let fixture: ComponentFixture<ShowDaoDetailsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ShowDaoDetailsComponent ]
     })

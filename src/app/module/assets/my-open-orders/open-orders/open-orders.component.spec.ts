@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OpenOrdersComponent } from './open-orders.component';
 
@@ -7,7 +7,7 @@ describe('OpenOrdersComponent', () => {
   let component: OpenOrdersComponent;
   let fixture: ComponentFixture<OpenOrdersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ OpenOrdersComponent ]
     })

@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FundingMonitorComponent } from './funding-monitor.component';
 
@@ -7,7 +7,7 @@ describe('FundingMonitorComponent', () => {
   let component: FundingMonitorComponent;
   let fixture: ComponentFixture<FundingMonitorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ FundingMonitorComponent ]
     })

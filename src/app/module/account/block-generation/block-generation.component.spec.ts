@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlockGenerationComponent } from './block-generation.component';
 
@@ -7,7 +7,7 @@ describe('BlockGenerationComponent', () => {
   let component: BlockGenerationComponent;
   let fixture: ComponentFixture<BlockGenerationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BlockGenerationComponent ]
     })

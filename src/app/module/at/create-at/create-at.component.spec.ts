@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateAtComponent } from './create-at.component';
 
@@ -7,7 +7,7 @@ describe('CreateAtComponent', () => {
   let component: CreateAtComponent;
   let fixture: ComponentFixture<CreateAtComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CreateAtComponent ]
     })

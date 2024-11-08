@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShowTeamMembersComponent } from './show-team-members.component';
 
@@ -7,7 +7,7 @@ describe('ShowTeamMembersComponent', () => {
   let component: ShowTeamMembersComponent;
   let fixture: ComponentFixture<ShowTeamMembersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ShowTeamMembersComponent ]
     })

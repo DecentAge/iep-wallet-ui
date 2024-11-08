@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SendReferenceComponent } from './send-reference.component';
 
@@ -7,7 +7,7 @@ describe('SendReferenceComponent', () => {
   let component: SendReferenceComponent;
   let fixture: ComponentFixture<SendReferenceComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SendReferenceComponent ]
     })

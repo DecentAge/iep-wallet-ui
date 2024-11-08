@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SendDeferredComponent } from './send-deferred.component';
 
@@ -7,7 +7,7 @@ describe('SendDeferredComponent', () => {
   let component: SendDeferredComponent;
   let fixture: ComponentFixture<SendDeferredComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SendDeferredComponent ]
     })

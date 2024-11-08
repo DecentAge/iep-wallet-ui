@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignEscrowComponent } from './sign-escrow.component';
 
@@ -7,7 +7,7 @@ describe('SignEscrowComponent', () => {
   let component: SignEscrowComponent;
   let fixture: ComponentFixture<SignEscrowComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SignEscrowComponent ]
     })

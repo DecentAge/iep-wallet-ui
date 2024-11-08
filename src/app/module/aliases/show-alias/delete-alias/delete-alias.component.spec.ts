@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DeleteAliasComponent } from './delete-alias.component';
 
@@ -7,7 +7,7 @@ describe('DeleteAliasComponent', () => {
   let component: DeleteAliasComponent;
   let fixture: ComponentFixture<DeleteAliasComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DeleteAliasComponent ]
     })

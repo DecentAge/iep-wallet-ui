@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ControlApproveComponent } from './control-approve.component';
 
@@ -7,7 +7,7 @@ describe('ControlApproveComponent', () => {
   let component: ControlApproveComponent;
   let fixture: ComponentFixture<ControlApproveComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ControlApproveComponent ]
     })

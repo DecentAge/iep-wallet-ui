@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReadMessageComponent } from './read-message.component';
 
@@ -7,7 +7,7 @@ describe('ReadMessageComponent', () => {
   let component: ReadMessageComponent;
   let fixture: ComponentFixture<ReadMessageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ReadMessageComponent ]
     })

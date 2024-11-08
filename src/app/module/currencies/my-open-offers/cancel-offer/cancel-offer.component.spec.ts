@@ -1,5 +1,5 @@
 import 'jasmine';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CancelOfferComponent } from './cancel-offer.component';
 
@@ -7,7 +7,7 @@ describe('CancelOfferComponent', () => {
   let component: CancelOfferComponent;
   let fixture: ComponentFixture<CancelOfferComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CancelOfferComponent ]
     })
