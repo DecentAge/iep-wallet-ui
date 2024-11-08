@@ -6,17 +6,16 @@
 <section id="service-monitor">
 	<div class="row mt-2">
 		<div class="col-lg-12 col-md-12 col-sm-12">
-			<ngb-accordion [activeIds]="activeIds">
-				<ngb-panel id="peerServiceStatus">
-					<ng-template ngbPanelTitle>
-						<h5>
+            <div ngb-accordion>
+                <div ngbAccordionItem>
+                    <h5 ngbAccordionHeader>
 							Peer Service Status
 							<span class="pull-right">
 								<i class="fa accordion"></i>
 							</span>
 						</h5>
-					</ng-template>
-					<ng-template ngbPanelContent>
+                </div>
+                <div ngbAccordionCollapse>
 						<ngx-datatable
 								[rows]="peerEndpoints"
 								[columnMode]="'standard'"
@@ -51,19 +50,18 @@
 								</ng-template>
 							</ngx-datatable-column>
 						</ngx-datatable>
-					</ng-template>
-				</ngb-panel>
+                </div>
 
-				<ngb-panel id="websitesServiceStatus">
-					<ng-template ngbPanelTitle>
-						<h5>
+
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader>
 							Websites Service Status
 							<span class="pull-right">
 								<i class="fa accordion"></i>
 							</span>
 						</h5>
-					</ng-template>
-					<ng-template ngbPanelContent>
+                    </div>
+                    <div ngbAccordionCollapse>
 						<ngx-datatable
 								[rows]="websiteEndpoints"
 								[columnMode]="'standard'"
@@ -98,19 +96,18 @@
 								</ng-template>
 							</ngx-datatable-column>
 						</ngx-datatable>
-					</ng-template>
-				</ngb-panel>
+                    </div>
 
-				<ngb-panel id="testnetStatus">
-					<ng-template ngbPanelTitle>
-						<h5>
+
+                        <div ngbAccordionItem>
+                            <h5 ngbAccordionHeader>
 							Testnet Status
 							<span class="pull-right">
 								<i class="fa accordion"></i>
 							</span>
 						</h5>
-					</ng-template>
-					<ng-template ngbPanelContent>
+                        </div>
+                        <div ngbAccordionCollapse>
 						<ngx-datatable
 								[rows]="testnetEndpoints"
 								[columnMode]="'standard'"
@@ -145,19 +142,18 @@
 								</ng-template>
 							</ngx-datatable-column>
 						</ngx-datatable>
-					</ng-template>
-				</ngb-panel>
+                        </div>
 
-				<ngb-panel id="apiStatus">
-					<ng-template ngbPanelTitle>
-						<h5>
+
+                            <div ngbAccordionItem>
+                                <h5 ngbAccordionHeader>
 							API Status
 							<span class="pull-right">
 								<i class="fa accordion"></i>
 							</span>
 						</h5>
-					</ng-template>
-					<ng-template ngbPanelContent>
+                            </div>
+                            <div ngbAccordionCollapse>
 						<ngx-datatable
 								[rows]="apiEndpoints"
 								[columnMode]="'standard'"
@@ -192,9 +188,8 @@
 								</ng-template>
 							</ngx-datatable-column>
 						</ngx-datatable>
-					</ng-template>
-				</ngb-panel>
-			</ngb-accordion>
+                </div>
+            </div>
 		</div>
 	</div>
 </section>
