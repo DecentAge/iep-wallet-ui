@@ -42,23 +42,9 @@ import { ClaimComponent } from './receive/claim/claim.component';
 import { ReceiveComponent } from './receive/receive/receive.component';
 import { ControlFundingMonitorComponent } from './funding-monitor/control-funding-monitor/control-funding-monitor.component';
 import { ActiveFundingMonitorComponent } from './funding-monitor/active-funding-monitor/active-funding-monitor.component';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({
-    imports: [
-        CommonModule,
-        AccountRoutingModule,
-        NgxChartsModule,
-        NgbModule,
-        MatchHeightModule,
-        SharedModule,
-        FormsModule,
-        ArchwizardModule,
-        QRCodeModule,
-        NgxDatatableModule,
-        HttpClientModule
-    ],
-    exports: [],
+@NgModule({ exports: [],
     declarations: [
         DetailsComponent,
         ReceiveTabComponent,
@@ -87,13 +73,21 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         ReceiveComponent,
         ControlFundingMonitorComponent,
         ActiveFundingMonitorComponent
-    ],
-    providers: [
+    ], imports: [CommonModule,
+        AccountRoutingModule,
+        NgxChartsModule,
+        NgbModule,
+        MatchHeightModule,
+        SharedModule,
+        FormsModule,
+        ArchwizardModule,
+        QRCodeModule,
+        NgxDatatableModule], providers: [
         AccountService,
         AssetsService,
         CurrenciesService,
         AliasesService,
-        AddressService
-    ],
-})
+        AddressService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AccountModule { }

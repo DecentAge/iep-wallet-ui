@@ -1,17 +1,7 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from "@angular/core";
-import {
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
-  HttpEvent,
-  HttpResponse,
-  HttpErrorResponse,
-  HttpClient,
-  HttpHeaders,
-  HttpParams
-} from "@angular/common/http";
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse, HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { CommonService } from "../services/common.service";
 import { SessionStorageService } from "../services/session-storage.service";
 import { PeerService } from "../services/peer.service";

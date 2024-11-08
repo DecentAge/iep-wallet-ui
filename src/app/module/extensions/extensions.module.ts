@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from "../../shared/shared.module";
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -30,18 +30,7 @@ import { DevelopmentComponent } from './overview/development/development.compone
 import { ConceptComponent } from './overview/concept/concept.component';
 import { PocComponent } from './overview/poc/poc.component';
 
-@NgModule({
-    imports: [
-        CommonModule,
-        ExtensionsRoutingModule,
-        SharedModule,
-        FormsModule,
-        HttpClientModule,
-        NgxDatatableModule,
-        NgChartsModule,
-        NgbModule
-    ],
-    declarations: [
+@NgModule({ declarations: [
         OverviewComponent,
         MacapComponent,
         UpDownPipe,
@@ -62,9 +51,14 @@ import { PocComponent } from './overview/poc/poc.component';
         DevelopmentComponent,
         ConceptComponent,
         PocComponent
-    ],
-    providers: [
-        NewsCenterService
-    ]
-})
+    ], imports: [CommonModule,
+        ExtensionsRoutingModule,
+        SharedModule,
+        FormsModule,
+        NgxDatatableModule,
+        NgChartsModule,
+        NgbModule], providers: [
+        NewsCenterService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class ExtensionsModule {}
