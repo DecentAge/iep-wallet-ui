@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-block main-card-block pb-0">
                     <div class="border-bt">
-                        <h2 class="main-title">{{'navbar.service-fees'| translate}}</h2>
+                        <h2 class="main-title">{{ 'navbar.service-fees'| translate }}</h2>
                         <app-breadcrumb></app-breadcrumb>
                     </div>
                 </div>
@@ -12,122 +12,122 @@
                     <div ngbAccordionItem>
                         <h5 ngbAccordionHeader class="mb-0">
                             <i class="fa fa-credit-card"></i> &nbsp;
-                            {{'tool-pages.service-fees.ordinary-payments'| translate}}
+                            {{ 'tool-pages.service-fees.ordinary-payments'| translate }}
                         </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                        <div class="description" [innerHTML]="'tool-pages.service-fees.ordinary-payments-desc'| translate">
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.ordinary-payments-desc'| translate">
+                            </div>
                         </div>
                     </div>
                     <div ngbAccordionItem>
                         <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-share-alt"></i> &nbsp;
-                                {{'side-menu.Aliases'| translate}}
-                            </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.aliases-desc'| translate">
+                            <i class="fa fa-share-alt"></i> &nbsp;
+                            {{ 'side-menu.Aliases'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.aliases-desc'| translate">
                             </div>
-                    </div>
-                    <div ngbAccordionItem>
-                        <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-envelope-o"></i> &nbsp;
-                                {{'side-menu.Messages'| translate}}
-                            </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.messages-desc'| translate">
-                            </div>
-                    </div>
-                    <div ngbAccordionItem>
-                        <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-bar-chart"></i> &nbsp;
-                                {{'side-menu.Assets'| translate}}
-                            </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.assets-desc'| translate">
-                            </div>
-                    </div>
-                    <div ngbAccordionItem>
-                        <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-random"></i> &nbsp;
-                                {{'side-menu.Currencies'| translate}}
-                            </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.currencies-desc'| translate">
-                            </div>
-                    </div>
-                    <div ngbAccordionItem>
-                        <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-signal"></i> &nbsp;
-                                {{'side-menu.Voting'| translate}}
-                            </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.voting-desc'| translate">
-                            </div>
-                    </div>
-                    <div ngbAccordionItem>
-                        <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-users"></i> &nbsp;
-                                {{'side-menu.Crowdfunding'| translate}}
-                            </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.crowdfunding-desc'| translate">
-                            </div>
-                    </div>
-                    <div ngbAccordionItem>
-                        <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-clock-o"></i> &nbsp;
-                                {{'side-menu.Subscriptions'| translate}}
-                            </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.subscriptions-desc'| translate">
-                            </div>
-                    </div>
-                    <div ngbAccordionItem>
-                        <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-handshake-o"></i> &nbsp;
-                                {{'side-menu.Escrow'| translate}}
-                            </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.escrow-desc'| translate">
-                            </div>
-                    </div>
-                    <div ngbAccordionItem>
-                        <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-user-secret"></i> &nbsp;
-                                {{'side-menu.Shuffling'| translate}}
-                            </h5>
-                    </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.shuffling-desc'| translate">
-                            </div>
-                    </div>
-                        <div ngbAccordionItem>
-                            <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-gears"></i> &nbsp;
-                                {{'side-menu.AT'| translate}}
-                            </h5>
                         </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.at-desc'| translate">
-                            </div>
                     </div>
-                        <div ngbAccordionItem>
-                            <h5 ngbAccordionHeader class="mb-0">
-                                <i class="fa fa-user"></i> &nbsp;
-                                {{'tool-pages.service-fees.additional-services'| translate}}
-                            </h5>
-                        </div>
-                    <div ngbAccordionCollapse>
-                            <div class="description" [innerHTML]="'tool-pages.service-fees.additional-services-desc'| translate">
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-envelope-o"></i> &nbsp;
+                            {{ 'side-menu.Messages'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.messages-desc'| translate">
                             </div>
+                        </div>
+                    </div>
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-bar-chart"></i> &nbsp;
+                            {{ 'side-menu.Assets'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.assets-desc'| translate">
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-random"></i> &nbsp;
+                            {{ 'side-menu.Currencies'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.currencies-desc'| translate">
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-signal"></i> &nbsp;
+                            {{ 'side-menu.Voting'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.voting-desc'| translate">
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-users"></i> &nbsp;
+                            {{ 'side-menu.Crowdfunding'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.crowdfunding-desc'| translate">
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-clock-o"></i> &nbsp;
+                            {{ 'side-menu.Subscriptions'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.subscriptions-desc'| translate">
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-handshake-o"></i> &nbsp;
+                            {{ 'side-menu.Escrow'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.escrow-desc'| translate">
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-user-secret"></i> &nbsp;
+                            {{ 'side-menu.Shuffling'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.shuffling-desc'| translate">
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-gears"></i> &nbsp;
+                            {{ 'side-menu.AT'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.at-desc'| translate">
+                            </div>
+                        </div>
+                    </div>
+                    <div ngbAccordionItem>
+                        <h5 ngbAccordionHeader class="mb-0">
+                            <i class="fa fa-user"></i> &nbsp;
+                            {{ 'tool-pages.service-fees.additional-services'| translate }}
+                        </h5>
+                        <div ngbAccordionCollapse>
+                            <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.additional-services-desc'| translate">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

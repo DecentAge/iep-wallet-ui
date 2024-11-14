@@ -35,9 +35,7 @@ import { ToolsService } from './tools.service';
         UserGuideComponent
     ],
     providers: [
-        ToolsService,
-        NgbAccordionDirective,
-        NgbAccordionItem
+        ToolsService
     ]
 })
 export class ToolsPagesModule {

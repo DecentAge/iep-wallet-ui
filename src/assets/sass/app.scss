@@ -1,14 +1,30 @@
-@import "scss/variables";
-@import "bootstrap/scss/bootstrap";
-@import "scss/core/palette";
-@import "scss/app-variables";
-@import "scss/mixins";
-@import "scss/custom-bootstrap";
-@import "scss/core";
-@import "scss/fonts/weather-icons";
-@import "scss/plugins";
-@import "scss/demo";  // Remove this SCSS from production
-@import "scss/custom";  // Remove this SCSS from production
+@import "bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+// 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+// 6. Optionally include any other parts as needed
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/helpers";
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "bootstrap/scss/utilities/api";
+
 
 aw-wizard {
   display: flex;
@@ -1036,6 +1052,11 @@ aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:a
   background-color: #f1f2f3 !important;
   color: #cacaca !important;
       font-size: 20px !important;
+}
+@mixin set-gradient-background-color($color-stops...) {
+  background: nth(nth($color-stops, 1), 1);
+  background: -webkit-linear-gradient(0, $color-stops);
+  background: linear-gradient(0, $color-stops);
 }
 aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.current .step-indicator {
  @include set-gradient-background-color(#e72d45, #f3931b);
