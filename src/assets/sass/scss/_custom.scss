@@ -1352,6 +1352,9 @@ select.form-control:not([size]):not([multiple]) {
   &:hover{
     background: #e72d45;
   }
+  position: absolute;
+  padding: 10px 30px;
+  right: 0;
 }
 
 /*navigation arrows*/
