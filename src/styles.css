@@ -51,8 +51,9 @@ form label {
     right: 15px;
 }
 .wallet-switch .switch{
-    background: transparent !important;
+    background: transparent;
 }
+
 .border-bt{
         border-bottom: 1px solid #e9dedd;
 }

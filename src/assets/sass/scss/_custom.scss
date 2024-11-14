@@ -937,7 +937,7 @@ border-color: #787b91 !important;
   .accordion-item{
     border-bottom: none;
     border-left: 4px solid #f3931b;
-    border-radius-top-left: 5px;
+    border-radius: 10px 10px 0 0;
     border-right: 0;
     padding: 0;
     margin-bottom: 5px;
@@ -1634,4 +1634,9 @@ i.datatable-icon-skip:before {
 
 .bar1,.bar2,.bar3 {
   outline: transparent solid 1px
+}
+
+
+.switch.checked, .badge-success {
+  background: $primary !important;
 }
