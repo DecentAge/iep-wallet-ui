@@ -26,6 +26,16 @@
 @import "bootstrap/scss/utilities/api";
 
 
+
+@mixin set-gradient-background-color($color-stops...) {
+  background: nth(nth($color-stops, 1), 1);
+  background: -webkit-linear-gradient(0, $color-stops);
+  background: linear-gradient(0, $color-stops);
+}
+
+@import "scss/custom";
+
+
 aw-wizard {
   display: flex;
   justify-content: flex-start;
@@ -1052,11 +1062,6 @@ aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:a
   background-color: #f1f2f3 !important;
   color: #cacaca !important;
       font-size: 20px !important;
-}
-@mixin set-gradient-background-color($color-stops...) {
-  background: nth(nth($color-stops, 1), 1);
-  background: -webkit-linear-gradient(0, $color-stops);
-  background: linear-gradient(0, $color-stops);
 }
 aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.current .step-indicator {
  @include set-gradient-background-color(#e72d45, #f3931b);
