@@ -118,6 +118,7 @@ body.swal2-shown:not(.swal2-no-backdrop):not(.swal2-toast-shown) {
 }
 .card .card-header{
     position: relative;
+    margin-bottom: 20px;
 }
 .tab-pane .filter-group {
     right: 25px;
@@ -253,4 +254,8 @@ a.hyperlink:hover{
         padding: 0 10%;
     }
 
+}
+
+.navbar-nav li:last-child>a {
+    margin-right: 0 !important;
 }

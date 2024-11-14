@@ -46,6 +46,7 @@ body {
   line-height: 1.5em;
   color: rgba(0, 0, 0, 0.87);
   min-height: 100vh;
+  background: $body-bg;
   &.inverse {
     background: #333333;
     &, .form-control {
@@ -99,6 +100,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 a{
   color: $primary;
+  text-decoration: none;
+  cursor: pointer;
   &:hover,
   &:focus{
     color: darken($primary, 5%);
@@ -569,7 +572,7 @@ border-color: #787b91 !important;
     font-weight: 600;
     font-size: 14px;
     line-height: 45px;
-    &:active {
+    &:active, &.active {
       border-top: 3px solid #e63043 !important;
       color: #e72d45;
     }
@@ -1539,4 +1542,85 @@ i.datatable-icon-skip:before {
     margin-bottom: 10px;
   }
 
+}
+
+
+
+.btn {
+  border-width: 0 !important;
+}
+.card .card-header {
+  padding: 1.5rem;
+  border-bottom: none;
+  background-color: transparent
+}
+
+.app-sidebar {
+  transition:transform .4s cubic-bezier(.25,.8,.25,1);
+  transition: transform .4s cubic-bezier(.25,.8,.25,1),-webkit-transform .4s cubic-bezier(.25,.8,.25,1)
+}
+
+
+.navbar {
+  z-index: 3;
+  border: 0;
+  border-radius: 0
+}
+
+.navbar .navbar-brand {
+  position: relative
+}
+
+.navbar .navbar-nav {
+  display: block;
+  margin-right: -18px
+}
+
+.navbar .navbar-nav .dropdown-menu {
+  position: absolute
+}
+
+.navbar .navbar-toggle {
+  background-color: transparent;
+  border: none
+}
+
+.navbar .navbar-toggle .icon-bar {
+  background-color: inherit;
+  border: 1px solid
+}
+
+.navbar .navbar-toggle .icon-bar+.icon-bar {
+  margin-top: 4px
+}
+.navbar {
+  padding: 0 25px
+}
+
+.navbar-toggle {
+  display: block
+}
+
+.navbar-toggle .icon-bar {
+  display: block;
+  position: relative;
+  background: #fff;
+  width: 24px;
+  height: 2px;
+  border-radius: 1px;
+  margin: 0 auto
+}
+
+.navbar-header .navbar-toggle {
+  margin: 10px 15px 10px 0;
+  width: 40px;
+  height: 40px
+}
+
+.navbar-form {
+  margin-top: .75rem!important
+}
+
+.bar1,.bar2,.bar3 {
+  outline: transparent solid 1px
 }

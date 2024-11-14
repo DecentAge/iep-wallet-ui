@@ -11,8 +11,10 @@
                 <div ngb-accordion class="mb-4 mt-4 ml-4 mr-4 accordion-wrapper">
                     <div ngbAccordionItem>
                         <h5 ngbAccordionHeader class="mb-0">
+                            <button ngbAccordionButton>
                             <i class="fa fa-credit-card"></i> &nbsp;
                             {{ 'tool-pages.service-fees.ordinary-payments'| translate }}
+                            </button>
                         </h5>
                         <div ngbAccordionCollapse>
                             <div ngbAccordionBody class="description" [innerHTML]="'tool-pages.service-fees.ordinary-payments-desc'| translate">
