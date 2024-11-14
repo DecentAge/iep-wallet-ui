@@ -2,9 +2,9 @@
 @import "scss/vendor-prefixes";
 
 // 2. Include any default variable overrides here
+@import "scss/variables";
 
 // 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
-@import "scss/variables";
 
 // 4. Include any default map overrides here
 
@@ -38,9 +38,6 @@
 
 @import "scss/sidebar-content";
 @import "scss/responsive";
-
-
-
 @import "scss/custom";
 
 

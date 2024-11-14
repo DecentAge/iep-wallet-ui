@@ -7,7 +7,7 @@
                         <h2 class="main-title">{{'aliases.show-aliases.title'| translate}} </h2>
                         <app-breadcrumb></app-breadcrumb>
                     </div>
-                    <div class="row mt-4 ml-1 mr-1 ml-md-2 mr-md-2">
+                    <div class="row mt-4 ms-1 me-1 ms-md-2 me-md-2">
                         <div class="col-12 col-md-11">
                             <form class="form inner-form">
                                 <div class="form-body">
@@ -18,7 +18,7 @@
                                                    (input)="onSearchChange($event.target.value)"
                                                    placeholder="{{'aliases.show-aliases.search-alias' | translate}}">
                                             <div class="form-control-position btn-search">
-                                                <i class="ft-search info mr-2"></i>{{'common.search-btn'| translate}}
+                                                <i class="ft-search info me-2"></i>{{'common.search-btn'| translate}}
                                             </div>
 
                                         </div>
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="card-block mr-3 ml-3">
+                    <div class="card-block me-3 ms-3">
 
                         <ngx-datatable class="material" [rows]="rows" [columnMode]="'force'" [rowHeight]="'auto'"
                             [footerHeight]="50" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"

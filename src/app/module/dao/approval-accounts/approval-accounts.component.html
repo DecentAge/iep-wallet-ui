@@ -9,7 +9,7 @@
                     <app-breadcrumb></app-breadcrumb>
                 </div>
                 <div class="card-body">
-                    <div class="card-block ml-md-3 mr-md-3">
+                    <div class="card-block ms-md-3 me-md-3">
                         <form class="form inner-form mt-3" #approvalForm="ngForm" novalidate>
                             <div class="form-body">
                                 <div class="row mb-3">
@@ -17,7 +17,7 @@
                                         <div class="form-group m-0">
                                             <label>
                                                 {{'common.select-dao'| translate}}
-                                                <i class="fa fa-question-circle-o ml-1 info-yellow"
+                                                <i class="fa fa-question-circle-o ms-1 info-yellow"
                                                    container="body" placement="right" triggers="mouseenter:mouseleave"
                                                    ngbPopover="{{'daos.approval-accounts.popovers.select-dao'| translate}}">
                                                 </i>
@@ -34,7 +34,7 @@
                                         <div class="form-group m-0">
                                             <label>
                                                 {{'common.select-team'| translate}}
-                                                <i class="fa fa-question-circle-o ml-1 info-yellow"
+                                                <i class="fa fa-question-circle-o ms-1 info-yellow"
                                                    container="body" placement="right" triggers="mouseenter:mouseleave"
                                                    ngbPopover="{{'daos.approval-accounts.popovers.select-team'| translate}}">
                                                 </i>
@@ -61,13 +61,13 @@
                                                     </label>
                                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                                         <div class="col-11">
-                                                            <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                                    [(ngModel)]="approvalAccountsForm.quorum" name="quorum"
                                                                    #quorum="ngModel" placeholder="{{'account.control.minimum-approval-account-label'| translate}}" required minValue="1"
                                                                    maxValue="9">
                                                         </div>
 
-                                                        <div class="col-1 pl-0">
+                                                        <div class="col-1 ps-0">
                                                         <span class="input-group-text">
                                                             <i class="fa fa-users"></i>
                                                         </span>
@@ -136,7 +136,7 @@
                                     <ng-container *ngIf="!controlDetected; else deleteApproval">
                                         <div class="left mt-4">
                                             <button [disabled]="approvalForm.invalid || !validateForm()" type="button"
-                                                    class="btn btn-gradient mr-1 mb-0 float-right"
+                                                    class="btn btn-gradient me-1 mb-0 float-right"
                                                     (click)="setAccountControl()">
                                                 <i class="fa fa-chevron-right"></i>{{'common.save-btn'| translate}}
                                             </button>
@@ -145,7 +145,7 @@
                                     <ng-template #deleteApproval>
                                         <div class="left mt-4">
                                             <button type="button"
-                                                    class="btn btn-gradient mr-1 mb-0 float-right"
+                                                    class="btn btn-gradient me-1 mb-0 float-right"
                                                     (click)="removeAccountControl()">
                                                 <i class="fa fa-chevron-right"></i> {{'daos.approval-accounts.remove-approval-btn'| translate}}
                                             </button>

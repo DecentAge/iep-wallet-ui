@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="card-body create-poll mt-2 mt-md-4">
-                <div class="card-block ml-md-3 mr-md-3">
+                <div class="card-block ms-md-3 me-md-3">
                     <aw-wizard [navBarLayout]="'large-filled-symbols'">
 
                         <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }" [canExit]="!createPollForm.invalid">
@@ -44,18 +44,18 @@
                                             <div class="form-group" *ngIf=" votingModel==1 ">
                                                 <label for="addon-amount">{{'voting.create-poll.minimum-voter-balance-label'
                                                     | translate}}
-                                                    <i class="fa fa-question-circle-o ml-1 info-yellow" triggers="mouseenter:mouseleave"
+                                                    <i class="fa fa-question-circle-o ms-1 info-yellow" triggers="mouseenter:mouseleave"
                                                         container="body" placement="top" [ngbPopover]="'voting.create-poll.minimum-voter-balance-popover' | translate"></i>
                                                 </label>
                                                 <div>
                                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom">
-                                                        <div class="col-10 pl-0">
-                                                            <input type="number" id="addon-amount" class="pl-0 mb-0 pt-0 pb-0 form-control form-control"
+                                                        <div class="col-10 ps-0">
+                                                            <input type="number" id="addon-amount" class="ps-0 mb-0 pt-0 pb-0 form-control form-control"
                                                                 placeholder="{{'voting.create-poll.minimum-voter-balance-placeholder' | translate}}"
                                                                 name="amount" #amount="ngModel" [(ngModel)]="minimumBalance"
                                                                 required>
                                                         </div>
-                                                        <div class="col-2 text-right pl-0">
+                                                        <div class="col-2 text-right ps-0">
                                                             <div class="row input-single-group">
                                                                 <div class="col-md-12">
                                                                     <span class="input-group-text text-right">{{'common.xin-unit-text'
@@ -144,7 +144,7 @@
                                 </div>
                                 <div class="left">
                                     <button type="button" [disabled]="createPollForm.invalid || currencyError || assetError"
-                                        class="btn btn-gradient mr-1 mb-0 float-right" awNextStep>
+                                        class="btn btn-gradient me-1 mb-0 float-right" awNextStep>
                                         <i class="fa fa-chevron-right"></i> {{ 'common.next-btn' | translate}}
                                     </button>
                                 </div>
@@ -213,18 +213,18 @@
 
                                     <div class="form-group">
                                         <label>{{ 'voting.create-poll.block-height' | translate}} &nbsp;
-                                            <i class="fa fa-question-circle-o ml-1 info-yellow" placement="right"
+                                            <i class="fa fa-question-circle-o ms-1 info-yellow" placement="right"
                                                 triggers="mouseenter:mouseleave" container="body" ngbPopover="{{ 'voting.create-poll.block-height-popover' | translate}}"></i>
                                         </label>
                                         <div>
                                             <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-0">
-                                                <div class="col-6 col-md-7 pr-0">
-                                                    <input type="number" id="finishHeight" class="pt-0 pb-0 form-control pl-0"
+                                                <div class="col-6 col-md-7 pe-0">
+                                                    <input type="number" id="finishHeight" class="pt-0 pb-0 form-control ps-0"
                                                         placeholder="1440" name="duration" #duration="ngModel"
                                                         [(ngModel)]="finishHeight" (ngModelChange)="validateStepTwo()"
                                                         required minValue="1440" maxValue="20000">
                                                 </div>
-                                                <div class="col-6 col-md-5 pr-1 pl-0 text-right">
+                                                <div class="col-6 col-md-5 pe-1 ps-0 text-right">
                                                     <div class="btn-icon-group text-right">
                                                         <button class="btn btn-primary" (click)="min()">
                                                             <i class="fa fa-fast-backward"></i>
@@ -279,16 +279,16 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <button type="button" class="btn btn-gradient mr-1 mb-2 mb-md-0 float-right"
+                                    <button type="button" class="btn btn-gradient me-1 mb-2 mb-md-0 float-right"
                                         [disabled]="createPollForm2.invalid" *ngIf="isSecondStepValid" (click)="createPoll()"
                                         awNextStep>
                                         <i class="fa fa-chevron-right"></i> {{'common.next-btn' | translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient mr-1 mb-2 mb-md-0 float-right"
+                                    <button type="button" class="btn btn-gradient me-1 mb-2 mb-md-0 float-right"
                                         [disabled]="createPollForm2.invalid" *ngIf="!isSecondStepValid" (click)="createPoll()">
                                         <i class="fa fa-chevron-right"></i> {{'common.next-btn' | translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn' | translate}}
                                     </button>
                                 </div>
@@ -323,14 +323,14 @@
                                 </div>
                             </div>
 
-                            <button type="button" [ngClass]="{'btn-success': !signedTx, 'btn-danger': signedTx}" class="btn btn-raised mr-1 mb-0"
+                            <button type="button" [ngClass]="{'btn-success': !signedTx, 'btn-danger': signedTx}" class="btn btn-raised me-1 mb-0"
                                 (click)="signedTx = !signedTx">
                                 <i class="fa fa-key"></i> {{ 'common.signed-transaction-label' | translate}}
                             </button>
 
                             <div class="form-group" *ngIf="signedTx">
                                 <div class="position-relative sign_in_inputs">
-                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control pl-0"
+                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control ps-0"
                                         name="key"></textarea>
                                 </div>
                             </div>
@@ -339,7 +339,7 @@
                                     (click)="broadcastTransaction(transactionBytes)">
                                     <i class="fa fa-check"></i> {{'common.finish-btn' | translate}}
                                 </button>
-                                <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
                                     <i class="fa fa-chevron-left"></i> {{'common.previous-btn' | translate}}
                                 </button>
                             </div>

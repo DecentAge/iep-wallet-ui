@@ -8,7 +8,7 @@
                         <app-breadcrumb></app-breadcrumb>
                     </div>
                 </div>
-                <form class="form inner-form ml-3 mr-3" #f="ngForm" novalidate>
+                <form class="form inner-form ms-3 me-3" #f="ngForm" novalidate>
                     <div ngbAccordion>
                         <div ngbAccordionItem>
                             <h5 ngbAccordionHeader>
@@ -107,8 +107,8 @@
                         <!--<i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave" container="body" placement="right" ngbPopover="The number of blocks until a transaction expires if not included into a block."></i>-->
                         <!--</label>-->
                         <!--<div class="input-group m-0 sign_in_inputs row form-border-bottom pb-0">-->
-                        <!--<div class="col-md-9 pl-0">-->
-                        <!--<input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"-->
+                        <!--<div class="col-md-9 ps-0">-->
+                        <!--<input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"-->
                         <!--placeholder="Transaction Deadline" name="transactionDeadline"-->
                         <!--[(ngModel)]="optionsForm.DEADLINE"-->
                         <!--#transactionDeadline="ngModel" required minValue="60"-->
@@ -143,8 +143,8 @@
                         <!--</label>-->
 
                         <!--<div class="input-group m-0 sign_in_inputs row form-border-bottom pb-0">-->
-                        <!--<div class="col-md-9 pl-0">-->
-                        <!--<input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control" placeholder="Control Height Offset" name="controlHeightOffset" [(ngModel)]="optionsForm.TX_HEIGHT"-->
+                        <!--<div class="col-md-9 ps-0">-->
+                        <!--<input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control" placeholder="Control Height Offset" name="controlHeightOffset" [(ngModel)]="optionsForm.TX_HEIGHT"-->
                         <!--#controlHeightOffset="ngModel" required minValue="10" maxValue="20160">-->
                         <!--</div>-->
                         <!--<div class="col-md-3">-->
@@ -203,7 +203,7 @@
                         <!--<div class="input-group m-0 sign_in_inputs row form-border-bottom pb-0">-->
                         <!--<div class="col-md-9">-->
 
-                        <!--<input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control" placeholder="Refresh Interval" name="refreshInterval" [(ngModel)]="optionsForm.REFRESH_INTERVAL_MILLI_SECONDS"-->
+                        <!--<input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control" placeholder="Refresh Interval" name="refreshInterval" [(ngModel)]="optionsForm.REFRESH_INTERVAL_MILLI_SECONDS"-->
                         <!--#refreshInterval="ngModel" required minValue="30000">-->
                         <!--</div>-->
                         <!--<div class="col-md-3">-->
@@ -271,7 +271,7 @@
                     </div>
                     <div class="row" matchHeight="card">
                         <div class="col-xl-2 mb-4 mt-3">
-                            <div class="card ml-1 mr-1 ml-md-3 mr-md-3 mt-0" [ngClass]="{'disabled':f.invalid}" (click)="validateAndUpdate()">
+                            <div class="card ms-1 me-1 ms-md-3 me-md-3 mt-0" [ngClass]="{'disabled':f.invalid}" (click)="validateAndUpdate()">
                                 <div class="card-body">
 
 

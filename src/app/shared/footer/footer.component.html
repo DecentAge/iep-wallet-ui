@@ -14,15 +14,15 @@
                 <div class="col-md-5 text-right d-none">
                     <h4>
                         <small>{{ currentModeText | uppercase }}</small>
-                        <span class="label label-xs ml-1 mr-1"> | </span>
+                        <span class="label label-xs ms-1 me-1"> | </span>
                         <small> {{ 'footer.height-label' | translate}} : {{currentHeight}}</small>
-                        <span class="label label-xs ml-1 mr-1"> | </span>
+                        <span class="label label-xs ms-1 me-1"> | </span>
                         <small> {{ 'footer.nodes-label' | translate}} : {{totalNodes}}</small>
-                        <span class="label label-xs ml-1 mr-1" *ngIf="peerState"> | </span>
+                        <span class="label label-xs ms-1 me-1" *ngIf="peerState"> | </span>
                         <small> {{ 'footer.synced-label' | translate}} : {{peerState.isDownloading | isSync}}</small>
                     </h4>
                     <small>{{ 'footer.connected-label' | translate}} : {{connectedURL}}</small>
-                    <span class="label label-xs ml-1 mr-1" *ngIf="options"> | </span>
+                    <span class="label label-xs ms-1 me-1" *ngIf="options"> | </span>
                     <small *ngIf="options"> {{ 'footer.version-label' | translate}} : {{options.VERSION}}</small>
 
                 </div>

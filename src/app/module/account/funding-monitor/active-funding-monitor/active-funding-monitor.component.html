@@ -9,7 +9,7 @@
 	</div>
 </div>
 <div class="card-body">
-	<div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+	<div class="card-block ms-1 me-1 ms-md-3 me-md-3">
 		<ngx-datatable class="material" [rows]="monitors" [columnMode]="'force'" [rowHeight]="'auto'" [footerHeight]="50" [externalPaging]="false"
 		               [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size" (page)='setPage($event)'>
 			<ngx-datatable-column prop="amount" [name]="'table-header.amount'| translate">

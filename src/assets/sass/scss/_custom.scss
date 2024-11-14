@@ -934,10 +934,11 @@ border-color: #787b91 !important;
 
 /*accordion*/
 .accordion-wrapper{
-  .card{
+  .accordion-item{
     border-bottom: none;
     border-left: 4px solid #f3931b;
-    border-radius: 5px;
+    border-radius-top-left: 5px;
+    border-right: 0;
     padding: 0;
     margin-bottom: 5px;
     background: #f7f7f7;
@@ -945,13 +946,14 @@ border-color: #787b91 !important;
       border-color: #e72d45;
     }
   }
-  .card-header{
-    padding: 15px 30px 25px;
+  .accordion-button{
+    background: #f7f7f7;
+    padding: 15px 30px 15px;
     i{
       font-size: 30px;
       margin-right: 25px;
       color: #e72d45 !important;
-      top: 7px;
+      top: 0px;
       position: relative;
     }
     h5{
@@ -977,6 +979,12 @@ border-color: #787b91 !important;
         color: #acacac;
         font-size: 22px;
       }
+    }
+    &:focus {
+      box-shadow: none;
+    }
+    &:not(.collapsed) {
+      background: #f7f7f7 !important;
     }
   }
   .description{

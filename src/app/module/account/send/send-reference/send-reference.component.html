@@ -2,7 +2,7 @@
     <h3 class="card-title">{{'account.send-xin.reference-title'| translate}}</h3>
 </div>
 <div class="card-body">
-    <div class="card-block ml-md-3 mr-md-3">
+    <div class="card-block ms-md-3 me-md-3">
         <aw-wizard [navBarLayout]="'large-filled-symbols'">
             <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '&#xe93a;', fontFamily: 'icomoon' }">
                 <form class="form inner-form" #f="ngForm" novalidate>
@@ -12,15 +12,15 @@
                                 <div class="form-group m-0">
                                     <label>{{'common.recipient-label'| translate}}
 
-                                        <i class="fa fa-question-circle-o ml-1 info-yellow" placement="right" triggers="mouseenter:mouseleave"
+                                        <i class="fa fa-question-circle-o ms-1 info-yellow" placement="right" triggers="mouseenter:mouseleave"
                                             container="body" ngbPopover="{{'account.send-xin.recipient-tooltip'| translate}}"></i>
                                     </label>
-                                    <div class="input-group ml-0 mr-0 sign_in_inputs row form-border-bottom pb-1">
-                                        <div class="col-7 col-lg-8 pl-0">
-                                            <input type="text" class="pl-0 mb-0 pt-0 pb-0 form-control" [(ngModel)]="sendReferencedForm.recipientRS"
+                                    <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom pb-1">
+                                        <div class="col-7 col-lg-8 ps-0">
+                                            <input type="text" class="ps-0 mb-0 pt-0 pb-0 form-control" [(ngModel)]="sendReferencedForm.recipientRS"
                                                 name="recipientRS" #recipientRS="ngModel" required placeholder="{{ 'common.xin-account-key-placeholder' | translate}}">
                                         </div>
-                                        <div class="col-5 col-lg-4 pr-1 pl-0">
+                                        <div class="col-5 col-lg-4 pe-1 ps-0">
                                             <div class="btn-icon-group text-right">
 
                                                 <span *isAppEnabled="'Aliases'" class="btn btn-primary btn-seperator"
@@ -52,17 +52,17 @@
                             <div class="col-md-6">
                                 <div class="form-group m-0">
                                     <label>{{'common.amount-label'| translate}}
-                                        <i class="fa fa-question-circle-o ml-1 info-yellow" placement="right" triggers="mouseenter:mouseleave"
+                                        <i class="fa fa-question-circle-o ms-1 info-yellow" placement="right" triggers="mouseenter:mouseleave"
                                             container="body" ngbPopover="{{'account.send-xin.amount-tooltip'| translate}}"></i>
                                     </label>
                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                        <div class="col-10 pl-0">
-                                            <input type="number" placeholder="0" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                        <div class="col-10 ps-0">
+                                            <input type="number" placeholder="0" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                 [(ngModel)]="sendReferencedForm.amount" name="amount" #amount="ngModel"
                                                 required minValue="1">
 
                                         </div>
-                                        <div class="col-2 text-right pl-0">
+                                        <div class="col-2 text-right ps-0">
 
                                             <span class="input-group-text">{{'common.xin-unit-text'| translate}}</span>
 
@@ -86,18 +86,18 @@
                                     container="body" ngbPopover="{{'account.send-xin.number-blocks-tooltip'| translate}}"></i>
                             </label>
                             <div class="input-group row">
-                                <div class="col-12 col-md-2 pr-0">
+                                <div class="col-12 col-md-2 pe-0">
                                     <span class="input-group-text text-sm-left">{{'common.block-text'| translate}} : {{
                                         sendReferencedForm.currentHeight }}</span>
                                 </div>
                                 <div class="col-8 col-md-6 sign_in_inputs">
-                                    <input type="text" class="form-control pl-0" placeholder="1440" name="blockheight"
+                                    <input type="text" class="form-control ps-0" placeholder="1440" name="blockheight"
                                         [(ngModel)]="sendReferencedForm.deferredHeight">
                                 </div>
-                                <div class="col-4 col-md-1 pl-0 pr-0">
+                                <div class="col-4 col-md-1 ps-0 pe-0">
                                     <span class="input-group-text"> {{ days }} {{'common.days-text'| translate}}</span>
                                 </div>
-                                <div class="col-md-3 btn-icon-group text-right pr-1  text-sm-left">
+                                <div class="col-md-3 btn-icon-group text-right pe-1  text-sm-left">
                                     <a class="btn btn-primary" (click)="min()">
                                         <i class="fa fa-fast-backward"></i>
                                     </a>
@@ -122,12 +122,12 @@
                                 <i class="fa fa-question-circle-o" placement="right" triggers="mouseenter:mouseleave"
                                     container="body" ngbPopover="{{'account.send-xin.reference-full-hash-tooltip'| translate}}"></i>
                             </label>
-                            <div class="input-group sign_in_inputs row form-border-bottom ml-1">
-                                <div class="col-9 pl-0">
+                            <div class="input-group sign_in_inputs row form-border-bottom ms-1">
+                                <div class="col-9 ps-0">
                                     <input type="text" class="form-control p-0" placeholder="{{'account.send-xin.reference-full-hash-placeholder'| translate}}"
                                         name="fullhash" [(ngModel)]="sendReferencedForm.fullHash">
                                 </div>
-                                <div class="col-3 text-right pl-0">
+                                <div class="col-3 text-right ps-0">
                                     <div class="input-group-append" required>
                                         <span class="input-group-text"> {{'common.hash-text'| translate}} </span>
                                     </div>
@@ -138,7 +138,7 @@
                         </div>
 
                         <button type="button" [ngClass]="{'btn-success': !hasPrivateMessage, 'btn-danger': hasPrivateMessage}"
-                            class="btn btn-raised mr-1 mb-0" (click)="setMessage()">
+                            class="btn btn-raised me-1 mb-0" (click)="setMessage()">
                             <i class="fa fa-envelope"></i> {{ hasPrivateMessage ? 'Remove' : 'Add'
                             }}{{'account.send-xin.private-message-btn'| translate}}
                         </button>
@@ -156,7 +156,7 @@
                             </label>
                             <div class="position-relative sign_in_inputs">
                                 <input [(ngModel)]="sendReferencedForm.message" placeholder="{{'account.send-xin.message-field-label'| translate}}"
-                                    rows="5" class="form-control pl-0" name="message">
+                                    rows="5" class="form-control ps-0" name="message">
                             </div>
                         </div>
                         <div class="form-group" *ngIf="hasReceiverPublicKey">
@@ -167,13 +167,13 @@
                             </label>
                             <div class="position-relative sign_in_inputs">
                                 <input placeholder="{{'account.send-xin.public-key-field-label'| translate}}"
-                                    [(ngModel)]="sendReferencedForm.pubkey" type="text" class="form-control pl-0" name="publickey">
+                                    [(ngModel)]="sendReferencedForm.pubkey" type="text" class="form-control ps-0" name="publickey">
                             </div>
                         </div>
 
                     </div>
                     <div class="right mt-4">
-                        <button [disabled]="f.invalid" type="button" class="btn btn-gradient mr-1 mb-0 float-right"
+                        <button [disabled]="f.invalid" type="button" class="btn btn-gradient me-1 mb-0 float-right"
                             (click)="getAndVerifyAccount(sendReferencedForm);" awNextStep>
                             {{'common.next-btn'| translate}} <i class="icon-next_arrow"></i>
                         </button>
@@ -239,7 +239,7 @@
                         <h4 [innerHTML]="hasPublicKeyAdded | isEnabled"></h4>
                     </div>
                 </div>
-                <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}" class="btn btn-raised mr-1 mb-0"
+                <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}" class="btn btn-raised me-1 mb-0"
                     (click)="unsignedTx = !unsignedTx">
                     <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                 </button>
@@ -266,7 +266,7 @@
                         class="btn btn-gradient float-right">
                         <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                     </button>
-                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                    <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                     </button>
                 </div>

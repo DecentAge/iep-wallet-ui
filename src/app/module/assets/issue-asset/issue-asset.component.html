@@ -7,7 +7,7 @@
                     <app-breadcrumb></app-breadcrumb>
                 </div>
                 <div class="card-body">
-                    <div class="card-block ml-md-3 mr-md-3">
+                    <div class="card-block ms-md-3 me-md-3">
                         <aw-wizard [navBarLayout]="'large-filled-symbols'">
                             <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                                 <form class="form inner-form" #f="ngForm" novalidate>
@@ -65,13 +65,13 @@
                                                         </i>
                                                     </label>
                                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                        <div class="col-10 pl-0">
-                                                            <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                        <div class="col-10 ps-0">
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                                 name="shares" #shares="ngModel" [(ngModel)]="issueAssetForm.shares"
                                                                 placeholder="{{'common.quantity-label' | translate}}"
                                                                 required minValue="1">
                                                         </div>
-                                                        <div class="col-2 text-right pl-0">
+                                                        <div class="col-2 text-right ps-0">
                                                             <span class="input-group-text text-right">{{'assets.issue-asset.asset-quantity-unit'
                                                                 | translate}}</span>
                                                         </div>
@@ -97,13 +97,13 @@
                                                         </i>
                                                     </label>
                                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                        <div class="col-8 pl-0">
-                                                            <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                        <div class="col-8 ps-0">
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                                 name="decimals" #decimals="ngModel" [(ngModel)]="issueAssetForm.decimals"
                                                                 placeholder="{{'assets.issue-asset.asset-decimals-label' | translate}}"
                                                                 required minValue="1">
                                                         </div>
-                                                        <div class="col-4 text-right pl-0">
+                                                        <div class="col-4 text-right ps-0">
                                                             <span class="input-group-text text-right">{{'assets.issue-asset.asset-decimals-unit'
                                                                 | translate}}</span>
                                                         </div>
@@ -124,7 +124,7 @@
                                             </div>
                                         </div>
 
-                                        <button type="button" [disabled]="f.invalid" class="btn btn-gradient mr-1 mb-0 mt-4 float-right"
+                                        <button type="button" [disabled]="f.invalid" class="btn btn-gradient me-1 mb-0 mt-4 float-right"
                                             (click)="issueAsset()" awNextStep>
                                             {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
                                         </button>
@@ -179,14 +179,14 @@
                                 </div>
 
                                 <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                    class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                    class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                     <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                                 </button>
                                 <!--   <hr *ngIf="unsignedTx"> -->
                                 <div class="form-group mt-4" *ngIf="unsignedTx">
                                     <div class="position-relative sign_in_inputs">
                                         <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes"
-                                            class="form-control pl-0" name="key"></textarea>
+                                            class="form-control ps-0" name="key"></textarea>
                                     </div>
                                 </div>
                                 <div class="mt-4">
@@ -194,7 +194,7 @@
                                         (click)="broadcastTransaction(transactionBytes)">
                                         <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                     </button>
                                 </div>

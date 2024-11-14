@@ -8,7 +8,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                     <aw-wizard [navBarLayout]="'large-filled-symbols'">
                         <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                             <form class="form inner-form" #f="ngForm" novalidate>
@@ -17,21 +17,21 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>{{'account.balance-lease.recipient-label'| translate}}
-                                                    <i class="fa fa-question-circle-o ml-1 info-yellow" placement="right"
+                                                    <i class="fa fa-question-circle-o ms-1 info-yellow" placement="right"
                                                         triggers="mouseenter:mouseleave" container="body" ngbPopover="{{'account.balance-lease.recipient-popover'| translate}}">
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-7 col-lg-8 pl-0 pr-0">
-                                                        <input type="text" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                    <div class="col-7 col-lg-8 ps-0 pe-0">
+                                                        <input type="text" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                             name="recipientRS" #recipientRS="ngModel" [(ngModel)]="balanceLeaseForm.recipientRS"
                                                             placeholder="{{ 'account.balance-lease.recipient-placeholder' | translate}}"
                                                             required>
                                                     </div>
-                                                    <div class="col-5 col-lg-4 pr-1 pl-0">
+                                                    <div class="col-5 col-lg-4 pe-1 ps-0">
                                                         <div class="btn-icon-group text-right">
 
-                                                            <span *isAppEnabled="'Aliases'" class="btn btn-primary mlmr-auto"
+                                                            <span *isAppEnabled="'Aliases'" class="btn btn-primary mlme-auto"
                                                                 (click)="searchAliases()" triggers="mouseenter:mouseleave"
                                                                 placement="top" container="body" ngbPopover="{{'common.alias-connect-tooltip'| translate}}">
                                                                 <i class="fa fa-share-alt"></i>
@@ -61,17 +61,17 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label>{{'account.balance-lease.block-duration-label'| translate}}
-                                                    <i class="fa fa-question-circle-o ml-1 info-yellow" placement="right"
+                                                    <i class="fa fa-question-circle-o ms-1 info-yellow" placement="right"
                                                         triggers="mouseenter:mouseleave" container="body" ngbPopover="{{'account.balance-lease.block-duration-popover'| translate}}">
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-4 col-md-6 pl-0 pr-0">
-                                                        <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                    <div class="col-4 col-md-6 ps-0 pe-0">
+                                                        <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                             [(ngModel)]="balanceLeaseForm.period" name="period" #period="ngModel"
                                                             required minValue="1440" maxValue="65535">
                                                     </div>
-                                                    <div class="col-8 col-md-6 pr-1 pl-0">
+                                                    <div class="col-8 col-md-6 pe-1 ps-0">
                                                         <div class="btn-icon-group text-right">
                                                             <a class="btn btn-primary" (click)="min()">
                                                                 <i class="fa fa-fast-backward"></i>
@@ -108,7 +108,7 @@
                                         </div>
                                     </div>
                                     <button type="button" [ngClass]="{'btn-success': !hasPrivateMessage, 'btn-danger': hasPrivateMessage}"
-                                        class="btn btn-raised mr-1 mb-0" (click)="hasPrivateMessage=!hasPrivateMessage">
+                                        class="btn btn-raised me-1 mb-0" (click)="hasPrivateMessage=!hasPrivateMessage">
                                         <i class="fa fa-envelope-o"></i> {{ hasPrivateMessage ? 'Remove' : 'Add' }}
                                         {{'common.encrypted-message-btn'| translate}}
                                     </button>
@@ -126,7 +126,7 @@
                                             </i>
                                         </label>
                                         <div class="position-relative sign_in_inputs">
-                                            <input [(ngModel)]="balanceLeaseForm.pubkey" type="text" class="form-control pl-0"
+                                            <input [(ngModel)]="balanceLeaseForm.pubkey" type="text" class="form-control ps-0"
                                                 name="publickey" placeholder="{{ 'account.balance-lease.public-key-field-placeholder' | translate}}">
                                         </div>
                                     </div>
@@ -138,12 +138,12 @@
                                             </i>
                                         </label>
                                         <div class="position-relative sign_in_inputs">
-                                            <input [(ngModel)]="balanceLeaseForm.message" rows="5" class="form-control pl-0"
+                                            <input [(ngModel)]="balanceLeaseForm.message" rows="5" class="form-control ps-0"
                                                 name="message" placeholder="{{ 'account.balance-lease.message-field-placeholder' | translate}}">
                                         </div>
                                     </div>
 
-                                    <button type="button" [disabled]="f.invalid" class="btn btn-gradient mr-1 mb-0 float-right"
+                                    <button type="button" [disabled]="f.invalid" class="btn btn-gradient me-1 mb-0 float-right"
                                         (click)="getAndVerifyAccount()" awNextStep>
                                         <i class="fa fa-chevron-right"></i>{{'common.next-btn'| translate}}
                                     </button>
@@ -197,7 +197,7 @@
                             </div>
 
                             <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                 <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                             </button>
                             <button type="button" [ngClass]="{'btn-success': !addMessage, 'btn-danger': addMessage}"
@@ -208,14 +208,14 @@
                             <div class="form-group mt-3" *ngIf="unsignedTx">
                                 <label>{{'common.signed-transaction-label'| translate}}</label>
                                 <div class="position-relative sign_in_inputs">
-                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control pl-0"
+                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control ps-0"
                                         name="key"></textarea>
                                 </div>
                             </div>
                             <div class="form-group" *ngIf="addMessage">
                                 <label>{{'common.encrypted-message-label'| translate}}</label>
                                 <div class="position-relative sign_in_inputs">
-                                    <input disabled="true" rows="5" [(ngModel)]="encrypted" class="form-control pl-0"
+                                    <input disabled="true" rows="5" [(ngModel)]="encrypted" class="form-control ps-0"
                                         name="message">
                                 </div>
                             </div>
@@ -224,7 +224,7 @@
                                     class="btn btn-gradient float-right">
                                     <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                 </button>
-                                <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
                                     <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                 </button>
                             </div>
@@ -245,7 +245,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                     <h5 class="mb-1">Bookmark List</h5>
                     <app-bookmark-list [viewFor]="'sendxin'" (selectEvent)="bookmarkSelected($event)"></app-bookmark-list>
                 </div>

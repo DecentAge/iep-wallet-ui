@@ -17,10 +17,10 @@
                 </div>
             <div class="card-body">
                     <div class="block-button">
-                        <a class="btn btn-gradient ml-4 mb-0" *ngIf="hasControl && !removeControlModalFlag" (click)="removeControlModal();" href="javascript:void(0)">
+                        <a class="btn btn-gradient ms-4 mb-0" *ngIf="hasControl && !removeControlModalFlag" (click)="removeControlModal();" href="javascript:void(0)">
                             <i class="fa fa-times"></i>Remove Account Control</a>
                     </div>
-                <div class="card-block ml-md-3 mr-md-3 ml-1 mr-1 mt-0">
+                <div class="card-block ms-md-3 me-md-3 ms-1 me-1 mt-0">
                     <aw-wizard [navBarLayout]="'large-filled-symbols'" *ngIf="!hasControl">
                         <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                             <form class="form inner-form" #f="ngForm" novalidate>
@@ -35,12 +35,12 @@
                                             <div class="form-group mb-0">
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                                     <div class="col-10 col-lg-11">
-                                                        <input type="text" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                        <input type="text" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                             placeholder="{{ 'common.xin-account-key-placeholder' | translate}}"
                                                             name="account-{{i}}" [(ngModel)]="setAccountControlForm.approveAccounts[i].value"
                                                             #accountRs="ngModel" required>
                                                     </div>
-                                                    <div class="col-2 col-lg-1 pl-0">
+                                                    <div class="col-2 col-lg-1 ps-0">
                                                         <span class="btn btn-grey input-group-text" triggers="mouseenter:mouseleave"
                                                             placement="top" (click)="loadBookmarkView(i)" container="body"
                                                             [ngbPopover]="'common.open-bookmark-tooltip' | translate">
@@ -69,13 +69,13 @@
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                                     <div class="col-11">
-                                                        <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                        <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                             [(ngModel)]="setAccountControlForm.quorum" name="quorum"
                                                             #quorum="ngModel" placeholder="2" required minValue="2"
                                                             maxValue="9">
                                                     </div>
 
-                                                    <div class="col-1 pl-0">
+                                                    <div class="col-1 ps-0">
                                                         <span class="input-group-text">
                                                             <i class="fa fa-users"></i>
                                                         </span>
@@ -98,7 +98,7 @@
                                     </div>
                                 </div>
                                 <div class="left mt-4">
-                                    <button [disabled]="f.invalid" type="button" class="btn btn-gradient mr-1 mb-0 float-right"
+                                    <button [disabled]="f.invalid" type="button" class="btn btn-gradient me-1 mb-0 float-right"
                                         (click)="validateForm()" awNextStep>
                                         <i class="fa fa-chevron-right"></i>{{'common.next-btn'| translate}}
                                     </button>
@@ -145,13 +145,13 @@
                             </div>
 
                             <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                 <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                             </button>
 
                             <div class="form-group mt-4" *ngIf="unsignedTx">
                                 <div class="position-relative sign_in_inputs">
-                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control pl-0"
+                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control ps-0"
                                         name="key"></textarea>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
                                     (click)="broadcastTransaction(transactionBytes)">
                                     <i class="fa fa-check"></i>{{'common.finish-btn'| translate}}
                                 </button>
-                                <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
                                     <i class="fa fa-chevron-left"></i>{{'common.previous-btn'| translate}}
                                 </button>
                             </div>
@@ -186,7 +186,7 @@
                                         </div>
                                     </div>
                                     <div class="left mt-4">
-                                        <button [disabled]="f1.invalid" type="button" class="btn btn-gradient mr-1 mb-0 float-right"
+                                        <button [disabled]="f1.invalid" type="button" class="btn btn-gradient me-1 mb-0 float-right"
                                             (click)="removeAccountControl()" awNextStep>
                                             <i class="fa fa-chevron-right"></i>{{'common.next-btn'| translate}}
                                         </button>
@@ -227,13 +227,13 @@
                                 </div>
     
                                 <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                    class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                    class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                     <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                                 </button>
     
                                 <div class="form-group mt-4" *ngIf="unsignedTx">
                                     <div class="position-relative sign_in_inputs">
-                                        <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control pl-0"
+                                        <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control ps-0"
                                             name="key"></textarea>
                                     </div>
                                 </div>
@@ -242,7 +242,7 @@
                                         (click)="broadcastTransaction(transactionBytes)">
                                         <i class="fa fa-check"></i>{{'common.finish-btn'| translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i>{{'common.previous-btn'| translate}}
                                     </button>
                                 </div>
@@ -263,7 +263,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                     <h5 class="mb-1">{{'account.my-bookmarks.bookmark-list-label'| translate}}</h5>
                     <app-bookmark-list [viewFor]="'control'" (selectEvent)="bookmarkSelected($event)"></app-bookmark-list>
                 </div>

@@ -9,7 +9,7 @@
 
             </div>
             <div class="card-body">
-                <div class="card-block ml-3 mr-3">
+                <div class="card-block ms-3 me-3">
                     <aw-wizard [navBarLayout]="'large-filled-symbols'">
                         <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                             <form class="form inner-form mt-4" #f1="ngForm" novalidate>
@@ -38,18 +38,18 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>{{'at.create-at.minimum-activation-amount-label'| translate}}
-                                                    <i class="fa fa-question-circle-o  ml-1 info-yellow" placement="right"
+                                                    <i class="fa fa-question-circle-o  ms-1 info-yellow" placement="right"
                                                         triggers="mouseenter:mouseleave" container="body" ngbPopover="{{'at.create-at.minimum-activation-amount-popover'| translate}}">
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-0">
-                                                    <div class="col-10 pl-0">
+                                                    <div class="col-10 ps-0">
                                                         <input type="number" class="l-0 mb-0 pt-0 pb-0 form-control"
                                                             [(ngModel)]="createAtForm.minActivationAmount" name="minActivationAmount"
                                                             #minActivationAmount="ngModel" minValue="0" maxValue="100"
                                                             required>
                                                     </div>
-                                                    <div class="col-2 text-right pl-0">
+                                                    <div class="col-2 text-right ps-0">
                                                         <div class="row input-single-group">
                                                             <div class="col-md-12">
                                                                 <span class="input-group-text text-right">{{'common.xin-unit-text'|
@@ -86,7 +86,7 @@
                                                     </i>
                                                 </label>
                                                 <div class="position-relative sign_in_inputs">
-                                                    <textarea rows="5" class="form-control pl-0" [(ngModel)]="createAtForm.description"
+                                                    <textarea rows="5" class="form-control ps-0" [(ngModel)]="createAtForm.description"
                                                         name="description" #description="ngModel" maxlength="1000"
                                                         placeholder="{{'common.description-label'| translate}}"
                                                         required></textarea>
@@ -99,7 +99,7 @@
                                                 </div>
                                             </div>
                                             <div class="mt-4 left">
-                                                <button type="button" [disabled]="f1.invalid" class="btn btn-gradient mr-1 mb-0 float-right"
+                                                <button type="button" [disabled]="f1.invalid" class="btn btn-gradient me-1 mb-0 float-right"
                                                     awNextStep>
                                                     <i class="fa fa-chevron-right"></i> {{'common.next-btn'|
                                                     translate}}
@@ -122,7 +122,7 @@
                                                     </i>
                                                 </label>
                                                 <div class="position-relative sign_in_inputs">
-                                                    <textarea rows="5" class="form-control pl-0" [(ngModel)]="createAtForm.code"
+                                                    <textarea rows="5" class="form-control ps-0" [(ngModel)]="createAtForm.code"
                                                         name="code" #code="ngModel" minlength="10" maxlength="1000"
                                                         placeholder="{{'common.code-label'| translate}}" required></textarea>
                                                     <div *ngIf="code?.invalid && (code?.dirty || code?.touched)" class="input-error">
@@ -144,21 +144,21 @@
                                         <i class="fa fa-code"></i> {{'at.create-at.machine-data-btn'| translate}}
                                     </button>
                                     <button type="button" [ngClass]="{'btn-success': !hasCreationBytes, 'btn-danger': hasCreationBytes}"
-                                        class="btn btn-raised mb-0 ml-1" (click)="hasCreationBytes=!hasCreationBytes">
+                                        class="btn btn-raised mb-0 ms-1" (click)="hasCreationBytes=!hasCreationBytes">
                                         <i class="fa fa-code"></i> {{'at.create-at.creation-bytes-btn'| translate}}
                                     </button>
 
                                     <div class="form-group mt-3" *ngIf="hasMachineData">
                                         <div class="position-relative sign_in_inputs">
                                             <label>{{'at.create-at.machine-data-label'| translate}}</label>
-                                            <textarea rows="5" class="form-control pl-0" [(ngModel)]="createAtForm.data"
+                                            <textarea rows="5" class="form-control ps-0" [(ngModel)]="createAtForm.data"
                                                 name="data" #data="ngModel" maxlength="1000"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group" *ngIf="hasCreationBytes">
                                         <div class="position-relative sign_in_inputs">
                                             <label>{{'at.create-at.creation-bytes-label'| translate}} </label>
-                                            <textarea rows="5" class="form-control pl-0" [(ngModel)]="createAtForm.bytes"
+                                            <textarea rows="5" class="form-control ps-0" [(ngModel)]="createAtForm.bytes"
                                                 name="bytes" #bytes="ngModel" maxlength="1000"></textarea>
                                         </div>
                                     </div>
@@ -172,12 +172,12 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-8 pl-0">
-                                                        <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                    <div class="col-8 ps-0">
+                                                        <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                             [(ngModel)]="createAtForm.dpages" name="dpages" #dpages="ngModel"
                                                             minValue="0" maxValue="10" required>
                                                     </div>
-                                                    <div class="col-4 text-right pl-0">
+                                                    <div class="col-4 text-right ps-0">
                                                         <span class="input-group-text text-right">{{'at.create-at.pages-text'|
                                                             translate}} </span>
                                                     </div>
@@ -205,12 +205,12 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-8 pl-0">
-                                                        <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                    <div class="col-8 ps-0">
+                                                        <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                             [(ngModel)]="createAtForm.cspages" name="cspages" #cspages="ngModel"
                                                             minValue="0" maxValue="10" required>
                                                     </div>
-                                                    <div class="col-4 text-right pl-0">
+                                                    <div class="col-4 text-right ps-0">
                                                         <span class="input-group-text text-right">{{'at.create-at.pages-text'|
                                                             translate}} </span>
                                                     </div>
@@ -237,12 +237,12 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-8 pl-0">
-                                                        <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                    <div class="col-8 ps-0">
+                                                        <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
                                                             [(ngModel)]="createAtForm.uspages" name="uspages" #uspages="ngModel"
                                                             minValue="0" maxValue="10" required>
                                                     </div>
-                                                    <div class="col-4 text-right pl-0">
+                                                    <div class="col-4 text-right ps-0">
                                                         <span class="input-group-text text-right">{{'at.create-at.pages-text'|
                                                             translate}}</span>
                                                     </div>
@@ -263,11 +263,11 @@
                                         </div>
                                     </div>
                                     <div class="mt-4">
-                                        <button type="button" [disabled]="f2.invalid" class="btn btn-gradient mr-3 mb-0 float-right"
+                                        <button type="button" [disabled]="f2.invalid" class="btn btn-gradient me-3 mb-0 float-right"
                                             (click)="createAT()" awNextStep>
                                             <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                         </button>
-                                        <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                        <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
                                             <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                         </button>
                                     </div>
@@ -343,13 +343,13 @@
                             </div>
 
                             <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                 <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                             </button>
                             <hr *ngIf="unsignedTx">
                             <div class="form-group" *ngIf="unsignedTx">
                                 <div class="position-relative sign_in_inputs">
-                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control pl-0"
+                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control ps-0"
                                         name="key"></textarea>
                                 </div>
                             </div>
@@ -358,7 +358,7 @@
                                     class="btn btn-gradient float-right">
                                     <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                 </button>
-                                <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
                                     <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                 </button>
                             </div>

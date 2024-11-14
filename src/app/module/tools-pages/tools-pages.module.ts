@@ -21,8 +21,7 @@ import { ToolsService } from './tools.service';
         ToolsPagesRoutingModule,
         FormsModule,
         NgbModule,
-        SharedModule,
-        NgbAccordionModule
+        SharedModule
     ],
     declarations: [
         TransactionTypesComponent,
@@ -36,8 +35,7 @@ import { ToolsService } from './tools.service';
         UserGuideComponent
     ],
     providers: [
-        ToolsService,
-        NgbAccordionDirective
+        ToolsService
     ]
 })
 export class ToolsPagesModule {

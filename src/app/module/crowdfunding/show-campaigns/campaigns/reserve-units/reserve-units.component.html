@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
                 <div class="card-body">
-                    <div class="card-block mr-3 ml-3">
+                    <div class="card-block me-3 ms-3">
                         <aw-wizard [navBarLayout]="'large-filled-symbols'">
                             <aw-wizard-step stepTitle="{{'common.details-step'| translate}} " [navigationSymbol]="{ symbol: '1' }">
                                 <form #f="ngForm" class="form" name="reserveUnitsForm" novalidate>
@@ -122,7 +122,7 @@
                                     </div>
                                     <div class="form-actions left">
                                         <button [disabled]="f.invalid" (click)="getAndVerifyAccount(reserveUnitsForm)"
-                                            type="button" class="btn btn-primary mr-1 mb-0 float-right" awNextStep>
+                                            type="button" class="btn btn-primary me-1 mb-0 float-right" awNextStep>
                                             <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                         </button>
                                     </div>
@@ -175,7 +175,7 @@
                                 </div>
                                 <hr>
                                 <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                    class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                    class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                     <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                                 </button>
                                 <hr *ngIf="unsignedTx">
@@ -190,7 +190,7 @@
                                         class="btn btn-primary float-right">
                                         <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                     </button>
-                                    <button type="button" class="btn btn-primary mr-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-primary me-1 float-right" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                     </button>
                                 </div>
