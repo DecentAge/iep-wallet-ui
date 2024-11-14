@@ -26,12 +26,30 @@
 @import "bootstrap/scss/utilities/api";
 
 
-
 @mixin set-gradient-background-color($color-stops...) {
   background: nth(nth($color-stops, 1), 1);
   background: -webkit-linear-gradient(0, $color-stops);
   background: linear-gradient(0, $color-stops);
 }
+@mixin set-background-color($color) {
+  background: $color;
+}
+@mixin set-background-color-button($color) {
+  background: $color;
+}
+@mixin set-anchor-color($color) {
+  color: $color;
+}
+@mixin set-logo-text-color($color) {
+  color: $color;
+}
+@mixin transform-translate-x($v) {
+  transform: translateX($v);
+}
+
+@import "scss/sidebar-content";
+
+
 
 @import "scss/custom";
 
