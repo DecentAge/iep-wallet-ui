@@ -6,6 +6,7 @@ import { NodeService } from '../../../services/node.service';
 import { LocalhostService } from '../../../services/localhost.service';
 import { AppConstants } from '../../../config/constants';
 import * as AlertFunctions from '../../../shared/data/sweet-alerts';
+import {NgbAccordionModule} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-options',

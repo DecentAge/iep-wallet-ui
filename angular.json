@@ -64,6 +64,12 @@
             "browser": "src/main.ts"
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "production": {
               "budgets": [
                 {
@@ -89,7 +95,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "matngular:build"
+            "buildTarget": "matngular:build:development"
           },
           "configurations": {
             "production": {
