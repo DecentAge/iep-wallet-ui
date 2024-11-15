@@ -256,7 +256,3 @@ a.hyperlink:hover{
     }
 
 }
-
-.navbar-nav li:last-child>a {
-    margin-right: 0 !important;
-}

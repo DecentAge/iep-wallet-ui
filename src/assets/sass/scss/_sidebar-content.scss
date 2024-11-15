@@ -109,10 +109,11 @@
 
   .sidebar-content{
     position: relative;
-    height: calc(100vh - 90px);
+    height: calc(100vh - 140px) !important;
     overflow: auto;
     z-index: 4;
   }
+
   .logo-img{
     width: 30px;
     display: inline-block;
