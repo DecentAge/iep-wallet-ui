@@ -86,7 +86,7 @@
                                     </div>
                                     <div class="mt-4 left">
                                         <button type="button" [disabled]="f1.invalid" (click)="getBlockChainStatus()"
-                                            class="btn btn-gradient me-1 mb-0 float-right" awNextStep>
+                                            class="btn btn-gradient me-1 mb-0 float-end" awNextStep>
                                             <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                         </button>
                                     </div>
@@ -295,11 +295,11 @@
                                         </div>
                                     </div>
                                     <div class="mt-3">
-                                        <button type="button" [disabled]="f2.invalid" class="btn btn-gradient me-1  mb-2 float-right"
+                                        <button type="button" [disabled]="f2.invalid" class="btn btn-gradient me-1  mb-2 float-end"
                                             (click)="createCampaign()" awNextStep>
                                             <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                         </button>
-                                        <button type="button" class="btn btn-gradient me-1  mb-2 float-right"
+                                        <button type="button" class="btn btn-gradient me-1  mb-2 float-end"
                                             awPreviousStep>
                                             <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                         </button>
@@ -405,11 +405,11 @@
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-right"
+                                    <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-end"
                                         (click)="broadcastTransaction(transactionBytes)">
                                         <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                     </button>
                                 </div>

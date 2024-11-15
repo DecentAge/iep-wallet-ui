@@ -216,6 +216,11 @@ a.hyperlink:hover{
     background: #f1f2f3;
     padding: 0 40px;
 }
+
+.full-height-vh {
+    height: 100vh!important;
+}
+
 @media(max-width: 1024px){
     .full-height-vh {
     min-height: 100vh !important;

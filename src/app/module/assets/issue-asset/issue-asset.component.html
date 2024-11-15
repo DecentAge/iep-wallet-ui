@@ -124,7 +124,7 @@
                                             </div>
                                         </div>
 
-                                        <button type="button" [disabled]="f.invalid" class="btn btn-gradient me-1 mb-0 mt-4 float-right"
+                                        <button type="button" [disabled]="f.invalid" class="btn btn-gradient me-1 mb-0 mt-4 float-end"
                                             (click)="issueAsset()" awNextStep>
                                             {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
                                         </button>
@@ -190,11 +190,11 @@
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-right"
+                                    <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-end"
                                         (click)="broadcastTransaction(transactionBytes)">
                                         <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                     </button>
                                 </div>

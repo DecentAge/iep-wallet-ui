@@ -136,7 +136,7 @@
                                     <ng-container *ngIf="!controlDetected; else deleteApproval">
                                         <div class="left mt-4">
                                             <button [disabled]="approvalForm.invalid || !validateForm()" type="button"
-                                                    class="btn btn-gradient me-1 mb-0 float-right"
+                                                    class="btn btn-gradient me-1 mb-0 float-end"
                                                     (click)="setAccountControl()">
                                                 <i class="fa fa-chevron-right"></i>{{'common.save-btn'| translate}}
                                             </button>
@@ -145,7 +145,7 @@
                                     <ng-template #deleteApproval>
                                         <div class="left mt-4">
                                             <button type="button"
-                                                    class="btn btn-gradient me-1 mb-0 float-right"
+                                                    class="btn btn-gradient me-1 mb-0 float-end"
                                                     (click)="removeAccountControl()">
                                                 <i class="fa fa-chevron-right"></i> {{'daos.approval-accounts.remove-approval-btn'| translate}}
                                             </button>

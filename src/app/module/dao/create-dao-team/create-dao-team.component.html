@@ -185,16 +185,16 @@
             </div>
         </div>
         <ng-container *ngIf="!!wizard; else outsideOfDao">
-            <button type="button" class="btn btn-gradient float-right" (click)="createTeam()"
+            <button type="button" class="btn btn-gradient float-end" (click)="createTeam()"
                     [disabled]="teamForm.invalid">
                 {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
             </button>
-            <!--<button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
+            <!--<button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                 <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
             </button>-->
         </ng-container>
         <ng-template #outsideOfDao>
-            <button type="button" class="btn btn-gradient float-right" (click)="createTeam()"
+            <button type="button" class="btn btn-gradient float-end" (click)="createTeam()"
                     [disabled]="teamForm.invalid">
                 {{'common.create-btn'| translate}}
             </button>

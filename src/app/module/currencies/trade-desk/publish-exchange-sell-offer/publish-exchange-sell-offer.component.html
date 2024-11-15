@@ -171,7 +171,7 @@
                                         </div>
                                         <div class="mt-4 left">
                                             <button [disabled]="f.invalid" (click)="publishExchangeOffer()" type="button"
-                                                class="btn btn-gradient me-1 mb-0 float-right" awNextStep>
+                                                class="btn btn-gradient me-1 mb-0 float-end" awNextStep>
                                                 <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                             </button>
                                         </div>
@@ -239,10 +239,10 @@
                                 </div>
                                 <div class="mt-4">
                                     <button type="button" [disabled]="!validBytes" (click)="broadcastTransaction(transactionBytes);"
-                                        class="btn btn-gradient float-right">
+                                        class="btn btn-gradient float-end">
                                         <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                     </button>
                                 </div>

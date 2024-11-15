@@ -113,7 +113,7 @@
                             </div>
                         </div>
                         <div class="mt-4 fright">
-                            <button [disabled]="f.invalid" type="button" class="btn btn-gradient me-1 mb-0 float-right"
+                            <button [disabled]="f.invalid" type="button" class="btn btn-gradient me-1 mb-0 float-end"
                                 (click)="getAndVerifyAccount(sendForm);" awNextStep>
                                 {{'common.next-btn'| translate}} <i class="icon-next_arrow"></i>
                             </button>
@@ -194,10 +194,10 @@
                     </div>
                     <div class="form-actions mt-3 mobile-center">
                         <button type="button" [disabled]="!validBytes" (click)="broadcastTransaction(transactionBytes)"
-                            class="btn btn-gradient float-right">
+                            class="btn btn-gradient float-end">
                             <i class="fa fa-check"></i>{{'common.finish-btn'| translate}}
                         </button>
-                        <button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
+                        <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                             <i class="fa fa-chevron-left"></i>{{'common.previous-btn'| translate}}
                         </button>
                     </div>

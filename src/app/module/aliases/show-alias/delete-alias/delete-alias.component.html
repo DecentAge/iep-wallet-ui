@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                     <hr />
-                                    <button type="button" (click)="deleteAlias()" class="btn btn-primary me-1 mb-0 float-right"
+                                    <button type="button" (click)="deleteAlias()" class="btn btn-primary me-1 mb-0 float-end"
                                         awNextStep>
                                         <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                     </button>
@@ -91,11 +91,11 @@
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button type="button" [disabled]="!validBytes" class="btn btn-primary float-right"
+                                <button type="button" [disabled]="!validBytes" class="btn btn-primary float-end"
                                     (click)="broadcastTransaction(transactionBytes)">
                                     <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                 </button>
-                                <button type="button" class="btn btn-primary me-1 float-right" awPreviousStep>
+                                <button type="button" class="btn btn-primary me-1 float-end" awPreviousStep>
                                     <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                 </button>
                             </div>

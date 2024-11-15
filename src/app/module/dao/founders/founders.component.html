@@ -120,10 +120,10 @@
       </div>
     </div>
     <div class="mt-4">
-      <button type="button" class="btn btn-gradient float-right" (click)="nextStep()" [disabled]="(f.dirty || f.touched) && f.invalid">
+      <button type="button" class="btn btn-gradient float-end" (click)="nextStep()" [disabled]="(f.dirty || f.touched) && f.invalid">
         {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
       </button>
-      <!--<button type="button" class="btn btn-gradient me-1 float-right" awPreviousStep>
+      <!--<button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
       </button>-->
     </div>
