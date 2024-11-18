@@ -73,10 +73,10 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>
-                        {{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-name' | translate}}
+                        {{'daos.create-dao.labels.team-name' | translate}}
                         <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
-                           ngbPopover="{{'daos.create-teams.popovers.' + (!!wizard ? 'founder-' : '') + 'team-name'| translate}}">
+                           ngbPopover="{{'daos.create-teams.popovers.team-name'| translate}}">
                         </i>
                     </label>
                     <div class="input-group m-0 row">
@@ -84,7 +84,7 @@
                                [pattern]="alphanumericPattern"
                                #name="ngModel"
                                [(ngModel)]="createTeamForm.name"
-                               placeholder="{{'daos.create-dao.placeholders.' + (!!wizard ? 'founder-' : '') + 'team-name-placeholder' | translate}}"
+                               placeholder="{{'daos.create-dao.placeholders.team-name-placeholder' | translate}}"
                                required>
                     </div>
                     <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
@@ -101,10 +101,10 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>
-                        {{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-shortcode' | translate}}
+                        {{'daos.create-dao.labels.team-shortcode' | translate}}
                         <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
-                           ngbPopover="{{'daos.create-teams.popovers.' + (!!wizard ? 'founder-' : '') + 'team-shortcode'| translate}}">
+                           ngbPopover="{{'daos.create-teams.popovers.team-shortcode'| translate}}">
                         </i>
                     </label>
                     <div class="input-group m-0 row">
@@ -112,7 +112,7 @@
                                [pattern]="alphanumericPatternMax6"
                                #prefix="ngModel"
                                [(ngModel)]="createTeamForm.prefix"
-                               placeholder="{{'daos.create-dao.placeholders.' + (!!wizard ? 'founder-' : '') + 'team-shortcode-placeholder' | translate}}"
+                               placeholder="{{'daos.create-dao.placeholders.team-shortcode-placeholder' | translate}}"
                                required>
                     </div>
                     <div *ngIf="prefix?.invalid && (prefix?.dirty || prefix?.touched)"
