@@ -16,7 +16,7 @@
                                     </label>
                                     <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom pb-1">
                                         <div class="col-7 col-lg-8 ps-0">
-                                            <input type="text" class="ps-0 mb-0 pt-0 pb-0 form-control" [(ngModel)]="sendDeferredForm.recipientRS"
+                                            <input type="text" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control" [(ngModel)]="sendDeferredForm.recipientRS"
                                                 name="recipientRS" #recipientRS="ngModel" required placeholder="{{ 'common.xin-account-key-placeholder' | translate}}">
                                         </div>
                                         <div class="col-5 col-lg-4 pe-1 ps-0">
@@ -54,7 +54,7 @@
                                             container="body" ngbPopover="{{'account.send-xin.amount-tooltip'| translate}}"></i>
                                     </label>
                                     <div class="input-group  ms-0 me-0  sign_in_inputs row form-border-bottom pb-1">
-                                        <div class="col-10 ps-0"> <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                        <div class="col-10 ps-0"> <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                 [(ngModel)]="sendDeferredForm.amount" name="amount" #amount="ngModel"
                                                 required minValue="1"></div>
 

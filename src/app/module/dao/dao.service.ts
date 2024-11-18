@@ -128,7 +128,7 @@ export class DaoService {
                                 alertFunctions.InfoAlertBox(title, msg, 'OK', 'success').then(() => {
                                     this.pendingTransactions.push(result.transaction);
                                     if (route !== '') {
-                                        //this.router.navigate([route]).then();
+                                        this.router.navigate([route]).then();
                                     }
                                 });
                             }

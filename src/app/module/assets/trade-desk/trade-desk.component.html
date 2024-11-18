@@ -166,7 +166,7 @@
                                                         <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom">
                                                             <div class="col-9 ps-0">
                                                                 <input type="text" placeholder="{{'common.total-text' | translate}}"
-                                                                    disabled class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                                    disabled class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                     [(ngModel)]="buyOrderForm.totalPrice" name="totalPrice"
                                                                     #totalPrice_buy="ngModel">
                                                             </div>
@@ -256,7 +256,7 @@
                                                         <div class="input-group ms-0 me-0  sign_in_inputs row form-border-bottom">
                                                             <div class="col-9">
                                                                 <input type="number" placeholder="{{'common.price-label' | translate}}"
-                                                                    class="ps-0 mb-0 pt-0 pb-0 form-control" (input)="sellFormOnChange()"
+                                                                    class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control" (input)="sellFormOnChange()"
                                                                     [(ngModel)]="askOrderForm.price" name="price"
                                                                     #price="ngModel" minValue="0" required>
                                                             </div>
@@ -305,7 +305,7 @@
                                                         <div class="input-group ms-0 me-0  sign_in_inputs row form-border-bottom">
                                                             <div class="col-9 ps-0">
                                                                 <input type="text" placeholder="{{'common.total-text' | translate}}"
-                                                                    disabled class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                                    disabled class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                     [(ngModel)]="askOrderForm.totalPrice" name="totalPrice"
                                                                     #totalPrice="ngModel">
                                                             </div>

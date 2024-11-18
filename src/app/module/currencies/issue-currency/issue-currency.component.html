@@ -361,7 +361,7 @@
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                                     <div class="col-10 col-md-11 ps-0">
 
-                                                        <input type="number" placeholder="0" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                        <input type="number" placeholder="0" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                             (input)="onInitialSupplyChange()" [(ngModel)]="issueCurrencyForm2.initialSupply"
                                                             name="initialSupply" #initialSupply="ngModel" [minValue]="1"
                                                             required>
@@ -395,7 +395,7 @@
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                                     <div class="col-10 col-md-11 ps-0">
-                                                        <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                        <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                             [attr.disabled]="true" [(ngModel)]="issueCurrencyForm2.maxSupply"
                                                             name="maxSupply" #maxSupply="ngModel" [minValue]="1"
                                                             required>

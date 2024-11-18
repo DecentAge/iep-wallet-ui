@@ -22,7 +22,7 @@
                                                     </label>
                                                     <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom pb-1">
                                                         <div class="col-7 col-lg-8 ps-0 ">
-                                                            <input type="text" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="text" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 placeholder="{{'common.xin-account-key-placeholder'| translate}}"
                                                                 [(ngModel)]="escrowForm.recipientRS" name="recipientRS"
                                                                 #recipientRS="ngModel" required>
@@ -61,7 +61,7 @@
                                                     <div class="input-group  ms-0 me-0 sign_in_inputs row form-border-bottom pb-1">
                                                         <div class="col-10 ps-0">
 
-                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 [(ngModel)]="escrowForm.amount" name="amount" #amount="ngModel"
                                                                 required minValue="1">
                                                         </div>
@@ -100,7 +100,7 @@
                                                                 {{'common.days-text'| translate}} </span>
                                                         </div>
                                                         <div class="col-4 col-lg-6 ps-0 pe-0">
-                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 placeholder="" [(ngModel)]="escrowForm.escrowDeadline"
                                                                 name="escrowDeadline" #escrowDeadline="ngModel"
                                                                 required minValue="1">

@@ -48,10 +48,10 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
             } else if (!this.currentTeam) {
                 this.router.navigate(['/dao/create-dao/create-team']).then();
             } else {
-                this.wizard.navigation.goToStep(this.wizard,0);
-                this.wizard.navigation.goToStep(this.wizard,1);
-                this.wizard.navigation.goToStep(this.wizard,2);
-                this.wizard.navigation.goToStep(this.wizard,3);
+                setTimeout(() => this.wizard.goToStep(0));
+                setTimeout(() => this.wizard.goToStep(1));
+                setTimeout(() => this.wizard.goToStep(2));
+                setTimeout(() => this.wizard.goToStep(3));
                 this.checkTransactions();
             }
         }

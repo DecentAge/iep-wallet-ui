@@ -105,7 +105,7 @@
                                                     </label>
                                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                                         <div class="col-9 ps-0">
-                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 [(ngModel)]="campaignForm.initialSupply" name="initialSupply"
                                                                 #initialSupply="ngModel" [minValue]="0" required>
                                                         </div>
@@ -139,7 +139,7 @@
                                                     </label>
                                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                                         <div class="col-9 ps-0">
-                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 (input)="changeMinAmount()" [(ngModel)]="campaignForm.reserveSupply"
                                                                 name="reserveSupply" #reserveSupply="ngModel"
                                                                 [minValue]="1" required>
@@ -175,7 +175,7 @@
                                                     </label>
                                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                                         <div class="col-10 ps-0">
-                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 (input)="changeMinAmount()" [(ngModel)]="campaignForm.minReservePerUnitTQT"
                                                                 name="minReservePerUnitTQT" #minReservePerUnitTQT="ngModel"
                                                                 [minValue]="1" required>
@@ -215,7 +215,7 @@
                                                     </label>
                                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
                                                         <div class="col-9 ps-0">
-                                                            <input type="number" [attr.disabled]="true" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="number" [attr.disabled]="true" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 [(ngModel)]="campaignForm.totalAmount" name="totalAmount">
                                                         </div>
                                                         <div class="col-3">
@@ -245,7 +245,7 @@
                                                             </span>
                                                         </div>
                                                         <div class="col-4 col-md-3 pe-0">
-                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 [(ngModel)]="campaignForm.issuanceHeight" name="issuanceHeight"
                                                                 [minValue]="1440" [maxValue]="43200" #issuanceHeight="ngModel"
                                                                 required placeholder="1440">
