@@ -82,25 +82,21 @@ export class CreatePollComponent implements OnInit {
     min() {
         this.finHeight = 1440;
         this.finishHeight = this.finHeight;
-        this.validateStepTwo();
     }
 
     max() {
         this.finHeight = 20000;
         this.finishHeight = this.finHeight;
-        this.validateStepTwo();
     }
 
     increment() {
         this.finHeight = ((this.finHeight + 1440) >= 20000) ? 20000 : this.finHeight + 1440;
         this.finishHeight = this.finHeight;
-        this.validateStepTwo();
     }
 
     decrement() {
         this.finHeight = ((this.finishHeight - 1440) <= 1440) ? 1440 : this.finHeight - 1440;
         this.finishHeight = this.finHeight;
-        this.validateStepTwo();
     }
 
     addNewOption() {
@@ -109,7 +105,6 @@ export class CreatePollComponent implements OnInit {
         } else {
             this.showError('max-ten-option-error');
         }
-        this.validateStepTwo();
     }
 
     validateStepOne() {
@@ -197,7 +192,7 @@ export class CreatePollComponent implements OnInit {
                 'OK',
                 'error')
                 .then();
-            // this.errorMessage='Enter minimum '+this.maxNumberOfOptions+' option(s) & maximum 10 options for the voters to choose from.';
+            this.errorMessage=errMsg;
             return;
         }
 
@@ -230,6 +225,8 @@ export class CreatePollComponent implements OnInit {
     }
 
     createPoll() {
+        this.validateStepTwo();
+
         if (this.errorMessage === '') {
             const pollJson = {
                 'name': this.name,
@@ -286,11 +283,14 @@ export class CreatePollComponent implements OnInit {
                             errMsg,
                             'OK',
                             'error').then();
+
+                        this.isSecondStepValid = false;
                     }
                 })
             });
         } else {
             this.showError(this.errorMessage);
+            this.isSecondStepValid = false;
         }
     }
 

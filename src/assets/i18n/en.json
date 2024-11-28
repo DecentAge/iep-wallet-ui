@@ -1889,7 +1889,7 @@
         "Enter the poll description": "Enter the poll description",
         "Enter minimum number option": "Enter minimum number of option a voter can choose.",
         "Enter maximum number option": "Enter maximum number of option a voter can choose.",
-        "enter-minimum-options": "Enter minimum {{ params }} option(s) & maximum 10 options for the voters to choose from.",
+        "enter-minimum-options": "Enter at least {{ params }} option(s) & maximum 10 options for the voters to choose from.",
         "Enter the height block": "Enter the height of the block.",
         "Block Height Value": "The height of the block should be greater than 1440 or less than 20000.",
         "Minimum number of options": "Minimum number of options a voter can choose should be between 1 to 10.",
