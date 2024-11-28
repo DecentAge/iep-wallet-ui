@@ -184,10 +184,7 @@ export class CreatePollComponent implements OnInit {
             return;
         }
 
-        console.log("min", this.minNumberOfOptions)
-        console.log("max", this.maxNumberOfOptions)
-
-        if (this.pollOptions.length < this.minNumberOfOptions) {
+        if (this.pollOptions.length < this.maxNumberOfOptions) {
             const title: string = this.commonService.translateAlertTitle('Error');
             const errMsg: string = this.commonService.translateInfoMessageWithParams('enter-minimum-options', this.maxNumberOfOptions);
             AlertFunctions.InfoAlertBox(title,
@@ -195,19 +192,7 @@ export class CreatePollComponent implements OnInit {
                 'OK',
                 'error')
                 .then();
-            // this.errorMessage='Enter minimum '+this.maxNumberOfOptions+' option(s) & maximum 10 options for the voters to choose from.';
-            return;
-        }
-
-        if (this.pollOptions.length > this.maxNumberOfOptions) {
-            const title: string = this.commonService.translateAlertTitle('Error');
-            const errMsg: string = this.commonService.translateInfoMessageWithParams('enter-maximum-options', this.maxNumberOfOptions);
-            AlertFunctions.InfoAlertBox(title,
-                errMsg,
-                'OK',
-                'error')
-                .then();
-            // this.errorMessage='Enter minimum '+this.maxNumberOfOptions+' option(s) & maximum 10 options for the voters to choose from.';
+            this.errorMessage=errMsg;
             return;
         }
 
