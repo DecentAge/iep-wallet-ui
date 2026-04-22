@@ -17,13 +17,14 @@ export class FoundersComponent implements OnInit, AfterViewInit {
     };
     private currentDao;
     private currentTeam;
+    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-WY-Z0-9]*$');
 
     constructor(private router: Router) {
     }
 
     ngOnInit() {
-        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
-        this.currentTeam = DaoService.currentDAOTeam ? DaoService.currentDAOTeam : '';
+        this.currentDao = DaoService.currentDAO.name;
+        this.currentTeam = DaoService.currentDAOTeam.name;
     }
 
     ngAfterViewInit(): void {
@@ -44,7 +45,8 @@ export class FoundersComponent implements OnInit, AfterViewInit {
         this.createFounderForm.founders.push({
             founderWalletAlias: '',
             founderWalletAddress: '',
-            initialAllocation: ''
+            initialAllocation: '',
+            issueDaoToken: true
         });
         DaoService.currentDAOTeamFounders = [...this.createFounderForm.founders];
     }

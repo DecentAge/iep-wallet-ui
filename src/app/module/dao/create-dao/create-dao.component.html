@@ -3,10 +3,16 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'daos.create-dao.labels.dao-name' | translate}}</label>
+                    <label>{{'daos.create-dao.labels.dao-name' | translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.create-dao.popovers.dao-name'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0 row">
                         <div class="col-12 pl-0">
                             <input type="text" class="form-control" name="name"
+                                   [pattern]="alphanumericPattern12"
                                    #name="ngModel"
                                    [(ngModel)]="createDaoForm.name"
                                    placeholder="{{'daos.create-dao.placeholders.dao-name-placeholder' | translate}}"
@@ -18,15 +24,24 @@
                         <div *ngIf="name?.errors.required">
                             {{'daos.create-dao.validation.name-is-required' | translate}}
                         </div>
+                        <div *ngIf="name?.errors.pattern">
+                            {{'daos.create-dao.validation.name-is-invalid' | translate}}
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'daos.create-dao.labels.dao-prefix' | translate}}</label>
+                    <label>{{'daos.create-dao.labels.dao-prefix' | translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.create-dao.popovers.dao-prefix'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0 row">
                         <div class="col-12 pl-0">
                             <input type="text" class="form-control" name="prefix"
+                                   [pattern]="alphanumericPatternMax5"
                                    #prefix="ngModel"
                                    [(ngModel)]="createDaoForm.prefix"
                                    placeholder="{{'daos.create-dao.placeholders.dao-prefix-placeholder' | translate}}"
@@ -38,12 +53,20 @@
                         <div *ngIf="prefix?.errors.required">
                             {{'daos.create-dao.validation.prefix-is-required' | translate}}
                         </div>
+                        <div *ngIf="prefix?.errors.pattern">
+                            {{'daos.create-dao.validation.prefix-is-invalid' | translate}}
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'common.quantity-label' | translate}}</label>
+                    <label>{{'common.quantity-label' | translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.create-dao.popovers.quantity'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0 row">
                         <div class="col-10 pl-0">
                             <input type="number"
@@ -70,7 +93,12 @@
         <div class="row mt-3">
             <div class="col-md-4">
                 <div class="form-group m-0">
-                    <label>{{'common.description-label' | translate}}</label>
+                    <label>{{'common.description-label' | translate}}
+                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                           container="body" placement="right" triggers="mouseenter:mouseleave"
+                           ngbPopover="{{'daos.create-dao.popovers.description'| translate}}">
+                        </i>
+                    </label>
                     <div class="input-group m-0">
                                                         <textarea rows="4" class="form-control" name="description"
                                                                   #description="ngModel"
@@ -88,28 +116,14 @@
             </div>
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <label>{{'daos.create-dao.labels.dao-decimals-label' | translate}}</label>
                 <div class="input-group m-0 row">
                     <div class="col-8 pl-0">
-                        <input type="number"
+                        <input type="hidden"
                                class="pl-0 mb-0 pt-0 pb-0 form-control"
                                name="decimals" #decimals="ngModel"
                                [(ngModel)]="createDaoForm.decimals"
                                placeholder="{{'daos.create-dao.labels.dao-decimals-label' | translate}}"
                                required minValue="1">
-                    </div>
-                    <div class="col-4 text-right pl-0">
-                        <span class="input-group-text text-right">{{'daos.create-dao.dao-decimals-unit' | translate}}</span>
-                    </div>
-
-                </div>
-                <div *ngIf="decimals?.invalid && (decimals?.dirty || decimals?.touched)"
-                     class="input-error">
-                    <div *ngIf="decimals?.errors.required">
-                        {{'daos.create-dao.validation.decimals-is-required' | translate}}
-                    </div>
-                    <div *ngIf="decimals?.errors.minValue && !decimals?.errors.required">
-                        {{'daos.create-dao.validation.decimals-value' | translate}}
                     </div>
                 </div>
             </div>

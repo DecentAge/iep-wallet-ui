@@ -1,25 +1,109 @@
 import {Injectable} from '@angular/core';
-import {AppConstants} from '../../config/constants';
+import {AppConstants} from 'app/config/constants';
 import * as alertFunctions from '../../shared/data/sweet-alerts';
-import {map, takeUntil} from 'rxjs/operators';
+import {expand, map, takeUntil} from 'rxjs/operators';
 import {AliasesService} from '../aliases/aliases.service';
 import {AssetsService} from '../assets/assets.service';
-import {CommonService} from '../../services/common.service';
-import {CryptoService} from '../../services/crypto.service';
-import {SessionStorageService} from '../../services/session-storage.service';
+import {CommonService} from 'app/services/common.service';
+import {CryptoService} from 'app/services/crypto.service';
+import {SessionStorageService} from 'app/services/session-storage.service';
 import {Router} from '@angular/router';
-import {HttpProviderService} from '../../services/http-provider.service';
-import {NodeService} from '../../services/node.service';
+import {HttpProviderService} from 'app/services/http-provider.service';
+import {NodeService} from 'app/services/node.service';
 import {AccountService} from '../account/account.service';
-import {combineLatest, Observable, Subject} from 'rxjs';
+import {combineLatest, EMPTY, Observable, Subject} from 'rxjs';
 import {Founder, TeamMember} from './interfaces';
-import {ShowDaosMode} from './enums';
+import {DEFAULT_FIRST_INDEX, DEFAULT_INDEX_INCREMENT, DEFAULT_LAST_INDEX, ShowDaosMode} from './enums';
+
+export class DAO {
+    protected namePrefix = 'DAO';
+    protected shortcodePrefix = 'XT';
+
+    private Name = '';
+    private Shortcode = '';
+
+    getFullAssetName = () => {
+        return `${this.namePrefix}${this.Name}${this.shortcodePrefix}${this.Shortcode}`
+    }
+
+    getFullAliasName = () => {
+        return `${this.namePrefix}${this.shortcode}`
+    }
+
+    get name() {
+        return this.Name;
+    }
+
+    set name(name) {
+        this.Name = name;
+    }
+
+    get shortcode() {
+        return this.Shortcode;
+    }
+
+    set shortcode(shortCode) {
+        this.Shortcode = shortCode;
+    }
+}
+
+export class DAOTeam extends DAO {
+    private DAONamePrefix = 'DAO';
+
+    private tmNamePrefix = 'XN';
+    private tmShortcodePrefix = 'XE';
+
+    private DAOName = '';
+
+    private teamName = '';
+    private teamShortcode = '';
+
+    getFullAssetName = () => {
+        return `${this.DAONamePrefix}${this.DAOName}${this.tmShortcodePrefix}${this.teamShortcode}`
+    }
+
+    getFullAliasName = () => {
+        return `${this.DAONamePrefix}${this.DAOName}${this.tmNamePrefix}${this.teamName}${this.tmShortcodePrefix}${this.teamShortcode}`
+    }
+
+    get name() {
+        return this.teamName;
+    };
+
+    set name(name) {
+        this.teamName = name;
+    };
+
+    get shortcode(): string {
+        return this.teamShortcode;
+    };
+
+    set shortcode(shortcode) {
+        this.teamShortcode = shortcode;
+    };
+
+    get teamNamePrefix(): string {
+        return this.tmNamePrefix;
+    };
+
+    set teamNamePrefix(namePrefix) {
+        this.tmNamePrefix = namePrefix;
+    };
+
+    get teamShortcodePrefix(): string {
+        return this.tmShortcodePrefix;
+    };
+
+    set teamShortcodePrefix(shortcodePrefix) {
+        this.tmShortcodePrefix = shortcodePrefix;
+    };
+}
 
 @Injectable()
 export class DaoService {
 
-    static currentDAO: any = null;
-    static currentDAOTeam: any = null;
+    static currentDAO: DAO = new DAO();
+    static currentDAOTeam: DAOTeam = new DAOTeam();
     static showDaoMode: any = 'all';
     static currentDAOTeamFounders: Array<Founder> = [];
     public currentTeamMembers: Array<TeamMember> = [];
@@ -54,12 +138,7 @@ export class DaoService {
         );
     }
 
-    getDaoName(value) {
-        const name = value.split(/DAO(.*)/s);
-        return name[1];
-    }
-
-    createAsset(assetName, aliasName, daoData, route = '', aliasURI = '') {
+    createAsset(assetName, aliasName, daoData, route = '', aliasURI = '', daoToken = null) {
         const description = daoData.description;
         const shares = daoData.quantity;
         const decimals = daoData.decimals;
@@ -94,6 +173,34 @@ export class DaoService {
                         this.aliasURI = aliasURI === '' ? success.transactionJSON.senderRS : aliasURI;
                         this.broadcastTransaction(this.transactionBytes).subscribe(result => {
                             if (!!result.success) {
+                                if (!!daoToken) {
+                                    const qty = 1;
+                                    const asset = daoToken.asset;
+                                    const recipientRS = daoData.teamWallet;
+                                    const daoFee = 1;
+                                    this.assetsService.transferAsset(publicKey, recipientRS, asset, qty, daoFee)
+                                      .subscribe((resp_) => {
+                                          resp_.subscribe((resp) => {
+                                              if (!resp.errorCode) {
+                                                  const unsBytes = resp.unsignedTransactionBytes;
+                                                  const signHex = this.cryptoService.signatureHex(unsBytes, secretPhraseHex);
+                                                  const tBytes = this.cryptoService.signTransactionHex(unsBytes, signHex);
+                                                  this.broadcastTransaction(tBytes).subscribe((response) => {
+                                                      if (!!response.success) {
+                                                          this.setAlias(aliasName, route);
+                                                      }
+                                                  });
+                                              } else {
+                                                  const title: string = this.commonService.translateAlertTitle('Error');
+                                                  const errMsg: string = this.commonService
+                                                    .translateErrorMessageParams('sorry-error-occurred', resp);
+                                                  alertFunctions.InfoAlertBox(title, errMsg, 'OK', 'error')
+                                                    .then();
+                                              }
+                                          });
+                                      });
+                                    return;
+                                }
                                 this.setAlias(aliasName, route);
                             }
                         });
@@ -165,68 +272,54 @@ export class DaoService {
 
     createDAO(daoData) {
         const assetName = `DAO${daoData.prefix}`;
-        const aliasName = `DAO${daoData.name}`;
-        DaoService.currentDAO = daoData.name;
+        const aliasName = `DAO${daoData.name}XT${daoData.prefix}`;
+        DaoService.currentDAO.name = aliasName;
+        DaoService.currentDAO.shortcode = daoData.prefix;
         this.currentDAOForm = daoData;
         this.createAsset(assetName, aliasName, daoData, `dao/create-dao/create-team`, '');
     }
 
-    createTeam(daoName, teamData, aliasUri = '') {
-        // todo: daoName is full name but for the asset name it should only be dao prefix
-        const assetName = `DAO${daoName}TT${teamData.prefix}`;
-        const aliasName = `DAO${daoName}TN${teamData.name}TT${teamData.prefix}`;
-        DaoService.currentDAOTeam = aliasName;
+    createTeam(daoName, teamData, aliasUri = '', fullDaoName = '', daoToken = null) {
+        const assetName = `DAO${daoName}XE${teamData.prefix}`;
+        const aliasName = `DAO${daoName}XN${teamData.name}XE${teamData.prefix}`;
+        DaoService.currentDAOTeam.name = aliasName;
         const route = this.router.url.toString() === '/dao/create-dao/create-team' ?
-            '/dao/create-dao/add-founders' : `/dao/show-daos/DAO${daoName}/teams`;
-        this.createAsset(assetName, aliasName, teamData, route, aliasUri);
+            '/dao/create-dao/add-founders' : `/dao/show-daos/all/${fullDaoName}/teams`;
+        this.createAsset(assetName, aliasName, teamData, route, aliasUri, daoToken);
     }
 
-    getAliases(daoName = '') {
+    getAliases(daoName = '', first = 0, last = 0) {
         const prefix = daoName === '' ? 'DAO' : daoName;
         const params = {
-            'requestType': 'getAliasesLike',
-            'aliasPrefix': prefix,
+            requestType: 'getAliasesLike',
+            aliasPrefix: prefix,
+            firstIndex: undefined,
+            lastIndex: undefined
         };
+        if (daoName === '') {
+            params.firstIndex = first;
+            params.lastIndex = last;
+        }
 
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.aliasesConfig.aliasesEndPoint, params).pipe(
             map((aliases: any) => {
+                if (aliases.aliases.length > 0) {
+                    aliases.moreItems = true;
+                }
                 return daoName === '' ?
-                    aliases.aliases.filter(alias =>
-                        alias.aliasName.indexOf('TN') === -1 &&
-                        alias.aliasName.indexOf('TT') === -1 &&
-                        alias.aliasName.indexOf('UL') === -1 &&
-                        alias.aliasName.indexOf('CT') === -1 &&
-                        alias.aliasName.indexOf('SL') === -1)
+                  {
+                      aliases: aliases.aliases.filter(alias =>
+                        alias.aliasName.indexOf(DaoService.currentDAOTeam.teamNamePrefix) === -1 &&
+                        alias.aliasName.indexOf(DaoService.currentDAOTeam.teamShortcodePrefix) === -1 &&
+                        alias.aliasName.indexOf('XU') === -1 &&
+                        alias.aliasName.indexOf('XC') === -1 &&
+                        alias.aliasName.indexOf('XD') === -1),
+                      moreItems: aliases.moreItems
+                  }
                     : aliases.aliases;
             })
         );
     };
-
-    public getDaoAssets(daoName) {
-        const prefix = daoName === '' ? 'DAO' : daoName;
-        const params = {
-            'requestType': 'searchAssets',
-            'query': `${prefix}*`,
-        };
-
-        console.log("GET ASSETS")
-
-        this.http.get(this.nodeService.getNodeUrl(), AppConstants.assetsConfig.assetsEndPoint, params).subscribe((l) => console.log(l))
-
-        return this.http.get(this.nodeService.getNodeUrl(), AppConstants.assetsConfig.assetsEndPoint, params).pipe(
-            map((assets: any) => {
-                return console.log("ASSETS",assets)/*
-                return daoName === '' ?
-                    assets.assets.filter(alias =>
-                        alias.aliasName.indexOf('TN') === -1 &&
-                        alias.aliasName.indexOf('TT') === -1 &&
-                        alias.aliasName.indexOf('UL') === -1 &&
-                        alias.aliasName.indexOf('CT') === -1 &&
-                        alias.aliasName.indexOf('SL') === -1)
-                    : assets.assets;*/
-            })
-        );
-    }
 
     public getDaoTeams(daoName: string) {
         return this.getAliases(daoName).pipe(
@@ -234,14 +327,14 @@ export class DaoService {
                 if (!response) {
                     response = [];
                 }
-                const aliases = response.filter(r => r.aliasName.indexOf('TR') === -1);
+                const aliases = response.filter(r => r.aliasName.indexOf('XR') === -1);
                 if (!aliases) {
                     return;
                 }
                 const tokenNames = [];
                 aliases.forEach(el => {
                     tokenNames.push(
-                        this.getAssetForDaoTeam(`${el.aliasName.split('TN').shift()}TT${el.aliasName.split('TT').pop()}`)
+                        this.getAssetForDaoTeam(this.getAssetNameFromTeamAlias(el.aliasName))
                     );
                 });
                 return combineLatest(tokenNames).pipe(map((res: any) => {
@@ -255,8 +348,8 @@ export class DaoService {
     }
 
     getTeamMembers(teamName: string) {
-        const searchString = `${teamName.split('TT').shift()}`;
-        return this.getAliases(`${searchString}TR`).pipe(
+        const searchString = `${teamName.split(DaoService.currentDAOTeam.teamShortcodePrefix).shift()}`;
+        return this.getAliases(`${searchString}XR`).pipe(
             map((response: any) => {
                 if (!response) {
                     response = [];
@@ -340,14 +433,14 @@ export class DaoService {
 
     getAccountDaos() {
         const accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
-        return this.getAliases().pipe(
-            map((aliases: any) => {
-                return aliases.filter(alias => alias.accountRS === accountRS);
+        return this.getAllDaos().pipe(
+            map((response: any) => {
+                return response.aliases.filter(alias => alias.accountRS === accountRS);
             })
         );
     }
 
-    addTeamMembers(currentDao, currentTeam, teamMembers, issueDaoTokens) {
+    addTeamMembers(currentDao, currentTeam, teamMembers) {
         const wallets = teamMembers.map((teamMember: TeamMember) => teamMember.teamMemberWallet);
         const checkWallets = wallets.map(wallet => this.checkAccountExists(wallet));
         combineLatest(checkWallets).subscribe((accounts) => {
@@ -361,10 +454,10 @@ export class DaoService {
                 });
                 return;
             }
-
+            const teamShortCode = DaoService.currentDAOTeam.teamShortcodePrefix;
             const aliases = teamMembers.map((teamMember: TeamMember) =>
-                `${currentTeam.split('TT').shift()}TR${teamMember.teamMemberRole}TT${currentTeam.split('TT').pop()}`);
-            const teamToken = `${currentTeam.split('TN').shift()}TT${currentTeam.split('TT').pop()}`;
+              `${currentTeam.split(teamShortCode).shift()}XR${teamMember.teamMemberRole}XE${currentTeam.split(teamShortCode).pop()}`);
+            const teamToken = `${currentTeam.split('XN').shift()}${teamShortCode}${currentTeam.split(teamShortCode).pop()}`;
 
             const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
             const fee = 1;
@@ -391,16 +484,20 @@ export class DaoService {
                         const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
                         aliasesTransactionsToBroadcast.push(this.broadcastTransaction(transactionBytes));
                     });
-                    this.transferTeamTokens(teamToken, wallets, aliasesTransactionsToBroadcast, currentDao, currentTeam, issueDaoTokens);
+                    this.transferTeamTokens(teamToken, wallets, aliasesTransactionsToBroadcast, currentDao, currentTeam);
                 })
             });
         });
     }
 
-    transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam, issueDaoTokens) {
+    transferTeamTokens(teamToken, wallets, aliasesTransactions, currentDao, currentTeam) {
         this.getAssetForDaoTeam(teamToken).pipe(map((response: any) => response.assets[0])).subscribe((token: any) => {
-            this.getAssetForDaoTeam(currentDao).pipe(map((response: any) => response.assets[0])).subscribe((daoToken) => {
-                if (!token || token.quantityQNT < 1 || (issueDaoTokens && (!daoToken || daoToken.quantityQNT < 1))) {
+            this.getAssetForDaoTeam(this.getDaoTokenFromDAOAlias(currentDao))
+              .pipe(map((response: any) => response.assets
+                .filter(asset => !asset.name.includes(DaoService.currentDAOTeam.teamShortcodePrefix))[0])
+              )
+              .subscribe((daoToken) => {
+                if (!token || token.quantityQNT < 1 || (!daoToken || daoToken.quantityQNT < 1)) {
                     const title: string = this.commonService.translateAlertTitle('Error');
                     const errMsg: string = this.commonService.translateInfoMessage('try-later');
                     alertFunctions.InfoAlertBox(title,
@@ -410,7 +507,7 @@ export class DaoService {
                     });
                     return;
                 }
-                const quantity = 1;
+                const quantity = 10;
                 const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
                 const asset = token.asset;
                 const daoAsset = daoToken.asset;
@@ -421,8 +518,11 @@ export class DaoService {
                 wallets.map((wallet, index) => {
                     const qty = this.currentTeamMembers.length > 0 && this.currentTeamMembers[index]
                     && this.currentTeamMembers[index].quantity ? this.currentTeamMembers[index].quantity : quantity;
+                    const issueDaoToken = this.currentTeamMembers[index].issueDaoToken;
                     transferData.push(this.assetsService.transferAsset(publicKey, wallet, asset, qty, fee));
-                    if (issueDaoTokens) transferData.push(this.assetsService.transferAsset(publicKey, wallet, daoAsset, qty, fee));
+                    if (issueDaoToken) {
+                        transferData.push(this.assetsService.transferAsset(publicKey, wallet, daoAsset, qty, fee));
+                    }
                 });
                 combineLatest(transferData).subscribe(success_ => {
                     combineLatest(success_).subscribe(transferAssetsRequests => {
@@ -469,11 +569,15 @@ export class DaoService {
                                         if (this.router.url.toString() === '/dao/create-dao/add-team-members') {
                                             this.router.navigate(['dao/show-daos']).then();
                                         } else {
-                                            DaoService.currentDAO = currentDao;
-                                            DaoService.currentDAOTeam = currentTeam;
+                                            DaoService.currentDAO.name = currentDao;
+                                            DaoService.currentDAOTeam.name = currentTeam;
+                                            DaoService.currentDAOTeamFounders = [];
+                                            this.currentTeamMembers = [];
                                             let isMobile = false;
                                             const ua = navigator.userAgent;
-                                            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)) {
+                                            if (
+                                              /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i.test(ua)
+                                            ) {
                                                 isMobile = true;
                                             }
                                             const viewMode = isMobile ? 'mobile' : 'my';
@@ -563,18 +667,81 @@ export class DaoService {
         });
     }
 
+    public removeAccountControl() {
+        const fee = 1;
+        const publicKey = this.commonService.getAccountDetailsFromSession(
+          'publicKey'
+        );
+
+        const secretPhraseHex = this.sessionStorageService.getFromSession(
+          AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY
+        );
+        this.accountService
+          .removeAccountControl(publicKey, fee)
+          .subscribe(success_ => {
+              success_.subscribe(success => {
+                  if (!success.errorCode) {
+                      const unsignedBytes = success.unsignedTransactionBytes;
+                      const signatureHex = this.cryptoService.signatureHex(
+                        unsignedBytes,
+                        secretPhraseHex
+                      );
+                      const transactionBytes = this.cryptoService.signTransactionHex(
+                        unsignedBytes,
+                        signatureHex
+                      );
+
+                      this.accountService
+                        .broadcastTransaction(transactionBytes)
+                        .subscribe((successBroadcastTransaction: any) => {
+                            if (!successBroadcastTransaction.errorCode) {
+                                const title: string = this.commonService.translateAlertTitle('Success');
+                                let msg: string = this.commonService.translateInfoMessage(
+                                  'success-broadcast-message'
+                                );
+                                msg += successBroadcastTransaction.transaction;
+                                alertFunctions
+                                  .InfoAlertBox(title, msg, 'OK', 'success')
+                                  .then(() => {
+                                      this.router.navigate(['/account/transactions/pending']).then();
+                                  });
+                            } else {
+                                const title: string = this.commonService.translateAlertTitle('Error');
+                                const errMsg: string = this.commonService.translateErrorMessage(
+                                  'unable-broadcast-transaction',
+                                  successBroadcastTransaction
+                                );
+                                alertFunctions
+                                  .InfoAlertBox(title, errMsg, 'OK', 'error')
+                                  .then();
+                            }
+                        });
+                  } else {
+                      const title: string = this.commonService.translateAlertTitle('Error');
+                      const errMsg: string = this.commonService.translateErrorMessageParams(
+                        'sorry-error-occurred',
+                        success
+                      );
+                      alertFunctions
+                        .InfoAlertBox(title, errMsg, 'OK', 'error')
+                        .then();
+                  }
+              });
+          });
+    }
+
     getDaoExternalLinks(daoName) {
         const queries = [
-            this.getAliases(`${daoName}UL`),
-            this.getAliases(`${daoName}CT`),
-            this.getAliases(`${daoName}SL`)
+            this.getAliases(`${daoName}XU`),
+            this.getAliases(`${daoName}XC`),
+            this.getAliases(`${daoName}XD`)
         ];
         return combineLatest(queries).pipe(
             map((response: any) => {
                 const result = response.filter(r => r.length > 0).map(r => r[0]);
-                const webPageUrl = result.filter(r => r.aliasName.indexOf('UL') !== -1);
-                const chatChannel = result.filter(r => r.aliasName.indexOf('CT') !== -1);
-                const sharedDataLink = result.filter(r => r.aliasName.indexOf('SL') !== -1);
+                const webPageUrl = result.filter(r => r.aliasName.indexOf('XU') !== -1);
+                const chatChannel = result.filter(r => r.aliasName.indexOf('XC') !== -1);
+                const sharedDataLink = result.filter(r => r.aliasName.indexOf('XD') !== -1);
                 return {
                     webPageUrl,
                     chatChannel,
@@ -590,9 +757,9 @@ export class DaoService {
         const queriesList: Array<Observable<any>> = [];
         const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
 
-        const webUrlAliasName = `${daoName}UL`;
-        const chatChannelAliasName = `${daoName}CT`;
-        const sharedDataLinkAliasName = `${daoName}SL`;
+        const webUrlAliasName = `${daoName}XU`;
+        const chatChannelAliasName = `${daoName}XC`;
+        const sharedDataLinkAliasName = `${daoName}XD`;
 
         const webPageAlias = !webPageUrl ? '' : `url:${webPageUrl}@xin`;
         const chatChannelAlias = !chatChannelUrl ? '' : `url:${chatChannelUrl}@xin`;
@@ -659,14 +826,14 @@ export class DaoService {
         )
     }
 
-    getMyDaoTokens(account) {
+    public getMyDaoTokens(account) {
         return this.assetsService.getAccountAssets(account).pipe(map((response: any) => {
             const daoAssets = response.accountAssets.filter((accountAsset: any) => accountAsset.name.startsWith('DAO'));
-            return daoAssets.filter(daoAsset => daoAsset.name.includes('TT'));
+            return daoAssets.filter(daoAsset => !daoAsset.name.includes(DaoService.currentDAOTeam.teamShortcodePrefix));
         }))
     }
 
-    getDAOAlias(daoName) {
+    public getDAOAlias(daoName) {
         const params = {
             'requestType': 'getAlias',
             'aliasName': daoName
@@ -674,12 +841,69 @@ export class DaoService {
         return this.http.get(this.nodeService.getNodeUrl(), AppConstants.aliasesConfig.aliasesEndPoint, params);
     }
 
-    changeDaoViewMode(viewMode: ShowDaosMode): void {
+    public changeDaoViewMode(viewMode: ShowDaosMode): void {
         this.daoViewModeChange.next(viewMode);
     }
 
-    destroyChangeDaoViewMode(): void {
+    public destroyChangeDaoViewMode(): void {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+    }
+
+    public getDaoName(value: string): string {
+        const name = value.split(/DAO(.*)/s);
+        return name[1];
+    }
+
+    public getAccountId(account: string): string {
+        const xinAccount = account.split(/acct:(.*)/s)[1];
+        if (xinAccount) {
+            return xinAccount.split(/@(.*)/s)[0];
+        }
+    }
+
+    public getDaoNameFromDAOAlias(alias: string): string {
+        const nameWithoutToken = alias.split(/XT(.*)/s);
+        return nameWithoutToken[0];
+    }
+
+    public getDaoTokenFromDAOAlias(alias: string): string {
+        const tokenWithoutName = alias.split(/XT(.*)/s);
+        return `DAO${tokenWithoutName[1]}`;
+    }
+
+    public getAssetNameFromTeamAlias(alias: string): string {
+        return `${alias.split(/XN(.*)/s)[0]}${DaoService.currentDAOTeam.teamShortcodePrefix}${alias.split(/XE(.*)/s)[1]}`;
+    }
+
+    public  getTeamName(alias: string): string {
+        const aliasName = alias.split(/XN(.*)/s);
+        const teamName = aliasName[1].split(/XE(.*)/s);
+        return teamName[0];
+    }
+
+    public getTeamMemberRole(teamMemberAlias: string): string {
+        const teamMember = teamMemberAlias.split(/XR(.*)/s);
+        const memberRole = teamMember[1].split(/XE(.*)/s);
+        return memberRole[0];
+    }
+
+    getAllDaos(): Observable<any> {
+        let first = DEFAULT_FIRST_INDEX, last = DEFAULT_LAST_INDEX;
+        const getDao = () => {
+            return this.getAliases('', first, last);
+        }
+
+        return getDao().pipe(
+          expand((response) => {
+              if (!!response.moreItems) {
+                  first += DEFAULT_INDEX_INCREMENT;
+                  last += DEFAULT_INDEX_INCREMENT;
+                  return getDao();
+              } else {
+                  return EMPTY
+              }
+          })
+        )
     }
 }

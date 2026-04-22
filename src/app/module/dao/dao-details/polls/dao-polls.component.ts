@@ -21,22 +21,27 @@ export class DaoPollsComponent implements OnInit {
 
     constructor(
         private accountService: AccountService,
-        private votingService: VotingService
+        private votingService: VotingService,
+        private daoService: DaoService
     ) {
     }
 
     ngOnInit() {
-        this.daoName = DaoService.currentDAO;
+        this.daoName = DaoService.currentDAO.name;
         this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
         this.setPage({offset: 0});
     }
 
     setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
-        this.votingService.getDaoTeamTokens(this.daoName).subscribe((response: any) => {
+        this.votingService.getDaoTeamTokens(this.daoService.getDaoTokenFromDAOAlias(this.daoName)).subscribe((response: any) => {
             this.daoAssets = response.assets.map(a => a.asset);
             this.votingService.getAllPolls().subscribe(polls => {
-                this.setUpPage(polls.filter(poll => this.daoAssets.includes(poll.holding)));
+                this.setUpPage(polls.filter(poll => this.daoAssets.includes(poll.holding)).map(poll => {
+                    const asset = response.assets.find((ast: any) => ast.asset === poll.holding);
+                    poll.assetName = asset.name;
+                    return poll;
+                }));
             })
         });
     }

@@ -12,15 +12,15 @@
 <div class="card-body">
     <div class="card-block">
         <ngx-datatable class="material" [rows]="rows" [columnMode]="columnModes.force"
-                       [rowHeight]="'auto'"
+                       [rowHeight]="undefined"
                        [footerHeight]="50" [externalPaging]="true" [count]="page.totalElements"
                        [offset]="page.pageNumber"
                        [limit]="page.size" (page)='setPage($event)'
                        (autoRefresh)="setPage({offset: 0})">
-            <ngx-datatable-column prop="aliasName" [name]="'table-header.name'| translate">
+            <ngx-datatable-column prop="teamToken" [name]="'table-header.name'| translate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                     <a class="hyperlink" (click)="routeUri(value)">
-                        {{value.split('TN').pop().split('TT').shift()}}
+                        {{getTeamName(value)}}
                     </a>
                 </ng-template>
             </ngx-datatable-column>
@@ -31,7 +31,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column prop="teamToken" [name]="'table-header.team-token'| translate">
                 <ng-template let-value="value" ngx-datatable-cell-template>
-                    {{value?.name?.split('TT').pop()}}
+                    {{value?.name?.split('XE').pop()}}
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column prop="teamToken" [name]="'Max. team members' | translate">
@@ -63,7 +63,7 @@
                            (click)="transferTeamToken(value)"
                            triggers="mouseenter:mouseleave" container="body" placement="top"
                            [ngbPopover]="'daos.show-daos.transfer-token-table-action' | translate"
-                           [ngClass]="(value && value.accountRS === accountRs && value.teamWallet !== accountRs) ? 'enable' : 'disabled'">
+                           [ngClass]="(value && value.accountRS === daoAccountRs && value.teamWallet !== daoAccountRs) ? 'enable' : 'disabled'">
                             <i class="fa fa-user"></i>
                         </a>
                     </div>

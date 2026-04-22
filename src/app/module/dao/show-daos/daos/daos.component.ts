@@ -1,10 +1,10 @@
 import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DaoService} from '../../dao.service';
 import {ColumnMode} from '@swimlane/ngx-datatable';
-import {ShowDaosMode} from '../../enums';
+import {DEFAULT_FIRST_INDEX, DEFAULT_INDEX_INCREMENT, DEFAULT_LAST_INDEX, ShowDaosMode} from '../../enums';
 import {AccountService} from '../../../account/account.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Page} from '../../../../config/page';
+import {Page} from 'app/config/page';
 
 @Component({
     selector: 'app-daos',
@@ -13,11 +13,16 @@ import {Page} from '../../../../config/page';
 })
 export class DaosComponent implements OnInit, OnChanges {
 
+    getDaoName = this.daoService.getDaoName;
+    getDaoNameFromDAOAlias = this.daoService.getDaoNameFromDAOAlias;
+
     public columnModes = ColumnMode;
     public viewMode: ShowDaosMode;
     public viewModes = ShowDaosMode;
     public page = new Page();
     public rows = new Array<any>();
+    private tempRows = new Array<any>();
+    private tempElementsCount = 0;
     private account;
 
     constructor(
@@ -33,7 +38,7 @@ export class DaosComponent implements OnInit, OnChanges {
             this.viewMode = data.mode;
         });
         this.daoService.changeDaoViewMode(this.viewMode);
-        this.setPage({offset: 0});
+        this.setPage({offset: 0, size: 3});
         this.account = this.accountService.getAccountDetailsFromSession('accountId');
     }
 
@@ -43,52 +48,56 @@ export class DaosComponent implements OnInit, OnChanges {
 
     public setPage(pageInfo) {
         this.rows = [];
+        this.tempRows = [];
+        this.tempElementsCount = 0;
         this.page.pageNumber = pageInfo.offset;
-        this.page.totalPages = 1;
         this.getDaosAliases();
     }
 
-    public getDaosAliases() {
-        if (this.viewMode === ShowDaosMode.all) {
-            // All
-            this.daoService.getAliases().subscribe((response: any) => {
+    public getDaosAliases(first = DEFAULT_FIRST_INDEX, last = DEFAULT_LAST_INDEX) {
+            this.daoService.getAliases('', first, last).subscribe((response: any) => {
                 if (!response) {
                     response = [];
                 }
-                const aliases = response;
+                let aliases = response.aliases;
                 if (!aliases) {
                     return;
                 }
-                this.rows = aliases;
-                this.page.size = this.rows.length;
-                this.page.totalElements = this.rows.length;
-            });
-        } else {
-            // My and Mobile views
-            this.daoService.getAliases().subscribe((response: any) => {
-                if (!response) {
-                    response = [];
+                this.tempRows = [...this.tempRows, ...aliases]
+                this.tempElementsCount += aliases.length;
+                if (!!response.moreItems) {
+                    // call getDaosAliases again with changed first / last index to get more aliases
+                    this.getDaosAliases(first + DEFAULT_INDEX_INCREMENT, last + DEFAULT_INDEX_INCREMENT);
+                } else {
+                    if (this.viewMode === ShowDaosMode.all) {
+                        // All
+                        this.rows = [...this.tempRows]
+                        this.page.totalElements = this.tempElementsCount;
+                    } else {
+                        // My and Mobile views
+                        aliases = [...this.tempRows];
+                        this.daoService.getMyDaoTokens(this.account).subscribe(assets => {
+                            console.log('MY ASSETS:', assets)
+                            console.log(aliases.map(al => this.daoService.getDaoNameFromDAOAlias(al.aliasName)));
+                            const filtered = aliases
+                              .filter(al => assets
+                                .map(asset => asset.name)
+                                .includes(this.daoService.getDaoTokenFromDAOAlias(al.aliasName)));
+                            this.rows = filtered;
+                            this.page.totalElements = filtered.length;
+                        });
+                    }
                 }
-                const aliases = response;
-                if (!aliases) {
-                    return;
-                }
-                this.daoService.getMyDaoTokens(this.account).subscribe(assets => {
-                    this.rows = aliases.filter(al => assets.map(ass => ass.name.split('TT').shift()).includes(al.aliasName));
-                    this.page.size = this.rows.length;
-                    this.page.totalElements = this.rows.length;
-                });
             });
-        }
     }
 
     public showDaoDetails(daoName) {
-        DaoService.currentDAO = daoName;
+        DaoService.currentDAO.name = daoName;
         this.router.navigate([`dao/show-daos/${this.viewMode}/${daoName}/general-info`]).then();
     }
 
     public accountId(value) {
-        return value.split('acct:').pop().split('@xin').shift();
+        return this.daoService.getAccountId(value);
     }
 
     sendMessage(aliasURI) {
@@ -98,7 +107,4 @@ export class DaosComponent implements OnInit, OnChanges {
     showDaoPolls(value) {
         this.router.navigate([`dao/show-polls/${value.aliasName}`]).then();
     }
-
-    getDaoName = this.daoService.getDaoName;
-
 }

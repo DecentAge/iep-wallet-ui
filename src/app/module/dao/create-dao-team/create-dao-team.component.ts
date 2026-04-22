@@ -1,8 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {WizardComponent} from 'angular-archwizard';
 import {DaoService} from '../dao.service';
-import {Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AccountService} from '../../account/account.service';
 import {map} from 'rxjs/operators';
 
@@ -13,6 +12,9 @@ import {map} from 'rxjs/operators';
 })
 export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
+    getDaoName = this.daoService.getDaoName;
+    getDaoNameFromDAOAlias = this.daoService.getDaoNameFromDAOAlias;
+
     @Input() wizard: WizardComponent | null = null;
     public createTeamForm: { [key: string]: string } = {
         'daoName': '',
@@ -22,46 +24,63 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
         'prefix': '',
         'quantity': '',
         'description': '',
-        'decimals': '2',
+        'decimals': '1',
         'secretPhrase': ''
     }
 
     public currentDao = '';
     private teamDAO = '';
+    private account;
+    public readonly alphanumericPattern12: RegExp = new RegExp('^[a-zA-WY-Z0-9]{1,12}$');
+    public readonly alphanumericPatternMax5: RegExp = new RegExp('^[a-zA-WY-Z0-9]{1,5}$');
 
-    daoList: Observable<Array<any>>;
+    public daoList: Array<any>= [];
 
     constructor(
-        private accountService: AccountService,
-        private daoService: DaoService,
-        private router: Router
+      private accountService: AccountService,
+      private daoService: DaoService,
+      private router: Router,
+      private route: ActivatedRoute
     ) {
-        const accountRS = this.accountService.getAccountDetailsFromSession('accountRs');
-        this.daoList = this.daoService.getAliases().pipe(
-            map((aliases: any) => {
-                return aliases.filter(alias => alias.accountRS === accountRS);
-            })
-        );
     }
 
-
     ngOnInit() {
-        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
+        if (this.route.snapshot.routeConfig.path === 'create-dao/create-team') {
+            this.currentDao = DaoService.currentDAO.name;
+        }
         if (this.currentDao !== '') {
             this.setDao(this.currentDao);
         }
+        this.account = this.accountService.getAccountDetailsFromSession('accountId');
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daoList = tempDaoList;
+            }
+        });
     }
 
     createTeam(): void {
         if (this.router.url.toString() === '/dao/create-dao/create-team') {
-            this.daoService.createTeam(`${DaoService.currentDAO}`, this.createTeamForm);
+            this.daoService.createTeam(`${DaoService.currentDAO.shortcode}`, this.createTeamForm);
             return;
         }
         this.daoService.checkAccountExists(this.createTeamForm.teamWallet).subscribe((response: any) => {
             if (response.errorCode) {
                 this.daoService.showErrorMessage(response);
             } else {
-                this.daoService.createTeam(`${this.teamDAO}`, this.createTeamForm, this.createTeamForm.teamWallet);
+                this.daoService.getAssetForDaoTeam(this.daoService.getDaoTokenFromDAOAlias(this.currentDao))
+                  .pipe(map((resp: any) => resp.assets
+                    .filter(asset => !asset.name.includes(DaoService.currentDAOTeam.teamShortcodePrefix))[0])
+                  )
+                  .subscribe((daoToken) => {
+                      this.daoService
+                        .createTeam(`${this.teamDAO}`, this.createTeamForm, this.createTeamForm.teamWallet, this.currentDao, daoToken);
+                  });
             }
         })
     }
@@ -78,8 +97,6 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 
     setDao(dao): void {
         this.currentDao = dao;
-        this.teamDAO = dao.split('DAO').join('');
+        this.teamDAO = this.daoService.getDaoName(this.daoService.getDaoTokenFromDAOAlias(dao));
     }
-
-    getDaoName = this.daoService.getDaoName;
 }

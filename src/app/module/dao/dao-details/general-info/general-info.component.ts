@@ -38,7 +38,7 @@ export class GeneralInfoComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.daoName = DaoService.currentDAO;
+        this.daoName = DaoService.currentDAO.name;
         this.viewMode = DaoService.showDaoMode;
         this.daoService.getDAOAlias(this.daoName).subscribe((alias: any) => {
             this.daoAccountRs = alias.accountRS;

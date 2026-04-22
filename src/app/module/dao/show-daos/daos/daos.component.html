@@ -5,8 +5,8 @@
   <div class="card-block {{this.viewMode}}-dao">
     <ngx-datatable class="material" [rows]="rows"
                    [columnMode]="columnModes.force"
-                   [rowHeight]="'auto'"
-                   [footerHeight]="50" [externalPaging]="true"
+                   [rowHeight]="undefined"
+                   [footerHeight]="50" [externalPaging]="false"
                    [count]="page.totalElements"
                    [offset]="page.pageNumber"
                    [limit]="page.size"
@@ -16,7 +16,7 @@
                             [name]="'table-header.name'| translate">
         <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
           <a class="hyperlink" (click)="showDaoDetails(value)">
-            {{getDaoName(value)}}
+            {{getDaoNameFromDAOAlias(getDaoName(value))}}
           </a>
           <ng-container *ngIf="viewMode === viewModes.mobile">
             <div class="btn-group-raised inline-flex">

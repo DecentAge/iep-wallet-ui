@@ -11,7 +11,7 @@
 <div class="card-body">
   <div class="card-block pt-0">
     <ngx-datatable class="
-                            material" [rows]="polls" [columnMode]="columnModes.force" [rowHeight]="'auto'"
+                            material" [rows]="polls" [columnMode]="columnModes.force" [rowHeight]="undefined"
                    [footerHeight]="50" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size"
                    (page)='setPage($event)' (autoRefresh)="reload()">
       <ngx-datatable-column prop="name" [name]="'table-header.name' | translate">
@@ -22,6 +22,11 @@
       <ngx-datatable-column prop="votingModel" [name]="'table-header.model' | translate">
         <ng-template let-value="value" ngx-datatable-cell-template>
           <div [innerHTML]="value | votingModelLabel" ngbPopover="{{value | votingModel}}" triggers="mouseenter:mouseleave"></div>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="assetName" [name]="'table-header.asset-name' | translate">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{value}}
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column prop="options" [name]="'table-header.options' | translate">

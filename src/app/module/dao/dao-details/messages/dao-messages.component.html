@@ -12,7 +12,7 @@
 <div class="card-body">
     <div class="card-block mr-3 ml-3">
         <ngx-datatable [rows]="rows" [columnMode]="columnModes.standard" [scrollbarH]="true" [footerHeight]="50"
-                       [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements"
+                       [rowHeight]="undefined" [externalPaging]="true" [count]="page.totalElements"
                        [offset]="page.pageNumber"
                        [limit]="page.size" (page)='setPage($event)' (autoRefresh)="reload()">
             <ngx-datatable-column headerClass="width-10-per" cellClass="width-10-per"

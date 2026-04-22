@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FeeService } from '../../../services/fee.service';
-import { AppConstants } from '../../../config/constants';
-import { SessionStorageService } from '../../../services/session-storage.service';
-import { AccountService } from '../../account/account.service';
-import { AmountToQuantPipe } from '../../../pipes/amount-to-quant.pipe';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CryptoService } from '../../../services/crypto.service';
-import { MessageService } from '../message.service';
+import {Component, OnInit} from '@angular/core';
+import {FeeService} from 'app/services/fee.service';
+import {AppConstants} from 'app/config/constants';
+import {SessionStorageService} from 'app/services/session-storage.service';
+import {AccountService} from '../../account/account.service';
+import {AmountToQuantPipe} from 'app/pipes/amount-to-quant.pipe';
+import {ActivatedRoute, Router} from '@angular/router';
+import {CryptoService} from 'app/services/crypto.service';
+import {MessageService} from '../message.service';
 import * as alertFunctions from '../../../shared/data/sweet-alerts';
-import { AliasesService } from '../../aliases/aliases.service';
-import { Location } from '@angular/common';
-import { CommonService } from '../../../services/common.service';
+import {AliasesService} from '../../aliases/aliases.service';
+import {Location} from '@angular/common';
+import {CommonService} from 'app/services/common.service';
+import {DaoService} from 'app/module/dao/dao.service';
+import {forkJoin} from 'rxjs';
 
 @Component({
     selector: 'app-send-message',
@@ -30,6 +32,7 @@ export class SendMessageComponent implements OnInit {
         pubkey: ''
     };
     recipientImmutable = false;
+    teamName = '';
     openBookMarks: boolean = false;
     isPrunable = [
         { label: 'On Chain (160 chars.)', value: 'false' },
@@ -46,6 +49,7 @@ export class SendMessageComponent implements OnInit {
     unsignedTx: any;
     aMessage: any;
     aprunableAttachmentJSON: any;
+    transactionsToBroadcast = [];
 
     constructor(public feeService: FeeService,
         public sessionStorageService: SessionStorageService,
@@ -57,6 +61,7 @@ export class SendMessageComponent implements OnInit {
         public activatedRoute: ActivatedRoute,
         public aliasesService: AliasesService,
         private _location: Location,
+        private daoService: DaoService,
         public commonService: CommonService) {
         this.hasReceiverPublicKey = false;
     }
@@ -65,6 +70,7 @@ export class SendMessageComponent implements OnInit {
         this.activatedRoute.queryParams.subscribe((params: any) => {
             if (params.recipient) {
                 this.sendMessageForm.recipientRS = params.recipient;
+                this.teamName = params.teamName;
                 this.recipientImmutable = true;
             }
         });
@@ -78,8 +84,8 @@ export class SendMessageComponent implements OnInit {
         }
     }
 
-    onChangeMessageInfo(e) {
-        let totalFee = this.feeService.getSetAccountFee(this.sendMessageForm.message);
+    onChangeMessageInfo() {
+        const totalFee = this.feeService.getSetAccountFee(this.sendMessageForm.message);
 
         if (!this.sendMessageForm.fee || this.sendMessageForm.fee < totalFee) {
             this.sendMessageForm.fee = totalFee;
@@ -103,15 +109,14 @@ export class SendMessageComponent implements OnInit {
 
     searchAliases() {
         this.aliasesService.searchAlias(this.sendMessageForm.recipientRS).subscribe((success) => {
-            var aliases = success.aliases || [];
-            for (var i = 0; i < aliases.length; i++) {
-                var alias = aliases[i];
+            const aliases = success.aliases || [];
+            for (let i = 0; i < aliases.length; i++) {
+                const alias = aliases[i];
                 if (alias.aliasName.toUpperCase() === this.sendMessageForm.recipientRS.toUpperCase()) {
-                    var aliasURI = alias.aliasURI;
-                    var aliasType = aliasURI.split(':');
+                    const aliasURI = alias.aliasURI;
+                    const aliasType = aliasURI.split(':');
                     if (aliasType[0] === 'acct') {
-                        var accountRS = aliasType[1].split('@')[0];
-                        this.sendMessageForm.recipientRS = accountRS;
+                        this.sendMessageForm.recipientRS = aliasType[1].split('@')[0];
                         break;
                     }
                 }
@@ -120,56 +125,213 @@ export class SendMessageComponent implements OnInit {
     };
 
     createAndSignTransaction(transactionOptions, secretPhraseHex) {
-        this.messageService.sendMessage(
-            transactionOptions.senderPublicKey,
-            transactionOptions.recipientRS,
-            1,
-            transactionOptions.data,
-            transactionOptions.nonce,
-            transactionOptions.recipientPublicKey,
-            transactionOptions.prunable
-        ).subscribe((success_) => {
-            success_.subscribe((success) => {
-                if (!success.errorCode) {
-                    let unsignedBytes = success.unsignedTransactionBytes;
-                    let signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
-                    let transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
-
-                    this.transactionBytes = transactionBytes;
-
-                    this.tx_fee = success.transactionJSON.feeTQT / 100000000;
-                    this.tx_amount = success.transactionJSON.amountTQT / 100000000;
-                    this.tx_total = this.tx_fee + this.tx_amount;
-
-                    this.prunableAttachmentJSON = success.transactionJSON.attachment;
-                    this.prunableAttachmentString = JSON.stringify(success.transactionJSON.attachment);
-
-                    this.validBytes = true;
-
-                    return transactionBytes;
-                } else {
-                    let title: string = this.commonService.translateAlertTitle('Error');
-                    let errMsg: string = this.commonService.translateErrorMessageParams( 'sorry-error-occurred',
-                    success);
-                    alertFunctions.InfoAlertBox(title,
-                        errMsg,
-                        'OK',
-                        'error').then((isConfirm: any) => {
-                        });
+        const requests = [this.messageService.sendMessage(
+          transactionOptions.senderPublicKey,
+          transactionOptions.recipientRS,
+          1,
+          transactionOptions.data,
+          transactionOptions.nonce,
+          transactionOptions.recipientPublicKey,
+          transactionOptions.prunable
+        )];
+        if (this.recipientImmutable && this.teamName !== '') {
+            this.daoService.getTeamMembers(this.teamName).subscribe(teamMembers => {
+                if (teamMembers.length > 10) {
+                    alertFunctions.InfoAlertBox(
+                      'Warning',
+                      'There are more than 10 team members!',
+                      'OK',
+                      'warning'
+                    ).then();
                 }
+                const teamMembersWallets = teamMembers.map(teamMember => teamMember.aliasURI.split('acct:').pop().split('@xin').shift());
+                const teamMembersAccountsRequests = [];
+                teamMembersWallets.map(wallet => {
+                    teamMembersAccountsRequests.push(this.messageService.getAccountDetails(wallet));
+                });
+                const senderPublicKey = this.messageService.getAccountDetailsFromSession('publicKey');
+
+                forkJoin(teamMembersAccountsRequests).subscribe(resp => {
+                    resp.map((recipient: any) => {
+                        const recipientRS = recipient.accountRS;
+                        let fee = 1; // sendForm.fee;
+                        const secret = this.sendMessageForm.secretPhrase;
+                        const message = this.sendMessageForm.message;
+                        const pubkey = this.sendMessageForm.pubkey;
+                        const prunable = this.sendMessageForm.prunable;
+                        let hasPublicKeyAdded = false;
+                        let hasMessageAdded = false;
+                        let hasSecretAdded = false;
+                        if (pubkey && pubkey.length > 0) {
+                            hasPublicKeyAdded = true;
+                        }
+                        if (message && message.length > 0) {
+                            hasMessageAdded = true;
+                        }
+                        if (secret && secret.length > 0) {
+                            hasSecretAdded = true;
+                        }
+                        if (!fee) {
+                            fee = 1;
+                        }
+                        this.hasPublicKeyAdded = hasPublicKeyAdded;
+                        this.hasMessageAdded = hasMessageAdded;
+
+                        let recipientPublicKey = recipient.publicKey;
+                        if (!recipientPublicKey && hasPublicKeyAdded) {
+                            recipientPublicKey = pubkey;
+                        }
+                        if (!recipient.errorCode || recipient.errorCode === 5) {
+                            if (!recipientPublicKey && !hasPublicKeyAdded && hasMessageAdded) {
+                                const title: string = this.commonService.translateAlertTitle('Error');
+                                const msg: string =
+                                  this.commonService.translateInfoMessage('send-simple-account-outbound-transaction-info-msg');
+                                alertFunctions.InfoAlertBox(title,
+                                  msg,
+                                  'OK',
+                                  'error').then(() => {
+                                });
+                                return;
+                            }
+
+                            let encrypted = { data: '', nonce: '' };
+                            if (hasMessageAdded) {
+                                if (!recipientPublicKey) {
+                                    recipientPublicKey = pubkey;
+                                }
+                                encrypted = this.cryptoService.encryptMessage(message, secretPhraseHex, recipientPublicKey);
+                            }
+
+                            const transOptions = {
+                                'senderPublicKey': senderPublicKey,
+                                'recipientRS': recipientRS,
+                                'fee': fee,
+                                'data': encrypted.data,
+                                'nonce': encrypted.nonce,
+                                'recipientPublicKey': recipientPublicKey,
+                                'prunable': prunable,
+                            };
+                            requests.push(
+                              this.messageService.sendMessage(
+                                transOptions.senderPublicKey,
+                                transOptions.recipientRS,
+                                1,
+                                transOptions.data,
+                                transOptions.nonce,
+                                transOptions.recipientPublicKey,
+                                transOptions.prunable
+                              ));
+
+                            if (this.encrypted.data === '') {
+                                this.encrypted = '';
+                            }
+
+                        } else {
+                            const title: string = this.commonService.translateAlertTitle('Error');
+                            const errMsg: string = this.commonService.translateErrorMessageParams( 'sorry-error-occurred',
+                              recipient);
+                            alertFunctions.InfoAlertBox(title,
+                              errMsg,
+                              'OK',
+                              'error').then((isConfirm: any) => {
+                            });
+                        }
+                    });
+                    forkJoin(requests).subscribe((success_) => {
+                        forkJoin(success_).subscribe((success: any[]) => {
+                            success.map((s: any, index ) => {
+                                if (index === 0) {
+                                    if (!s.errorCode) {
+                                        const unsignedBytes = s.unsignedTransactionBytes;
+                                        const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                                        const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+
+                                        this.transactionBytes = transactionBytes;
+
+                                        this.tx_fee = s.transactionJSON.feeTQT / 100000000;
+                                        this.tx_amount = s.transactionJSON.amountTQT / 100000000;
+                                        this.tx_total = this.tx_fee + this.tx_amount;
+
+                                        this.prunableAttachmentJSON = s.transactionJSON.attachment;
+                                        this.prunableAttachmentString = JSON.stringify(s.transactionJSON.attachment);
+
+                                        this.validBytes = true;
+
+                                        return transactionBytes;
+                                    } else {
+                                        const title: string = this.commonService.translateAlertTitle('Error');
+                                        const errMsg: string = this.commonService.translateErrorMessageParams( 'sorry-error-occurred',
+                                          s);
+                                        alertFunctions.InfoAlertBox(title,
+                                          errMsg,
+                                          'OK',
+                                          'error').then(() => {
+                                        });
+                                    }
+                                } else {
+                                    const unsignedBytes = s.unsignedTransactionBytes;
+                                    const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                                    const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+
+                                    this.transactionsToBroadcast.push(transactionBytes);
+                                }
+                            })
+                        });
+                    });
+                });
             });
-        });
+        } else {
+            this.messageService.sendMessage(
+              transactionOptions.senderPublicKey,
+              transactionOptions.recipientRS,
+              1,
+              transactionOptions.data,
+              transactionOptions.nonce,
+              transactionOptions.recipientPublicKey,
+              transactionOptions.prunable
+            ).subscribe((success_) => {
+                success_.subscribe((success) => {
+                    if (!success.errorCode) {
+                        const unsignedBytes = success.unsignedTransactionBytes;
+                        const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                        const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+
+                        this.transactionBytes = transactionBytes;
+
+                        this.tx_fee = success.transactionJSON.feeTQT / 100000000;
+                        this.tx_amount = success.transactionJSON.amountTQT / 100000000;
+                        this.tx_total = this.tx_fee + this.tx_amount;
+
+                        this.prunableAttachmentJSON = success.transactionJSON.attachment;
+                        this.prunableAttachmentString = JSON.stringify(success.transactionJSON.attachment);
+
+                        this.validBytes = true;
+
+                        return transactionBytes;
+                    } else {
+                        const title: string = this.commonService.translateAlertTitle('Error');
+                        const errMsg: string = this.commonService.translateErrorMessageParams( 'sorry-error-occurred',
+                          success);
+                        alertFunctions.InfoAlertBox(title,
+                          errMsg,
+                          'OK',
+                          'error').then((isConfirm: any) => {
+                        });
+                    }
+                });
+            });
+        }
     };
 
     getAndVerifyAccount(sendTokenForm) {
 
-        let recipientRS = this.sendMessageForm.recipientRS;
+        const recipientRS = this.sendMessageForm.recipientRS;
         let fee = 1; // sendForm.fee;
-        let secret = this.sendMessageForm.secretPhrase;
+        const secret = this.sendMessageForm.secretPhrase;
 
-        let message = this.sendMessageForm.message;
-        let pubkey = this.sendMessageForm.pubkey;
-        let prunable = this.sendMessageForm.prunable;
+        const message = this.sendMessageForm.message;
+        const pubkey = this.sendMessageForm.pubkey;
+        const prunable = this.sendMessageForm.prunable;
 
         let hasPublicKeyAdded = false;
         let hasMessageAdded = false;
@@ -192,7 +354,7 @@ export class SendMessageComponent implements OnInit {
         this.hasPublicKeyAdded = hasPublicKeyAdded;
         this.hasMessageAdded = hasMessageAdded;
 
-        let senderPublicKey = this.messageService.getAccountDetailsFromSession('publicKey');
+        const senderPublicKey = this.messageService.getAccountDetailsFromSession('publicKey');
         let secretPhraseHex;
         if (hasSecretAdded) {
             secretPhraseHex = this.cryptoService.secretPhraseToPrivateKey(secret);
@@ -213,12 +375,12 @@ export class SendMessageComponent implements OnInit {
                 this.accountDetails = success;
 
                 if (!recipientPublicKey && !hasPublicKeyAdded && hasMessageAdded) {
-                    let title: string = this.commonService.translateAlertTitle('Error');
-                    let msg: string = this.commonService.translateInfoMessage('send-simple-account-outbound-transaction-info-msg');
+                    const title: string = this.commonService.translateAlertTitle('Error');
+                    const msg: string = this.commonService.translateInfoMessage('send-simple-account-outbound-transaction-info-msg');
                     alertFunctions.InfoAlertBox(title,
                         msg,
                         'OK',
-                        'error').then((isConfirm: any) => {
+                        'error').then(() => {
                         });
                     return;
                 }
@@ -234,7 +396,7 @@ export class SendMessageComponent implements OnInit {
                     this.encrypted = encrypted;
                 }
 
-                let transactionOptions = {
+                const transactionOptions = {
                     'senderPublicKey': senderPublicKey,
                     'recipientRS': recipientRS,
                     'fee': fee,
@@ -251,8 +413,8 @@ export class SendMessageComponent implements OnInit {
                 }
 
             } else {
-                let title: string = this.commonService.translateAlertTitle('Error');
-                let errMsg: string = this.commonService.translateErrorMessageParams( 'sorry-error-occurred',
+                const title: string = this.commonService.translateAlertTitle('Error');
+                const errMsg: string = this.commonService.translateErrorMessageParams( 'sorry-error-occurred',
                 success);
                 alertFunctions.InfoAlertBox(title,
                     errMsg,
@@ -264,12 +426,14 @@ export class SendMessageComponent implements OnInit {
     };
 
     broadcastMessage(transactionBytes, prunableAttachmentJSON) {
-        this.messageService.broadcastMessage(transactionBytes, prunableAttachmentJSON).subscribe((success: any) => {
-
-            if (!success.errorCode) {
-                let title: string = this.commonService.translateAlertTitle('Success');
+        forkJoin([
+            this.messageService.broadcastMessage(transactionBytes, prunableAttachmentJSON),
+          ...this.transactionsToBroadcast.map(transaction => this.messageService.broadcastMessage(transaction, prunableAttachmentJSON))
+        ]).subscribe((success: any) => {
+            if (!success[0].errorCode) {
+                const title: string = this.commonService.translateAlertTitle('Success');
                 let msg: string = this.commonService.translateInfoMessage('success-broadcast-message');
-                msg += success.transaction;
+                msg += success[0].transaction;
                 alertFunctions.InfoAlertBox(title,
                     msg,
                     'OK',
@@ -281,8 +445,8 @@ export class SendMessageComponent implements OnInit {
                         this.router.navigate(['/account/transactions/pending']);
                     });
             } else {
-                let title: string = this.commonService.translateAlertTitle('Error');
-                let errMsg: string = this.commonService.translateErrorMessage('unable-broadcast-transaction', success);
+                const title: string = this.commonService.translateAlertTitle('Error');
+                const errMsg: string = this.commonService.translateErrorMessage('unable-broadcast-transaction', success[0]);
                 alertFunctions.InfoAlertBox(title,
                     errMsg,
                     'OK',

@@ -24,13 +24,20 @@ export class ApprovalAccountsComponent implements OnInit {
     public currentTeam = '';
     public currentTeamAlias;
     public teamsList;
-    public daosList;
+    public daosList: Array<any> =[];
     public approvalAccountsForm = {
         quorum: 0,
         accounts: []
     }
     public controlDetected: boolean | null = null;
     public whiteList: Array<WhitelistedAccount> = [];
+
+    public getDaoName = this.daoService.getDaoName;
+    public getTeamName = this.daoService.getTeamName;
+    public getAccountId = this.daoService.getAccountId;
+    public getTeamMemberRole = this.daoService.getTeamMemberRole;
+    public getDaoNameFromDAOAlias = this.daoService.getDaoNameFromDAOAlias;
+    public getDaoTokenFromAlias = this.daoService.getDaoTokenFromDAOAlias;
 
     constructor(
         private accountService: AccountService,
@@ -42,7 +49,16 @@ export class ApprovalAccountsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.daosList = this.daoService.getAccountDaos();
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
     }
 
     public setPage(pageInfo) {
@@ -57,8 +73,17 @@ export class ApprovalAccountsComponent implements OnInit {
 
     setDao(dao): void {
         this.currentDao = dao;
-        this.daosList = this.daoService.getAccountDaos();
-        this.daoService.getDaoTeams(`${dao}TN`).subscribe(success_ => {
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
+        this.daoService.getDaoTeams(`${this.getDaoTokenFromAlias(dao)}XN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
             })
@@ -117,10 +142,12 @@ export class ApprovalAccountsComponent implements OnInit {
         this.daoService.setAccountControl(this.approvalAccountsForm, this.currentTeamAlias);
     }
 
+    removeAccountControl() {
+        this.daoService.removeAccountControl();
+    }
+
     isCanApprove(account) {
         const accountId = this.accountId(account);
         return this.whiteList.filter((wlAccount: any) => wlAccount.whitelistedRS === accountId).length > 0
     }
-
-    getDaoName = this.daoService.getDaoName;
 }

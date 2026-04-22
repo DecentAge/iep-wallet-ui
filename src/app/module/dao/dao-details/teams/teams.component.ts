@@ -37,7 +37,7 @@ export class TeamsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.daoName = DaoService.currentDAO;
+        this.daoName = DaoService.currentDAO.name;
         this.viewMode = DaoService.showDaoMode;
         this.daoService.getDAOAlias(this.daoName).subscribe((alias: any) => {
             this.daoAccountRs = alias.accountRS;
@@ -48,7 +48,7 @@ export class TeamsComponent implements OnInit {
     public setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
         this.page.totalPages = 1;
-        this.daoService.getDaoTeams(`${this.daoName}TN`).subscribe(success_ => {
+        this.daoService.getDaoTeams(`${this.daoService.getDaoTokenFromDAOAlias(this.daoName)}XN`).subscribe(success_ => {
             success_.subscribe(response => {
                 this.teamTokens = response.res.map((token: any) => {
                     return token.assets[0];
@@ -59,6 +59,7 @@ export class TeamsComponent implements OnInit {
                     }
                     alias.teamToken = this.teamTokens[index];
                     alias.teamToken.teamWallet = alias.aliasURI.split('acct:').pop().split('@xin').shift();
+                    alias.teamToken.teamName = alias.aliasName;
                     return alias;
                 });
                 this.page.size = this.rows.length;
@@ -67,11 +68,14 @@ export class TeamsComponent implements OnInit {
         });
     }
 
-    public routeUri(uri) {
-        DaoService.currentDAO = this.daoName;
-        DaoService.currentDAOTeam = uri;
+    public routeUri(teamToken) {
+        DaoService.currentDAO.name = this.daoName;
+        DaoService.currentDAOTeam.name = teamToken.teamName;
         const viewMode = DaoService.showDaoMode;
-        this.router.navigate([`dao/show-daos/${viewMode}/${this.daoName}/teams/${uri}`]).then();
+        this.router.navigate(
+          [`dao/show-daos/${viewMode}/${this.daoName}/teams/${teamToken.teamName}`],
+          {queryParams: {teamAccountRs: teamToken.teamWallet}}
+        ).then();
     }
 
     public reload() {
@@ -83,10 +87,20 @@ export class TeamsComponent implements OnInit {
     }
 
     sendMessage(teamToken) {
-        this.router.navigate(['/messages/send-message'], {queryParams: {recipient: teamToken.teamWallet}}).then();
+        this.router
+          .navigate(['/messages/send-message'], {
+              queryParams: {
+                  recipient: teamToken.teamWallet,
+                  teamName: teamToken.teamName
+              }
+          }).then();
     }
 
     createPoll(teamToken) {
         this.router.navigate(['/voting/create-poll'], {queryParams: {recipient: teamToken.asset, dao: this.daoName}}).then();
+    }
+
+    getTeamName(value) {
+        return value.teamName.split('XN').pop().split('XE').shift()
     }
 }

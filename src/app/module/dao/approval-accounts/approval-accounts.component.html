@@ -15,22 +15,34 @@
                                 <div class="row mb-3">
                                     <div class="col-md-4">
                                         <div class="form-group m-0">
-                                            <label>{{'common.select-dao'| translate}}</label>
+                                            <label>
+                                                {{'common.select-dao'| translate}}
+                                                <i class="fa fa-question-circle-o ml-1 info-yellow"
+                                                   container="body" placement="right" triggers="mouseenter:mouseleave"
+                                                   ngbPopover="{{'daos.approval-accounts.popovers.select-dao'| translate}}">
+                                                </i>
+                                            </label>
                                             <select name="type" class="form-control" [(ngModel)]="currentDao"
                                                     (change)="setDao(currentDao)" required>
-                                                <option *ngFor='let dao of daosList | async' [value]="dao?.aliasName">
-                                                    {{getDaoName(dao?.aliasName)}}
+                                                <option *ngFor='let dao of daosList' [value]="dao?.aliasName">
+                                                    {{getDaoNameFromDAOAlias(getDaoName(dao?.aliasName))}}
                                                 </option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group m-0">
-                                            <label>{{'common.select-team'| translate}}</label>
+                                            <label>
+                                                {{'common.select-team'| translate}}
+                                                <i class="fa fa-question-circle-o ml-1 info-yellow"
+                                                   container="body" placement="right" triggers="mouseenter:mouseleave"
+                                                   ngbPopover="{{'daos.approval-accounts.popovers.select-team'| translate}}">
+                                                </i>
+                                            </label>
                                             <select name="type" class="form-control" [(ngModel)]="currentTeam"
                                                     (change)="setTeam(currentTeam)" required>
                                                 <option *ngFor='let team of teamsList' [value]="team?.aliasName">
-                                                    {{team?.aliasName.split('TN').pop().split('TT').shift()}}
+                                                    {{getTeamName(team?.aliasName)}}
                                                 </option>
                                             </select>
                                         </div>
@@ -84,7 +96,7 @@
                                         <div class="col-md-12">
                                             <ngx-datatable
                                                     class="material" [rows]="rows" [columnMode]="columnModes.force"
-                                                    [rowHeight]="'auto'"
+                                                    [rowHeight]="undefined"
                                                     [footerHeight]="50" [externalPaging]="true"
                                                     [count]="page.totalElements"
                                                     [offset]="page.pageNumber"
@@ -93,13 +105,13 @@
                                                 <ngx-datatable-column prop="aliasURI"
                                                                       [name]="'table-header.team-member-account'| translate">
                                                     <ng-template let-value="value" ngx-datatable-cell-template>
-                                                        {{value.split('acct:').pop().split('@xin').shift()}}
+                                                        {{getAccountId(value)}}
                                                     </ng-template>
                                                 </ngx-datatable-column>
                                                 <ngx-datatable-column prop="aliasName"
                                                                       [name]="'table-header.team-member-role'| translate">
                                                     <ng-template let-value="value" ngx-datatable-cell-template>
-                                                        {{value.split('TR').pop().split('TT').shift()}}
+                                                        {{getTeamMemberRole(value)}}
                                                     </ng-template>
                                                 </ngx-datatable-column>
                                                 <ngx-datatable-column prop="aliasURI"
@@ -121,13 +133,24 @@
                                             </ngx-datatable>
                                         </div>
                                     </div>
-                                    <div class="left mt-4" *ngIf="!controlDetected">
-                                        <button [disabled]="approvalForm.invalid || !validateForm()" type="button"
-                                                class="btn btn-gradient mr-1 mb-0 float-right"
-                                                (click)="setAccountControl()">
-                                            <i class="fa fa-chevron-right"></i>{{'common.save-btn'| translate}}
-                                        </button>
-                                    </div>
+                                    <ng-container *ngIf="!controlDetected; else deleteApproval">
+                                        <div class="left mt-4">
+                                            <button [disabled]="approvalForm.invalid || !validateForm()" type="button"
+                                                    class="btn btn-gradient mr-1 mb-0 float-right"
+                                                    (click)="setAccountControl()">
+                                                <i class="fa fa-chevron-right"></i>{{'common.save-btn'| translate}}
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #deleteApproval>
+                                        <div class="left mt-4">
+                                            <button type="button"
+                                                    class="btn btn-gradient mr-1 mb-0 float-right"
+                                                    (click)="removeAccountControl()">
+                                                <i class="fa fa-chevron-right"></i> {{'daos.approval-accounts.remove-approval-btn'| translate}}
+                                            </button>
+                                        </div>
+                                    </ng-template>
                                 </ng-container>
                             </div>
                         </form>

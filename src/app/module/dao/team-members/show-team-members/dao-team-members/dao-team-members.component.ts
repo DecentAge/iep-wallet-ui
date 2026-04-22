@@ -30,8 +30,8 @@ export class DaoTeamMembersComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.daoName = DaoService.currentDAO;
-        this.teamName = DaoService.currentDAOTeam;
+        this.daoName = DaoService.currentDAO.name;
+        this.teamName = DaoService.currentDAOTeam.name;
         this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
         this.setPage({offset: 0});
     }
@@ -56,5 +56,11 @@ export class DaoTeamMembersComponent implements OnInit {
 
     public accountId(aliasURI) {
         return aliasURI.split('acct:').pop().split('@xin').shift()
+    }
+
+    getTeamMemberRole(alias) {
+        const roleWithToken = alias.split(/XR(.*)/s);
+        const role = roleWithToken[1].split(/XE(.*)/s);
+        return role[0];
     }
 }

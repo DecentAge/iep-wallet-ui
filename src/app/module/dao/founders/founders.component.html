@@ -3,11 +3,18 @@
     <div class="row" *ngFor="let founder of createFounderForm.founders; index as i">
       <div class="col-md-3">
         <div class="form-group m-0">
-          <label>{{'daos.founders.labels.founder-wallet-alias' | translate}}</label>
+          <label>
+            {{'daos.founders.labels.founder-wallet-alias' | translate}}
+            <i class="fa fa-question-circle-o ml-1 info-yellow"
+               container="body" placement="right" triggers="mouseenter:mouseleave"
+               ngbPopover="{{'daos.founders.popovers.founder-wallet-alias'| translate}}">
+            </i>
+          </label>
           <div class="input-group m-0 row">
             <div class="col-12 pl-0">
               <input type="text" class="form-control"
                      name="founderWalletAlias-{{i}}"
+                     [pattern]="alphanumericPattern"
                      #founderWalletAlias="ngModel"
                      [(ngModel)]="founder.founderWalletAlias"
                      placeholder="{{'daos.founders.labels.founder-wallet-alias' | translate}}"
@@ -19,12 +26,21 @@
             <div *ngIf="founderWalletAlias?.errors.required">
               {{'daos.founders.validation.wallet-alias-is-required' | translate}}
             </div>
+            <div *ngIf="founderWalletAlias?.errors.pattern">
+              {{'daos.founders.validation.wallet-alias-is-invalid' | translate}}
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group m-0">
-          <label>{{'daos.founders.labels.founder-wallet-address' | translate}}</label>
+          <label>
+            {{'daos.founders.labels.founder-wallet-address' | translate}}
+            <i class="fa fa-question-circle-o ml-1 info-yellow"
+               container="body" placement="right" triggers="mouseenter:mouseleave"
+               ngbPopover="{{'daos.founders.popovers.founder-wallet-address'| translate}}">
+            </i>
+          </label>
           <div class="input-group m-0">
             <input type="text" class="form-control"
                    name="founderWalletAddress-{{i}}" #founderWalletAddress="ngModel"
@@ -40,9 +56,15 @@
           </div>
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="form-group m-0">
-          <label>{{'daos.founders.labels.initial-allocation' | translate}}</label>
+          <label>
+            {{'daos.founders.labels.initial-allocation' | translate}}
+            <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
+               placement="right" container="body"
+               ngbPopover="{{'daos.founders.popovers.initial-allocation'| translate}}">
+            </i>
+          </label>
           <div class="input-group m-0 row">
             <div class="col-10 pl-0">
               <input type="number"
@@ -64,6 +86,21 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="col-md-3">
+        <label class="custom-control custom-checkbox ml-2 mt-4" for="issueDaoTokens{{i}}">
+            <input type="checkbox" class="custom-control-input" [(ngModel)]="founder.issueDaoToken"
+                   [ngModelOptions]="{standalone: true}" id="issueDaoTokens{{i}}">
+            <div class="custom-control-label">
+                {{'daos.add-team-members.issue-dao-tokens' | translate}}
+
+                <i class="fa fa-question-circle-o ml-1 info-yellow"
+                   container="body" placement="right" triggers="mouseenter:mouseleave"
+                   ngbPopover="{{'daos.add-team-members.issue-dao-tokens-desc'| translate}}">
+                </i>
+            </div>
+            <div class="custom-control-icon"></div>
+        </label>
       </div>
       <div class="col-md-1">
         <div class="form-group m-0">

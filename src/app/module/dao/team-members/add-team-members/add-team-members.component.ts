@@ -13,7 +13,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 
     @Input() wizard: WizardComponent | null = null;
 
-    public daosList;
+    public daosList: Array<any> = [];
     public teamsList = [];
     public teamTokens;
     public currentDao = '';
@@ -24,6 +24,7 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     };
     public isPending = true;
     public pendingTransactions = [];
+    public readonly alphanumericPattern: RegExp = new RegExp('^[a-zA-WY-Z0-9]*$');
 
     constructor(
         private daoService: DaoService,
@@ -32,9 +33,23 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
-        this.daosList = this.daoService.getAccountDaos();
-        this.currentDao = DaoService.currentDAO ? DaoService.currentDAO : '';
-        this.currentTeam = DaoService.currentDAOTeam ? DaoService.currentDAOTeam : '';
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
+        this.currentDao = DaoService.currentDAO.name;
+        if (!!this.wizard) {
+            this.currentTeam = DaoService.currentDAOTeam.name;
+        } else {
+            this.daoService.currentTeamMembers = [];
+            DaoService.currentDAOTeamFounders = [];
+        }
         if (this.currentDao !== '') {
             this.setDao(this.currentDao);
         }
@@ -65,15 +80,17 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 
     addTeamMembers() {
         if (!this.currentDao) {
-            this.currentDao = DaoService.currentDAO;
+            this.currentDao = DaoService.currentDAO.name;
         }
         if (!this.currentTeam) {
-            this.currentTeam = DaoService.currentDAOTeam;
+            this.currentTeam = DaoService.currentDAOTeam.name;
         }
-        if (!this.addTeamMemberForm.teamMembers.length) {
+        if (!this.addTeamMemberForm.teamMembers.length &&
+          !DaoService.currentDAOTeamFounders.length &&
+          !this.daoService.currentTeamMembers.length) {
             this.router.navigate([`dao/show-daos/DAO${this.currentDao}/teams`]).then();
         }
-        this.daoService.currentTeamMembers = this.addTeamMemberForm.teamMembers;
+        this.daoService.currentTeamMembers = [...this.daoService.currentTeamMembers, ...this.addTeamMemberForm.teamMembers];
         if (DaoService.currentDAOTeamFounders.length > 0) {
             this.daoService.currentTeamMembers = [
                 ...this.daoService.currentTeamMembers,
@@ -81,36 +98,47 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
                     return {
                         teamMemberWallet: teamFounder.founderWalletAddress,
                         teamMemberRole: teamFounder.founderWalletAlias,
-                        quantity: teamFounder.initialAllocation
+                        quantity: teamFounder.initialAllocation,
+                        issueDaoToken: teamFounder.issueDaoToken
                     }
                 })];
         }
-        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.addTeamMemberForm.teamMembers, this.addTeamMemberForm.issueDaoTokens);
+        this.daoService.addTeamMembers(this.currentDao, this.currentTeam, this.daoService.currentTeamMembers);
     }
 
     setDao(dao): void {
+        if (!!this.wizard) {
+            return;
+        }
         this.currentDao = dao;
-        this.daosList = this.daoService.getAccountDaos();
-        this.daoService.getDaoTeams(`${dao}TN`).subscribe(success_ => {
+        let tempDaoList = [];
+        this.daoService.getAccountDaos().subscribe({
+            next: (aliases: any) => {
+                tempDaoList = [...tempDaoList, ...aliases]
+            },
+            error: (e) => console.error(e),
+            complete: () => {
+                this.daosList = tempDaoList;
+            }
+        });
+        this.daoService.getDaoTeams(`${this.daoService.getDaoTokenFromDAOAlias(dao)}XN`).subscribe(success_ => {
             success_.subscribe((response: any) => {
                 this.teamsList = response.aliases;
                 this.teamTokens = response.res.assets;
             })
         });
+        this.setTeam('');
     }
 
     setTeam(team): void {
         this.currentTeam = team;
     }
 
-    setIssueDaoTokens() {
-        this.addTeamMemberForm.issueDaoTokens = !this.addTeamMemberForm.issueDaoTokens;
-    }
-
     addTeamMember() {
         this.addTeamMemberForm.teamMembers.push({
             teamMemberWallet: '',
-            teamMemberRole: ''
+            teamMemberRole: '',
+            issueDaoToken: true
         });
     }
 

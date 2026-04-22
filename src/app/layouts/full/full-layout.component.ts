@@ -1,18 +1,17 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { DashboardService } from '../../module/dashboard/dashboard.service';
-import { SessionStorageService } from '../../services/session-storage.service';
-import { PeerService } from '../../services/peer.service';
-import { OptionsConfigurationService } from '../../services/options-configuration.service';
-import { AppVariables } from '../../config/variables';
-import { AppConstants } from '../../config/constants';
-import { NodeConfig } from '../../config/node-config';
-import { RootScope } from '../../config/root-scope';
-import { AmountTqtPipe } from '../../pipes/amount-tqt.pipe';
-import { CommonService } from '../../services/common.service';
-import { OptionService } from '../../services/option.service';
-import { LocalhostService } from '../../services/localhost.service';
+import {Component, ElementRef, OnInit} from '@angular/core';
+import {DashboardService} from 'app/module/dashboard/dashboard.service';
+import {SessionStorageService} from 'app/services/session-storage.service';
+import {PeerService} from 'app/services/peer.service';
+import {OptionsConfigurationService} from 'app/services/options-configuration.service';
+import {AppConstants} from 'app/config/constants';
+import {NodeConfig} from 'app/config/node-config';
+import {RootScope} from 'app/config/root-scope';
+import {AmountTqtPipe} from 'app/pipes/amount-tqt.pipe';
+import {CommonService} from 'app/services/common.service';
+import {OptionService} from 'app/services/option.service';
+import {LocalhostService} from 'app/services/localhost.service';
 import * as alertFunction from '../../shared/data/sweet-alerts';
-import { BroadcastService } from 'app/services/broadcast.service';
+import {BroadcastService} from 'app/services/broadcast.service';
 
 const fireRefreshEventOnWindow = function () {
     const evt = document.createEvent('HTMLEvents');
@@ -114,6 +113,13 @@ export class FullLayoutComponent implements OnInit {
     onClick(event) {
         // initialize window resizer event on sidebar toggle click event
         setTimeout(() => { fireRefreshEventOnWindow() }, 300);
+    }
+
+    public getEnvironmentClass(): string {
+        return AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT === 'testnet' ||
+        AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT === 'devnet' ?
+          'testing' :
+          '';
     }
 
 }
