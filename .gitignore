@@ -136,3 +136,4 @@ dist
 */*.sublime-workspace
 /.settings/
 /.vscode/
+/iep-wallet-ui.iml
