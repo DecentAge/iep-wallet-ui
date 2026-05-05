@@ -46,6 +46,7 @@ export class AppConstants {
     'RANDOMIZE_NODES': 1,
     'EXTENSIONS': 1,
     'NODE_API_URL': getEnvConfig('apiServerURL') || window.location.origin,
+    'CONNECTION_MODE': 'LOCALHOST',
   };
   public static addressBookConfig = {
     'tableAddressBook': 'addressBook'

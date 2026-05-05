@@ -137,3 +137,4 @@ dist
 /.settings/
 /.vscode/
 /iep-wallet-ui.iml
+/e2e/

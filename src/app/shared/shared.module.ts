@@ -89,6 +89,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AddressService } from '../module/account/address.service';
 import { ProgressSyncComponent } from '../module/progress/progress.component';
 import {HeaderComponent} from './header/header.component';
+import { LocalNodeNoticeComponent } from './local-node-notice/local-node-notice.component';
 
 @NgModule({
     exports: [
@@ -160,7 +161,8 @@ import {HeaderComponent} from './header/header.component';
         StoragePipe,
         CurrencyModelPipe,
         BreadcrumbComponent,
-        HeaderComponent
+        HeaderComponent,
+        LocalNodeNoticeComponent
     ],
     imports: [
         RouterModule,
@@ -246,7 +248,8 @@ import {HeaderComponent} from './header/header.component';
         StoragePipe,
         CurrencyModelPipe,
         BreadcrumbComponent,
-        AmountToQuantPipe
+        AmountToQuantPipe,
+        LocalNodeNoticeComponent
     ],
     providers: [
         QuantToAmountPipe,

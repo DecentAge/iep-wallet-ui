@@ -78,19 +78,24 @@ export class NodeService {
         return url;
     }
 
-    // hasLocal() {
-    //     return this.hasLocal();
-    // };
-
-    getLocalNodeUrl() {
-        let node = this.optionsService.getOption('NODE_API_URL', '');
-
-        if (node) {
-            let port = node.apiServerPort;
-            return 'http://localhost:' + port;
+    // Returns true when it is safe to send a passphrase to the node.
+    // Safe means: running on devnet, or the browser is on localhost/127.0.0.1.
+    isLocalNode(): boolean {
+        const env = (AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT || '').toLowerCase();
+        if (env === 'devnet') {
+            return true;
         }
-        throw new Error('Local node not available');
-    };
+        const loc = window.location;
+        return loc.hostname === 'localhost' || loc.hostname === '127.0.0.1';
+    }
+
+    // Throws when isLocalNode() is false. Call this at the top of any service
+    // method that sends a secretPhrase over HTTP.
+    requireLocalNode(): void {
+        if (!this.isLocalNode()) {
+            throw new Error('This operation requires a local node connection. Set connection mode to LOCALHOST in options.');
+        }
+    }
 
 
 

@@ -21,7 +21,6 @@ import { SwappService } from '../../services/swapp.service';
 export class NavbarComponent implements OnInit {
     currentLang = 'en';
     toggleClass = 'ft-maximize';
-    connectionMode: string;
     approvals: any = 0;
     escrows: any = 0;
     subscriptions: any = 0;

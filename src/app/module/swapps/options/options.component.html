@@ -32,7 +32,8 @@
                                                 </label>
                                                 <div class="position-relative">
                                                     <select name="connectionMode" class="form-control" [(ngModel)]="optionsForm.CONNECTION_MODE"
-                                                        id="connectionMode" #mode="ngModel" (change)="updateConnectionMode(connectionMode)"
+                                                        id="connectionMode" #mode="ngModel"
+                                                        (change)="onConnectionModeChange()"
                                                         required>
                                                         <option *ngFor="let mode of CONNECTION_MODES" value="{{ mode }}">{{
                                                             mode }}</option>
@@ -47,7 +48,8 @@
                                                         container="body" placement="right" ngbPopover="{{'swapps.options.connection-node-popover' | translate}}"></i>
                                                 </label>
                                                 <div class="position-relative">
-                                                    <input type="text" class="form-control" placeholder="{{'swapps.options.connection-node-placeholder' | translate}}"
+                                                    <input type="text" class="form-control"
+                                                        [placeholder]="optionsForm.CONNECTION_MODE === 'MANUAL' ? ('swapps.options.connection-node-placeholder' | translate) : ''"
                                                         name="connectToNode" [(ngModel)]="optionsForm.USER_NODE_URL" id="connectToNode"
                                                         [disabled]="optionsForm.CONNECTION_MODE != 'MANUAL'"
                                                         #userNodeUrl="ngModel" required>
@@ -57,19 +59,6 @@
                                                     <div *ngIf="userNodeUrl?.invalid">
                                                         {{'swapps.options.connection-node-validation' | translate}}
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>{{'swapps.options.connected-url-label' | translate}}
-                                                    <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
-                                                        container="body" placement="right" ngbPopover="{{'swapps.options.connected-url-popover' | translate}}"></i>
-                                                </label>
-                                                <div class="position-relative">
-                                                    <input type="text" class="form-control" placeholder="{{'swapps.options.connected-url-placeholder' | translate}}"
-                                                        name="connectedTo" [(ngModel)]="connectedURL" id="connectTo"
-                                                        readonly="true">
                                                 </div>
                                             </div>
                                         </div>
@@ -83,6 +72,19 @@
                                                         <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
                                                             container="body" placement="right" ngbPopover="{{'swapps.options.random-node-connect-popover' | translate}}"></i>
                                                     </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-2">
+                                            <div class="connected-url-display">
+                                                <span class="connected-url-label">
+                                                    {{'swapps.options.connected-url-label' | translate}}
+                                                    <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
+                                                        container="body" placement="right" ngbPopover="{{'swapps.options.connected-url-popover' | translate}}"></i>
+                                                </span>
+                                                <div class="connected-url-value">
+                                                    <i class="fa fa-plug connected-url-icon"></i>
+                                                    <code>{{ connectedURL || '—' }}</code>
                                                 </div>
                                             </div>
                                         </div>

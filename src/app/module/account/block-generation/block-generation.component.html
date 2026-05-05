@@ -11,9 +11,7 @@
                 <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
                     <div class="row">
                         <div class="col-md-12">
-                            <p class="alert alert-info readonly-note">
-                                {{'account.block-generation.block-generation-note'| translate}}
-                            </p>
+                            <app-local-node-notice></app-local-node-notice>
                         </div>
                     </div>
                     <div class="row mt-4 form-bordered">
@@ -26,7 +24,7 @@
                             </div>
                             <h4>
                                 <strong>
-                                    <div [innerHtml]="hasLocal|isEnabled" style="margin-top:0px;"></div>
+                                    <div [innerHtml]="isLocal|isEnabled" style="margin-top:0px;"></div>
                                 </strong>
                             </h4>
                         </div>
@@ -56,15 +54,15 @@
                                             placeholder="{{ 'account.block-generation.secret-phrase-placeholder' | translate}}"></div>
                                     <div class="col-5 col-lg-4 pr-1 pl-0 btn-icon-group text-right pr-1">
 
-                                        <button class="btn btn-primary" (click)="runBlockGeneration(0)" [disabled]="(!hasLocal && !hasHttps) || secretPhrase === ''">
+                                        <button class="btn btn-primary" (click)="runBlockGeneration(0)" [disabled]="!isLocal || secretPhrase === ''">
                                             <i class="fa fa-plug" placement="top" triggers="mouseenter:mouseleave"
                                                 container="body" ngbPopover="{{'account.block-generation.show-status-popover'| translate}}"></i>
                                         </button>
-                                        <button class="btn btn-primary" (click)="runBlockGeneration(2)" [disabled]="(!hasLocal && !hasHttps) || secretPhrase === ''">
+                                        <button class="btn btn-primary" (click)="runBlockGeneration(2)" [disabled]="!isLocal || secretPhrase === ''">
                                             <i class="fa fa-stop" placement="top" triggers="mouseenter:mouseleave"
                                                 container="body" ngbPopover="{{'account.block-generation.stop-popover'| translate}}"></i>
                                         </button>
-                                        <button class="btn btn-primary" (click)="runBlockGeneration(1)" [disabled]="(!hasLocal && !hasHttps) || secretPhrase === ''">
+                                        <button class="btn btn-primary" (click)="runBlockGeneration(1)" [disabled]="!isLocal || secretPhrase === ''">
                                             <i class="fa fa-play" placement="top" triggers="mouseenter:mouseleave"
                                                 container="body" ngbPopover="{{'account.block-generation.start-popover'| translate}}"></i>
                                         </button>
