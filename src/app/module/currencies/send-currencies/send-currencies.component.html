@@ -13,7 +13,7 @@
                     <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
                         <aw-wizard [navBarLayout]="'large-filled-symbols'">
                             <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
-                                <form class="form inner-form" #f="ngForm" novalidate>
+                                <form class="form inner-form" #currencyForm="ngForm" novalidate>
                                     <div class="form-body">
                                         <div class="row">
                                             <div class="col-md-6">
@@ -103,8 +103,8 @@
                                         </div>
                                     </div>
                                     <div class="mt-4 left">
-                                        <button type="button" [disabled]="f.invalid" class="btn btn-gradient mr-1 mb-0 float-right"
-                                            awNextStep>
+                                        <button type="button" [disabled]="currencyForm.invalid" class="btn btn-gradient mr-1 mb-0 float-right"
+                                            (click)="sendCurrency()" awNextStep>
                                             <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                         </button>
                                     </div>
