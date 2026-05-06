@@ -56,6 +56,7 @@ export class NodeService {
         this.sessionService.deleteFromSession(NodeConfig.SESSION_PEER_NODES);
         this.sessionService.deleteFromSession(NodeConfig.SESSION_HAS_LOCAL);
         this.sessionService.deleteFromSession(NodeConfig.SESSION_LOCAL_NODE);
+        this.sessionService.deleteFromSession(NodeConfig.SESSION_AUTO_NODE);
     };
 
     getNodesCount() {
@@ -63,8 +64,26 @@ export class NodeService {
         return total.length + 1;
     };
 
-    getNodeUrl() {
+    getNodeUrl(): string {
+        const mode = this.optionsService.getOption('CONNECTION_MODE', '');
+        if (mode === 'AUTO') {
+            let autoNode = this.sessionService.getFromSession(NodeConfig.SESSION_AUTO_NODE);
+            if (!autoNode) {
+                this.selectAutoNode();
+                autoNode = this.sessionService.getFromSession(NodeConfig.SESSION_AUTO_NODE);
+            }
+            return autoNode || this.optionsService.getOption('NODE_API_URL', '');
+        }
         return this.optionsService.getOption('NODE_API_URL', '');
+    };
+
+    selectAutoNode(): void {
+        const peers: string[] = this.sessionService.getFromSession(NodeConfig.SESSION_PEER_NODES) || [];
+        if (!peers.length) return;
+        const pool = peers.slice(0, 10);
+        const raw = pool[Math.floor(Math.random() * pool.length)];
+        const url = /^https?:\/\//i.test(raw) ? raw : 'http://' + raw;
+        this.sessionService.saveToSession(NodeConfig.SESSION_AUTO_NODE, url);
     };
 
     appendPortIfNotPresent(url, port) {

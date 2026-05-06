@@ -43,6 +43,9 @@ export class OptionsComponent implements OnInit {
 
         this.optionService.loadOptions(publicKey, (optionsObject) => {
             this.optionsForm = this.copyJson(optionsObject, this.optionsForm);
+            if (this.optionsForm.CONNECTION_MODE === 'MANUAL') {
+                this.optionsForm.USER_NODE_URL = this.optionsForm.NODE_API_URL || '';
+            }
             this.sessionStorageService.saveToSession(AppConstants.baseConfig.SESSION_APP_OPTIONS, optionsObject);
         }, (e) => {
             this.sessionStorageService.saveToSession(AppConstants.baseConfig.SESSION_APP_OPTIONS, AppConstants.DEFAULT_OPTIONS);
@@ -94,6 +97,11 @@ export class OptionsComponent implements OnInit {
     }
 
     updateOptions() {
+        if (this.optionsForm.CONNECTION_MODE === 'MANUAL') {
+            this.optionsForm.NODE_API_URL = this.optionsForm.USER_NODE_URL;
+        } else {
+            this.optionsForm.NODE_API_URL = AppConstants.DEFAULT_OPTIONS.NODE_API_URL;
+        }
         const publicKey = this.commonService.getAccountDetailsFromSession('publicKey'),
             options = this.getOptionsJsonObject(this.optionsForm),
             finalOptions = [];

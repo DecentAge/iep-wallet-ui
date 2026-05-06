@@ -6,6 +6,7 @@ import { AccountService } from '../../../account/account.service';
 import { AppConstants } from '../../../../config/constants';
 import { SessionStorageService } from '../../../../services/session-storage.service';
 import { CryptoService } from '../../../../services/crypto.service';
+import { NodeService } from '../../../../services/node.service';
 import * as alertFunctions from "../../../../shared/data/sweet-alerts";
 import { CommonService } from '../../../../services/common.service';
 
@@ -19,6 +20,7 @@ export class StartShufflingComponent implements OnInit {
     startShuffleForm: any = {};
     showStart = true;
     publicKey: any;
+    isLocal = false;
 
     constructor(public activatedRoute: ActivatedRoute,
         private _location: Location,
@@ -26,10 +28,12 @@ export class StartShufflingComponent implements OnInit {
         private accountService: AccountService,
         private sessionStorageService: SessionStorageService,
         private cryptoService: CryptoService,
+        private nodeService: NodeService,
         private router: Router,
         private commonService: CommonService) { }
 
     ngOnInit() {
+        this.isLocal = this.nodeService.isLocalNode();
         this.activatedRoute.queryParams.subscribe((params: any) => {
             if (!params.id) {
                 this._location.back();
@@ -84,6 +88,8 @@ export class StartShufflingComponent implements OnInit {
                             });
                     }
                 });
+            }, () => {
+                this.showStart = true;
             })
     }
 
