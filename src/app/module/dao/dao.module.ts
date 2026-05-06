@@ -5,7 +5,7 @@ import {DaoService} from './dao.service';
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {SharedModule} from '../../shared/shared.module';
 import {FormsModule} from '@angular/forms';
-import {ArchwizardModule} from 'angular-archwizard';
+import {ArchwizardModule} from '../../shared/archwizard';
 import {AliasesService} from '../aliases/aliases.service';
 import {ShowDaosComponent} from './show-daos/show-daos.component';
 import {CreateDaoComponent} from './create-dao/create-dao.component';
@@ -74,20 +74,6 @@ import { DaoTeamPollsComponent } from './team-members/show-team-members/dao-team
         AssetsService,
         DaoService,
         MessageService
-    ],
-    entryComponents: [
-        AddTeamMembersComponent,
-        AddTeamPollComponent,
-        ApprovalAccountsComponent,
-        CreateDaoComponent,
-        CreateDaoTeamComponent,
-        CreateTeamsComponent,
-        DaoComponent,
-        FoundersComponent,
-        TeamMembersComponent,
-        ShowTeamMembersComponent,
-        ShowDaoPollsComponent,
-        PollsComponent
     ]
 })
 export class DaoModule {

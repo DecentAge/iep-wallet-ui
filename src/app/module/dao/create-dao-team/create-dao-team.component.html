@@ -6,7 +6,7 @@
                     <div class="form-group m-0">
                         <label>
                             {{'common.select-dao'| translate}}
-                            <i class="fa fa-question-circle-o ml-1 info-yellow"
+                            <i class="fa fa-question-circle-o ms-1 info-yellow"
                                container="body" placement="right" triggers="mouseenter:mouseleave"
                                ngbPopover="{{'daos.create-teams.popovers.select-dao'| translate}}">
                             </i>
@@ -25,7 +25,7 @@
                     <div class="form-group m-0">
                         <label>
                             {{'common.team-wallet-label'| translate}}
-                            <i class="fa fa-question-circle-o ml-1 info-yellow"
+                            <i class="fa fa-question-circle-o ms-1 info-yellow"
                                container="body" placement="right" triggers="mouseenter:mouseleave"
                                ngbPopover="{{'daos.create-teams.popovers.team-wallet'| translate}}">
                             </i>
@@ -47,7 +47,7 @@
                     <div class="form-group m-0">
                         <label>
                             {{'common.team-wallet-confirm-label'| translate}}
-                            <i class="fa fa-question-circle-o ml-1 info-yellow"
+                            <i class="fa fa-question-circle-o ms-1 info-yellow"
                                container="body" placement="right" triggers="mouseenter:mouseleave"
                                ngbPopover="{{'daos.create-teams.popovers.confirm-team-wallet'| translate}}">
                             </i>
@@ -73,10 +73,10 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>
-                        {{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-name' | translate}}
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                        {{'daos.create-dao.labels.team-name' | translate}}
+                        <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
-                           ngbPopover="{{'daos.create-teams.popovers.' + (!!wizard ? 'founder-' : '') + 'team-name'| translate}}">
+                           ngbPopover="{{'daos.create-teams.popovers.team-name'| translate}}">
                         </i>
                     </label>
                     <div class="input-group m-0 row">
@@ -84,7 +84,7 @@
                                [pattern]="alphanumericPattern12"
                                #name="ngModel"
                                [(ngModel)]="createTeamForm.name"
-                               placeholder="{{'daos.create-dao.placeholders.' + (!!wizard ? 'founder-' : '') + 'team-name-placeholder' | translate}}"
+                               placeholder="{{'daos.create-dao.placeholders.team-name-placeholder' | translate}}"
                                required>
                     </div>
                     <div *ngIf="name?.invalid && (name?.dirty || name?.touched)"
@@ -101,10 +101,10 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>
-                        {{'daos.create-dao.labels.team' + (!!wizard ? '-founder' : '') + '-shortcode' | translate}}
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                        {{'daos.create-dao.labels.team-shortcode' | translate}}
+                        <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
-                           ngbPopover="{{'daos.create-teams.popovers.' + (!!wizard ? 'founder-' : '') + 'team-shortcode'| translate}}">
+                           ngbPopover="{{'daos.create-teams.popovers.team-shortcode'| translate}}">
                         </i>
                     </label>
                     <div class="input-group m-0 row">
@@ -112,7 +112,7 @@
                                [pattern]="alphanumericPatternMax5"
                                #prefix="ngModel"
                                [(ngModel)]="createTeamForm.prefix"
-                               placeholder="{{'daos.create-dao.placeholders.' + (!!wizard ? 'founder-' : '') + 'team-shortcode-placeholder' | translate}}"
+                               placeholder="{{'daos.create-dao.placeholders.team-shortcode-placeholder' | translate}}"
                                required>
                     </div>
                     <div *ngIf="prefix?.invalid && (prefix?.dirty || prefix?.touched)"
@@ -130,22 +130,22 @@
                 <div class="form-group m-0">
                     <label>
                         {{'daos.create-dao.labels.team-quantity-label' | translate}}
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                        <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
                            ngbPopover="{{'daos.create-teams.popovers.team-members-quantity'| translate}}">
                         </i>
                     </label>
-                    <div class="input-group m-0 row">
-                        <div class="col-11 pl-0">
+                    <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom">
+                        <div class="col-10 ps-0">
                             <input type="number"
-                                   class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                   class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                    name="quantity"
                                    #quantity="ngModel"
                                    [(ngModel)]="createTeamForm.quantity"
                                    placeholder="{{'daos.create-dao.labels.team-quantity-label' | translate}}"
                                    required>
                         </div>
-                        <div class="col-1 text-right pl-0">
+                        <div class="col-2 text-right ps-0">
                             <span class="input-group-text text-right">{{'daos.create-dao.dao-quantity-unit' | translate}}</span>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                 <div class="form-group m-0">
                     <label>
                         {{'common.description-label' | translate}}
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                        <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
                            ngbPopover="{{'daos.create-teams.popovers.description'| translate}}">
                         </i>
@@ -185,16 +185,16 @@
             </div>
         </div>
         <ng-container *ngIf="!!wizard; else outsideOfDao">
-            <button type="button" class="btn btn-gradient float-right" (click)="createTeam()"
+            <button type="button" class="btn btn-gradient float-end" (click)="createTeam()"
                     [disabled]="teamForm.invalid">
                 {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
             </button>
-            <!--<button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+            <!--<button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                 <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
             </button>-->
         </ng-container>
         <ng-template #outsideOfDao>
-            <button type="button" class="btn btn-gradient float-right" (click)="createTeam()"
+            <button type="button" class="btn btn-gradient float-end" (click)="createTeam()"
                     [disabled]="teamForm.invalid">
                 {{'common.create-btn'| translate}}
             </button>

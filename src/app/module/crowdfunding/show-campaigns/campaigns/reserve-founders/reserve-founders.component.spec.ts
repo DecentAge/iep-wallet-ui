@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ReserveFoundersComponent } from './reserve-founders.component';
 
@@ -6,7 +7,7 @@ describe('ReserveFoundersComponent', () => {
   let component: ReserveFoundersComponent;
   let fixture: ComponentFixture<ReserveFoundersComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ReserveFoundersComponent ]
     })

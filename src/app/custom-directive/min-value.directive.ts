@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { NG_VALIDATORS, Validator, FormControl } from '@angular/forms';
+import { NG_VALIDATORS, Validator, UntypedFormControl } from '@angular/forms';
 
 @Directive({
   selector: '[minValue][formControlName],[minValue][formControl],[minValue][ngModel]',
@@ -9,7 +9,7 @@ export class MinValueDirective {
   @Input()
   minValue: number;
   
-  validate(c: FormControl): {[key: string]: any} {
+  validate(c: UntypedFormControl): {[key: string]: any} {
     let v = c.value;
     return ( v < this.minValue)? {"minValue": true} : null;
   }

@@ -14,7 +14,7 @@ import { HistoryComponent } from './history/history.component';
 import { ControlComponent } from './control/control.component';
 import { BalanceLeaseComponent } from './balance-lease/balance-lease.component';
 import { SearchAccountComponent } from './search-account/search-account.component';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { LessorsComponent } from './lessors/lessors.component';
 import { PropertiesComponent } from './properties/properties.component';
@@ -42,23 +42,9 @@ import { ClaimComponent } from './receive/claim/claim.component';
 import { ReceiveComponent } from './receive/receive/receive.component';
 import { ControlFundingMonitorComponent } from './funding-monitor/control-funding-monitor/control-funding-monitor.component';
 import { ActiveFundingMonitorComponent } from './funding-monitor/active-funding-monitor/active-funding-monitor.component';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
-@NgModule({
-    imports: [
-        CommonModule,
-        AccountRoutingModule,
-        NgxChartsModule,
-        NgbModule,
-        MatchHeightModule,
-        SharedModule,
-        FormsModule,
-        ArchwizardModule,
-        QRCodeModule,
-        NgxDatatableModule,
-        HttpClientModule
-    ],
-    exports: [],
+@NgModule({ exports: [],
     declarations: [
         DetailsComponent,
         ReceiveTabComponent,
@@ -87,13 +73,21 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
         ReceiveComponent,
         ControlFundingMonitorComponent,
         ActiveFundingMonitorComponent
-    ],
-    providers: [
+    ], imports: [CommonModule,
+        AccountRoutingModule,
+        NgxChartsModule,
+        NgbModule,
+        MatchHeightModule,
+        SharedModule,
+        FormsModule,
+        ArchwizardModule,
+        QRCodeModule,
+        NgxDatatableModule], providers: [
         AccountService,
         AssetsService,
         CurrenciesService,
         AliasesService,
-        AddressService
-    ],
-})
+        AddressService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AccountModule { }

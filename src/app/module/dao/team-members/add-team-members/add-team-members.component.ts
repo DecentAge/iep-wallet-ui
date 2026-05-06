@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {WizardComponent} from 'angular-archwizard';
+import {WizardComponent} from '../../../../shared/archwizard';
 import {DaoService} from '../../dao.service';
 import {Founder, TeamMember} from '../../interfaces';
 import {Router} from '@angular/router';
@@ -62,10 +62,10 @@ export class AddTeamMembersComponent implements OnInit, AfterViewInit {
             } else if (!this.currentTeam) {
                 this.router.navigate(['/dao/create-dao/create-team']).then();
             } else {
-                this.wizard.navigation.goToStep(0);
-                this.wizard.navigation.goToStep(1);
-                this.wizard.navigation.goToStep(2);
-                this.wizard.navigation.goToStep(3);
+                setTimeout(() => this.wizard.goToStep(0));
+                setTimeout(() => this.wizard.goToStep(1));
+                setTimeout(() => this.wizard.goToStep(2));
+                setTimeout(() => this.wizard.goToStep(3));
                 this.checkTransactions();
             }
         }

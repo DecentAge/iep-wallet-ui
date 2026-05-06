@@ -4,13 +4,13 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'daos.create-dao.labels.dao-name' | translate}}
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                        <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
                            ngbPopover="{{'daos.create-dao.popovers.dao-name'| translate}}">
                         </i>
                     </label>
                     <div class="input-group m-0 row">
-                        <div class="col-12 pl-0">
+                        <div class="col-12 ps-0">
                             <input type="text" class="form-control" name="name"
                                    [pattern]="alphanumericPattern12"
                                    #name="ngModel"
@@ -33,13 +33,13 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'daos.create-dao.labels.dao-prefix' | translate}}
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                        <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
                            ngbPopover="{{'daos.create-dao.popovers.dao-prefix'| translate}}">
                         </i>
                     </label>
                     <div class="input-group m-0 row">
-                        <div class="col-12 pl-0">
+                        <div class="col-12 ps-0">
                             <input type="text" class="form-control" name="prefix"
                                    [pattern]="alphanumericPatternMax5"
                                    #prefix="ngModel"
@@ -62,22 +62,22 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'common.quantity-label' | translate}}
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                        <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
                            ngbPopover="{{'daos.create-dao.popovers.quantity'| translate}}">
                         </i>
                     </label>
-                    <div class="input-group m-0 row">
-                        <div class="col-10 pl-0">
+                    <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom">
+                        <div class="col-9 ps-0">
                             <input type="number"
-                                   class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                   class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                    name="quantity"
                                    #quantity="ngModel"
                                    [(ngModel)]="createDaoForm.quantity"
                                    placeholder="{{'common.quantity-label' | translate}}"
                                    required>
                         </div>
-                        <div class="col-2 text-right pl-0">
+                        <div class="col-3 text-right ps-0">
                             <span class="input-group-text text-right">{{'daos.create-dao.dao-quantity-unit' | translate}}</span>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
             <div class="col-md-4">
                 <div class="form-group m-0">
                     <label>{{'common.description-label' | translate}}
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                        <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
                            ngbPopover="{{'daos.create-dao.popovers.description'| translate}}">
                         </i>
@@ -117,9 +117,9 @@
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <div class="input-group m-0 row">
-                    <div class="col-8 pl-0">
+                    <div class="col-8 ps-0">
                         <input type="hidden"
-                               class="pl-0 mb-0 pt-0 pb-0 form-control"
+                               class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                name="decimals" #decimals="ngModel"
                                [(ngModel)]="createDaoForm.decimals"
                                placeholder="{{'daos.create-dao.labels.dao-decimals-label' | translate}}"
@@ -128,8 +128,8 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-gradient mr-1 mb-0 mt-4 float-right" (click)="createDAO()"
-                [disabled]="f.invalid">
+        <button type="button" class="btn btn-gradient me-1 mb-0 mt-4 float-end" (click)="createDAO()"
+                [disabled]="f.invalid" [awGoToStep]="{ stepIndex: 2 }">
             {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
         </button>
     </div>

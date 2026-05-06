@@ -134,6 +134,51 @@ export class SendMessageComponent implements OnInit {
           transactionOptions.recipientPublicKey,
           transactionOptions.prunable
         )];
+
+        const send = (singleMessage: boolean) => {
+            forkJoin(requests).subscribe((success_) => {
+                forkJoin(success_).subscribe((success: any[]) => {
+                    success.map((s: any, index ) => {
+                        if (singleMessage) {
+                            if (!s.errorCode) {
+                                const unsignedBytes = s.unsignedTransactionBytes;
+                                const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                                const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+
+                                this.transactionBytes = transactionBytes;
+
+                                this.tx_fee = s.transactionJSON.feeTQT / 100000000;
+                                this.tx_amount = s.transactionJSON.amountTQT / 100000000;
+                                this.tx_total = this.tx_fee + this.tx_amount;
+
+                                this.prunableAttachmentJSON = s.transactionJSON.attachment;
+                                this.prunableAttachmentString = JSON.stringify(s.transactionJSON.attachment);
+
+                                this.validBytes = true;
+
+                                return transactionBytes;
+                            } else {
+                                const title: string = this.commonService.translateAlertTitle('Error');
+                                const errMsg: string = this.commonService.translateErrorMessageParams( 'sorry-error-occurred',
+                                    s);
+                                alertFunctions.InfoAlertBox(title,
+                                    errMsg,
+                                    'OK',
+                                    'error').then(() => {
+                                });
+                            }
+                        } else {
+                            const unsignedBytes = s.unsignedTransactionBytes;
+                            const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                            const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+
+                            this.transactionsToBroadcast.push(transactionBytes);
+                        }
+                    })
+                });
+            });
+        }
+
         if (this.recipientImmutable && this.teamName !== '') {
             this.daoService.getTeamMembers(this.teamName).subscribe(teamMembers => {
                 if (teamMembers.length > 10) {
@@ -237,93 +282,16 @@ export class SendMessageComponent implements OnInit {
                             });
                         }
                     });
-                    forkJoin(requests).subscribe((success_) => {
-                        forkJoin(success_).subscribe((success: any[]) => {
-                            success.map((s: any, index ) => {
-                                if (index === 0) {
-                                    if (!s.errorCode) {
-                                        const unsignedBytes = s.unsignedTransactionBytes;
-                                        const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
-                                        const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
-
-                                        this.transactionBytes = transactionBytes;
-
-                                        this.tx_fee = s.transactionJSON.feeTQT / 100000000;
-                                        this.tx_amount = s.transactionJSON.amountTQT / 100000000;
-                                        this.tx_total = this.tx_fee + this.tx_amount;
-
-                                        this.prunableAttachmentJSON = s.transactionJSON.attachment;
-                                        this.prunableAttachmentString = JSON.stringify(s.transactionJSON.attachment);
-
-                                        this.validBytes = true;
-
-                                        return transactionBytes;
-                                    } else {
-                                        const title: string = this.commonService.translateAlertTitle('Error');
-                                        const errMsg: string = this.commonService.translateErrorMessageParams( 'sorry-error-occurred',
-                                          s);
-                                        alertFunctions.InfoAlertBox(title,
-                                          errMsg,
-                                          'OK',
-                                          'error').then(() => {
-                                        });
-                                    }
-                                } else {
-                                    const unsignedBytes = s.unsignedTransactionBytes;
-                                    const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
-                                    const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
-
-                                    this.transactionsToBroadcast.push(transactionBytes);
-                                }
-                            })
-                        });
-                    });
+                    send(false);
                 });
             });
         } else {
-            this.messageService.sendMessage(
-              transactionOptions.senderPublicKey,
-              transactionOptions.recipientRS,
-              1,
-              transactionOptions.data,
-              transactionOptions.nonce,
-              transactionOptions.recipientPublicKey,
-              transactionOptions.prunable
-            ).subscribe((success_) => {
-                success_.subscribe((success) => {
-                    if (!success.errorCode) {
-                        const unsignedBytes = success.unsignedTransactionBytes;
-                        const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
-                        const transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
-
-                        this.transactionBytes = transactionBytes;
-
-                        this.tx_fee = success.transactionJSON.feeTQT / 100000000;
-                        this.tx_amount = success.transactionJSON.amountTQT / 100000000;
-                        this.tx_total = this.tx_fee + this.tx_amount;
-
-                        this.prunableAttachmentJSON = success.transactionJSON.attachment;
-                        this.prunableAttachmentString = JSON.stringify(success.transactionJSON.attachment);
-
-                        this.validBytes = true;
-
-                        return transactionBytes;
-                    } else {
-                        const title: string = this.commonService.translateAlertTitle('Error');
-                        const errMsg: string = this.commonService.translateErrorMessageParams( 'sorry-error-occurred',
-                          success);
-                        alertFunctions.InfoAlertBox(title,
-                          errMsg,
-                          'OK',
-                          'error').then((isConfirm: any) => {
-                        });
-                    }
-                });
-            });
+            send(true)
         }
     };
 
     getAndVerifyAccount(sendTokenForm) {
+        console.log("HI");
 
         const recipientRS = this.sendMessageForm.recipientRS;
         let fee = 1; // sendForm.fee;
@@ -382,7 +350,6 @@ export class SendMessageComponent implements OnInit {
                         'OK',
                         'error').then(() => {
                         });
-                    return;
                 }
 
                 let encrypted = { data: '', nonce: '' };

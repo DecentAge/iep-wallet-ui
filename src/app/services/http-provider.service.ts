@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Observable ,  of } from 'rxjs';
-import { isArray } from 'util';
 
 @Injectable()
 export class HttpProviderService {
@@ -15,7 +14,7 @@ export class HttpProviderService {
         let params = new HttpParams();
         for (var key in queryParams) {
             if (typeof (queryParams[key]) != "undefined" && queryParams[key] != null) {
-                if (isArray(queryParams[key])) {
+                if (queryParams[key].constructor && queryParams[key].constructor === Array) {
                     queryParams[key].forEach(element => {
                         params = params.append(key, element);
                     });
@@ -37,7 +36,7 @@ export class HttpProviderService {
         let params = new HttpParams();
         for (let key in queryParams) {
             if (typeof (queryParams[key]) != "undefined" && queryParams[key] != null) {
-                if (isArray(queryParams[key])) {
+                if (queryParams[key].constructor && queryParams[key].constructor === Array) {
                     queryParams[key].forEach(element => {
                         params = params.append(key, element);
                     });

@@ -24,22 +24,6 @@ const routes: Routes = [
         component: DaoComponent,
         data: {
             previousRoute: null,
-            nextRoute: 'create-dao/add-founders'
-        }
-    },
-    {
-        path: 'create-dao/add-founders',
-        component: DaoComponent,
-        data: {
-            previousRoute: 'create-dao',
-            nextRoute: 'create-dao/approval-accounts'
-        }
-    },
-    {
-        path: 'create-dao/approval-accounts',
-        component: DaoComponent,
-        data: {
-            previousRoute: 'create-dao/founders',
             nextRoute: 'create-dao/create-team'
         }
     },
@@ -47,7 +31,7 @@ const routes: Routes = [
         path: 'create-dao/create-team',
         component: DaoComponent,
         data: {
-            previousRoute: 'create-dao/approval-accounts',
+            previousRoute: 'create-dao',
             nextRoute: 'create-dao/add-team-members'
         }
     },
@@ -57,6 +41,22 @@ const routes: Routes = [
         data: {
             previousRoute: 'create-dao/create-team',
             nextRoute: null
+        }
+    },
+    {
+        path: 'create-dao/add-founders',
+        component: DaoComponent,
+        data: {
+            previousRoute: 'create-dao/add-team-members',
+            nextRoute: 'create-dao/approval-accounts'
+        }
+    },
+    {
+        path: 'create-dao/approval-accounts',
+        component: DaoComponent,
+        data: {
+            previousRoute: 'create-dao/founders',
+            nextRoute: 'create-dao/create-team'
         }
     },
     {

@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlockTransactionDetailsComponent } from './block-transaction-details.component';
 
@@ -6,7 +7,7 @@ describe('BlockTransactionDetailsComponent', () => {
   let component: BlockTransactionDetailsComponent;
   let fixture: ComponentFixture<BlockTransactionDetailsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ BlockTransactionDetailsComponent ]
     })

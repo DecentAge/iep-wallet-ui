@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {WizardComponent} from 'angular-archwizard';
+import {WizardComponent} from '../../../shared/archwizard';
 import {Founder} from '../interfaces';
 import {DaoService} from '../dao.service';
 import {Router} from '@angular/router';
@@ -35,9 +35,9 @@ export class FoundersComponent implements OnInit, AfterViewInit {
             if (!this.currentTeam) {
                 this.router.navigate(['/dao/create-dao/create-team']).then();
             }
-            this.wizard.navigation.goToStep(0);
-            this.wizard.navigation.goToStep(1);
-            this.wizard.navigation.goToStep(2);
+            setTimeout(() => this.wizard.goToStep(0));
+            setTimeout(() => this.wizard.goToStep(1));
+            setTimeout(() => this.wizard.goToStep(2));
         }
     }
 

@@ -4,11 +4,13 @@
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
     "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -16,7 +18,8 @@
       "es2016",
       "dom"
     ],
-    "module": "es2015"
+    "module": "esnext",
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false

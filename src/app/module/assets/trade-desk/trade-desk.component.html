@@ -72,7 +72,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 d-none">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">{{'assets.trade-desk.asset-chart-title' | translate}}</h3>
@@ -89,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-                <hr class="mt-0 mb-0 ml-3 mr-3">
+                <hr class="mt-0 mb-0 ms-3 me-3">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="card">
@@ -114,10 +114,10 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group m-0">
                                                         <label>{{'common.price-label' | translate}}</label>
-                                                        <div class="input-group ml-0 mr-0 sign_in_inputs row form-border-bottom">
+                                                        <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom">
                                                             <div class="col-9">
                                                                 <input type="number" placeholder="{{'common.price-label' | translate}}"
-                                                                    class="pl-0 mb-0 pt-0 pb-0 form-control" (input)="buyFormOnChange()"
+                                                                    class="ps-0 mb-0 form-control" (input)="buyFormOnChange()"
                                                                     [(ngModel)]="buyOrderForm.price" name="price"
                                                                     #price_buy="ngModel" minValue="0" required>
                                                             </div>
@@ -143,7 +143,7 @@
                                                     <div class="form-group m-0">
                                                         <label>{{'common.quantity-label' |
                                                             translate}}</label>
-                                                        <div class="input-group ml-0 mr-0">
+                                                        <div class="input-group ms-0 me-0">
                                                             <input type="number" placeholder="{{'common.quantity-label' | translate}}"
                                                                 class="form-control" (input)="buyFormOnChange()"
                                                                 [(ngModel)]="buyOrderForm.quantity" name="quantity"
@@ -163,10 +163,10 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group m-0">
                                                         <label>{{'common.total-text' | translate}}</label>
-                                                        <div class="input-group ml-0 mr-0 sign_in_inputs row form-border-bottom">
-                                                            <div class="col-9 pl-0">
+                                                        <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom">
+                                                            <div class="col-9 ps-0">
                                                                 <input type="text" placeholder="{{'common.total-text' | translate}}"
-                                                                    disabled class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                                    disabled class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                     [(ngModel)]="buyOrderForm.totalPrice" name="totalPrice"
                                                                     #totalPrice_buy="ngModel">
                                                             </div>
@@ -253,10 +253,10 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group m-0">
                                                         <label>{{'common.price-label' | translate}}</label>
-                                                        <div class="input-group ml-0 mr-0  sign_in_inputs row form-border-bottom">
+                                                        <div class="input-group ms-0 me-0  sign_in_inputs row form-border-bottom">
                                                             <div class="col-9">
                                                                 <input type="number" placeholder="{{'common.price-label' | translate}}"
-                                                                    class="pl-0 mb-0 pt-0 pb-0 form-control" (input)="sellFormOnChange()"
+                                                                    class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control" (input)="sellFormOnChange()"
                                                                     [(ngModel)]="askOrderForm.price" name="price"
                                                                     #price="ngModel" minValue="0" required>
                                                             </div>
@@ -282,7 +282,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group m-0">
                                                         <label>{{'common.quantity-label' | translate}}</label>
-                                                        <div class="input-group ml-0 mr-0 ">
+                                                        <div class="input-group ms-0 me-0 ">
                                                             <input type="number" placeholder="{{'common.quantity-label' | translate}}"
                                                                 class="form-control" (input)="sellFormOnChange()"
                                                                 [(ngModel)]="askOrderForm.quantity" name="quantity"
@@ -302,10 +302,10 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group m-0">
                                                         <label>{{'common.total-text' | translate}}</label>
-                                                        <div class="input-group ml-0 mr-0  sign_in_inputs row form-border-bottom">
-                                                            <div class="col-9 pl-0">
+                                                        <div class="input-group ms-0 me-0  sign_in_inputs row form-border-bottom">
+                                                            <div class="col-9 ps-0">
                                                                 <input type="text" placeholder="{{'common.total-text' | translate}}"
-                                                                    disabled class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                                    disabled class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                     [(ngModel)]="askOrderForm.totalPrice" name="totalPrice"
                                                                     #totalPrice="ngModel">
                                                             </div>
@@ -370,7 +370,7 @@
                         </div>
                     </div>
                 </div>
-                <hr class="mt-0 mb-0 ml-3 mr-3">
+                <hr class="mt-0 mb-0 ms-3 me-3">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">

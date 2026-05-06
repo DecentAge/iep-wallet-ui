@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DaoTeamPollsComponent } from './dao-team-polls.component';
 
@@ -6,7 +7,7 @@ describe('DaoTeamPollsComponent', () => {
   let component: DaoTeamPollsComponent;
   let fixture: ComponentFixture<DaoTeamPollsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DaoTeamPollsComponent ]
     })

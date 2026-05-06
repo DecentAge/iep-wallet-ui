@@ -8,7 +8,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { SharedModule } from 'app/shared/shared.module';
 import { ReadMessageComponent } from './read-message/read-message.component';
 import { FormsModule } from '@angular/forms';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { AliasesService } from '../aliases/aliases.service';
 import {DaoModule} from 'app/module/dao/dao.module';
 

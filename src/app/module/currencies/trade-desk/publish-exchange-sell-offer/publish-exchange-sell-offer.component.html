@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
                 <div class="card-body">
-                    <div class="card-block mr-3 ml-3">
+                    <div class="card-block me-3 ms-3">
                         <aw-wizard [navBarLayout]="'large-filled-symbols'">
                             <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                                 <form #f="ngForm" class="form inner-form form-bordered" novalidate>
@@ -52,11 +52,11 @@
                                                             container="body" placement="right" ngbPopover="{{'currencies.currency-sell-offer.rate-popover'| translate}}">
                                                         </i>
                                                     </label>
-                                                    <div class="input-group ml-0 mr-0 sign_in_inputs row form-border-bottom">
-                                                        <div class="col-9 pl-0">
+                                                    <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom">
+                                                        <div class="col-9 ps-0">
                                                             <input type="number" placeholder="0" minValue="0" required
                                                                 [(ngModel)]="publishExchangeOfferForm.sellRate" name="sellRate"
-                                                                #sellRate="ngModel" class="pl-0 mb-0 pt-0 pb-0 form-control">
+                                                                #sellRate="ngModel" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control">
                                                         </div>
                                                         <div class="col-3 text-right">
                                                             <span class="input-group-text">
@@ -84,12 +84,12 @@
                                                             container="body" placement="right" ngbPopover="Number of currency units you want to buy.">
                                                         </i>
                                                     </label>
-                                                    <div class="input-group ml-0 mr-0 sign_in_inputs row form-border-bottom">
-                                                        <div class="col-9 pl-0">
+                                                    <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom">
+                                                        <div class="col-9 ps-0">
                                                             <input type="number" placeholder="0" minValue="0" required
                                                                 [(ngModel)]="publishExchangeOfferForm.initialSellSupply"
                                                                 name="initialSellSupply" #initialSellSupply="ngModel"
-                                                                class="pl-0 mb-0 pt-0 pb-0 form-control">
+                                                                class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control">
                                                         </div>
                                                         <div class="col-3 text-right">
                                                             <span class="input-group-text">
@@ -119,15 +119,15 @@
                                                             container="body" placement="right" ngbPopover="{{'common.expiration-height-popover'| translate}}">
                                                         </i>
                                                     </label>
-                                                    <div class="input-group ml-0 mr-0 pt-0 sign_in_inputs row form-border-bottom">
+                                                    <div class="input-group ms-0 me-0 pt-0 sign_in_inputs row form-border-bottom">
                                                         <div class="col-2">
                                                             <span class="input-group-text text-left">
                                                                 {{'common.block-text'| translate}} : {{ currentHeight
                                                                 }}
                                                             </span>
                                                         </div>
-                                                        <div class="col-4 pl-0">
-                                                            <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                        <div class="col-4 ps-0">
+                                                            <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 [(ngModel)]="publishExchangeOfferForm.expirationHeight"
                                                                 name="expirationHeight" [minValue]="accountControl.phasingFinishHeight || 10"
                                                                 [maxValue]="14400" #expirationHeight="ngModel" required
@@ -138,7 +138,7 @@
                                                                 {{ publishExchangeOfferForm.days }} {{'common.days-text'| translate}}
                                                             </span>
                                                         </div>
-                                                        <div class="col-4 pr-1 text-right btn-icon-group">
+                                                        <div class="col-4 pe-1 text-right btn-icon-group">
                                                             <a class="btn btn-primary" (click)="min()">
                                                                 <i class="fa fa-fast-backward"></i>
                                                             </a>
@@ -171,7 +171,7 @@
                                         </div>
                                         <div class="mt-4 left">
                                             <button [disabled]="f.invalid" (click)="publishExchangeOffer()" type="button"
-                                                class="btn btn-gradient mr-1 mb-0 float-right" awNextStep>
+                                                class="btn btn-gradient me-1 mb-0 float-end" awNextStep>
                                                 <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                             </button>
                                         </div>
@@ -227,22 +227,22 @@
                                 </div>
 
                                 <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                    class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                    class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                     <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                                 </button>
                                 <!--  <hr *ngIf="unsignedTx"> -->
                                 <div class="form-group mt-3" *ngIf="unsignedTx">
                                     <div class="position-relative sign_in_inputs">
                                         <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes"
-                                            class="form-control pl-0" name="key"></textarea>
+                                            class="form-control ps-0" name="key"></textarea>
                                     </div>
                                 </div>
                                 <div class="mt-4">
                                     <button type="button" [disabled]="!validBytes" (click)="broadcastTransaction(transactionBytes);"
-                                        class="btn btn-gradient float-right">
+                                        class="btn btn-gradient float-end">
                                         <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                     </button>
                                 </div>

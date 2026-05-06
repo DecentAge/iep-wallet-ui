@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParseTransactionComponent } from './parse-transaction.component';
 
@@ -6,7 +7,7 @@ describe('ParseTransactionComponent', () => {
   let component: ParseTransactionComponent;
   let fixture: ComponentFixture<ParseTransactionComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ParseTransactionComponent ]
     })

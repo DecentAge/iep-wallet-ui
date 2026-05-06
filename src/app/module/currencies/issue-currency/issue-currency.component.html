@@ -5,7 +5,7 @@
         <h4 class="card-title">Create AT</h4>
       </div>
       <div class="card-body">
-        <div class="card-block ml-3 mr-3">
+        <div class="card-block ms-3 me-3">
           <aw-wizard [navBarLayout]="'large-filled-symbols'">
             <aw-wizard-step stepTitle="Details" [navigationSymbol]="{ symbol: '1' }">
               <form class="form">
@@ -39,7 +39,7 @@
                         </div>
                       </div>
                       <div class="form-actions left">
-                        <button type="button" class="btn btn-primary mr-1 mb-0 float-right" awNextStep>
+                        <button type="button" class="btn btn-primary me-1 mb-0 float-end" awNextStep>
                           <i class="fa fa-chevron-right"></i> Next
                         </button>
                       </div>
@@ -115,10 +115,10 @@
                     </div>
                   </div>
                   <div class="form-actions">
-                    <button type="button" class="btn btn-primary mr-1 mb-0 float-right" awNextStep>
+                    <button type="button" class="btn btn-primary me-1 mb-0 float-end" awNextStep>
                       <i class="fa fa-chevron-right"></i> Next
                     </button>
-                    <button type="button" class="btn btn-primary mr-1 float-right" awPreviousStep>
+                    <button type="button" class="btn btn-primary me-1 float-end" awPreviousStep>
                       <i class="fa fa-chevron-left"></i> Previous
                     </button>
                   </div>
@@ -189,10 +189,10 @@
               </div>
               <hr>
               <div class="form-actions">
-                <button type="button" class="btn btn-primary float-right">
+                <button type="button" class="btn btn-primary float-end">
                   <i class="fa fa-check"></i> Finish
                 </button>
-                <button type="button" class="btn btn-primary mr-1 float-right" awPreviousStep>
+                <button type="button" class="btn btn-primary me-1 float-end" awPreviousStep>
                   <i class="fa fa-chevron-left"></i> Previous
                 </button>
               </div>
@@ -214,20 +214,20 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-block ml-3 mr-3">
+                <div class="card-block ms-3 me-3">
                     <aw-wizard [navBarLayout]="'large-filled-symbols'">
                         <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                             <form class="form inner-form" #f1="ngForm" novalidate>
                                 <div class="form-body">
                                     <div class="row mt-4">
                                         <div class="col-md-6">
-                                            <div class="form-group ml-0 mr-0">
+                                            <div class="form-group ms-0 me-0">
                                                 <label>{{'common.name-label'| translate}}
                                                     <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
                                                         container="body" placement="right" ngbPopover="{{'currencies.issue-currency.name-popover'| translate}}">
                                                     </i>
                                                 </label>
-                                                <div class="ml-0 mr-0">
+                                                <div class="ms-0 me-0">
                                                     <input type="text" placeholder="{{'common.name-label'| translate}}"
                                                         class="form-control" [(ngModel)]="issueCurrencyForm.name" name="name"
                                                         #name="ngModel" minlength="3" maxlength="10" required>
@@ -243,7 +243,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group ml-0 mr-0">
+                                            <div class="form-group ms-0 me-0">
                                                 <label>{{'common.code-label'| translate}}
                                                     <i class="fa fa-question-circle-o" triggers="mouseenter:mouseleave"
                                                         container="body" placement="right" ngbPopover="{{'currencies.issue-currency.code-popover'| translate}}">
@@ -286,7 +286,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-4 mb-4 left">
-                                    <button type="button" [disabled]="f1.invalid" (click)="getBlockChainStatus()" class="btn btn-gradient mr-1 mb-0 float-right"
+                                    <button type="button" [disabled]="f1.invalid" (click)="getBlockChainStatus()" class="btn btn-gradient me-1 mb-0 float-end"
                                         awNextStep>
                                         <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                     </button>
@@ -320,7 +320,7 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-10 col-md-11 pl-0">
+                                                    <div class="col-10 col-md-11 ps-0">
                                                         <input type="number" class="form-control" [(ngModel)]="issueCurrencyForm2.decimals"
                                                             name="decimals" #decimals="ngModel" [minValue]="0"
                                                             [maxValue]="4" required>
@@ -359,9 +359,9 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-10 col-md-11 pl-0">
+                                                    <div class="col-10 col-md-11 ps-0">
 
-                                                        <input type="number" placeholder="0" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                        <input type="number" placeholder="0" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                             (input)="onInitialSupplyChange()" [(ngModel)]="issueCurrencyForm2.initialSupply"
                                                             name="initialSupply" #initialSupply="ngModel" [minValue]="1"
                                                             required>
@@ -394,8 +394,8 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-10 col-md-11 pl-0">
-                                                        <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                    <div class="col-10 col-md-11 ps-0">
+                                                        <input type="number" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                             [attr.disabled]="true" [(ngModel)]="issueCurrencyForm2.maxSupply"
                                                             name="maxSupply" #maxSupply="ngModel" [minValue]="1"
                                                             required>
@@ -419,8 +419,8 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-10 col-md-11 pl-0">
-                                                        <input type="number" class="pl-0 mb-0 pt-0 pb-0 form-contro"
+                                                    <div class="col-10 col-md-11 ps-0">
+                                                        <input type="number" class="ps-0 mb-0 pt-0 pb-0 form-contro"
                                                             [(ngModel)]="issueCurrencyForm2.minAmount" name="minAmount">
                                                     </div>
                                                     <div class="col-2 col-md-1">
@@ -439,7 +439,7 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-10 col-md-11 pl-0">
+                                                    <div class="col-10 col-md-11 ps-0">
                                                         <input type="number" class="form-control" [(ngModel)]="issueCurrencyForm2.reserveSupply"
                                                             name="reserveSupply">
                                                     </div>
@@ -460,13 +460,13 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                    <div class="col-10 col-md-11 pl-0">
+                                                    <div class="col-10 col-md-11 ps-0">
                                                         <input type="number" class="form-control" [(ngModel)]="issueCurrencyForm2.activHeight"
                                                             name="activHeight">
                                                     </div>
                                                     <div class="col-2 col-md-1">
                                                         <span class="input-group-text">
-                                                            @{{'common.block-text'| translate}}
+                                                            &#64;{{'common.block-text'| translate}}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -475,11 +475,11 @@
                                     </div>
                                 </div>
                                 <div class="mt-4 mb-4">
-                                    <button type="button" [disabled]="f2.invalid" class="btn btn-gradient mr-1 mb-0 float-right"
+                                    <button type="button" [disabled]="f2.invalid" class="btn btn-gradient me-1 mb-0 float-end"
                                         (click)="issueCurrency()" awNextStep>
                                         <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                     </button>
                                 </div>
@@ -543,7 +543,7 @@
                             </div>
 
                             <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                 <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                             </button>
                             <!--   <hr *ngIf="unsignedTx"> -->
@@ -554,11 +554,11 @@
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-right"
+                                <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-end"
                                     (click)="broadcastTransaction(transactionBytes)">
                                     <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                 </button>
-                                <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                                     <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                 </button>
                             </div>

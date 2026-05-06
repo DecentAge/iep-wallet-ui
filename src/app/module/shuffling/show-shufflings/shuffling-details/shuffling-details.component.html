@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="card-body" *ngIf="shuffle">
-                <div class="card-block mr-3 ml-3">
+                <div class="card-block me-3 ms-3">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="ucsb"> {{'shuffling.shuffling-details.shuffling-id-label'| translate}}
@@ -70,27 +70,31 @@
                     </div>
                     <hr />
                 </div>
-                <div class="card-block mr-3 ml-3">
+                <div class="card-block me-3 ms-3">
                     <div class="row">
                         <div class="col-md-12 col-lg-12">
-                            <ngb-tabset type="pills">
-                                <ngb-tab>
-                                    <ng-template ngbTabTitle>
+                            <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+                                <li [ngbNavItem]="1">
+                                    <button ngbNavLink>
                                         <i class="fa fa-hashtag"></i> {{'transaction-details.full-hash-tab'|
-                                        translate}}</ng-template>
-                                    <ng-template ngbTabContent>
+                                        translate}}
+                                    </button>
+                                    <ng-template ngbNavContent>
                                         <p> {{shuffle.shufflingFullHash}} </p>
                                     </ng-template>
-                                </ngb-tab>
-                                <ngb-tab>
-                                    <ng-template ngbTabTitle>
+                                </li>
+                                <li [ngbNavItem]="2">
+                                    <button ngbNavLink>
                                         <i class="fa fa-hashtag"></i>{{'shuffling.shuffling-details.stage-hash-tab'|
-                                        translate}}</ng-template>
-                                    <ng-template ngbTabContent>
+                                        translate}}
+                                    </button>
+                                    <ng-template ngbNavContent>
                                         <p> {{shuffle.shufflingStateHash}} </p>
                                     </ng-template>
-                                </ngb-tab>
-                            </ngb-tabset>
+                                </li>
+                            </ul>
+
+                            <div [ngbNavOutlet]="nav"></div>
                         </div>
                     </div>
                 </div>

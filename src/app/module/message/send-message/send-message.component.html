@@ -12,7 +12,7 @@
 
                 <div class="card-body">
                     <div class="card-body">
-                        <div class="card-block mr-md-3 ml-md-3">
+                        <div class="card-block me-md-3 ms-md-3">
                             <aw-wizard [navBarLayout]="'large-filled-symbols'">
                                 <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                                     <form #f="ngForm" class="form" name="sendMessageForm" novalidate>
@@ -21,25 +21,25 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>{{'common.recipient-label'| translate}}
-                                                            <i class="fa fa-question-circle-o ml-1 info-yellow"
+                                                            <i class="fa fa-question-circle-o ms-1 info-yellow"
                                                                 container="body" placement="right" triggers="mouseenter:mouseleave"
                                                                 ngbPopover="{{'messages.send-message.recipient-label-popover'| translate}}">
                                                             </i>
 
                                                         </label>
                                                         <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                            <div class="col-7 col-lg-8 pl-0 pr-0">
+                                                            <div class="col-7 col-lg-8 ps-0 pe-0">
                                                                 <input
                                                                         type="text"
                                                                         [(ngModel)]="sendMessageForm.recipientRS"
                                                                         [readOnly]="recipientImmutable"
-                                                                        name="recipientRS" class="pl-0 pt-0 pb-0 form-control"
+                                                                        name="recipientRS" class="ps-0 pt-0 pb-0 form-control"
                                                                         #recipientRS="ngModel" required placeholder="XIN - _____ - _____ - _____ - _____">
                                                             </div>
-                                                            <div class="col-5 col-lg-4 pr-1 pl-0">
+                                                            <div class="col-5 col-lg-4 pe-1 ps-0">
                                                                 <div class="btn-icon-group text-right">
 
-                                                                    <span *isAppEnabled="'Aliases'" class="btn btn-primary mlmr-auto"
+                                                                    <span *isAppEnabled="'Aliases'" class="btn btn-primary mlme-auto"
                                                                         (click)="searchAliases()" triggers="mouseenter:mouseleave"
                                                                         placement="top" container="body" ngbPopover="{{'common.alias-connect-tooltip'| translate}}">
                                                                         <i class="fa fa-share-alt"></i>
@@ -69,14 +69,14 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label>{{'common.type-label'| translate}}
-                                                            <i class="fa fa-question-circle-o ml-1 info-yellow"
+                                                            <i class="fa fa-question-circle-o ms-1 info-yellow"
                                                                 container="body" placement="right" triggers="mouseenter:mouseleave"
                                                                 ngbPopover="{{'messages.send-message.type-label-popover'| translate}}">
                                                             </i>
 
                                                         </label>
                                                         <div class="position-relative sign_in_inputs form-border-bottom">
-                                                            <select name="type" class="form-control mb-1 pl-0" name="prunable"
+                                                            <select name="type" class="form-control mb-1 ps-0" name="prunable"
                                                                 [(ngModel)]="sendMessageForm.prunable">
                                                                 <option value="false">On chain (160 Chars)</option>
                                                                 <option value="true">Off chain (24k Chars)</option>
@@ -94,7 +94,7 @@
                                                 <div class="position-relative sign_in_inputs">
                                                     <textarea rows="3" placeholder="{{'common.message-label'| translate}}"
                                                         name="message" [(ngModel)]="sendMessageForm.message"
-                                                        (ngModelChange)="onChangeMessageInfo()" class="form-control pl-0"></textarea>
+                                                        (ngModelChange)="onChangeMessageInfo()" class="form-control ps-0"></textarea>
                                                 </div>
                                             </div>
                                             <button type="button" [ngClass]="{'btn-success': !hasReceiverPublicKey, 'btn-danger': hasReceiverPublicKey}"
@@ -115,13 +115,13 @@
                                                 <div class="position-relative sign_in_inputs">
                                                     <input type="text" placeholder="{{'messages.send-message.recipient-public-key-label'|
                                                     translate}}"
-                                                        name="pubkey" class="form-control pl-0" [(ngModel)]="sendMessageForm.pubkey">
+                                                        name="pubkey" class="form-control ps-0" [(ngModel)]="sendMessageForm.pubkey">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="mt-4 left">
                                             <button [disabled]="f.invalid" (click)="getAndVerifyAccount(sendMessageForm)"
-                                                type="button" class="btn btn-gradient mr-1 mb-0 float-right" awNextStep>
+                                                type="button" class="btn btn-gradient me-1 mb-0 float-end" awNextStep>
                                                 {{'common.next-btn'| translate}} <i class="fa fa-chevron-right"></i>
                                             </button>
                                         </div>
@@ -175,7 +175,7 @@
                                         </div>
                                     </div>
                                     <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                        class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                        class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                         <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                                     </button>
                                     <button type="button" [ngClass]="{'btn-success': !aMessage, 'btn-danger': aMessage}"
@@ -191,13 +191,13 @@
                                         <label>{{'common.signed-transaction-label'| translate}}</label>
                                         <div class="position-relative sign_in_inputs">
                                             <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes"
-                                                class="form-control pl-0" name="key"></textarea>
+                                                class="form-control ps-0" name="key"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-group" *ngIf="aMessage">
                                         <label>{{'common.encrypted-message-label'| translate}}</label>
                                         <div class="position-relative sign_in_inputs">
-                                            <textarea disabled="true" rows="3" [(ngModel)]="encrypted" class="form-control pl-0"
+                                            <textarea disabled="true" rows="3" [(ngModel)]="encrypted" class="form-control ps-0"
                                                 name="message"></textarea>
                                         </div>
                                     </div>
@@ -205,15 +205,15 @@
                                         <label>{{'common.encrypted-message-label'| translate}}</label>
                                         <div class="position-relative sign_in_inputs">
                                             <textarea disabled="true" rows="3" [(ngModel)]="prunableAttachmentString"
-                                                class="form-control pl-0" name="message"></textarea>
+                                                class="form-control ps-0" name="message"></textarea>
                                         </div>
                                     </div>
                                     <div class="mt-4">
                                         <button type="button" [disabled]="!validBytes" (click)="broadcastMessage(transactionBytes, prunableAttachmentJSON);"
-                                            class="btn btn-gradient float-right">
+                                            class="btn btn-gradient float-end">
                                             <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                         </button>
-                                        <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                        <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                                             <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                         </button>
                                     </div>
@@ -231,7 +231,7 @@
                                     </h5>
                                 </div>
                                 <div class="card-body">
-                                    <div class="card-block ml-3 mr-3">
+                                    <div class="card-block ms-3 me-3">
                                         <h5 class="mb-1">Bookmark List</h5>
                                         <app-bookmark-list [viewFor]="'sendmessage'" (selectEvent)="bookmarkSelected($event)"></app-bookmark-list>
                                     </div>

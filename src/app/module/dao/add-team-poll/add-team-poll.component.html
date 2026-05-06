@@ -9,7 +9,7 @@
                     <app-breadcrumb></app-breadcrumb>
                 </div>
                 <div class="card-body">
-                    <div class="card-block ml-md-3 mr-md-3">
+                    <div class="card-block ms-md-3 me-md-3">
                         <form class="form inner-form mt-5 create-dao-form" #selectDaoTeamsForm="ngForm" novalidate>
                             <div class="form-body">
                                 <app-select-dao-team
@@ -20,7 +20,7 @@
                                         (setDao)="setDao($event)"
                                         (setTeam)="setTeam($event)"
                                 ></app-select-dao-team>
-                                <button type="button" class="btn btn-gradient float-right" (click)="addTeamPoll()"
+                                <button type="button" class="btn btn-gradient float-end" (click)="addTeamPoll()"
                                         [disabled]="!pollWalletRecipient">
                                     {{'daos.add-team-poll.next-btn'| translate}}
                                 </button>

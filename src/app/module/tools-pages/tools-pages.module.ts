@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToolsPagesRoutingModule } from './tools-pages-routing.module';
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import {NgbModule, NgbAccordionDirective, NgbAccordionItem, NgbAccordionModule} from "@ng-bootstrap/ng-bootstrap";
 import { TransactionTypesComponent } from './transaction-types/transaction-types.component';
 import { ServiceFeesComponent } from './service-fees/service-fees.component';
 import { GenerateSignatureComponent } from './generate-signature/generate-signature.component';
@@ -20,7 +20,7 @@ import { ToolsService } from './tools.service';
         CommonModule,
         ToolsPagesRoutingModule,
         FormsModule,
-        NgbModule.forRoot(),
+        NgbModule,
         SharedModule
     ],
     declarations: [

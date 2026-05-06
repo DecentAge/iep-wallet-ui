@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShowDaosComponent } from './show-daos.component';
 
@@ -6,7 +7,7 @@ describe('ShowDaosComponent', () => {
   let component: ShowDaosComponent;
   let fixture: ComponentFixture<ShowDaosComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ShowDaosComponent ]
     })

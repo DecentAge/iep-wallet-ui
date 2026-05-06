@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {WizardComponent} from 'angular-archwizard';
+import {WizardComponent} from '../../../shared/archwizard';
 import {DaoService} from '../dao.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AccountService} from '../../account/account.service';
@@ -90,8 +90,8 @@ export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
             if (!this.currentDao) {
                 this.router.navigate(['/dao/create-dao']).then();
             }
-            this.wizard.navigation.goToStep(0);
-            this.wizard.navigation.goToStep(1);
+            setTimeout(() => this.wizard.goToStep(0));
+            setTimeout(() => this.wizard.goToStep(1));
         }
     }
 

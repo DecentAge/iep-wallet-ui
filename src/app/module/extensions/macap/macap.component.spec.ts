@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MacapComponent } from './macap.component';
 
@@ -6,7 +7,7 @@ describe('MacapComponent', () => {
   let component: MacapComponent;
   let fixture: ComponentFixture<MacapComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ MacapComponent ]
     })

@@ -66,13 +66,13 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <label class="custom-control custom-checkbox ml-2 mt-4" for="issueDaoTokens{{i}}">
+                <label class="custom-control custom-checkbox ms-2 mt-4" for="issueDaoTokens{{i}}">
                     <input type="checkbox" class="custom-control-input" [(ngModel)]="addTeamMemberForm.teamMembers[i].issueDaoToken"
                            [ngModelOptions]="{standalone: true}" id="issueDaoTokens{{i}}">
                     <div class="custom-control-label">
                         {{'daos.add-team-members.issue-dao-tokens' | translate}}
 
-                        <i class="fa fa-question-circle-o ml-1 info-yellow"
+                        <i class="fa fa-question-circle-o ms-1 info-yellow"
                            container="body" placement="right" triggers="mouseenter:mouseleave"
                            ngbPopover="{{'daos.add-team-members.issue-dao-tokens-desc'| translate}}">
                         </i>
@@ -98,16 +98,16 @@
             </div>
         </div>
         <ng-container *ngIf="!!wizard; else outsideOfDao">
-            <button type="button" class="btn btn-gradient float-right" (click)="finishDaoCreation()"
+            <button type="button" class="btn btn-gradient float-end" (click)="finishDaoCreation()"
                     [disabled]="membersForm.invalid || (isPending && addTeamMemberForm.teamMembers.length > 1)">
                 <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
             </button>
-            <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+            <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                 <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
             </button>
         </ng-container>
         <ng-template #outsideOfDao>
-            <button type="button" class="btn btn-gradient float-right" (click)="addTeamMembers()"
+            <button type="button" class="btn btn-gradient float-end" (click)="addTeamMembers()"
                     [disabled]="membersForm.invalid || addTeamMemberForm.teamMembers.length < 1">
                 {{'common.save-btn'| translate}}
             </button>

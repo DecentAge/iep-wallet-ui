@@ -6,7 +6,7 @@ import { NodeService } from '../../../services/node.service';
 import { LocalhostService } from '../../../services/localhost.service';
 import { AppConstants } from '../../../config/constants';
 import * as AlertFunctions from '../../../shared/data/sweet-alerts';
-import { isBoolean } from 'util';
+import {NgbAccordionModule} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-options',
@@ -59,7 +59,7 @@ export class OptionsComponent implements OnInit {
         toJson = toJson || {};
         for (const key in fromJson) {
             if (fromJson.hasOwnProperty(key)) {
-                if (!isNaN(fromJson[key]) && !isBoolean(fromJson[key])) {
+                if (!isNaN(fromJson[key]) && typeof fromJson[key] !== "boolean") {
                     fromJson[key] = parseInt(fromJson[key], 10);
                 }
                 toJson[key] = fromJson[key];

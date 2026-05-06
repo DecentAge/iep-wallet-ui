@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditAliasComponent } from './edit-alias.component';
 
@@ -6,7 +7,7 @@ describe('EditAliasComponent', () => {
   let component: EditAliasComponent;
   let fixture: ComponentFixture<EditAliasComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EditAliasComponent ]
     })
