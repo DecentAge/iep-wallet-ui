@@ -55,16 +55,6 @@ test('create-poll: 3-step wizard broadcasts createPoll and getPoll returns the n
 
   await step1Next.click();
 
-  // The wizard pops a sweetalert2 InfoAlertBox the first time step 2 mounts
-  // ("Enter minimum 1 option(s) & maximum 10 options..."). The modal arrives
-  // ~asynchronously after step 1 Next; wait for it explicitly, then dismiss.
-  // The backdrop intercepts clicks while it's up — failing to dismiss leaves
-  // every subsequent click hanging on actionability.
-  const swalContainer = page.locator('.swal2-container');
-  await swalContainer.waitFor({ state: 'visible', timeout: DEFAULT_TIMEOUT_MS });
-  await page.locator('.swal2-confirm').click();
-  await expect(swalContainer, 'sweetalert2 backdrop did not dismiss after confirm click').toBeHidden({ timeout: DEFAULT_TIMEOUT_MS });
-
   // Step 2 — the poll-options form with the dynamic-array pattern.
   // Defaults: minOptions=1, maxOptions=1, duration=1440. We leave them at
   // defaults and add exactly ONE option so `pollOptions.length === maxOptions`
@@ -87,9 +77,9 @@ test('create-poll: 3-step wizard broadcasts createPoll and getPoll returns the n
   await page.locator('input#options0').blur();
 
   // Step 2 has TWO Next buttons: one with `awNextStep` (rendered when
-  // `isSecondStepValid===true`), one without (when false). Only the first
-  // one advances the wizard. Match by chevron-right; whichever is visible
-  // is the one we want.
+  // `isSecondStepValid===true`), one without (when false). The first click
+  // triggers createPoll() which validates + signs; once isSecondStepValid
+  // flips true the button with awNextStep renders — click it to advance.
   const step2Next = page.locator('button.btn-gradient:has(i.fa-chevron-right)').last();
   await expect(
     step2Next,
@@ -97,7 +87,13 @@ test('create-poll: 3-step wizard broadcasts createPoll and getPoll returns the n
     'may have regressed (min/max bounds, options count, or option text validity)',
   ).toBeEnabled({ timeout: DEFAULT_TIMEOUT_MS });
 
-  await step2Next.click();    // calls createPoll() which signs the POLL_CREATION attachment
+  await step2Next.click();    // calls createPoll() which validates + signs
+
+  // After signing succeeds, isSecondStepValid=true renders the awNextStep button.
+  // Click it to advance the wizard to step 3.
+  const step2Advance = page.locator('button.btn-gradient:has(i.fa-chevron-right)').last();
+  await expect(step2Advance).toBeEnabled({ timeout: DEFAULT_TIMEOUT_MS });
+  await step2Advance.click();
 
   // Step 3 — confirm step renders the entered poll name in <h4>.
   const enteredName = (await pollName.inputValue()).trim();

@@ -72,12 +72,13 @@ export class SidebarComponent implements OnInit {
             return this.id;
         }).get();
 
-        this.loginService.isExpertWallet = !this.isExpertWallet;
+        this.loginService.isExpertWallet = this.isExpertWallet;
         this.loginService.applyChanges();
     }
 
     triggerClick() {
-        $('ui-switch').trigger('click');
+        this.isExpertWallet = !this.isExpertWallet;
+        this.switchWallet();
     }
 
     registerSidebarScripts() {

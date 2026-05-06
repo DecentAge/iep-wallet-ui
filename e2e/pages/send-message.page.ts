@@ -35,7 +35,7 @@ export class SendMessagePage {
     // The "Next" button calls getAndVerifyAccount(sendMessageForm) and
     // advances the angular-archwizard. Class is btn-gradient inside the
     // form-actions row; targeting the right-floated gradient button.
-    this.submit = page.locator('app-send-message button.btn-gradient.float-right').first();
+    this.submit = page.locator('app-send-message button.btn-gradient.float-end').first();
   }
 
   async goto(): Promise<void> {
