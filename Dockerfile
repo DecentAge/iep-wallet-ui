@@ -1,5 +1,5 @@
 # build environment
-FROM node:20-alpine AS node-builder
+FROM node:22-alpine AS node-builder
 WORKDIR /app
 RUN apk add --no-cache git python3 make g++
 RUN apk add --no-cache zip

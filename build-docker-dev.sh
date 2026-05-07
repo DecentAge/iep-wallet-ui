@@ -9,4 +9,4 @@ echo "BASE_DIR=${BASE_DIR}"
 docker run -t --rm \
 -v ${BASE_DIR}:/app \
 -w /app \
-node:20 /bin/bash -c "npm install && npm run build-prod"
+node:22 /bin/bash -c "npm install && npm run build-prod"
