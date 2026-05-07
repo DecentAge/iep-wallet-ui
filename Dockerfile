@@ -11,3 +11,7 @@ RUN npm run build-prod
 
 RUN mkdir -p /build
 RUN cd dist; zip -r /build/iep-wallet-ui.zip ./*
+
+# minimal output image — only the built artifact
+FROM alpine:latest
+COPY --from=node-builder /build/iep-wallet-ui.zip /build/iep-wallet-ui.zip
