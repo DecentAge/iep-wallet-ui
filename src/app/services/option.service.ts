@@ -177,7 +177,6 @@ export class OptionService {
     };
 
     getOption(optionName, publicKey?) {
-        console.log("RETRIEVE OPTION", optionName)
         let options = this.sessionStorageService.getFromSession(AppConstants.baseConfig.SESSION_APP_OPTIONS);
         if (options) {
             if (typeof options[optionName] === 'undefined') {
