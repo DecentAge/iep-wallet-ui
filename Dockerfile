@@ -4,7 +4,7 @@ WORKDIR /app
 RUN apk add --no-cache git python3 make g++
 RUN apk add --no-cache zip
 COPY ["package.json", "package-lock.json*", "./"]
-RUN npm install
+RUN npm ci
 COPY . .
 RUN npm run-script update-version --release_version=$(cat release-version.txt) 
 RUN npm run build-prod
