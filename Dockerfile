@@ -1,5 +1,5 @@
 # build environment
-FROM node:20-alpine AS node-builder
+FROM node:22-alpine AS node-builder
 WORKDIR /app
 RUN apk add --no-cache git python3 make g++
 RUN apk add --no-cache zip
@@ -11,3 +11,7 @@ RUN npm run build-prod
 
 RUN mkdir -p /build
 RUN cd dist; zip -r /build/iep-wallet-ui.zip ./*
+
+# minimal output image — only the built artifact
+FROM alpine:latest
+COPY --from=node-builder /build/iep-wallet-ui.zip /build/iep-wallet-ui.zip
