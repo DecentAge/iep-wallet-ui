@@ -128,7 +128,6 @@ Temporary Items
 
 .idea
 bower_components
-package-lock.json
 
 # Production build directory
 dist
