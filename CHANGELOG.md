@@ -1,3 +1,14 @@
+# Changelog
+
+## [Unreleased]
+
+## [0.4.1] - 2026-06-24
+### Changed
+- Upgraded to Angular 20 (ng-bootstrap 19, TypeScript 5.8) on Node 22; reproducible npm ci builds.
+- Replaced moment with native date handling; refreshed e2e tests; improved local-node handling for devnet.
+
+## [0.3.x and earlier]
+
 # Release 0.3.3
 
 # Release 0.3.2
