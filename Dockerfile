@@ -10,9 +10,9 @@ RUN npm run-script update-version --release_version=$(cat release-version.txt)
 RUN npm run build-prod
 
 RUN mkdir -p /build
-# Angular's `application` builder emits the browser bundle to dist/browser/; zip its
-# CONTENTS so the node serves /wallet/index.html (not /wallet/browser/index.html).
-RUN cd dist/browser && zip -r /build/iep-wallet-ui.zip ./*
+# angular.json sets outputPath.browser="" so the build is flat in dist/ (no browser/
+# subdir) — the node then serves the wallet at /wallet/index.html.
+RUN cd dist && zip -r /build/iep-wallet-ui.zip ./*
 
 # minimal output image — only the built artifact
 FROM alpine:latest
