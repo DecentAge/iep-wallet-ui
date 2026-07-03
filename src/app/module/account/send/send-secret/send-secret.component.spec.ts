@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SendSecretComponent } from './send-secret.component';
 
@@ -6,7 +7,7 @@ describe('SendSecretComponent', () => {
   let component: SendSecretComponent;
   let fixture: ComponentFixture<SendSecretComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SendSecretComponent ]
     })

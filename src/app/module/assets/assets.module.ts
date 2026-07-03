@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { FormsModule } from '@angular/forms';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -30,7 +30,6 @@ import { DeleteSharesComponent } from './show-assets/assets/delete-shares/delete
 import { DeleteAssetComponent } from './show-assets/assets/delete-asset/delete-asset.component';
 import { DividentHistoryComponent } from './show-assets/assets/divident-history/divident-history.component';
 import {QuantityToSharePipe} from '../../pipes/quantity-to-share.pipe';
-import {AmChartsService} from '@amcharts/amcharts3-angular';
 import {NumericalStringPipe} from '../../pipes/numerical-string.pipe';
 import { TradeDeskSellAssetComponent } from './trade-desk/trade-desk-sell-asset/trade-desk-sell-asset.component';
 import { TradeDeskBuyAssetComponent } from './trade-desk/trade-desk-buy-asset/trade-desk-buy-asset.component';
@@ -94,9 +93,7 @@ import {PricePerShareBuyOrderPipe} from '../../pipes/price-per-share-buy-order.p
         RateTqtToPricePipe,
         PricePerShareSellOrderPipe,
         PricePerShareBuyOrderPipe,
-        AmChartsService
-    ],
-    entryComponents: [ShowAssetsComponent],
+    ]
 })
 export class AssetsModule {
 }

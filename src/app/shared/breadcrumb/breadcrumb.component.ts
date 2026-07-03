@@ -139,7 +139,17 @@ export class BreadcrumbComponent implements OnInit {
         'stop-shuffling': 'Stop Shuffling',
         'publish-exchange-offer': 'Publish Exchange Offer',
         'publish-exchange-buy-offer': 'Publish Exchange Buy Offer',
-        'publish-exchange-sell-offer': 'Publish Exchange Sell Offer'
+        'publish-exchange-sell-offer': 'Publish Exchange Sell Offer',
+        'dao': 'DAOs',
+        'create-dao': 'Create DAO',
+        'add-founders': 'Founders',
+        'approval-accounts': 'Approval Accounts',
+        'create-team': 'Create Team',
+        'team-members': 'Team Members',
+        'show-daos': 'Show DAOs',
+        'create-teams': 'Create Teams',
+        'add-team-members': 'Add Team Members',
+        'dao-approval-accounts': 'Approval Accounts'
     };
     @Input()
     routeChange: Subject<any>;

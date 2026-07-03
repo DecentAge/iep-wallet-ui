@@ -6,7 +6,7 @@ import { MySellOffersComponent } from './my-sell-offers/my-sell-offers.component
 import { BuyOffersComponent } from './buy-offers/buy-offers.component';
 import { CreateAliasComponent } from './create-alias/create-alias.component';
 import { UiSwitchModule } from 'ngx-ui-switch';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { AliasesService } from './aliases.service';
 import { FormsModule } from '@angular/forms';

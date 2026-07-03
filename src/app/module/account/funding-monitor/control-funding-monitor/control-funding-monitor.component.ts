@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CurrenciesService } from '../../../currencies/currencies.service';
 import { AssetsService } from '../../../assets/assets.service';
-import { OptionService } from '../../../../services/option.service';
 import { AccountService } from '../../account.service';
+import { NodeService } from '../../../../services/node.service';
 import * as alertFunctions from '../../../../shared/data/sweet-alerts';
 import { AmountToQuantPipe } from '../../../../pipes/amount-to-quant.pipe';
 import { ShareToQuantityPipe } from '../../../../pipes/share-to-quantity.pipe';
 import { CommonService } from '../../../../services/common.service';
-import {AppConstants} from '../../../../config/constants';
 
 @Component({
     selector: 'app-control-funding-monitor',
@@ -19,13 +18,12 @@ export class ControlFundingMonitorComponent implements OnInit {
 
     holdingOptions: any = [];
     fundingMonitorForm: any;
-    hasLocal: boolean = false;
-    connectionMode: string;
+    isLocal = false;
 
     constructor(private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
-        private optionService: OptionService,
+        private nodeService: NodeService,
         private assetsService: AssetsService,
         private currenciesService: CurrenciesService,
         private commonService: CommonService) {
@@ -46,21 +44,7 @@ export class ControlFundingMonitorComponent implements OnInit {
         };
     }
     ngOnInit() {
-        this.hasLocal = this.connectionMode === 'LOCAL_HOST';
-        this.displayNotificationAlert();
-    }
-
-    displayNotificationAlert() {
-        if (AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT !== 'testnet') {
-            let title: string = this.commonService.translateAlertTitle('Error');
-            let errMsg: string = this.commonService.translateInfoMessage('block-generation-localhost-error-msg');
-            alertFunctions.InfoAlertBox(title,
-                errMsg,
-                'OK',
-                'error');
-        } else {
-            this.hasLocal = true;
-        }
+        this.isLocal = this.nodeService.isLocalNode();
     }
 
     getAsset(assetId) {

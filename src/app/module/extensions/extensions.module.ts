@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from "../../shared/shared.module";
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -23,25 +23,14 @@ import { ReadNewsComponent } from './news-center/read-news/read-news.component';
 import { NewsCenterService } from "./news-center/news-center.service";
 import { BlockTransactionsPipe } from "../../pipes/block-transactions.pipe";
 import { SearchTermPipe } from "../../pipes/search-term.pipe";
-import { ChartsModule  } from "ng2-charts";
+import { NgChartsModule  } from "ng2-charts";
 import { AllComponent } from './overview/all/all.component';
 import { OnlineComponent } from './overview/online/online.component';
 import { DevelopmentComponent } from './overview/development/development.component';
 import { ConceptComponent } from './overview/concept/concept.component';
 import { PocComponent } from './overview/poc/poc.component';
 
-@NgModule({
-    imports: [
-        CommonModule,
-        ExtensionsRoutingModule,
-        SharedModule,
-        FormsModule,
-        HttpClientModule,
-        NgxDatatableModule,
-        ChartsModule,
-        NgbModule.forRoot()
-    ],
-    declarations: [
+@NgModule({ declarations: [
         OverviewComponent,
         MacapComponent,
         UpDownPipe,
@@ -62,9 +51,14 @@ import { PocComponent } from './overview/poc/poc.component';
         DevelopmentComponent,
         ConceptComponent,
         PocComponent
-    ],
-    providers: [
-        NewsCenterService
-    ]
-})
+    ], imports: [CommonModule,
+        ExtensionsRoutingModule,
+        SharedModule,
+        FormsModule,
+        NgxDatatableModule,
+        NgChartsModule,
+        NgbModule], providers: [
+        NewsCenterService,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class ExtensionsModule {}

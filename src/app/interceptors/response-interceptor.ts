@@ -1,27 +1,13 @@
 
 import {of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from "@angular/core";
-import {
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
-  HttpEvent,
-  HttpResponse,
-  HttpErrorResponse,
-  HttpClient,
-  HttpHeaders,
-  HttpParams
-} from "@angular/common/http";
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse, HttpErrorResponse, HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { CommonService } from "../services/common.service";
 import { SessionStorageService } from "../services/session-storage.service";
 import { PeerService } from "../services/peer.service";
 import { OptionsConfigurationService } from "../services/options-configuration.service";
 import { AppConstants } from "../config/constants";
-import { map } from 'rxjs/operators';
-import "rxjs/add/operator/do";
-import "rxjs/add/observable/throw";
-import "rxjs/add/operator/catch";
-import "rxjs/add/observable/of";
+import { map, catchError } from 'rxjs/operators';
 import * as alertFunctions from "../shared/data/sweet-alerts";
 
 @Injectable()
@@ -87,8 +73,8 @@ export class ResponseInterceptor implements HttpInterceptor {
           });
           return response;
         }
-      }))
-      .catch(response => {
+      })).pipe(
+      catchError(response => {
         console.log(response);
         if (response instanceof HttpErrorResponse) {
           var url = req.url;
@@ -161,6 +147,6 @@ export class ResponseInterceptor implements HttpInterceptor {
           .then((isConfirm: any) => {});
 
         return observableOf(response);
-      });
+      }));
   }
 }

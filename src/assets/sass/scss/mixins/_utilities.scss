@@ -1,109 +1,97 @@
-@function calc-top($line-height-base, $font-size, $component-height) {
-  @return (($line-height-base * $font-size) - $component-height) / 2; // vertical center of line-height
-}
+// Utility generator
+// Used to generate utilities & print utilities
+@mixin generate-utility($utility, $infix: "", $is-rfs-media-query: false) {
+  $values: map-get($utility, values);
 
-// Emulate the less #contrast function
-// TODO: this may be useful for the inverse theme, but if not, remove (it is unused after the removal of fullpalette)
-// contrast-color and brightness borrowed from compass
-// Copyright (c) 2009-2014 Christopher M. Eppstein
-// Complies with license: https://github.com/Compass/compass/blob/stable/LICENSE.markdown
-@function contrast-color($color, $dark: $contrasted-dark-default, $light: $contrasted-light-default, $threshold: null) {
-  @if $threshold {
-    // Deprecated in Compass 0.13
-    @warn "The $threshold argment to contrast-color is no longer needed and will be removed in the next release.";
+  // If the values are a list or string, convert it into a map
+  @if type-of($values) == "string" or type-of(nth($values, 1)) != "list" {
+    $values: zip($values, $values);
   }
 
-  @if $color == null {
-    @return null;
-  } @else {
-    $color-brightness: brightness($color);
-    $dark-text-brightness: brightness($dark);
-    $light-text-brightness: brightness($light);
-    @return if(abs($color-brightness - $light-text-brightness) > abs($color-brightness - $dark-text-brightness), $light, $dark);
-  }
-}
+  @each $key, $value in $values {
+    $properties: map-get($utility, property);
 
-@function brightness($color) {
-  @if type-of($color) == color {
-    @return (red($color) * 0.299 + green($color) * 0.587 + blue($color) * 0.114) / 255 * 100%;
-  } @else {
-    @return unquote("brightness(#{$color})");
-  }
-}
-
-@mixin set-background-color($color){
-  background-color: $color;
-  @include set-sidebar-background($color);
-  @include set-font-icon-color($color);
-}
-
-@mixin set-active-color($color){
-  background-color: $color;
-}
-
-@mixin set-sidebar-background($color){
-  $overlay-opacity: .9;
-  @if $color == #000000 {
-    $overlay-opacity: .8;
-  }
-
-  .sidebar-background{
-    &:after{
-      background: $color;
-      opacity: $overlay-opacity;
+    // Multiple properties are possible, for example with vertical or horizontal margins or paddings
+    @if type-of($properties) == "string" {
+      $properties: append((), $properties);
     }
-  } 
-}
 
-@mixin set-gradient-background-color($start-color, $end-color){
-  @include gradient-directional($start-color, $end-color);
-  $overlay-opacity: .9;
-  .sidebar-background{
-    &:after{
-      @include gradient-directional($start-color, $end-color);
-      opacity: $overlay-opacity;
-    }
-  }
-  @include set-font-icon-color($start-color);
-}
+    // Use custom class if present
+    $property-class: if(map-has-key($utility, class), map-get($utility, class), nth($properties, 1));
+    $property-class: if($property-class == null, "", $property-class);
 
-@mixin set-font-icon-color($color){
-  $sidebar-font-color : $white;
-  @if $color == #ffffff {
-    $sidebar-font-color: $black;
-  }
+    // Use custom CSS variable name if present, otherwise default to `class`
+    $css-variable-name: if(map-has-key($utility, css-variable-name), map-get($utility, css-variable-name), map-get($utility, class));
 
-  .navigation i, .navigation li > a{
-    color: $sidebar-font-color;
-  }
+    // State params to generate pseudo-classes
+    $state: if(map-has-key($utility, state), map-get($utility, state), ());
 
-  .logo-text{
-    color: $sidebar-font-color;
-  }
+    $infix: if($property-class == "" and str-slice($infix, 1, 1) == "-", str-slice($infix, 2), $infix);
 
-  .sidebar-header a.nav-toggle{
-    color: $sidebar-font-color;
-  }
+    // Don't prefix if value key is null (e.g. with shadow class)
+    $property-class-modifier: if($key, if($property-class == "" and $infix == "", "", "-") + $key, "");
 
-  .sidebar-header a.nav-close{
-    color: $sidebar-font-color;
-  }
-}
+    @if map-get($utility, rfs) {
+      // Inside the media query
+      @if $is-rfs-media-query {
+        $val: rfs-value($value);
 
-@mixin set-anchor-color($color){
-  .navigation{
-    li{
-      a{
-        color: $color;
+        // Do not render anything if fluid and non fluid values are the same
+        $value: if($val == rfs-fluid-value($value), null, $val);
+      }
+      @else {
+        $value: rfs-fluid-value($value);
       }
     }
-  }
-}
-@mixin set-logo-text-color($color){
-  .logo-text{
-    color: $color;
-  }
-  .sidebar-header a.nav-toggle{
-    color: $color;
+
+    $is-css-var: map-get($utility, css-var);
+    $is-local-vars: map-get($utility, local-vars);
+    $is-rtl: map-get($utility, rtl);
+
+    @if $value != null {
+      @if $is-rtl == false {
+        /* rtl:begin:remove */
+      }
+
+      @if $is-css-var {
+        .#{$property-class + $infix + $property-class-modifier} {
+          --#{$prefix}#{$css-variable-name}: #{$value};
+        }
+
+        @each $pseudo in $state {
+          .#{$property-class + $infix + $property-class-modifier}-#{$pseudo}:#{$pseudo} {
+            --#{$prefix}#{$css-variable-name}: #{$value};
+          }
+        }
+      } @else {
+        .#{$property-class + $infix + $property-class-modifier} {
+          @each $property in $properties {
+            @if $is-local-vars {
+              @each $local-var, $variable in $is-local-vars {
+                --#{$prefix}#{$local-var}: #{$variable};
+              }
+            }
+            #{$property}: $value if($enable-important-utilities, !important, null);
+          }
+        }
+
+        @each $pseudo in $state {
+          .#{$property-class + $infix + $property-class-modifier}-#{$pseudo}:#{$pseudo} {
+            @each $property in $properties {
+              @if $is-local-vars {
+                @each $local-var, $variable in $is-local-vars {
+                  --#{$prefix}#{$local-var}: #{$variable};
+                }
+              }
+              #{$property}: $value if($enable-important-utilities, !important, null);
+            }
+          }
+        }
+      }
+
+      @if $is-rtl == false {
+        /* rtl:end:remove */
+      }
+    }
   }
 }

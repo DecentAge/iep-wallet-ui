@@ -44,3 +44,63 @@
 .short-links.disabled{
   pointer-events: none;
 }
+
+.connected-url-display {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem 0.75rem 1.25rem;
+  background: rgba(231, 45, 69, 0.04);
+  border-radius: 0 4px 4px 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 2px 0 0 2px;
+    background: linear-gradient(to bottom, #e72d45, #f3931b);
+  }
+
+  .connected-url-label {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6c757d;
+    white-space: nowrap;
+
+    i {
+      margin-left: 4px;
+    }
+  }
+
+  .connected-url-value {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+
+    .connected-url-icon {
+      flex-shrink: 0;
+      background: linear-gradient(to right, #e72d45, #f3931b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 1rem;
+    }
+
+    code {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #495057;
+      background: transparent;
+      padding: 0;
+      word-break: break-all;
+    }
+  }
+}

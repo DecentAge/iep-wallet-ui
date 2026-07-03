@@ -2,14 +2,12 @@
     <h3 class="card-title">{{'account.funding-monitor.control-tab-title'| translate}}</h3>
 </div>
 <div class="card-body">
-    <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+    <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
         <form class="form inner-form" #startFundingMonitorForm="ngForm">
             <div class="form-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <p class="alert alert-info readonly-note">
-                            {{'account.funding-monitor.control-tab-note'| translate}}
-                        </p>
+                        <app-local-node-notice></app-local-node-notice>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -22,6 +20,11 @@
                             <input type="text" class="form-control" name="property" #property="ngModel" [(ngModel)]="fundingMonitorForm.property"
                                 id="property" placeholder="{{'account.funding-monitor.account-property-label'| translate}}"
                                 required>
+                            <div *ngIf="property?.invalid && (property?.dirty || property?.touched)" class="input-error">
+                                <div *ngIf="property?.errors?.required">
+                                    {{'account.funding-monitor.property-required'| translate}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -31,7 +34,15 @@
                                     container="body" ngbPopover="{{'account.funding-monitor.amount-popover'| translate}}"></i>
                             </label>
                             <input type="number" class="form-control" name="amount" #amount="ngModel" [(ngModel)]="fundingMonitorForm.amount"
-                                id="amount" placeholder="" required>
+                                id="amount" placeholder="" required minValue="1">
+                            <div *ngIf="amount?.invalid && (amount?.dirty || amount?.touched)" class="input-error">
+                                <div *ngIf="amount?.errors?.required">
+                                    {{'account.funding-monitor.amount-required'| translate}}
+                                </div>
+                                <div *ngIf="amount?.errors?.minValue && !amount?.errors?.required">
+                                    {{'account.funding-monitor.amount-greater'| translate}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,7 +55,15 @@
                                     container="body" ngbPopover="{{'account.funding-monitor.threshold-popover'| translate}}"></i>
                             </label>
                             <input type="number" class="form-control" name="threshold" #threshold="ngModel" [(ngModel)]="fundingMonitorForm.threshold"
-                                id="threshold" placeholder="" min="10" required>
+                                id="threshold" placeholder="" minValue="10" required>
+                            <div *ngIf="threshold?.invalid && (threshold?.dirty || threshold?.touched)" class="input-error">
+                                <div *ngIf="threshold?.errors?.required">
+                                    {{'account.funding-monitor.threshold-required'| translate}}
+                                </div>
+                                <div *ngIf="threshold?.errors?.minValue && !threshold?.errors?.required">
+                                    {{'account.funding-monitor.threshold-minimum'| translate}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -54,7 +73,15 @@
                                     container="body" ngbPopover="{{'account.funding-monitor.interval-popover'| translate}}"></i>
                             </label>
                             <input type="number" class="form-control" name="interval" #interval="ngModel" [(ngModel)]="fundingMonitorForm.interval"
-                                id="interval" placeholder="" min="10" required>
+                                id="interval" placeholder="" minValue="10" required>
+                            <div *ngIf="interval?.invalid && (interval?.dirty || interval?.touched)" class="input-error">
+                                <div *ngIf="interval?.errors?.required">
+                                    {{'account.funding-monitor.interval-required'| translate}}
+                                </div>
+                                <div *ngIf="interval?.errors?.minValue && !interval?.errors?.required">
+                                    {{'account.funding-monitor.interval-minimum'| translate}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -106,6 +133,11 @@
                             <input type="password" class="form-control" name="adminPassword" #adminPassword="ngModel"
                                 [(ngModel)]="fundingMonitorForm.adminPassword" id="adminPassword" placeholder="{{'account.funding-monitor.admin-password-label'| translate}}"
                                 required>
+                            <div *ngIf="adminPassword?.invalid && (adminPassword?.dirty || adminPassword?.touched)" class="input-error">
+                                <div *ngIf="adminPassword?.errors?.required">
+                                    {{'account.funding-monitor.admin-password-required'| translate}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -117,12 +149,18 @@
                             <input type="password" class="form-control" name="secretPhrase" #secretPhrase="ngModel"
                                 [(ngModel)]="fundingMonitorForm.secretPhrase" id="secretPhrase" placeholder="{{'common.secret-phrase-label'| translate}}"
                                 required>
+                            <div *ngIf="secretPhrase?.invalid && (secretPhrase?.dirty || secretPhrase?.touched)" class="input-error">
+                                <div *ngIf="secretPhrase?.errors?.required">
+                                    {{'account.funding-monitor.secret-phrase-required'| translate}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="mt-4 left">
-                <button type="button" class="btn btn-gradient" [disabled]="hasLocal === false || !startFundingMonitorForm.valid || fundingMonitorForm.interval < 10 || fundingMonitorForm.threshold < 10"
+                <button type="button" class="btn btn-gradient" id="startFundingMonitorBtn"
+                    [disabled]="!isLocal || !startFundingMonitorForm.valid"
                     (click)="fundingMonitorActions()">
                     <i class="fa fa-play"></i>{{'account.funding-monitor.start-btn'| translate}}
                 </button>

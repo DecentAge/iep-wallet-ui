@@ -12,6 +12,7 @@ export class ShufflingDetailsComponent implements OnInit {
 
   shufflingId:any;
   shuffle:any;
+  activeTab: any = 1;
 
   constructor(public activatedRoute: ActivatedRoute,
               private _location: Location,

@@ -1,9 +1,15 @@
 import { RouteInfo } from './sidebar.metadata';
 
-//Sidebar menu Routes and data
+// Sidebar menu Routes and data
 export const ROUTES: RouteInfo[] = [
     // {
-    //     path: '/dashboard', title: 'Dashboard', icon: 'fa fa-home', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: []
+    //   path: '/dashboard',
+    //   title: 'Dashboard',
+    //   icon: 'fa fa-home',
+    //   class: '', badge: '',
+    //   badgeClass: '',
+    //   isExternalLink: false,
+    //   submenu: []
     // },
     {
         path: '',
@@ -24,7 +30,16 @@ export const ROUTES: RouteInfo[] = [
                 isExternalLink: false,
                 submenu: []
             },
-            { path: '/account/send', title: 'Send XIN', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            {
+                path: '/account/send',
+                title: 'Send XIN',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
             {
                 path: '/account/receive-tab',
                 title: 'Receive XIN',
@@ -179,6 +194,101 @@ export const ROUTES: RouteInfo[] = [
                 submenu: []
             },
         ]
+    },
+    {
+        path: '/dao',
+        title: 'DAOs',
+        icon: 'icon-assets',
+        class: 'has-sub',
+        badge: '',
+        badgeClass: '',
+        isExternalLink: false,
+        submenu: [
+            {
+                path: '/dao/show-daos',
+                title: 'Show DAOs',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+            {
+                path: '/dao/create-dao',
+                title: 'Create DAO',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+            {
+                path: '/dao/create-teams',
+                title: 'Create Teams',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+            {
+                path: '/dao/add-team-members',
+                title: 'Add Team Members',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+            {
+                path: '/dao/voting',
+                title: 'Voting',
+                icon: '',
+                class: 'has-sub',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: [
+                    {
+                        path: '/dao/show-polls',
+                        title: 'Show DAO Polls',
+                        icon: '',
+                        class: '',
+                        badge: '',
+                        badgeClass: '',
+                        isExternalLink: false,
+                        submenu: [],
+                        includeAccountRs: true
+                    },
+                    {
+                        path: '/dao/add-team-poll',
+                        title: 'Add Team Poll',
+                        icon: '',
+                        class: '',
+                        badge: '',
+                        badgeClass: '',
+                        isExternalLink: false,
+                        submenu: []
+                    },
+                ]
+            },
+            {
+                path: '/dao/approval-accounts',
+                title: 'Approval Accounts',
+                icon: '',
+                class: '',
+                badge: '',
+                badgeClass: '',
+                isExternalLink: false,
+                submenu: []
+            },
+        ],
+        isSwapp: true,
+        appName: 'DAOs'
     },
     {
         path: '/assets',
@@ -599,7 +709,7 @@ export const ROUTES: RouteInfo[] = [
             },
         ],
         appName: 'Shuffling'
-    },/*
+    },
     {
         path: '/wallet-settings/options',
         title: 'Options',
@@ -609,7 +719,7 @@ export const ROUTES: RouteInfo[] = [
         badgeClass: '',
         isExternalLink: false,
         submenu: []
-    },*/
+    },
     {
         path: '/tools',
         title: 'Tools',

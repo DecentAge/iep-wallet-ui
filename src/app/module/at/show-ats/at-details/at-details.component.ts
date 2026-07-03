@@ -11,6 +11,7 @@ export class AtDetailsComponent implements OnInit {
 
   atId:any;
   atDetails:any;
+  activeTab: any = 1;
 
   constructor(public activatedRoute: ActivatedRoute,
               private _location: Location,

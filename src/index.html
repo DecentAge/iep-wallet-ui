@@ -9,8 +9,8 @@
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
   <link href="assets/fonts/feather/style.min.css" rel="stylesheet">
   <link href="assets/fonts/simple-line-icons/style.css" rel="stylesheet">
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="assets/vendor/pace/themes/black/pace-theme-flash.css"/>
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
   <style type="text/css">
     .pace .pace-activity {
       top: 19px;
@@ -85,12 +85,18 @@
       opacity: 1;
       z-index: 1;
     }
+    .testing {
+      filter: hue-rotate(200deg) !important;
+    }
+    .swal2-popup .swal2-actions {
+        width: 100%;
+    }
   </style>
   <script type="text/javascript" src="env.config.js"></script>
 </head>
 <body>
   <app-root></app-root>
-  <div class="page-loading">
+  <div class="page-loading" id="page-loading">
     <div class="loading-icon"></div>
   </div>
   <script type="text/javascript">

@@ -5,62 +5,66 @@ import { Routes, RouterModule } from '@angular/router';
 export const FULL_ROUTES: Routes = [
     {
         path: 'dashboard',
-        loadChildren: './module/dashboard/dashboard.module#DashboardModule'
+        loadChildren: () => import('../../module/dashboard/dashboard.module').then(m => m.DashboardModule)
     },
     {
         path: 'account',
-        loadChildren: './module/account/account.module#AccountModule'
+        loadChildren: () => import('../../module/account/account.module').then(m => m.AccountModule)
     },
     {
         path: 'messages',
-        loadChildren: './module/message/message.module#MessageModule'
+        loadChildren: () => import('../../module/message/message.module').then(m => m.MessageModule)
     },
     {
         path: 'voting',
-        loadChildren: './module/voting/voting.module#VotingModule'
+        loadChildren: () => import('../../module/voting/voting.module').then(m => m.VotingModule)
     },
     {
         path: 'wallet-settings',
-        loadChildren: './module/swapps/swapps.module#SwappsModule'
+        loadChildren: () => import('../../module/swapps/swapps.module').then(m => m.SwappsModule)
     },
     {
         path: 'assets',
-        loadChildren: './module/assets/assets.module#AssetsModule'
+        loadChildren: () => import('../../module/assets/assets.module').then(m => m.AssetsModule)
     },
     {
         path: 'aliases',
-        loadChildren: './module/aliases/aliases.module#AliasesModule'
+        loadChildren: () => import('../../module/aliases/aliases.module').then(m => m.AliasesModule)
     },
     {
         path: 'at',
-        loadChildren: './module/at/at.module#AtModule'
+        loadChildren: () => import('../../module/at/at.module').then(m => m.AtModule)
     },
     {
         path: 'crowdfunding',
-        loadChildren: './module/crowdfunding/crowdfunding.module#CrowdfundingModule'
+        loadChildren: () => import('../../module/crowdfunding/crowdfunding.module').then(m => m.CrowdfundingModule)
     },
     {
         path: 'subscriptions',
-        loadChildren: './module/subscriptions/subscriptions.module#SubscriptionsModule'
+        loadChildren: () => import('../../module/subscriptions/subscriptions.module').then(m => m.SubscriptionsModule)
     },
     {
         path: 'escrow',
-        loadChildren: './module/escrow/escrow.module#EscrowModule'
+        loadChildren: () => import('../../module/escrow/escrow.module').then(m => m.EscrowModule)
     },
     {
         path: 'shuffling',
-        loadChildren: './module/shuffling/shuffling.module#ShufflingModule'
+        loadChildren: () => import('../../module/shuffling/shuffling.module').then(m => m.ShufflingModule)
     },
     {
         path: 'currencies',
-        loadChildren: './module/currencies/currencies.module#CurrenciesModule'
+        loadChildren: () => import('../../module/currencies/currencies.module').then(m => m.CurrenciesModule)
     },
     {
         path: 'tool',
-        loadChildren: './module/tools-pages/tools-pages.module#ToolsPagesModule'
+        loadChildren: () => import('../../module/tools-pages/tools-pages.module').then(m => m.ToolsPagesModule)
     },
     {
         path: 'tools',
-        loadChildren: './module/extensions/extensions.module#ExtensionsModule'
+        loadChildren: () => import('../../module/extensions/extensions.module').then(m => m.ExtensionsModule)
+    },
+    {
+        path: 'dao',
+        loadChildren: () => import('../../module/dao/dao.module').then(m => m.DaoModule)
     }
 ];

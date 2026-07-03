@@ -4,17 +4,21 @@ import { FormsModule } from '@angular/forms';
 import { SwappsRoutingModule } from './swapps-routing.module';
 import { WalletSettingsComponent } from './wallet-settings/swapps-settings.component';
 import { OptionsComponent } from './options/options.component';
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModule, NgbAccordionModule, NgbAccordionDirective, NgbAccordionItem } from "@ng-bootstrap/ng-bootstrap";
 import {SharedModule} from "../../shared/shared.module";
 @NgModule({
     imports: [
         CommonModule,
         SwappsRoutingModule,
         FormsModule,
-        NgbModule.forRoot(),
-        SharedModule
+        NgbModule,
+        SharedModule,
+        NgbAccordionModule,
+        NgbAccordionDirective,
+        NgbAccordionItem
     ],
-    declarations: [WalletSettingsComponent, OptionsComponent]
+    declarations: [WalletSettingsComponent, OptionsComponent],
+    providers: [NgbModule, NgbAccordionModule, NgbAccordionDirective, NgbAccordionItem]
 })
 export class SwappsModule {
 }

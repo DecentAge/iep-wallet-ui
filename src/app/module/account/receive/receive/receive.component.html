@@ -2,17 +2,17 @@
     <h3 class="card-title">{{'account.receive-xin.receive-xin-title'| translate}}</h3>
 </div>
 <div class="card-body">
-    <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+    <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
         <div class="row" id="print-section">
             <div class="col-sm-12">
-                <qrcode [qrdata]="accountRs" [size]="160" [level]="'M'"></qrcode>
+                <qrcode [qrdata]="accountRs" [width]="160" [errorCorrectionLevel]="'M'"></qrcode>
                 <p class="font-medium-1 text-center text-danger qr-address mt-4 mb-1">{{'account.receive-xin.xin-wallet-address-label'|
                     translate}}</p>
                 <p class="font-small-1 text-center mt-1 mb-0 qr-note text-muted mb-5">{{'account.receive-xin.only-send-xin-text'|
                     translate}}</p>
             </div>
 
-            <div class="col-sm-12 mt-2 mb-2 col-md-8 mlmr-auto mb-4" style="background: #f0f0f0"></div>
+            <div class="col-sm-12 mt-2 mb-2 col-md-8 mlme-auto mb-4" style="background: #f0f0f0"></div>
 
             <div class="col-sm-12">
                 <p class="font-small-1 text-center text-muted ">{{'account.receive-xin.other-digital-label'|
@@ -34,12 +34,12 @@
         </div>
         <div class="row">
             <div class="col-sm-12 mt-4 text-center">
-                <div class="pl-1 border-top-lighten-5 text-muted">
+                <div class="ps-1 border-top-lighten-5 text-muted">
                     <div class="flat-outline">
-                        <a class="btn btn-gradient mr-3" (click)="print();">
+                        <a class="btn btn-gradient me-3" (click)="print();">
                             <i class="fa fa-print"></i> {{'account.receive-xin.print-btn'| translate}}
                         </a>
-                        <a class="btn btn-border ml-3" [href]="mailTo">
+                        <a class="btn btn-border ms-3" [href]="mailTo">
                             <i class="fa fa-envelope"></i> {{'account.receive-xin.email-btn'| translate}}
                         </a>
                     </div>

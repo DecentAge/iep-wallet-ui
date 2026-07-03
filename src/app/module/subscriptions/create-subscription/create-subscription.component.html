@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="card-body mt-4">
-                    <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                    <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                         <aw-wizard [navBarLayout]="'large-filled-symbols'">
                             <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                                 <form class="form inner-form" #f="ngForm" novalidate>
@@ -25,14 +25,14 @@
                                                             placement="right" container="body" ngbPopover="{{'subscriptions.create-subscription.recipient-popover'| translate}}">
                                                         </i>
                                                     </label>
-                                                    <div class="input-group ml-0 mr-0 sign_in_inputs row form-border-bottom pb-1">
-                                                        <div class="col-7 col-lg-8 pl-0 pr-0">
+                                                    <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom pb-1">
+                                                        <div class="col-7 col-lg-8 ps-0 pe-0">
 
-                                                            <input type="text" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                            <input type="text" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 name="recipient" #recipient="ngModel" placeholder="{{'common.xin-account-key-placeholder'| translate}}"
                                                                 [(ngModel)]="subscriptionForm.recipientRS" required>
                                                         </div>
-                                                        <div class="col-5 col-lg-4 pr-1 pl-0">
+                                                        <div class="col-5 col-lg-4 pe-1 ps-0">
                                                             <div class="btn-icon-group text-right">
                                                                 <span *isAppEnabled="'Aliases'" class="btn btn-primary"
                                                                     (click)="searchAliases()" triggers="mouseenter:mouseleave"
@@ -63,14 +63,14 @@
                                                             placement="right" container="body" ngbPopover="{{'subscriptions.create-subscription.amount-popover'| translate}}">
                                                         </i>
                                                     </label>
-                                                    <div class="input-group  ml-0 mr-0  sign_in_inputs row form-border-bottom pb-1">
-                                                        <div class="col-10 pl-0">
-                                                            <input type="number" placeholder="0" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                    <div class="input-group  ms-0 me-0  sign_in_inputs row form-border-bottom pb-1">
+                                                        <div class="col-10 ps-0">
+                                                            <input type="number" placeholder="0" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 aria-label="Amount to be send" name="amount" #amount="ngModel"
                                                                 [(ngModel)]="subscriptionForm.amount" [minValue]="0"
                                                                 required>
                                                         </div>
-                                                        <div class="col-2 text-right pl-0">
+                                                        <div class="col-2 text-right ps-0">
                                                             <div class="row input-single-group">
                                                                 <div class="col-md-12">
                                                                     <span class="input-group-text">{{'common.xin-unit-text'|
@@ -104,13 +104,13 @@
                                                         </i>
                                                     </label>
                                                     <div class="input-group m-0 sign_in_inputs row form-border-bottom pb-1">
-                                                        <div class="col-10 pl-0">
-                                                            <input type="number" placeholder="0" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                        <div class="col-10 ps-0">
+                                                            <input type="number" placeholder="0" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                                 aria-label="" name="interval" #interval="ngModel"
                                                                 [minValue]="0.0417" [maxValue]="365" [(ngModel)]="subscriptionForm.interval"
                                                                 required>
                                                         </div>
-                                                        <div class="col-2 text-right pl-0">
+                                                        <div class="col-2 text-right ps-0">
                                                             <div class="row input-single-group">
                                                                 <div class="col-md-12">
                                                                     <span class="input-group-text">{{'common.days'|
@@ -141,7 +141,7 @@
                                     </div>
                                     <div class="mt-4 left">
                                         <button type="button" (click)="createSubscription()" [disabled]="f.invalid"
-                                            class="btn btn-gradient mr-1 mb-0 float-right" awNextStep>
+                                            class="btn btn-gradient me-1 mb-0 float-end" awNextStep>
                                             <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                         </button>
                                     </div>
@@ -183,22 +183,22 @@
                                 </div>
 
                                 <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                    class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                    class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                     <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                                 </button>
                                 <!--  <hr *ngIf="unsignedTx"> -->
                                 <div class="form-group" *ngIf="unsignedTx">
                                     <div class="position-relative sign_in_inputs">
                                         <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes"
-                                            class="form-control pl-0" name="key"></textarea>
+                                            class="form-control ps-0" name="key"></textarea>
                                     </div>
                                 </div>
                                 <div class="mt-4">
-                                    <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-right"
+                                    <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-end"
                                         (click)="broadcastTransaction(transactionBytes)">
                                         <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                     </button>
-                                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                    <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                     </button>
                                 </div>
@@ -219,7 +219,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <div class="card-block ml-3 mr-3">
+                    <div class="card-block ms-3 me-3">
                         <h5 class="mb-1">Bookmark List</h5>
                         <app-bookmark-list [viewFor]="'sendxin'" (selectEvent)="bookmarkSelected($event)"></app-bookmark-list>
                     </div>

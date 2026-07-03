@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShufflingsComponent } from './shufflings.component';
 
@@ -6,7 +7,7 @@ describe('ShufflingsComponent', () => {
   let component: ShufflingsComponent;
   let fixture: ComponentFixture<ShufflingsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ShufflingsComponent ]
     })

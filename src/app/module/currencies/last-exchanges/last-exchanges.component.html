@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="card-block ml-3 mr-3">
+                    <div class="card-block ms-3 me-3">
                         <ngx-datatable [rows]="rows" [columnMode]="'standard'" [scrollbarH]="true" [footerHeight]="50"
                             [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
                             [limit]="page.size" (page)='setPage($event)' (autoRefresh)="reload()">

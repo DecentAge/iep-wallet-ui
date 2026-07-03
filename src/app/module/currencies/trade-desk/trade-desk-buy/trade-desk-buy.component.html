@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="card-body" *ngIf="buyCurrencyForm">
-                <div class="card-block mr-3 ml-3">
+                <div class="card-block me-3 ms-3">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="ucsb"> {{'common.currency-id-label'| translate}}
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <hr>
-                    <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}" class="btn btn-raised mr-1 mb-0"
+                    <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}" class="btn btn-raised me-1 mb-0"
                         (click)="unsignedTx = !unsignedTx">
                         <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                     </button>
@@ -68,7 +68,7 @@
                     </div>
                     <div class="form-actions">
                         <button type="button" [disabled]="!validBytes" (click)="broadcastTransaction(transactionBytes)"
-                            class="btn btn-primary float-right">
+                            class="btn btn-primary float-end">
                             <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                         </button>
                     </div>

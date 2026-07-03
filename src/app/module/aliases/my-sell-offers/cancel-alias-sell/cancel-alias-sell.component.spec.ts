@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CancelAliasSellComponent } from './cancel-alias-sell.component';
 
@@ -6,7 +7,7 @@ describe('CancelAliasSellComponent', () => {
   let component: CancelAliasSellComponent;
   let fixture: ComponentFixture<CancelAliasSellComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ CancelAliasSellComponent ]
     })

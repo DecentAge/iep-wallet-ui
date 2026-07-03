@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                     <aw-wizard [navBarLayout]="'large-filled-symbols'">
                         <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                             <form class="form" #f="ngForm" novalidate>
@@ -102,7 +102,7 @@
                                     </div>
 
                                     <hr>
-                                    <button type="button" [disabled]="f.invalid" (click)="sellAlias()" class="btn btn-primary mr-1 mb-0 float-right"
+                                    <button type="button" [disabled]="f.invalid" (click)="sellAlias()" class="btn btn-primary me-1 mb-0 float-end"
                                         awNextStep>
                                         <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                     </button>
@@ -141,7 +141,7 @@
                             </div>
                             <hr>
                             <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                 <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                             </button>
                             <hr *ngIf="unsignedTx">
@@ -152,11 +152,11 @@
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button type="button" [disabled]="!validBytes" class="btn btn-primary float-right"
+                                <button type="button" [disabled]="!validBytes" class="btn btn-primary float-end"
                                     (click)="broadcastTransaction(transactionBytes)">
                                     <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                 </button>
-                                <button type="button" class="btn btn-primary mr-1 float-right" awPreviousStep>
+                                <button type="button" class="btn btn-primary me-1 float-end" awPreviousStep>
                                     <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                 </button>
                             </div>
@@ -177,7 +177,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                     <h5 class="mb-1">Bookmark List</h5>
                     <app-bookmark-list [viewFor]="'sendxin'" (selectEvent)="bookmarkSelected($event)"></app-bookmark-list>
                 </div>

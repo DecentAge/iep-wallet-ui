@@ -7,9 +7,10 @@ export interface RouteInfo {
     badge: string;
     badgeClass: string;
     isExternalLink: boolean;
-    submenu : RouteInfo[];
+    submenu: RouteInfo[];
     isExpertView?: boolean;
-    isSwapp?: boolean, 
-    appName?: string,
-    isExtensionView?: boolean
+    isSwapp?: boolean;
+    appName?: string;
+    isExtensionView?: boolean;
+    includeAccountRs?: boolean;
 }

@@ -285,6 +285,7 @@
         }
     },
     "common": {
+        "local-node-required": "Ta funkcja wymaga połączenia z lokalnym węzłem. Twoje hasło jest wysyłane tylko do localhost (127.0.0.1) lub sieci deweloperskiej. Ustaw tryb połączenia na LOCALHOST w opcjach.",
         "all": "Wszystkie",
         "my": "Mój",
         "remove-filter-popover": "Usuń filtr",
@@ -1572,7 +1573,7 @@
             "connection-mode-popover": "Przełącz na inne węzły lub węzeł lokalny. Tryb AUTO pobiera losowy węzeł z pierwszej dziesiątki peer. LOCALHOST szuka lokalnego węzła i łączy się, jeśli znajdziesz go w MANUAL możesz wpisać konkretny adres IP węzła, Twój prywatny VPS na przykład i na HTTPS, połączenie SSL jest sprzężone z dedykowanym serwerem https fundacji.",
             "connection-node-label": "Połącz się z węzłem\n",
             "connection-node-popover": "Wprowadź ip węzła i port - http: // yourserverip:23457 - aby się połączyć.",
-            "connection-node-placeholder": "Połącz się z węzłem\n",
+            "connection-node-placeholder": "np. http://192.168.1.100:23457",
             "connection-node-validation": "Nieprawidłowy adres URL węzła\n",
             "connected-url-label": "Połączony z\n",
             "connected-url-popover": "Węzeł, z którym się łączysz",

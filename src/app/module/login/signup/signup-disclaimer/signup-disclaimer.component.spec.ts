@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SignupDisclaimerComponent } from './signup-disclaimer.component';
 
@@ -6,7 +7,7 @@ describe('SignupDisclaimerComponent', () => {
   let component: SignupDisclaimerComponent;
   let fixture: ComponentFixture<SignupDisclaimerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SignupDisclaimerComponent ]
     })

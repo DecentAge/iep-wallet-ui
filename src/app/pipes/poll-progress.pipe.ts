@@ -5,11 +5,11 @@ import { DomSanitizer } from '@angular/platform-browser';
   name: 'pollProgress'
 })
 export class PollProgressPipe implements PipeTransform {
-
+/*
   constructor(private sanitizer: DomSanitizer){
 
   }
-
+*/
   transform(value: any, row?: any): any {
 
     var color = 'danger';

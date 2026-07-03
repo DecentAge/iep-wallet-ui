@@ -44,24 +44,29 @@ export class TransferCurrencyComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getCurrency();
+        this.route.queryParams.subscribe(params => {
+            this.currencyId = params['id'];
+            this.getCurrency();
+
+            if (params['recipient']) {
+                this.transferCurrencyForm.recipient = params['recipient'];
+            }
+            if (params['units']) {
+                this.transferCurrencyForm.units = params['units'];
+            }
+        });
     }
 
     getCurrency() {
-
         this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
 
-        this.route.params.subscribe(params => {
+        this.currenciesService.getCurrencyById(this.currencyId).subscribe((success) => {
 
-            this.currencyId = params['id'];
-            this.currenciesService.getCurrencyById(this.currencyId).subscribe((success) => {
+            this.transferCurrencyForm.currencyId = success.currency;
+            this.transferCurrencyForm.decimals = success.decimals;
+            this.transferCurrencyForm.ticker = success.code;
 
-                this.transferCurrencyForm.currencyId = success.currency;
-                this.transferCurrencyForm.decimals = success.decimals;
-                this.transferCurrencyForm.ticker = success.code;
-
-            });
-        })
+        });
     }
 
     loadBookmarkView() {

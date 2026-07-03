@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { SessionStorageService } from '../../../services/session-storage.service';
 import { DashboardService } from '../dashboard.service';
 import { RootScope } from '../../../config/root-scope';
-import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -20,24 +19,44 @@ export class DashboardComponent implements OnInit {
     balanceTQT: any;
     selectedLanguage: string;
 
+
     constructor(private router: Router,
         private dashboardService: DashboardService,
         public translate: TranslateService,
         private sessionStorageService: SessionStorageService,
-        private amChartsService: AmChartsService) {
+    ) {
         this.accountValuation = 0.00;
         this.accountRs = "";
     }
 
-    private chart: AmChart;
-
     ngOnInit() {
         this.getAccountAssetsAndBalances();
         this.getMarketData();
+        this.redirectTo();
+    }
+
+    getQueryParams(url) {
+        const paramArr = url.slice(url.indexOf('?') + 1).split('&');
+        const params = {};
+        paramArr.map(param => {
+            const [key, val] = param.split('=');
+            params[key] = decodeURIComponent(val);
+        })
+        return params;
+    }
+
+    redirectTo() {
+        const redirectTo = localStorage.getItem('redirectTo');
+        if (redirectTo) {
+            const redirectToUrlParts = redirectTo.split('?');
+            const params = this.getQueryParams(redirectToUrlParts[1]);
+            this.router.navigate([redirectToUrlParts[0]], { queryParams: params });
+            localStorage.removeItem('redirectTo');
+        }
     }
 
     renderChart(data) {
-
+/*
         this.chart = this.amChartsService.makeChart("chartdiv", {
             type: "serial",
             theme: "light",
@@ -107,13 +126,7 @@ export class DashboardComponent implements OnInit {
                 "fillColor": "#000000",
                 "offsetY": 4
             }
-        });
-    }
-
-    ngOnDestroy() {
-        if (this.chart) {
-            this.amChartsService.destroyChart(this.chart);
-        }
+        });*/
     }
 
     getAccountAssetsAndBalances() {

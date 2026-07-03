@@ -33,8 +33,7 @@ import { SharedModule } from '../../shared/shared.module';
         SignupConfirmComponent,
         SignupPassphraseComponent
     ],
-    providers: [],
-    entryComponents: [SignupComponent]
+    providers: []
 })
 
 export class LoginModule { }

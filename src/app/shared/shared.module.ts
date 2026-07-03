@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { IsExpertViewDirective } from '../custom-directive/is-expert-view.directive';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { IsAppEnabledDirective } from '../custom-directive/is-app-enabled.directive';
 import { AmountTqtPipe } from '../pipes/amount-tqt.pipe';
 import { AmountTknPipe } from '../pipes/amount-tkn.pipe';
@@ -89,6 +89,7 @@ import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import { AddressService } from '../module/account/address.service';
 import { ProgressSyncComponent } from '../module/progress/progress.component';
 import {HeaderComponent} from './header/header.component';
+import { LocalNodeNoticeComponent } from './local-node-notice/local-node-notice.component';
 
 @NgModule({
     exports: [
@@ -160,7 +161,8 @@ import {HeaderComponent} from './header/header.component';
         StoragePipe,
         CurrencyModelPipe,
         BreadcrumbComponent,
-        HeaderComponent
+        HeaderComponent,
+        LocalNodeNoticeComponent
     ],
     imports: [
         RouterModule,
@@ -171,7 +173,7 @@ import {HeaderComponent} from './header/header.component';
         TranslateModule,
         FormsModule,
         UiSwitchModule,
-        ChartsModule,
+        NgChartsModule,
         MomentModule,
         QRCodeModule,
     ],
@@ -246,7 +248,8 @@ import {HeaderComponent} from './header/header.component';
         StoragePipe,
         CurrencyModelPipe,
         BreadcrumbComponent,
-        AmountToQuantPipe
+        AmountToQuantPipe,
+        LocalNodeNoticeComponent
     ],
     providers: [
         QuantToAmountPipe,

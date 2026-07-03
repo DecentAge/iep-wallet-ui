@@ -1,0 +1,14 @@
+.main-content.testing {
+  filter: hue-rotate(0deg) !important;
+}
+
+.testing-environment-label {
+  position: fixed;
+  top: 110px;
+  left: 0px;
+  z-index: 99999;
+  font-size: 11px;
+  width: 250px;
+  text-align: center;
+  font-weight: bold;
+}

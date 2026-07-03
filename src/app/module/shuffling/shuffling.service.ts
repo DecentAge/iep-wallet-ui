@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
 import { HttpProviderService } from '../../services/http-provider.service';
 import { NodeService } from '../../services/node.service';
 import { AppConstants } from '../../config/constants';
@@ -199,6 +200,9 @@ export class ShufflingService {
   };
 
   startShuffler(secretPhrase, shufflingFullHash, recipientSecretPhrase, recipientPublicKey, fee) {
+    if (!this.nodeService.isLocalNode()) {
+      return throwError(() => new Error('startShuffler requires a local node connection'));
+    }
     var params:any = {
       'requestType': 'startShuffler',
       'secretPhrase': secretPhrase,
@@ -237,6 +241,9 @@ export class ShufflingService {
   };
 
   cancelShuffle(secretPhrase, shufflingId, shufflingStateHash, cancelAccountId, fee) {
+    if (!this.nodeService.isLocalNode()) {
+      return throwError(() => new Error('shufflingCancel requires a local node connection'));
+    }
     var params = {
       'requestType': 'shufflingCancel',
       'shuffling': shufflingId,

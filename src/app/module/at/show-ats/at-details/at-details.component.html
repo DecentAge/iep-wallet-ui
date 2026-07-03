@@ -11,7 +11,7 @@
                 </div>
 
                 <div class="card-body" *ngIf="atDetails">
-                    <div class="card-block mr-3 ml-3 form-bordered mt-4">
+                    <div class="card-block me-3 ms-3 form-bordered mt-4">
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="ucsb"> {{'common.name-label'| translate}}
@@ -106,27 +106,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-block mr-3 ml-3">
+                    <div class="card-block me-3 ms-3">
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
-                                <ngb-tabset type="tabs" class="nav-auto">
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-tabs">
+                                    <li [ngbNavItem]="1">
+                                        <button ngbNavLink>
                                             <i class="fa fa-code"></i> {{'at.at-details.machine-code-tab'| translate}}
-                                        </ng-template>
+                                        </button>
                                         <ng-template ngbTabContent>
                                             <h4> {{atDetails.machineCode}} </h4>
                                         </ng-template>
-                                    </ngb-tab>
-                                    <ngb-tab>
-                                        <ng-template ngbTabTitle>
+                                    </li>
+                                    <li [ngbNavItem]="2">
+                                        <button ngbNavLink>
                                             <i class="fa fa-code"></i> {{'at.at-details.machine-data-tab'| translate}}
-                                        </ng-template>
+                                        </button>
                                         <ng-template ngbTabContent>
                                             <p> {{atDetails.machineData}} </p>
                                         </ng-template>
-                                    </ngb-tab>
-                                </ngb-tabset>
+                                    </li>
+                                </ul>
+
+                                <div [ngbNavOutlet]="nav"></div>
                             </div>
                         </div>
                     </div>
