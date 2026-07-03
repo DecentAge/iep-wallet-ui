@@ -128,7 +128,6 @@ Temporary Items
 
 .idea
 bower_components
-package-lock.json
 
 # Production build directory
 dist
@@ -136,3 +135,5 @@ dist
 */*.sublime-workspace
 /.settings/
 /.vscode/
+/iep-wallet-ui.iml
+/.angular/

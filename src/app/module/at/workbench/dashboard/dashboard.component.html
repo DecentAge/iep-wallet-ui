@@ -8,13 +8,13 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="card-block mt-4 mr-md-2 ml-md-2 form-bordered">
+                    <div class="card-block mt-4 me-md-2 ms-md-2 form-bordered">
                         <div class="row">
                             <div class="col-12">
                                 <div class="header-border" (click)="showCompiler = !showCompiler">
                                     <div class="row">
                                         <div class="col-10">{{'at.at-workbench.compiler'| translate}} </div>
-                                        <div class="col-2 text-right pl-0 pr-1"><i class="icon-next_arrow circle-arrow"></i>
+                                        <div class="col-2 text-right ps-0 pe-1"><i class="icon-next_arrow circle-arrow"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -130,9 +130,9 @@ Simple AT to test transactions on amounts.
 ^comment Init runs once and never again.
 Init:
 ^comment setting my address
-SET @DeveloperWallet #6e4e78e8e25f59bd
+SET &#64;DeveloperWallet #6e4e78e8e25f59bd
 ^comment Return 20 XIN
-SET @AmountToReturn #0000000077359400
+SET &#64;AmountToReturn #0000000077359400
 
 ^comment start of 2nd run
 PCS
@@ -140,11 +140,11 @@ Update:
 ^comment Grab the last payment to the AT
 FUN A_to_Tx_after_Timestamp $LastTransaction
 ^comment Check if the Transaction is valid
-FUN @ValidTransaction check_A_Is_Zero
+FUN &#64;ValidTransaction check_A_Is_Zero
 ^comment if it is not valid, Check if Developers get any money.
 BZR $ValidTransaction :DeveloperFund
 ^comment Update Last Transaction
-FUN @LastTransaction get_Timestamp_for_Tx_in_A
+FUN &#64;LastTransaction get_Timestamp_for_Tx_in_A
 ^comment Send 20 XIN back
 FUN B_to_Address_of_Tx_in_A
 FUN send_to_Address_in_B $AmountToReturn
@@ -153,11 +153,11 @@ JMP :Update
 
 DeveloperFund:
 ^comment Get The Current Balance of the wallet.
-FUN @WalletBalance get_Current_Balance
+FUN &#64;WalletBalance get_Current_Balance
 ^comment if the wallet balance is <20, dont send.
 BLE $WalletBalance $AmountToReturn :Finish
 ^comment Leave 20 XIN in the Wallet and return the rest.
-SUB @WalletBalance $AmountToReturn
+SUB &#64;WalletBalance $AmountToReturn
 ^comment set B1 to Developer.
 FUN set_B1 $DeveloperWallet
 FUN send_to_Address_in_B $WalletBalance
@@ -185,12 +185,12 @@ This is an AT that sleeps and wakes up every 5 blocks to update some values. Jus
 ^declare Counter
 
 ^comment set the AT to activate 5 blocks later.
-SET @SleepTillThisTime #0000000000000005
+SET &#64;SleepTillThisTime #0000000000000005
 
 Update:
 PCS
 SLP $SleepTillThisTime
-INC @Counter
+INC &#64;Counter
 JMP :Update
                                             </code>
                                         </pre>
@@ -212,27 +212,27 @@ An auction. Users send their funds to the AT to bid, and the previous bidder's f
 ^declare endingCondition
 ^declare currentBid
 ^declare highBidder
-SET @minNextBid $currentBid
-FUN @timestamp get_Block_Timestamp
-FUN @deadline add_Minutes_to_Timestamp $timestamp $endingCondition
+SET &#64;minNextBid $currentBid
+FUN &#64;timestamp get_Block_Timestamp
+FUN &#64;deadline add_Minutes_to_Timestamp $timestamp $endingCondition
 PCS
 
 txLoop:
 FUN A_to_Tx_after_Timestamp $timestamp
-FUN @scratch check_A_Is_Zero
+FUN &#64;scratch check_A_Is_Zero
 FIZ $scratch
-FUN @timestamp get_Timestamp_for_Tx_in_A
+FUN &#64;timestamp get_Timestamp_for_Tx_in_A
 BGT $timestamp $deadline :refundEnd
-FUN @scratch get_Amount_for_Tx_in_A
+FUN &#64;scratch get_Amount_for_Tx_in_A
 BLT $scratch $minNextBid :refund
 FUN B_to_Address_of_Tx_in_A
-FUN @scratch2 get_B1
+FUN &#64;scratch2 get_B1
 FUN set_B1 $highBidder
 FUN send_to_Address_in_B $currentBid
-SET @currentBid $scratch
-SET @highBidder $scratch2
-SET @minNextBid $currentBid
-INC @minNextBid
+SET &#64;currentBid $scratch
+SET &#64;highBidder $scratch2
+SET &#64;minNextBid $currentBid
+INC &#64;minNextBid
 JMP :txLoop
 
 refund:
@@ -242,7 +242,7 @@ JMP :txLoop
 
 refundEnd:
 FUN B_to_Address_of_Tx_in_A
-FUN @scratch get_Amount_for_Tx_in_A
+FUN &#64;scratch get_Amount_for_Tx_in_A
 FUN send_to_Address_in_B $scratch
 FUN B_to_Address_of_Creator
 FUN send_to_Address_in_B $currentBid
@@ -252,10 +252,10 @@ FUN send_A_to_Address_in_B
 
 endLoop:
 FUN A_to_Tx_after_Timestamp $timestamp
-FUN @scratch check_A_Is_Zero
+FUN &#64;scratch check_A_Is_Zero
 BZR $scratch :sendAllCreator
-FUN @timestamp get_Timestamp_for_Tx_in_A
-FUN @scratch get_Amount_for_Tx_in_A
+FUN &#64;timestamp get_Timestamp_for_Tx_in_A
+FUN &#64;scratch get_Amount_for_Tx_in_A
 FUN B_to_Address_of_Tx_in_A
 FUN send_to_Address_in_B $scratch
 JMP :endLoop
@@ -285,7 +285,7 @@ A user creates a CD contract and sends funds to it. Someone else can then send a
 ^declare paymentBlocks
 
 SLP $waitBlocks
-FUN @scratch get_Current_Balance
+FUN &#64;scratch get_Current_Balance
 BLT $scratch $amtTotal :failedFunding
 SLP $paymentBlocks
 FUN B_to_Address_of_Creator
@@ -296,15 +296,15 @@ JMP :payoutLoop
 
 failedFunding:
 FUN B_to_Address_of_Creator
-FUN @timestamp get_Creation_Timestamp
+FUN &#64;timestamp get_Creation_Timestamp
 
 failedRefundLoop:
 FUN A_to_Tx_after_Timestamp $timestamp
-FUN @scratch check_A_Is_Zero
+FUN &#64;scratch check_A_Is_Zero
 BZR $scratch :failedRefundCleanout
-FUN @timestamp get_Timestamp_for_Tx_in_A
+FUN &#64;timestamp get_Timestamp_for_Tx_in_A
 FUN B_to_Address_of_Tx_in_A
-FUN @scratch get_Amount_for_Tx_in_A
+FUN &#64;scratch get_Amount_for_Tx_in_A
 FUN send_to_Address_in_B $scratch
 
 JMP :failedRefundLoop
@@ -329,31 +329,31 @@ Crowdfunding
 Crowdfunding AT 
 
 
-FUN @block_height get_Block_Timestamp
+FUN &#64;block_height get_Block_Timestamp
 SLP $decision
-FUN @amount get_Current_Balance
+FUN &#64;amount get_Current_Balance
 BGE $amount $target_amount :funded
-FUN @timestamp get_Creation_Timestamp
+FUN &#64;timestamp get_Creation_Timestamp
 refund_loop:
 FUN A_to_Tx_after_Timestamp $timestamp
-FUN @tx_info check_A_Is_Zero
+FUN &#64;tx_info check_A_Is_Zero
 BZR $tx_info :end_loop
-FUN @tx_amount get_Amount_for_Tx_in_A
-FUN @timestamp get_Timestamp_for_Tx_in_A
+FUN &#64;tx_amount get_Amount_for_Tx_in_A
+FUN &#64;timestamp get_Timestamp_for_Tx_in_A
 FUN B_to_Address_of_Tx_in_A
-SET @funded #0000000000000002
+SET &#64;funded #0000000000000002
 FUN send_to_Address_in_B $tx_amount
 JMP :refund_loop
 funded:
-SET @funded #0000000000000001
+SET &#64;funded #0000000000000001
 FUN B_to_Address_of_Creator
 FUN send_All_to_Address_in_B
-FUN @timestamp get_Last_Block_Timestamp
+FUN &#64;timestamp get_Last_Block_Timestamp
 end_loop:
 FUN A_to_Tx_after_Timestamp $timestamp
-FUN @tx_info check_A_Is_Zero
+FUN &#64;tx_info check_A_Is_Zero
 BZR $tx_info :end_loop
-FUN @timestamp get_Timestamp_for_Tx_in_A
+FUN &#64;timestamp get_Timestamp_for_Tx_in_A
 FUN B_to_Address_of_Creator
 FUN send_All_to_Address_in_B
 JMP :end_loop
@@ -373,39 +373,39 @@ Dormant Funds (Pseudocode Example)
 ------------------------------------------------------------
 
 
-if @timestamp not zero goto loop
-get last block timestamp and put in @timestamp
-set @am_type_subtype to 0x0000000100000002 (AM)
-set @payout account to 0x0000000011111111
+if &#64;timestamp not zero goto loop
+get last block timestamp and put in &#64;timestamp
+set &#64;am_type_subtype to 0x0000000100000002 (AM)
+set &#64;payout account to 0x0000000011111111
 
 :init
-set @payout_time to $timestamp
-set @tx_info to (604800 seconds in a week)
-add @tx_info to @payout_time
+set &#64;payout_time to $timestamp
+set &#64;tx_info to (604800 seconds in a week)
+add &#64;tx_info to &#64;payout_time
 
 :loop
-get tx at after @timestamp and store in @txid
-if @txid is zero finish
-get timestamp for @txid and store in @tx_time
-get tx type for @txid and store in @tx_info
-if @tx_info != @am_type_subtype goto skip
-get AT owner's account and store in @tx_info
-get account for @txid and put in @tx_source
-if @tx_info != @tx_source goto skip
-get AM data for @txid at pos @zero and put in @tx_info
-if @tx_info zero then goto skip
-set @payout_account to @tx_info
+get tx at after &#64;timestamp and store in &#64;txid
+if &#64;txid is zero finish
+get timestamp for &#64;txid and store in &#64;tx_time
+get tx type for &#64;txid and store in &#64;tx_info
+if &#64;tx_info != &#64;am_type_subtype goto skip
+get AT owner's account and store in &#64;tx_info
+get account for &#64;txid and put in &#64;tx_source
+if &#64;tx_info != &#64;tx_source goto skip
+get AM data for &#64;txid at pos &#64;zero and put in &#64;tx_info
+if &#64;tx_info zero then goto skip
+set &#64;payout_account to &#64;tx_info
 
 :skip
-if @payout_account zero goto ignore
-if @tx_time > @payout_time goto payout
+if &#64;payout_account zero goto ignore
+if &#64;tx_time > &#64;payout_time goto payout
 
 :ignore
-set @timestamp to @tx_time
+set &#64;timestamp to &#64;tx_time
 goto init
 
 :payout
-pay balance to @payout_account
+pay balance to &#64;payout_account
 finish
                                             </code>
                                         </pre>
@@ -428,21 +428,21 @@ v1
 ---
 
 ^declare runBlocks
-FUN @timestamp get_Block_Timestamp
+FUN &#64;timestamp get_Block_Timestamp
 top:
-SET @best #8000000000000000
-SET @bestAdr #0000000000000000
+SET &#64;best #8000000000000000
+SET &#64;bestAdr #0000000000000000
 SLP $runBlocks
 txLoop:
 FUN A_to_Tx_after_Timestamp $timestamp
-FUN @scratch check_A_Is_Zero
+FUN &#64;scratch check_A_Is_Zero
 BZR $scratch :payout
-FUN @timestamp get_Timestamp_for_Tx_in_A
-FUN @scratch get_Ticket_Id_for_Tx_in_A
+FUN &#64;timestamp get_Timestamp_for_Tx_in_A
+FUN &#64;scratch get_Ticket_Id_for_Tx_in_A
 BLT $scratch $best :txLoop
-SET @best $scratch
+SET &#64;best $scratch
 FUN B_to_Address_of_Creator
-FUN @bestAdr get_B1
+FUN &#64;bestAdr get_B1
 JMP :txLoop
 payout:
 FUN set_B1 $bestAdr
@@ -473,19 +473,19 @@ v2
 ^comment If this is the first time running, set some default variables.
 Start:
 ^comment 50 XIN per ticket. min fee should = this.
-SET @TicketPrice #000000012a05f200
-SET @MinNumPlayers #0000000000000002
-SET @WinnerPercent #0000000000000050
-SET @GameEndBlocks #0000000500000000
+SET &#64;TicketPrice #000000012a05f200
+SET &#64;MinNumPlayers #0000000000000002
+SET &#64;WinnerPercent #0000000000000050
+SET &#64;GameEndBlocks #0000000500000000
 ^comment by default, the creator wins.
-INC @TotalTicketsBoughtPreviously
+INC &#64;TotalTicketsBoughtPreviously
 FUN B_to_Address_of_Creator
-FUN @CurrentWinner get_B1
+FUN &#64;CurrentWinner get_B1
 
 ^comment when the program starts for the next time, it will start from here.
 PCS
 Update:
-FUN @CurrentTime get_Block_Timestamp
+FUN &#64;CurrentTime get_Block_Timestamp
 
 ^comment if Lottery is over, just give me the XIN.
 BNZ $DeadAT :ErrorHandle
@@ -493,31 +493,31 @@ BNZ $DeadAT :ErrorHandle
 UpdateNewPlayerLoop:
 ^comment new way of grabbing transactions
 FUN A_to_Tx_after_Timestamp $LastTransaction
-FUN @ValidTransaction check_A_Is_Zero
+FUN &#64;ValidTransaction check_A_Is_Zero
 BZR $ValidTransaction :NoMoreTx
-FUN @LastTransaction get_Timestamp_for_Tx_in_A
+FUN &#64;LastTransaction get_Timestamp_for_Tx_in_A
 
 ^comment check how much the PlayerPaid and convert to tickets
-FUN @NewTickets get_Amount_for_Tx_in_A
-ADD @NewTickets $TicketPrice
-DIV @NewTickets $TicketPrice
+FUN &#64;NewTickets get_Amount_for_Tx_in_A
+ADD &#64;NewTickets $TicketPrice
+DIV &#64;NewTickets $TicketPrice
 ^comment run internal lottery based on past tickets
-SET @TotalTicketsBought $TotalTicketsBoughtPreviously
-ADD @TotalTicketsBought $NewTickets
+SET &#64;TotalTicketsBought $TotalTicketsBoughtPreviously
+ADD &#64;TotalTicketsBought $NewTickets
 ^comment Random Number Generator
-SET @MyRandomNumber $CurrentTime
+SET &#64;MyRandomNumber $CurrentTime
 ^comment based on random number, figure out who won.
-MOD @MyRandomNumber $TotalTicketsBought
+MOD &#64;MyRandomNumber $TotalTicketsBought
 BGE $MyRandomNumber $TotalTicketsBoughtPreviously :ChangeWinner
 
 UpdateNewPlayerContinue:
 ^comment update the totalnumber of tickets now
-SET @TotalTicketsBoughtPreviously $TotalTicketsBought
+SET &#64;TotalTicketsBoughtPreviously $TotalTicketsBought
 JMP :UpdateNewPlayerLoop
 
 ChangeWinner:
 FUN B_to_Address_of_Tx_in_A
-FUN @CurrentWinner get_B1
+FUN &#64;CurrentWinner get_B1
 JMP :UpdateNewPlayerContinue
 
 NoMoreTx:
@@ -535,21 +535,21 @@ SetEndTime:
 ^comment do not set endtime if there are not enough players
 BLT $TotalTicketsBought $MinNumPlayers :EndTimeSetted
 ^comment set the end time to EndTime.
-SET @ScratchBuffer $GameEndBlocks
-ADD @ScratchBuffer $CurrentTime
-SET @EndTime $ScratchBuffer
+SET &#64;ScratchBuffer $GameEndBlocks
+ADD &#64;ScratchBuffer $CurrentTime
+SET &#64;EndTime $ScratchBuffer
 JMP :EndTimeSetted
 
 ^comment we select a winner here and kill the AT
 CloseAuction:
-INC @DeadAT
-FUN @CurrentBalance get_Current_Balance
+INC &#64;DeadAT
+FUN &#64;CurrentBalance get_Current_Balance
 FUN set_B1 $CurrentWinner
 
 ^comment calculate payout - total / 100 * pecent
-SET @ScratchBuffer #0000000000000064
-DIV @CurrentBalance $ScratchBuffer
-MUL @CurrentBalance $WinnerPercent
+SET &#64;ScratchBuffer #0000000000000064
+DIV &#64;CurrentBalance $ScratchBuffer
+MUL &#64;CurrentBalance $WinnerPercent
 FUN send_to_Address_in_B $CurrentBalance
 
 ^comment die and give me money.
@@ -597,20 +597,20 @@ A repeated trustless lottery.
 ^comment If this is the first time running, set some default variables.
 Start:
 ^comment 50 XIN per ticket. min fee should = this.
-SET @TicketPrice #000000012a05f200
-SET @MinNumPlayers #0000000000000003
-SET @WinnerPercent #0000000000000050
-SET @HostPercent #000000000000000a
+SET &#64;TicketPrice #000000012a05f200
+SET &#64;MinNumPlayers #0000000000000003
+SET &#64;WinnerPercent #0000000000000050
+SET &#64;HostPercent #000000000000000a
 ^comment GameEnds in 50 Block automatically
-SET @GameEndBlocks #0000000000000032
+SET &#64;GameEndBlocks #0000000000000032
 
 Restart:
 ^comment by default, the creator wins.
-CLR @EndTime
-CLR @TotalTicketsBought
-SET @TotalTicketsBoughtPreviously #0000000000000001
+CLR &#64;EndTime
+CLR &#64;TotalTicketsBought
+SET &#64;TotalTicketsBoughtPreviously #0000000000000001
 FUN B_to_Address_of_Creator
-FUN @CurrentWinner get_B1
+FUN &#64;CurrentWinner get_B1
 
 ^comment when the program starts for the next time, it will start from here.
 PCS
@@ -619,31 +619,31 @@ Update:
 UpdateNewPlayerLoop:
 ^comment new way of grabbing transactions
 FUN A_to_Tx_after_Timestamp $LastTransaction
-FUN @ValidTransaction check_A_Is_Zero
+FUN &#64;ValidTransaction check_A_Is_Zero
 BZR $ValidTransaction :NoMoreTx
-FUN @LastTransaction get_Timestamp_for_Tx_in_A
+FUN &#64;LastTransaction get_Timestamp_for_Tx_in_A
 
 ^comment check how much the PlayerPaid and convert to tickets
-FUN @NewTickets get_Amount_for_Tx_in_A
-ADD @NewTickets $TicketPrice
-DIV @NewTickets $TicketPrice
+FUN &#64;NewTickets get_Amount_for_Tx_in_A
+ADD &#64;NewTickets $TicketPrice
+DIV &#64;NewTickets $TicketPrice
 ^comment run internal lottery based on past tickets
-SET @TotalTicketsBought $TotalTicketsBoughtPreviously
-ADD @TotalTicketsBought $NewTickets
+SET &#64;TotalTicketsBought $TotalTicketsBoughtPreviously
+ADD &#64;TotalTicketsBought $NewTickets
 ^comment Random Number Generator
-SET @MyRandomNumber $LastTransaction
+SET &#64;MyRandomNumber $LastTransaction
 ^comment based on random number, figure out who won.
-MOD @MyRandomNumber $TotalTicketsBought
+MOD &#64;MyRandomNumber $TotalTicketsBought
 BGE $MyRandomNumber $TotalTicketsBoughtPreviously :ChangeWinner
 
 UpdateNewPlayerContinue:
 ^comment update the totalnumber of tickets now
-SET @TotalTicketsBoughtPreviously $TotalTicketsBought
+SET &#64;TotalTicketsBoughtPreviously $TotalTicketsBought
 JMP :UpdateNewPlayerLoop
 
 ChangeWinner:
 FUN B_to_Address_of_Tx_in_A
-FUN @CurrentWinner get_B1
+FUN &#64;CurrentWinner get_B1
 JMP :UpdateNewPlayerContinue
 
 NoMoreTx:
@@ -661,26 +661,26 @@ SetEndTime:
 ^comment do not set endtime if there are not enough players
 BLT $TotalTicketsBought $MinNumPlayers :EndTimeSetted
 ^comment set the end time to 1
-INC @EndTime
+INC &#64;EndTime
 SLP $GameEndBlocks
 JMP :Update
 
 ^comment we select a winner here and kill the AT
 CloseAuction:
-FUN @CurrentBalance get_Current_Balance
-SET @OriginalCurrentBalance $CurrentBalance
+FUN &#64;CurrentBalance get_Current_Balance
+SET &#64;OriginalCurrentBalance $CurrentBalance
 FUN set_B1 $CurrentWinner
 
 ^comment calculate payout - total / 100 * pecent
-SET @ScratchBuffer #0000000000000064
-DIV @CurrentBalance $ScratchBuffer
-MUL @CurrentBalance $WinnerPercent
+SET &#64;ScratchBuffer #0000000000000064
+DIV &#64;CurrentBalance $ScratchBuffer
+MUL &#64;CurrentBalance $WinnerPercent
 FUN send_to_Address_in_B $CurrentBalance
 
 ^comment Payout Host
 PayHost:
-DIV @OriginalCurrentBalance $ScratchBuffer
-MUL @OriginalCurrentBalance $HostPercent
+DIV &#64;OriginalCurrentBalance $ScratchBuffer
+MUL &#64;OriginalCurrentBalance $HostPercent
 FUN B_to_Address_of_Creator
 FUN send_to_Address_in_B $OriginalCurrentBalance
 
@@ -718,11 +718,11 @@ TheThrone AT
 
 ^comment If this is the first time running, set some default variables.
 Start:
-SET @PayOutPrice #00000001dcd65000
-SET @MinLeft #000000001dcd6500
-SET @Chance #0000000000000002
+SET &#64;PayOutPrice #00000001dcd65000
+SET &#64;MinLeft #000000001dcd6500
+SET &#64;Chance #0000000000000002
 FUN B_to_Address_of_Creator
-FUN @CurrentKing get_B1
+FUN &#64;CurrentKing get_B1
 
 ^comment when the program starts for the next time, it will start from here.
 PCS
@@ -732,15 +732,15 @@ UpdateNewPlayerLoop:
 ^comment new way of grabbing transactions
 FUN A_to_Tx_after_Timestamp $LastTransaction
 ^comment can save 1 xin here.
-FUN @ValidTransaction check_A_Is_Zero
+FUN &#64;ValidTransaction check_A_Is_Zero
 BZR $ValidTransaction :NoMoreTx
-FUN @TransactionID get_A1
-FUN @LastTransaction get_Timestamp_for_Tx_in_A
+FUN &#64;TransactionID get_A1
+FUN &#64;LastTransaction get_Timestamp_for_Tx_in_A
 
 ^comment Random Number Generator
-SET @MyRandomNumber $TransactionID
+SET &#64;MyRandomNumber $TransactionID
 ^comment based on random number, figure out who won.
-MOD @MyRandomNumber $Chance
+MOD &#64;MyRandomNumber $Chance
 ^comment only works at 50%
 BZR $MyRandomNumber :ChangeWinner
 
@@ -752,14 +752,14 @@ JMP :UpdateNewPlayerLoop
 
 ChangeWinner:
 FUN B_to_Address_of_Tx_in_A
-FUN @CurrentKing get_B1
+FUN &#64;CurrentKing get_B1
 JMP :UpdateNewPlayerContinue
 
 ^comment Transactions has been processed finished.
 NoMoreTx:
-FUN @CurrentBalance get_Current_Balance
+FUN &#64;CurrentBalance get_Current_Balance
 BLE $CurrentBalance $MinLeft :End
-SUB @CurrentBalance $MinLeft
+SUB &#64;CurrentBalance $MinLeft
 FUN B_to_Address_of_Creator
 FUN send_to_Address_in_B $CurrentBalance
 
@@ -795,46 +795,46 @@ Fuscavor AT
 ^declare one_hundred
 ^declare temp
 ^declare temp2
-FUN @end_block get_Block_Timestamp
-FUN @end_block add_Minutes_to_Timestamp $end_block $countdown_minutes
-FUN @last_tx get_Creation_Timestamp
-SET @one_hundred #0000000000000064
+FUN &#64;end_block get_Block_Timestamp
+FUN &#64;end_block add_Minutes_to_Timestamp $end_block $countdown_minutes
+FUN &#64;last_tx get_Creation_Timestamp
+SET &#64;one_hundred #0000000000000064
 PCS
 start:
 FUN A_to_Tx_after_Timestamp $last_tx
-FUN @temp check_A_Is_Zero
+FUN &#64;temp check_A_Is_Zero
 FIZ $temp
-FUN @last_tx get_Timestamp_for_Tx_in_A
+FUN &#64;last_tx get_Timestamp_for_Tx_in_A
 BGT $last_tx $end_block :payout
 process:
-FUN @temp get_Amount_for_Tx_in_A
+FUN &#64;temp get_Amount_for_Tx_in_A
 BLT $temp $ticket_price :start
 FUN B_to_Address_of_Tx_in_A
-FUN @current_winner get_B1
-FUN @end_block get_Block_Timestamp
-FUN @end_block add_Minutes_to_Timestamp $end_block $countdown_minutes
+FUN &#64;current_winner get_B1
+FUN &#64;end_block get_Block_Timestamp
+FUN &#64;end_block add_Minutes_to_Timestamp $end_block $countdown_minutes
 JMP :start
 payout:
-FUN @last_pot get_Current_Balance
-SET @temp $last_pot
-DIV @temp $one_hundred
-SET @temp2 $temp
-MUL @temp2 $percent_payout
+FUN &#64;last_pot get_Current_Balance
+SET &#64;temp $last_pot
+DIV &#64;temp $one_hundred
+SET &#64;temp2 $temp
+MUL &#64;temp2 $percent_payout
 FUN clear_B
 FUN set_B1 $current_winner
 FUN send_to_Address_in_B $temp2
-SET @temp2 $temp
-MUL @temp2 $percent_dev
+SET &#64;temp2 $temp
+MUL &#64;temp2 $percent_dev
 FUN clear_B
 FUN set_B1 $dev_address
 FUN send_to_Address_in_B $temp2
-SET @temp2 $temp
-MUL @temp2 $percent_other
+SET &#64;temp2 $temp
+MUL &#64;temp2 $percent_other
 FUN clear_B
 FUN set_B1 $other_address
 FUN send_to_Address_in_B $temp2
-FUN @end_block get_Block_Timestamp
-FUN @end_block add_Minutes_to_Timestamp $end_block $countdown_minutes
+FUN &#64;end_block get_Block_Timestamp
+FUN &#64;end_block add_Minutes_to_Timestamp $end_block $countdown_minutes
 JMP :process                                
                                             </code>
                                         </pre>

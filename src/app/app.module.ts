@@ -6,7 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from "./shared/shared.module";
 
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { StoreModule } from '@ngrx/store';
@@ -58,19 +58,16 @@ export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         FullLayoutComponent,
         HorizontalLayoutComponent,
         ContentLayoutComponent,
     ],
-    imports: [
-        BrowserAnimationsModule,
+    bootstrap: [AppComponent], imports: [BrowserAnimationsModule,
         StoreModule.forRoot({}),
         SharedModule,
-        HttpClientModule,
-        NgbModule.forRoot(),
+        NgbModule,
         AppRoutingModule,
         MatchHeightModule,
         FormsModule,
@@ -83,9 +80,7 @@ export function createTranslateLoader(http: HttpClient) {
                 useFactory: (createTranslateLoader),
                 deps: [HttpClient]
             }
-        })
-    ],
-    providers: [
+        })], providers: [
         AuthService,
         AuthGuard,
         LoginService,
@@ -113,8 +108,7 @@ export function createTranslateLoader(http: HttpClient) {
         TransactionTextSubTypePipe,
         TransactionIconSubTypePipe,
         { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
-        {provide: APP_BASE_HREF, useValue: window['envConfig']['walletContextPath']}
-    ],
-    bootstrap: [AppComponent],
-})
+        { provide: APP_BASE_HREF, useValue: window['envConfig']['walletContextPath'] },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }

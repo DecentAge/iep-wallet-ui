@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand navbar-light bg-faded" (autoRefresh)="ngOnInit">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle navbar-toggle-1 d-lg-none float-left" data-toggle="collapse">
+            <button type="button" class="navbar-toggle navbar-toggle-1 d-lg-none float-start" data-toggle="collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -62,6 +62,15 @@
                     <!--<i class="fa fa-eur"></i>-->
                     <!--</a>-->
                     <!--</li>-->
+                    <ng-container *isAppEnabled="'DAOs'">
+                        <li *ngIf="isMobile">
+                            <a class="btn btn-default btn-md btn-circle navbar-btn pull-left nav-item nav-link position-relative"
+                               triggers="mouseenter:mouseleave" container="body" placement="bottom" ngbPopover="{{'navbar.show-daos-popover'| translate}} "
+                               (click)="showMyDaos()">
+                                <i class="icon-send_assets"></i>
+                            </a>
+                        </li>
+                    </ng-container>
                     <li>
                         <a class="btn btn-default btn-md btn-circle navbar-btn pull-left nav-item nav-link position-relative"
                             triggers="mouseenter:mouseleave" container="body" placement="bottom" ngbPopover="{{'navbar.send-message-popover'| translate}}"
@@ -69,6 +78,7 @@
                             <i class="icon-send_message"></i>
                         </a>
                     </li>
+                    <!--
                     <li *isAppEnabled="'Assets'">
                         <a class="btn btn-default btn-md btn-circle navbar-btn pull-left nav-item nav-link position-relative"
                             triggers="mouseenter:mouseleave" container="body" placement="bottom" ngbPopover="{{'navbar.send-assets-popover'| translate}} "
@@ -83,6 +93,7 @@
                             <i class="icon-send_currency"></i>
                         </a>
                     </li>
+                    -->
                     <li *isExpertView="true">
                         <a class="btn btn-default btn-md btn-circle navbar-btn pull-left nav-item nav-link position-relative"
                             triggers="mouseenter:mouseleave" container="body" placement="bottom" ngbPopover="{{'navbar.bookmarks-popover'| translate}}"
@@ -112,7 +123,7 @@
                             <i class="icon-menu"></i>
                             <p class="d-none">Tools</p>
                         </a>
-                        <div ngbDropdownMenu>
+                        <div ngbDropdownMenu class="dropdown-menu-end">
                             <a class="dropdown-item lang" [routerLink]="['/tool/transaction-types']">
                                 <i class="icon-transaction_types"></i> &nbsp;{{'navbar.transaction-types'| translate}}
                             </a>

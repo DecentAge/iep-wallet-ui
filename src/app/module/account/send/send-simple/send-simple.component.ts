@@ -62,8 +62,11 @@ export class SendSimpleComponent implements OnInit {
 
     ngOnInit() {
         this.activatedRoute.queryParams.subscribe((params: any) => {
-            if (params.recipient) {
-                this.sendForm.recipientRS = params.recipient;
+            if (params['recipientRS']) {
+                this.sendForm.recipientRS = params['recipientRS'];
+            }
+            if (params['amount']) {
+                this.sendForm.amount = params['amount'];
             }
         });
     }

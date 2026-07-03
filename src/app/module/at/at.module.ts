@@ -4,7 +4,7 @@ import { CreateAtComponent } from './create-at/create-at.component';
 import { ShowAtsComponent } from './show-ats/show-ats.component';
 import { AtRoutingModule } from './at-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { AtComponent } from './show-ats/at/at.component';
 import { AtDetailsComponent } from './show-ats/at-details/at-details.component';
 import { AtService } from './at.service';

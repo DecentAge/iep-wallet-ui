@@ -14,7 +14,7 @@ import {AppConstants} from '../../../../../config/constants';
 export class PollResultComponent implements OnInit {
     poll: any;
     pollResults: any;
-    pieChartData: any;
+    pieChartData: Array<any> = [];
 
     constructor(private _location: Location, private route: ActivatedRoute, public votingService: VotingService) {
         this.poll = {

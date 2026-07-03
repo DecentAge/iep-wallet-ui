@@ -1,48 +1,51 @@
-@import "scss/variables";
-@import "../../../node_modules/bootstrap/scss/bootstrap";
-@import "scss/core/palette";
-@import "scss/app-variables";
-@import "scss/mixins";
-@import "scss/custom-bootstrap";
-@import "scss/core";
-@import "scss/fonts/weather-icons";
-@import "scss/plugins";
-@import "scss/demo";  // Remove this SCSS from production
-@import "scss/custom";  // Remove this SCSS from production
+@import "bootstrap/scss/functions";
+@import "scss/vendor-prefixes";
 
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:after{
-  background-color: #f1f2f3 !important;
-  color: #cacaca !important;
-      font-size: 20px !important;
-}
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.current:after {
- @include set-gradient-background-color(#e72d45, #f3931b);
-  color: #ffffff !important;
-}
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.default:after {
-  color: #ffffff !important;
-}
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.done:after {
-  background-color: #e72d45 !important;
-  color: #ffffff !important;
-}
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.editing:after {
-  background-color: theme-color("danger") !important;
-  color: #ffffff !important;
-}
-aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:not(:last-child):before {
-    background-color: #f1f2f3 !important;
-    height: 6px!important;
-    top: -29px!important;
-}
-aw-wizard-navigation-bar.horizontal ul.steps-indicator li div a {
-    color: #333 !important;
-    line-height: 20px !important;
-    font-size: 15px !important;
-    text-transform: none !important;
-    font-weight: 500 !important;
-    letter-spacing: 1.2px !important;
-}
+// 2. Include any default variable overrides here
+@import "scss/variables";
+
+// 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+// 6. Optionally include any other parts as needed
+@import "scss/utilities";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/helpers";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/accordion";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/alert";
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "bootstrap/scss/utilities/api";
+
+@import "scss/sidebar-content";
+@import "scss/responsive";
+@import "scss/custom";
+
+
+@import "scss/aw-wizard";
+
+
+
+
 .app-sidebar .sidebar-content, .off-canvas-sidebar .sidebar-content {
   height: calc(100vh - 115px);
 }

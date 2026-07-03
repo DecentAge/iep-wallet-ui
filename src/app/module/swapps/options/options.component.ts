@@ -6,7 +6,7 @@ import { NodeService } from '../../../services/node.service';
 import { LocalhostService } from '../../../services/localhost.service';
 import { AppConstants } from '../../../config/constants';
 import * as AlertFunctions from '../../../shared/data/sweet-alerts';
-import { isBoolean } from 'util';
+import {NgbAccordionModule} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
     selector: 'app-options',
@@ -15,6 +15,7 @@ import { isBoolean } from 'util';
 })
 export class OptionsComponent implements OnInit {
     connectedURL = '';
+    readonly CONNECTION_MODES = ['AUTO', 'LOCALHOST', 'MANUAL'];
 
     optionsForm: any;
     activeIds: string[] = [];
@@ -28,6 +29,7 @@ export class OptionsComponent implements OnInit {
     ) {
         this.activeIds = ['nodeAndConnections', 'blocksAndConfirmations', 'wallet', 'extensions'];
         this.optionsForm = {
+            CONNECTION_MODE: 'LOCALHOST',
             USER_NODE_URL: '',
             RANDOMIZE_NODES: 0,
             REFRESH_INTERVAL_MILLI_SECONDS: 60,
@@ -41,6 +43,9 @@ export class OptionsComponent implements OnInit {
 
         this.optionService.loadOptions(publicKey, (optionsObject) => {
             this.optionsForm = this.copyJson(optionsObject, this.optionsForm);
+            if (this.optionsForm.CONNECTION_MODE === 'MANUAL') {
+                this.optionsForm.USER_NODE_URL = this.optionsForm.NODE_API_URL || '';
+            }
             this.sessionStorageService.saveToSession(AppConstants.baseConfig.SESSION_APP_OPTIONS, optionsObject);
         }, (e) => {
             this.sessionStorageService.saveToSession(AppConstants.baseConfig.SESSION_APP_OPTIONS, AppConstants.DEFAULT_OPTIONS);
@@ -54,7 +59,7 @@ export class OptionsComponent implements OnInit {
         toJson = toJson || {};
         for (const key in fromJson) {
             if (fromJson.hasOwnProperty(key)) {
-                if (!isNaN(fromJson[key]) && !isBoolean(fromJson[key])) {
+                if (!isNaN(fromJson[key]) && typeof fromJson[key] !== "boolean") {
                     fromJson[key] = parseInt(fromJson[key], 10);
                 }
                 toJson[key] = fromJson[key];
@@ -73,22 +78,30 @@ export class OptionsComponent implements OnInit {
         return finalJson;
     }
 
+    onConnectionModeChange() {
+        if (this.optionsForm.CONNECTION_MODE !== 'MANUAL') {
+            this.optionsForm.USER_NODE_URL = '';
+        }
+    }
+
     validateAndUpdate() {
-        const url = this.optionsForm.USER_NODE_URL;
-        const connectionMode = this.optionsForm.CONNECTION_MODE;
-
-        this.updateConnectionMode(this.optionsForm);
-
-        if (connectionMode === 'AUTO') {
-            this.updateOptions();
-        } else if (url) {
-            this.localhostService.getPeerState(url).subscribe((success) => {
+        if (this.optionsForm.CONNECTION_MODE === 'MANUAL') {
+            const url = this.optionsForm.USER_NODE_URL;
+            if (!url) return;
+            this.localhostService.getPeerState(url).subscribe(() => {
                 this.updateOptions();
             });
+        } else {
+            this.updateOptions();
         }
     }
 
     updateOptions() {
+        if (this.optionsForm.CONNECTION_MODE === 'MANUAL') {
+            this.optionsForm.NODE_API_URL = this.optionsForm.USER_NODE_URL;
+        } else {
+            this.optionsForm.NODE_API_URL = AppConstants.DEFAULT_OPTIONS.NODE_API_URL;
+        }
         const publicKey = this.commonService.getAccountDetailsFromSession('publicKey'),
             options = this.getOptionsJsonObject(this.optionsForm),
             finalOptions = [];
@@ -112,13 +125,6 @@ export class OptionsComponent implements OnInit {
         }, (error) => {
 
         });
-    }
-
-    updateConnectionMode(form) {
-        this.optionsForm.USER_NODE_URL = AppConstants.DEFAULT_OPTIONS.NODE_API_URL;
-        this.optionsForm.RANDOMIZE_NODES = 0;
-        this.optionsForm.TESTNET = AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT === 'testnet';
-        this.optionsForm.EXTENSIONS = 1;
     }
 
     isValidUrl() {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {SessionStorageService} from '../../../../services/session-storage.service';
-import {CryptoService} from '../../../../services/crypto.service';
+import {SessionStorageService} from 'app/services/session-storage.service';
+import {CryptoService} from 'app/services/crypto.service';
 import {AccountService} from '../../account.service';
 
 
@@ -25,7 +25,7 @@ export class ReceiveComponent implements OnInit {
     getAccountDetails = () => {
         this.receiveAddress = this.accountService.getAccountDetailsFromSession('publicKey');
         this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
-        this.mailTo = "mailto:?subject=XIN Address&body=My XIN Address is : "+ this.accountRs;
+        this.mailTo = 'mailto:?subject=XIN Address&body=My XIN Address is : ' + this.accountRs;
     };
 
     copyText = (element, tooltip) => {

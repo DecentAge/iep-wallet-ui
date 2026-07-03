@@ -1,14 +1,19 @@
 # build environment
-FROM node:10-alpine AS node-builder
+FROM node:22-alpine AS node-builder
 WORKDIR /app
-RUN apk add --no-cache git
+RUN apk add --no-cache git python3 make g++
 RUN apk add --no-cache zip
 COPY ["package.json", "package-lock.json*", "./"]
-RUN npm install -g @angular/cli@6.2.9
-RUN npm install
+RUN npm ci
 COPY . .
 RUN npm run-script update-version --release_version=$(cat release-version.txt) 
 RUN npm run build-prod
 
 RUN mkdir -p /build
-RUN cd dist; zip -r /build/iep-wallet-ui.zip ./*
+# angular.json sets outputPath.browser="" so the build is flat in dist/ (no browser/
+# subdir) — the node then serves the wallet at /wallet/index.html.
+RUN cd dist && zip -r /build/iep-wallet-ui.zip ./*
+
+# minimal output image — only the built artifact
+FROM alpine:latest
+COPY --from=node-builder /build/iep-wallet-ui.zip /build/iep-wallet-ui.zip

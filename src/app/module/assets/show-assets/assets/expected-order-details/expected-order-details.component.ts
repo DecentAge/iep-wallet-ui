@@ -27,6 +27,8 @@ export class ExpectedOrderDetailsComponent implements OnInit {
     enableBuy: any;
     askLength: any;
     expectedOrderForm: any = {}
+    activeTab: any;
+
     constructor(private router: Router,
                 private sessionStorageService: SessionStorageService,
                 private assetsService: AssetsService,

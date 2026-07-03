@@ -12,7 +12,7 @@
             </div>
 
             <div class="card-body">
-                <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                     <aw-wizard [navBarLayout]="'large-filled-symbols'">
                         <aw-wizard-step stepTitle="Confirm" [navigationSymbol]="{ symbol: '&#xe93a;', fontFamily: 'icomoon' }"
                             class="form-bordered mt-4">
@@ -47,18 +47,18 @@
                             </div>
 
                             <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                 <i class="fa fa-key"></i> Signed Transaction
                             </button>
                             <hr *ngIf="unsignedTx">
                             <div class="form-group" *ngIf="unsignedTx">
                                 <div class="position-relative sign_in_inputs">
-                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control pl-0"
+                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control ps-0"
                                         name="key"></textarea>
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button type="button" [disabled]="!validBytes" class="btn btn-primary float-right"
+                                <button type="button" [disabled]="!validBytes" class="btn btn-primary float-end"
                                     (click)="broadcastTransaction(transactionBytes)">
                                     <i class="fa fa-check"></i> Finish
                                 </button>

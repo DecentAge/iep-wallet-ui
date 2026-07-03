@@ -1,0 +1,13 @@
+.delete-founder-button {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 30px;
+  background: linear-gradient(90deg, #FF5925 -15.5%, rgba(255, 90, 38, 0.97) 12.68%, rgba(255, 61, 0, 0.00) 74.68%), #FF9838;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  color: white;
+  font-size: 22px;
+}

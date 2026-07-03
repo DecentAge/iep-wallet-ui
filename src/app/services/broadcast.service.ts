@@ -1,6 +1,7 @@
 
 import {map, filter} from 'rxjs/operators';
 import {Subject, Observable} from 'rxjs';
+import { Injectable } from "@angular/core";
 
 
 
@@ -9,6 +10,7 @@ interface BroadcastEvent {
     data?: any;
 }
 
+@Injectable()
 export class BroadcastService {
     private _eventBus: Subject<BroadcastEvent>;
 

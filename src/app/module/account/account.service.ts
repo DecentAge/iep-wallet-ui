@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { throwError } from "rxjs";
 import { HttpProviderService } from "../../services/http-provider.service";
 import { NodeService } from "../../services/node.service";
 import { AppConstants } from "../../config/constants";
@@ -197,13 +198,11 @@ export class AccountService {
     return this.transactionService.createTransaction(params, "", "");
   }
 
-  blockGeneration(mode, secret, node) {
-    let baseUrl = "";
-    if (node !== "LOCAL_HOST") {
-      baseUrl = this.nodeService.getNodeUrl();
-    } else {
-      baseUrl = this.nodeService.getLocalNodeUrl();
+  blockGeneration(mode, secret) {
+    if (!this.nodeService.isLocalNode()) {
+      return throwError(() => new Error('Block generation requires a local node connection'));
     }
+    let baseUrl = this.nodeService.getNodeUrl();
 
     let command = "getForging";
     switch (mode) {
@@ -242,8 +241,8 @@ export class AccountService {
   }
 
   getVoterPhasedTransactions(account, firstIndex, lastIndex): any {
-    let params = {
-      requestType: "getVoterPhasedTransactions",
+    const params = {
+      requestType: 'getVoterPhasedTransactions',
       account: account,
       firstIndex: firstIndex,
       lastIndex: lastIndex
@@ -445,6 +444,9 @@ export class AccountService {
     secretPhrase,
     adminPassword
   ) {
+    if (!this.nodeService.isLocalNode()) {
+      return throwError(() => new Error('Funding monitor requires a local node connection'));
+    }
     let params = {
       requestType: "startFundingMonitor",
       property: property,
@@ -472,6 +474,9 @@ export class AccountService {
     secretPhrase,
     adminPassword
   ) {
+    if (!this.nodeService.isLocalNode()) {
+      return throwError(() => new Error('Funding monitor requires a local node connection'));
+    }
     let params = {
       requestType: "stopFundingMonitor",
       property: property,
@@ -510,6 +515,9 @@ export class AccountService {
     secretPhrase,
     adminPassword
   ) {
+    if (!this.nodeService.isLocalNode()) {
+      return throwError(() => new Error('Funding monitor requires a local node connection'));
+    }
     let params = {
       requestType: "getFundingMonitor",
       property: property,
@@ -536,5 +544,22 @@ export class AccountService {
       AppConstants.accountConfig.accountEndPoint,
       params
     );
+  }
+
+  checkAccountExists(accountRS) {
+      const params = {
+          'requestType': 'getAccount',
+          'account': accountRS
+      };
+      return this.http.get(this.nodeService.getNodeUrl(), AppConstants.accountConfig.accountEndPoint, params);
+  }
+
+  getAccountPublicKey(account) {
+    const params = {
+      'requestType': 'getAccountPublicKey',
+      'account': account
+    };
+
+    return this.http.get(this.nodeService.getNodeUrl(), AppConstants.accountConfig.accountEndPoint, params);
   }
 }

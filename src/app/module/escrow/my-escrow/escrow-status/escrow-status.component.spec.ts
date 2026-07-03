@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EscrowStatusComponent } from './escrow-status.component';
 
@@ -6,7 +7,7 @@ describe('EscrowStatusComponent', () => {
   let component: EscrowStatusComponent;
   let fixture: ComponentFixture<EscrowStatusComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EscrowStatusComponent ]
     })

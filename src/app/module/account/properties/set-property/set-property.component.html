@@ -10,7 +10,7 @@
     </div>
 </div>
 <div class="card-body">
-    <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3" *ngIf="propertyType==='SET'">
+    <div class="card-block ms-1 me-1 ms-md-3 me-md-3" *ngIf="propertyType==='SET'">
         <aw-wizard [navBarLayout]="'large-filled-symbols'" *ngIf="!openBookMarks">
             <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                 <form class="form inner-form" #f="ngForm" novalidate>
@@ -21,13 +21,13 @@
                                     placement="right" container="body" ngbPopover="{{'account.properties.recipient-label-popover'| translate}}">
                                 </i>
                             </label>
-                            <div class="input-group ml-0 mr-0 sign_in_inputs row form-border-bottom pb-1">
-                                <div class="col-6 col-lg-8 pl-0 pr-0">
-                                    <input type="text" class="pl-0 mb-0 pt-0 pb-0 form-control" placeholder="{{'common.xin-account-key-placeholder' | translate}}"
+                            <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom pb-1">
+                                <div class="col-6 col-lg-8 ps-0 pe-0">
+                                    <input type="text" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control" placeholder="{{'common.xin-account-key-placeholder' | translate}}"
                                         name="recipientRS" #recipientRS="ngModel" [(ngModel)]="setAccountPropertyForm.recipientRS"
                                         required>
                                 </div>
-                                <div class="col-6 col-lg-4 pr-1 pl-0 btn-icon-group text-right pr-1">
+                                <div class="col-6 col-lg-4 pe-1 ps-0 btn-icon-group text-right pe-1">
                                     <span class="btn btn-primary" triggers="mouseenter:mouseleave" placement="top"
                                         container="body" (click)="setAccount()" ngbPopover="{{'account.properties.won-property-popover'| translate}}">
                                         <i class="fa fa-home"></i>
@@ -92,7 +92,7 @@
                         </div>
                     </div>
                     <div class="left">
-                        <button type="button" class="btn btn-gradient mr-1 mb-0 float-right" (click)="setAccountProperty()"
+                        <button type="button" class="btn btn-gradient me-1 mb-0 float-end" (click)="setAccountProperty()"
                             [disabled]="f.invalid" awNextStep>
                             <i class="fa fa-chevron-right"></i>{{'common.next-btn'| translate}}
                         </button>
@@ -137,10 +137,10 @@
                 </div>
 
                 <div class="mt-4">
-                    <button type="button" class="btn btn-gradient float-right" (click)="broadcastTransaction(transactionBytes)">
+                    <button type="button" class="btn btn-gradient float-end" (click)="broadcastTransaction(transactionBytes)">
                         <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                     </button>
-                    <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                    <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                         <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                     </button>
                 </div>
@@ -156,7 +156,7 @@
                         </h5>
                     </div>
                     <div class="card-body">
-                        <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                        <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                             <h5 class="mb-1">Bookmark List</h5>
                             <app-bookmark-list [viewFor]="'sendxin'" (selectEvent)="bookmarkSelected($event)"></app-bookmark-list>
                         </div>
@@ -165,7 +165,7 @@
             </div>
         </div>
     </div>
-    <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3" *ngIf="propertyType==='MY'|| propertyType==='ALL'">
+    <div class="card-block ms-1 me-1 ms-md-3 me-md-3" *ngIf="propertyType==='MY'|| propertyType==='ALL'">
         <ngx-datatable class="material" [rows]="properties" [columnMode]="'force'" [rowHeight]="'auto'" [footerHeight]="50"
             [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" [limit]="page.size" (page)='setPage($event)'>
             <ngx-datatable-column prop="setterRS" [name]="'table-header.setter'| translate" *ngIf="propertyType ==='MY'">

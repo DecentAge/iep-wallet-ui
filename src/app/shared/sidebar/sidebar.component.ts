@@ -5,6 +5,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {LoginService} from '../../services/login.service';
 import {RootScope} from '../../config/root-scope';
 import {OptionService} from '../../services/option.service';
+import {AccountService} from 'app/module/account/account.service';
 
 declare var $: any;
 
@@ -30,11 +31,12 @@ export class SidebarComponent implements OnInit {
 
     openListItems;
 
-    constructor(private router: Router,
-                private route: ActivatedRoute,
-                public translate: TranslateService,
-                public loginService: LoginService,
-                public optionService: OptionService,
+    constructor(
+      private accountService: AccountService,
+      private router: Router,
+      public translate: TranslateService,
+      public loginService: LoginService,
+      public optionService: OptionService,
     ) {
         this.balanceTQT = 0;
 
@@ -46,8 +48,14 @@ export class SidebarComponent implements OnInit {
     }
 
     ngOnInit() {
-        //$.getScript('./assets/js/app-sidebar.js');
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
+        // $.getScript('./assets/js/app-sidebar.js');
+        const accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
+        this.menuItems = ROUTES.filter(menuItem => {
+            if (menuItem.includeAccountRs) {
+                menuItem.path += `/${accountRs}`;
+            }
+            return menuItem
+        });
         this.isExpertWallet = this.loginService.isExpertWallet;
 
         RootScope.onChange.subscribe(data => {
@@ -64,12 +72,13 @@ export class SidebarComponent implements OnInit {
             return this.id;
         }).get();
 
-        this.loginService.isExpertWallet = !this.isExpertWallet;
+        this.loginService.isExpertWallet = this.isExpertWallet;
         this.loginService.applyChanges();
     }
 
     triggerClick() {
-        $('ui-switch').trigger('click');
+        this.isExpertWallet = !this.isExpertWallet;
+        this.switchWallet();
     }
 
     registerSidebarScripts() {

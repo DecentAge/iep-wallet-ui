@@ -8,7 +8,7 @@
                         <app-breadcrumb></app-breadcrumb>
                     </div>
                     <div class="card-body mt-4">
-                        <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                        <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                             <form class="form inner-form" #f="ngForm" novalidate>
                                 <div class="form-body">
                                     <div class="form-group">
@@ -21,7 +21,7 @@
                                                 [(ngModel)]="searchAccountForm.query" placeholder="{{'account.search-account.search-for-account-placeholder'| translate}}"
                                                 (input)="onSearchChange($event.target.value)" required>
                                             <div class="form-control-position btn-search">
-                                                <i class="ft-search info mr-2"></i>{{'account.search-account.search-btn'|
+                                                <i class="ft-search info me-2"></i>{{'account.search-account.search-btn'|
                                                 translate}}
                                             </div>
                                         </div>

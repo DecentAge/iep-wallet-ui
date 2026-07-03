@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { OptionService } from '../../../services/option.service';
 import { AccountService } from '../account.service';
+import { NodeService } from '../../../services/node.service';
 import { SessionStorageService } from '../../../services/session-storage.service';
-import * as alertFunctions from '../../../shared/data/sweet-alerts';
 import { CommonService } from '../../../services/common.service';
 
 @Component({
@@ -12,43 +12,24 @@ import { CommonService } from '../../../services/common.service';
 })
 export class BlockGenerationComponent implements OnInit {
     status = 'Unknown';
-    hasLocal = false;
-    hasHttps = false;
-    connectionMode: any;
+    isLocal = false;
     generationStatus: any;
     secretPhrase = '';
 
     constructor(public optionsService: OptionService,
                 public accountService: AccountService,
+                public nodeService: NodeService,
                 public sessionStorageService: SessionStorageService,
                 public commonService: CommonService) {
-        this.generationStatus = '<span class="label label-warning">Unkown Account</span>';
+        this.generationStatus = '—';
     }
 
     ngOnInit() {
-        this.hasLocal = this.connectionMode === 'LOCAL_HOST';
-        this.hasHttps = this.connectionMode === 'HTTPS';
-        this.displayNotificationAlert();
-    }
-
-    displayNotificationAlert() {
-        if (this.connectionMode !== 'LOCAL_HOST' &&
-            this.connectionMode !== 'TESTNET' &&
-            this.connectionMode !== 'DEVTESTNET' &&
-            this.connectionMode !== 'HTTPS') {
-            const title: string = this.commonService.translateAlertTitle('Error');
-            const msg: string = this.commonService.translateInfoMessage('block-generation-localhost-error-msg');
-            alertFunctions.InfoAlertBox(title,
-                msg,
-                'OK',
-                'error');
-        } else {
-            this.hasLocal = true;
-        }
+        this.isLocal = this.nodeService.isLocalNode();
     }
 
     runBlockGeneration(mode) {
-        this.accountService.blockGeneration(mode, this.secretPhrase, this.connectionMode)
+        this.accountService.blockGeneration(mode, this.secretPhrase)
             .subscribe((success: any) => {
                 if (success.errorDescription) {
                     this.generationStatus = success.errorDescription;
@@ -57,8 +38,7 @@ export class BlockGenerationComponent implements OnInit {
                     this.generationStatus = '<span class="label label-success">Running</span>';
                 }
                 if (success.errorCode === 4) {
-                    this.generationStatus =
-                        '<span class="label label-warning">Unkown Account</span>';
+                    this.generationStatus = '<span class="label label-warning">Account not found</span>';
                 }
                 // TODO: Multiple condition for same code need to refine code.
                 if (success.foundAndStopped === true) {

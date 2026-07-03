@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SearchAccountComponent } from './search-account.component';
 
@@ -6,7 +7,7 @@ describe('SearchAccountComponent', () => {
   let component: SearchAccountComponent;
   let fixture: ComponentFixture<SearchAccountComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SearchAccountComponent ]
     })

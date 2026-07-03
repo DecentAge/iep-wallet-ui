@@ -4,7 +4,7 @@ import { ShowShufflingsComponent } from './show-shufflings/show-shufflings.compo
 import { CreateShufflingComponent } from './create-shuffling/create-shuffling.component';
 import { ShufflingRoutingModule } from './shuffling-routing.module';
 import { SharedModule } from '../../shared/shared.module';
-import { ArchwizardModule } from 'angular-archwizard';
+import { ArchwizardModule } from '../../shared/archwizard';
 import { FormsModule } from '@angular/forms';
 import { ShufflingsComponent } from './show-shufflings/shufflings/shufflings.component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';

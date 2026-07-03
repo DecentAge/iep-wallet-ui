@@ -9,7 +9,7 @@
 
             </div>
             <div class="card-body">
-                <div class="card-block ml-1 mr-1 ml-md-3 mr-md-3">
+                <div class="card-block ms-1 me-1 ms-md-3 me-md-3">
                     <aw-wizard [navBarLayout]="'large-filled-symbols'">
                         <aw-wizard-step stepTitle="{{'common.details-step'| translate}}" [navigationSymbol]="{ symbol: '1' }">
                             <form class="form inner-form" #createAliasesForm="ngForm" novalidate>
@@ -63,13 +63,13 @@
                                                     </i>
                                                 </label>
                                                 <div class="input-group m-0 row sign_in_inputs form-border-bottom">
-                                                    <div class="col-9 pl-0">
-                                                        <input type="text" class="pl-0 mb-0 pt-0 pb-0 form-control"
+                                                    <div class="col-9 ps-0">
+                                                        <input type="text" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
                                                             name="aliaseURI" #aliaseURI="ngModel" [(ngModel)]="alias.aliasURI"
                                                             placeholder="{{uriPlaceholder}}" required>
                                                     </div>
-                                                    <div class="col-3 text-right pl-0">
-                                                        <span class="input-group-text text-right">@{{'common.xin-unit-text'|
+                                                    <div class="col-3 text-right ps-0">
+                                                        <span class="input-group-text text-right">&#64;{{'common.xin-unit-text'|
                                                             translate}}</span>
                                                     </div>
                                                 </div>
@@ -85,7 +85,7 @@
                                     </div>
 
                                     <button type="button" [disabled]="createAliasesForm.invalid" (click)="setAlias()"
-                                        class="btn btn-primary mr-1 mt-4 mb-0 float-right btn-gradient" awNextStep>
+                                        class="btn btn-primary me-1 mt-4 mb-0 float-end btn-gradient" awNextStep>
                                         <i class="fa fa-chevron-right"></i> {{'common.next-btn'| translate}}
                                     </button>
                                 </div>
@@ -121,21 +121,21 @@
                                 </div>
                             </div>
                             <button type="button" [ngClass]="{'btn-success': !unsignedTx, 'btn-danger': unsignedTx}"
-                                class="btn btn-raised mr-1 mb-0" (click)="unsignedTx = !unsignedTx">
+                                class="btn btn-raised me-1 mb-0" (click)="unsignedTx = !unsignedTx">
                                 <i class="fa fa-key"></i> {{'common.signed-transaction-label'| translate}}
                             </button>
                             <div class="form-group mt-3" *ngIf="unsignedTx">
                                 <div class="position-relative sign_in_inputs">
-                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control pl-0"
+                                    <textarea disabled="true" rows="3" type="text" [(ngModel)]="transactionBytes" class="form-control ps-0"
                                         name="key"></textarea>
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-right"
+                                <button type="button" [disabled]="!validBytes" class="btn btn-gradient float-end"
                                     (click)="broadcastTransaction(transactionBytes)">
                                     <i class="fa fa-check"></i> {{'common.finish-btn'| translate}}
                                 </button>
-                                <button type="button" class="btn btn-gradient mr-1 float-right" awPreviousStep>
+                                <button type="button" class="btn btn-gradient me-1 float-end" awPreviousStep>
                                     <i class="fa fa-chevron-left"></i> {{'common.previous-btn'| translate}}
                                 </button>
                             </div>

@@ -9,23 +9,35 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist",
+            "aot": true,
+            "baseHref": "/wallet/",
+            "outputPath": {
+              "base": "dist",
+              "browser": ""
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "assets": [
-              "src/assets",
               "src/favicon.ico",
-              "src/env.config.js"
+              "src/env.config.js",
+              {
+                "glob": "**/*",
+                "input": "src/assets/",
+                "ignore": ["**/*.scss"],
+                "output": "/assets/"
+              }
             ],
             "styles": [
               "src/assets/css/prism.min.css",
               "node_modules/sweetalert2/dist/sweetalert2.min.css",
-              "node_modules/@swimlane/ngx-datatable/release/index.css",
-              "node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
+              "node_modules/@swimlane/ngx-datatable/index.css",
+              "node_modules/@swimlane/ngx-datatable/assets/icons.css",
+              "node_modules/ngx-ui-switch/ui-switch.component.css",
               "src/assets/css/demo.css",
               "src/assets/sass/app.scss",
               "src/styles.css"
@@ -48,23 +60,30 @@
               "src/app/crypto/qrcode.js",
               "src/app/crypto/rsaddress.js",
               "src/app/crypto/seedrandom.js",
-              "src/app/crypto/sha256.js",
-              "node_modules/amcharts3/amcharts/amcharts.js",
-              "node_modules/amcharts3/amcharts/serial.js",
-              "node_modules/amcharts3/amcharts/themes/light.js"
-            ]
+              "src/app/crypto/sha256.js"
+            ],
+            "browser": "src/main.ts"
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -77,18 +96,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "matngular:build"
+            "buildTarget": "matngular:build:development"
           },
           "configurations": {
             "production": {
-              "browserTarget": "matngular:build:production"
+              "buildTarget": "matngular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "matngular:build"
+            "buildTarget": "matngular:build"
           }
         },
         "test": {
@@ -116,10 +135,7 @@
               "src/app/crypto/qrcode.js",
               "src/app/crypto/rsaddress.js",
               "src/app/crypto/seedrandom.js",
-              "src/app/crypto/sha256.js",
-              "node_modules/amcharts3/amcharts/amcharts.js",
-              "node_modules/amcharts3/amcharts/serial.js",
-              "node_modules/amcharts3/amcharts/themes/light.js"
+              "src/app/crypto/sha256.js"
             ],
             "styles": [
               "src/assets/css/prism.min.css",
@@ -177,11 +193,10 @@
       }
     }
   },
-  "defaultProject": "matngular",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"

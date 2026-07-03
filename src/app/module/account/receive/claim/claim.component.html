@@ -2,7 +2,7 @@
     <h3 class="card-title">{{'account.receive-xin.claim-title'| translate}}</h3>
 </div>
 <div class="card-body">
-    <div class="card-block ml-md-3 mr-md-3">
+    <div class="card-block ms-md-3 me-md-3">
         <form class="form">
             <div class="form-body">
                 <div class="row">
@@ -13,12 +13,12 @@
                                     container="body" ngbPopover="{{'account.receive-xin.transaction-full-hash-tooltip'| translate}}">
                                 </i>
                             </label>
-                            <div class="input-group ml-0 mr-0 sign_in_inputs row form-border-bottom pb-1">
-                                <div class="col-9  pl-0">
-                                    <input type="text" class="pl-0 mb-0 pt-0 pb-0 form-control" [(ngModel)]="claimSeceretForm.fullHash"
+                            <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom pb-1">
+                                <div class="col-9  ps-0">
+                                    <input type="text" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control" [(ngModel)]="claimSeceretForm.fullHash"
                                         name="transaction_hash" placeholder="{{'account.receive-xin.transaction-full-hash-placeholder'| translate}}">
                                 </div>
-                                <div class="col-3 pl-0 pr-1">
+                                <div class="col-3 ps-0 pe-1">
 
                                     <span class="input-group-text">HASH</span>
                                 </div>
@@ -32,14 +32,14 @@
                                     container="body" ngbPopover="{{'account.receive-xin.revealed-secret-tooltip'| translate}}">
                                 </i>
                             </label>
-                            <div class="input-group ml-0 mr-0 sign_in_inputs row form-border-bottom pb-1">
-                                <div class="col-9 col-lg-10 pl-0">
+                            <div class="input-group ms-0 me-0 sign_in_inputs row form-border-bottom pb-1">
+                                <div class="col-9 col-lg-10 ps-0">
 
-                                    <input type="text" class="pl-0 mb-0 pt-0 pb-0 form-control" [(ngModel)]="claimSeceretForm.secretText"
+                                    <input type="text" class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control" [(ngModel)]="claimSeceretForm.secretText"
                                         placeholder="{{'account.receive-xin.revealed-secret-placeholder'| translate}}"
                                         name="secret_text">
                                 </div>
-                                <div class="btn-icon-group text-right col-3 col-lg-2 pr-1" (click)="confirmControlledTransaction(claimSeceretForm.fullHash, claimSeceretForm.secretText)">
+                                <div class="btn-icon-group text-right col-3 col-lg-2 pe-1" (click)="confirmControlledTransaction(claimSeceretForm.fullHash, claimSeceretForm.secretText)">
 
                                     <span class="btn btn-primary"><i class="fa fa-user-secret"></i></span>
                                 </div>
@@ -62,7 +62,7 @@
                         </div>
                         <div class="form-actions">
                             <button type="button" [disabled]="!validBytes" (click)="broadcastTransaction(transactionBytes)"
-                                class="btn btn-primary float-right">
+                                class="btn btn-primary float-end">
                                 <i class="fa fa-check"></i>{{'common.finish-btn'| translate}}
                             </button>
                         </div>

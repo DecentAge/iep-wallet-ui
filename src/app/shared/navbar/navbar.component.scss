@@ -1,4 +1,7 @@
 .navbar {
+  >div{
+    padding-right: 0;
+  }
   padding: 22px 30px 10px;
   .dropdown-toggle::after {
     content: none;
@@ -64,6 +67,7 @@
   padding: 0 8px;
   font-size: 12px;
   font-weight: 600;
+  text-align: center;
 }
 
 ul.navbar-nav li {

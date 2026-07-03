@@ -70,7 +70,6 @@ export class ReadMessageComponent implements OnInit {
                                 recipientPublicKey);
 
                     } else {
-
                         encrypted =
                             this.cryptoService.decryptMessage(encrpytedMessageData, encrpytedMessageNonce, secretHex,
                                 senderPublicKey);

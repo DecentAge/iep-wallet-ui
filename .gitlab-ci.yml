@@ -1,8 +1,13 @@
 include:
   - project: 'infinity-economics/iep-docker'
+    ref: ${CI_COMMIT_REF_NAME}
     file: '/gitlab/ci/docker-ci-cd.yml'
 
 trigger-iep-node:
   stage: build
   needs: ["docker-build"]
-  trigger: infinity-economics/iep-node
+  trigger:
+    project: infinity-economics/iep-node
+    branch: $CI_COMMIT_BRANCH
+    forward:
+      yaml_variables: false

@@ -1,4 +1,5 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import 'jasmine';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ControlFundingMonitorComponent } from './control-funding-monitor.component';
 
@@ -6,7 +7,7 @@ describe('ControlFundingMonitorComponent', () => {
   let component: ControlFundingMonitorComponent;
   let fixture: ComponentFixture<ControlFundingMonitorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ControlFundingMonitorComponent ]
     })

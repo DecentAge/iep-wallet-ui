@@ -1,12 +1,15 @@
-<div class="wrapper gradient-header">
-    <div class="app-sidebar" data-active-color="white" data-background-color="white" data-image="assets/images/background-side-menu.png">
-        <app-sidebar></app-sidebar>
-        <!-- <div class="sidebar-background"></div> -->
+<div class="app-sidebar {{getEnvironmentClass()}}" data-active-color="white" data-background-color="white" data-image="assets/images/background-side-menu.png">
+    <div *ngIf="getEnvironmentClass() === 'testing'" class="testing-environment-label">
+        TESTING ENVIRONMENT
     </div>
+    <app-sidebar></app-sidebar>
+    <!-- <div class="sidebar-background"></div> -->
+</div>
+<div class="wrapper gradient-header {{getEnvironmentClass()}}">
     <app-navbar></app-navbar>
     <app-header></app-header>
     <div class="main-panel">
-        <div class="main-content">
+        <div class="main-content {{getEnvironmentClass()}}">
             <app-sync-progress></app-sync-progress>
             <div class="content-wrapper">
                 <div class="container-fluid">
