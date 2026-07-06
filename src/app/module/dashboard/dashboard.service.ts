@@ -23,19 +23,13 @@ export class DashboardService {
 
     };
 
-    getMarketData(fsym, tsym): any {
-
-        var params = {
-            aggregate: 6,
-            e: 'CCCAGG',
-            extraParams: '1',
-            limit: 120,
-            tryConversion: false,
-            fsym,
-            tsym
-        };
-
-        return this.http.get(AppConstants.marketDataConfig.baseUrl, AppConstants.marketDataConfig.endpoint + '/' + 'histohour', params);
+    // BTC/USD hourly history from CoinGecko (free, CORS-enabled, no API key).
+    // Used to derive the XIN/USD chart series (XIN is pegged to 1 Satoshi = BTC * 1e-8).
+    getBtcUsdMarketData(): any {
+        return this.http.get('https://api.coingecko.com/api/v3', 'coins/bitcoin/market_chart', {
+            vs_currency: 'usd',
+            days: 7
+        });
     }
 
 }
