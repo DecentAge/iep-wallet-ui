@@ -138,12 +138,14 @@ export class ResponseInterceptor implements HttpInterceptor {
           }
         }
 
-        // The market/price-chart request (cryptocompare "histohour") is optional and
-        // cross-origin — often CORS-blocked. Its failure must NOT raise the global
-        // "Bad Connection" modal, which is meant for node-API connectivity only.
+        // External market/price data (ieUnit XIN price, CoinGecko BTC/USD, legacy
+        // cryptocompare) is optional and cross-origin. Its failure must NOT raise the
+        // global "Bad Connection" modal, which is meant for node-API connectivity only.
         if (
           req.url &&
-          (req.url.indexOf("histohour") !== -1 ||
+          (req.url.indexOf("ieunit") !== -1 ||
+            req.url.indexOf("coingecko") !== -1 ||
+            req.url.indexOf("histohour") !== -1 ||
             req.url.indexOf("cryptocompare") !== -1)
         ) {
           return observableOf(response);
