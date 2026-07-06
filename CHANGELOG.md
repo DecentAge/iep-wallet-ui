@@ -2,10 +2,18 @@
 
 ## [Unreleased]
 
-## [0.4.1] - 2026-06-24
+## [0.4.1] - 2026-07-06
+### Added
+- XIN/USD price chart on the wallet dashboard (chart.js via ng2-charts).
+
 ### Changed
 - Upgraded to Angular 20 (ng-bootstrap 19, TypeScript 5.8) on Node 22; reproducible npm ci builds.
 - Replaced moment with native date handling; refreshed e2e tests; improved local-node handling for devnet.
+- XIN price and history are now sourced from the IEP market-cap backend as the single source, with a fallback when the price is unavailable.
+
+### Fixed
+- Prevented the "Bad Connection" modal from triggering on optional cross-origin requests.
+- Fixed the production build output path so deployed builds are served correctly.
 
 ## [0.3.x and earlier]
 
