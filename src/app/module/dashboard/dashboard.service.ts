@@ -23,13 +23,14 @@ export class DashboardService {
 
     };
 
-    // BTC/USD hourly history from CoinGecko (free, CORS-enabled, no API key).
-    // Used to derive the XIN/USD chart series (XIN is pegged to 1 Satoshi = BTC * 1e-8).
-    getBtcUsdMarketData(): any {
-        return this.http.get('https://api.coingecko.com/api/v3', 'coins/bitcoin/market_chart', {
-            vs_currency: 'usd',
-            days: 7
-        });
+    // XIN/USD daily price history from the IEP market-cap backend (single, persisted
+    // source; the backend maintains it from ieUnit + a one-time CoinGecko backfill).
+    getXinHistory(days): any {
+        return this.http.get(
+            AppConstants.macapViewerConfig.macapUrl,
+            AppConstants.macapViewerConfig.xinHistoryEndPoint,
+            { days: days }
+        );
     }
 
 }

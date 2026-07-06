@@ -17,14 +17,21 @@ export class FiatService {
         this.lastFetch = 0;
     }
 
-    // XIN (Infinity Economics) reference price from the ieUnit API
-    // (rates.php -> special.XIN.usd; XIN is pegged to 1 Satoshi, so it tracks BTC).
-    // CORS-enabled, no API key. Cached 10 min. Emits { USD } or { USD: null } (-> "n/a").
+    // XIN reference price from the IEP market-cap backend (single source; the backend
+    // fetches + persists the ieUnit XIN price server-side). Cached 10 min. Emits
+    // { USD } or { USD: null } -> UI shows "n/a".
     getXinPrice() {
         if (!this.cache$ || new Date().getTime() - this.lastFetch > 1000 * 60 * 10) {
             this.lastFetch = new Date().getTime();
-            this.cache$ = this.http.get('https://ieunit.org/api/v1', 'rates.php').pipe(
-                map((res: any) => ({ USD: res && res.special && res.special.XIN ? res.special.XIN.usd : null })),
+            this.cache$ = this.http.get(
+                AppConstants.macapViewerConfig.macapUrl,
+                AppConstants.macapViewerConfig.macapEndPoint,
+                { name: 'xin' }
+            ).pipe(
+                map((res: any) => {
+                    const doc = Array.isArray(res) ? res[0] : res;
+                    return { USD: doc && doc.price_usd != null ? doc.price_usd : null };
+                }),
                 shareReplay(1)
             );
         }

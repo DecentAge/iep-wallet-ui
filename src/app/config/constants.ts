@@ -138,8 +138,11 @@ export class AppConstants {
   };
 
   public static macapViewerConfig = {
-    macapUrl: getEnvConfig('MACAP_URL') || 'http://167.99.242.171:8892',
-    macapEndPoint: getEnvConfig('MACAP_ENDPOINT') || 'api/v1/get'
+    // Single market-data source (iep-mcap-backend): MaCap tool, XIN price and XIN history.
+    // URL comes from the node (env.config mcapBackendURL); defaults to same-origin.
+    macapUrl: getEnvConfig('mcapBackendURL') || getEnvConfig('MACAP_URL') || '/mcap-backend',
+    macapEndPoint: getEnvConfig('MACAP_ENDPOINT') || 'api/v1/get',
+    xinHistoryEndPoint: 'api/v1/xin/history'
   };
 
   public static newsViewerConfig = {
