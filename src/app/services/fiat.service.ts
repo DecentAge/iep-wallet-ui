@@ -17,14 +17,10 @@ export class FiatService {
         this.lastFetch = 0;
     }
 
+    // XIN (Infinity Economics) is not listed on any public exchange / price API
+    // (CoinGecko: not listed; cryptocompare now requires an API key). There is no
+    // reliable XIN->USD source, so return null and let the UI show "n/a".
     getXinPrice() {
-        return of([{USD: 0.00038717}]);
-        /*
-        if (!this.cache$ || new Date().getTime() - this.lastFetch > 1000 * 60 * 10 ) {
-            this.lastFetch = new Date().getTime();
-            this.cache$ = this.http.get(AppConstants.marketDataConfig.baseUrl, 'data/price?fsym=XIN&tsyms=USD').pipe( shareReplay(1) );
-        }
-        return this.cache$;
-         */
+        return of(null);
     };
 }

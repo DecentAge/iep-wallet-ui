@@ -152,22 +152,14 @@ export class DashboardComponent implements OnInit {
         //     }
         // })
 
-        observableForkJoin(this.dashboardService.getMarketData('BTC', 'USD'), this.dashboardService.getMarketData('XIN', 'BTC'))
-            .subscribe((successNext: any) => {
-                let [btcToUsdResult, xinToBtcResult] = successNext;
-
-                if (btcToUsdResult.Response == 'Success' && xinToBtcResult.Response == 'Success') {
-                    let points = [];
-                    for (let i = 0; i < xinToBtcResult.Data.length; i++) {
-                        let value = 0;//xinToBtcResult.Data[i].close
-
-                        if (btcToUsdResult.Data[i].time == xinToBtcResult.Data[i].time) {
-                            points.push({
-                                date: xinToBtcResult.Data[i].time * 1000,
-                                value: xinToBtcResult.Data[i].close * btcToUsdResult.Data[i].close
-                            });
-                        }
-                    }
+        // XIN is not on any public price API, so no XIN/USD series is available.
+        // Use CoinGecko for the BTC/USD reference series (free, CORS, no key).
+        // NOTE: renderChart()'s body is currently commented out, so this only supplies
+        // the data — re-enable renderChart() to actually draw the chart.
+        this.dashboardService.getBtcUsdMarketData()
+            .subscribe((res: any) => {
+                if (res && Array.isArray(res.prices)) {
+                    const points = res.prices.map((p: any) => ({ date: p[0], value: p[1] }));
                     this.renderChart(points);
                 }
             });

@@ -19,6 +19,7 @@ export class FiatComponent implements OnChanges {
     xinVolume24 = 0;
     xinChange24 = 0;
     finalAmount = 0;
+    priceUnavailable = true; // no public XIN price source -> show "n/a"
     constructor(public fiatService: FiatService,
         public quantToAmount: QuantToAmountPipe) {
         //console.log(this.amountTqt);
@@ -40,7 +41,12 @@ export class FiatComponent implements OnChanges {
     getXinPrice(finalAmount_) {
         this.fiatService.getXinPrice()
             .subscribe((res: any) => {
-                this.finalAmount = finalAmount_ * res.USD;
+                if (res && res.USD != null) {
+                    this.priceUnavailable = false;
+                    this.finalAmount = finalAmount_ * res.USD;
+                } else {
+                    this.priceUnavailable = true;
+                }
             })
     }
 }
