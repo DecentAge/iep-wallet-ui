@@ -1,5 +1,6 @@
 
 import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionStorageService } from '../../../services/session-storage.service';
@@ -18,6 +19,28 @@ export class DashboardComponent implements OnInit {
     accountValuation: number;
     balanceTQT: any;
     selectedLanguage: string;
+
+    // XIN/USD price chart. XIN is pegged to 1 Satoshi, so XIN/USD = BTC/USD * 1e-8.
+    showChart = false;
+    lineChartType: ChartType = 'line';
+    lineChartData: ChartData<'line'> = {
+        labels: [],
+        datasets: [{
+            data: [],
+            label: '1 XIN (USD)',
+            fill: true,
+            tension: 0.3,
+            borderColor: '#E72D45',
+            backgroundColor: 'rgba(231,45,69,0.15)',
+            pointRadius: 0
+        }]
+    };
+    lineChartOptions: ChartConfiguration<'line'>['options'] = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { title: { display: true, text: 'Price (USD)' } } }
+    };
 
 
     constructor(private router: Router,
@@ -55,80 +78,6 @@ export class DashboardComponent implements OnInit {
         }
     }
 
-    renderChart(data) {
-/*
-        this.chart = this.amChartsService.makeChart("chartdiv", {
-            type: "serial",
-            theme: "light",
-            // "marginRight: 80,
-            "fontFamily": "Montserrat",
-            pathToImages: "/assets/images/",
-            panEventsEnabled: false,
-            dataProvider: data,
-            color: "#2B2929",
-            maxZoomFactor: 20,
-            valueAxes: [{
-                position: "left",
-                title: "Price (USD)"
-            }],
-            graphs: [{
-                id: "g1",
-                fillAlphas: 0.4,
-                valueField: "value",
-                fillColors: ["#E72D45", "#ffffff"],
-                lineAlpha: 1,
-                lineColor: "#E72D45",
-                lineThickness: 2,
-                balloonText: "<div> 1 XIN: <b>[[value]]</b> USD </div>"
-            }],
-            plotAreaBorderColor: '#F00',
-            // "chartScrollbar: {
-            //     "graph: "g1",
-            //     "scrollbarHeight: 80,
-            //     "backgroundAlpha: 0,
-            //     "selectedBackgroundAlpha: 0.1,
-            //     "selectedBackgroundColor: "#888888",
-            //     "graphFillAlpha: 0,
-            //     "graphLineAlpha: 0.5,
-            //     "selectedGraphFillAlpha: 0,
-            //     "selectedGraphLineAlpha: 1,
-            //     "autoGridCount: true,
-            //     "color: "#AAAAAA"
-            // },
-            // chartScrollbarSettings: {
-            //     "graph: "g1",
-            //     "enabled: false
-            // },
-            chartCursor: {
-                // "categoryBalloonDateFormat: "JJ:NN, DD MMMM",
-                cursorPosition: "mouse",
-                zoomable: false
-            },
-            categoryField: "date",
-            categoryAxis: {
-                parseDates: true,
-                minPeriod: "mm",
-                gridAlpha: 0.4,
-                gridColor: "#D4D2D2",
-            },
-            panelsSettings: {
-                panEventsEnabled: false,
-                usePrefixes: false
-            },
-            export: {
-                enabled: true,
-                // "dateFormat: "YYYY-MM-DD HH:NN:SS"
-            },
-            balloon: {
-                "borderColor": "#000000",
-                "borderThickness": 0,
-                "color": "#FFFFFF",
-                "fillColor": "#000000",
-                "offsetY": 4
-            }
-        });*/
-    }
-
     getAccountAssetsAndBalances() {
 
         RootScope.onChange.subscribe(data => {
@@ -152,15 +101,15 @@ export class DashboardComponent implements OnInit {
         //     }
         // })
 
-        // XIN is not on any public price API, so no XIN/USD series is available.
-        // Use CoinGecko for the BTC/USD reference series (free, CORS, no key).
-        // NOTE: renderChart()'s body is currently commented out, so this only supplies
-        // the data — re-enable renderChart() to actually draw the chart.
+        // XIN is pegged to 1 Satoshi -> XIN/USD = BTC/USD * 1e-8. BTC/USD history comes
+        // from CoinGecko (free, CORS, no key). A failure is non-fatal (see interceptor).
         this.dashboardService.getBtcUsdMarketData()
             .subscribe((res: any) => {
-                if (res && Array.isArray(res.prices)) {
-                    const points = res.prices.map((p: any) => ({ date: p[0], value: p[1] }));
-                    this.renderChart(points);
+                if (res && Array.isArray(res.prices) && res.prices.length) {
+                    const SATOSHI = 1e-8;
+                    this.lineChartData.labels = res.prices.map((p: any) => new Date(p[0]).toLocaleDateString());
+                    this.lineChartData.datasets[0].data = res.prices.map((p: any) => p[1] * SATOSHI);
+                    this.showChart = true;
                 }
             });
     }

@@ -106,7 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row d-none">
+                    <div class="row" *ngIf="showChart">
                         <div class="col-lg-12 col-md-12">
                             <div class="card">
                                 <div class="card-header ps-0 pe-0">
@@ -115,8 +115,8 @@
                                     </div>
                                 </div>
                                 <div class="card-body ps-0 pe-0">
-                                    <div class="card-block ps-0 pe-0">
-                                        <div id="chartdiv" [style.width.%]="100" [style.height.px]="500"></div>
+                                    <div class="card-block ps-0 pe-0" style="height:400px;">
+                                        <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType"></canvas>
                                     </div>
                                 </div>
                             </div>

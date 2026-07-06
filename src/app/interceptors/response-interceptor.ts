@@ -138,16 +138,17 @@ export class ResponseInterceptor implements HttpInterceptor {
           }
         }
 
-        // External market/price data (ieUnit XIN price, CoinGecko BTC/USD, legacy
-        // cryptocompare) is optional and cross-origin. Its failure must NOT raise the
-        // global "Bad Connection" modal, which is meant for node-API connectivity only.
-        if (
-          req.url &&
-          (req.url.indexOf("ieunit") !== -1 ||
-            req.url.indexOf("coingecko") !== -1 ||
-            req.url.indexOf("histohour") !== -1 ||
-            req.url.indexOf("cryptocompare") !== -1)
-        ) {
+        // External market/price data (ieUnit XIN reference price) is optional and
+        // cross-origin. Its failure must NOT raise the global "Bad Connection" modal,
+        // which is meant for node-API connectivity only. Match on the actual host.
+        let reqHost = "";
+        try {
+          reqHost = new URL(req.url).hostname;
+        } catch (e) {
+          /* relative or invalid URL -> treated as a node request */
+        }
+        const MARKET_DATA_HOSTS = ["ieunit.org", "api.coingecko.com"];
+        if (MARKET_DATA_HOSTS.indexOf(reqHost) !== -1) {
           return observableOf(response);
         }
 

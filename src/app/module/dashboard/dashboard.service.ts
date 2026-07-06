@@ -24,12 +24,11 @@ export class DashboardService {
     };
 
     // BTC/USD hourly history from CoinGecko (free, CORS-enabled, no API key).
-    // cryptocompare now needs an API key and sends no CORS header; XIN is not listed
-    // on any public price API, so only the BTC/USD reference series is available.
+    // Used to derive the XIN/USD chart series (XIN is pegged to 1 Satoshi = BTC * 1e-8).
     getBtcUsdMarketData(): any {
         return this.http.get('https://api.coingecko.com/api/v3', 'coins/bitcoin/market_chart', {
             vs_currency: 'usd',
-            days: 5
+            days: 7
         });
     }
 
