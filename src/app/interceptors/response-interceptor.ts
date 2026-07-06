@@ -138,6 +138,17 @@ export class ResponseInterceptor implements HttpInterceptor {
           }
         }
 
+        // The market/price-chart request (cryptocompare "histohour") is optional and
+        // cross-origin — often CORS-blocked. Its failure must NOT raise the global
+        // "Bad Connection" modal, which is meant for node-API connectivity only.
+        if (
+          req.url &&
+          (req.url.indexOf("histohour") !== -1 ||
+            req.url.indexOf("cryptocompare") !== -1)
+        ) {
+          return observableOf(response);
+        }
+
         let title: string = _this.commonService.translateAlertTitle("Error");
         let errMsg: string = _this.commonService.translateInfoMessage(
           "network-error"
