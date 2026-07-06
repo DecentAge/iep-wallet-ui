@@ -101,14 +101,13 @@ export class DashboardComponent implements OnInit {
         //     }
         // })
 
-        // XIN is pegged to 1 Satoshi -> XIN/USD = BTC/USD * 1e-8. BTC/USD history comes
-        // from CoinGecko (free, CORS, no key). A failure is non-fatal (see interceptor).
-        this.dashboardService.getBtcUsdMarketData()
+        // XIN/USD daily history from the IEP market-cap backend (single, persisted source).
+        // A failure is non-fatal (see interceptor) -> the chart just stays hidden.
+        this.dashboardService.getXinHistory(365)
             .subscribe((res: any) => {
-                if (res && Array.isArray(res.prices) && res.prices.length) {
-                    const SATOSHI = 1e-8;
-                    this.lineChartData.labels = res.prices.map((p: any) => new Date(p[0]).toLocaleDateString());
-                    this.lineChartData.datasets[0].data = res.prices.map((p: any) => p[1] * SATOSHI);
+                if (Array.isArray(res) && res.length) {
+                    this.lineChartData.labels = res.map((p: any) => p.date || new Date(p.timestamp).toLocaleDateString());
+                    this.lineChartData.datasets[0].data = res.map((p: any) => p.price_usd);
                     this.showChart = true;
                 }
             });
