@@ -158,6 +158,12 @@ test.fixme('show-currencies: My tab shows the issued currency under TEST_ACCOUNT
  */
 async function datatableContainsCode(page: Page, code: string, maxPages = 15): Promise<boolean> {
   for (let visited = 0; visited < maxPages; visited++) {
+    // Wait for the page to actually have rows first. Checking straight after a
+    // navigation or a pager click would look at an empty table and walk past
+    // the page the code is on.
+    await page.locator('ngx-datatable .datatable-body-row').first()
+      .waitFor({ state: 'visible', timeout: 10_000 }).catch(() => undefined);
+
     const cell = page.locator('ngx-datatable .datatable-body-cell', { hasText: code }).first();
     if (await cell.isVisible({ timeout: 1_500 }).catch(() => false)) return true;
 
