@@ -33,7 +33,9 @@ export default defineConfig({
     // first navigation. Keeping baseURL on the same path means later
     // `page.goto('#/...')` calls only mutate the hash → no full reload, no
     // singleton-service state loss (e.g. LoginService.isExpertWallet).
-    baseURL: process.env.BASE_URL ?? 'http://node-1/wallet/',
+    // `||`, not `??`: an empty BASE_URL (a CI variable that is declared but not
+    // filled) would otherwise win over the default and yield an unparsable URL.
+    baseURL: process.env.BASE_URL || 'http://node-1/wallet/',
     viewport: { width: 1440, height: 900 },
     locale: 'en-US',
     timezoneId: 'Europe/Zurich',
@@ -70,11 +72,12 @@ export default defineConfig({
     // unlocked state in sessionStorage (which Playwright's storageState file
     // doesn't preserve), and sniffing the exact key shape is brittle.
     //   matches: specs/forms/*.spec.ts
+    //            specs/sync/*.spec.ts
     //            specs/smoke/post-auth-*.spec.ts
     //            specs/smoke/sidebar-*.spec.ts
     {
       name: 'authenticated',
-      testMatch: /specs\/(forms\/.*|smoke\/(post-auth.*|sidebar.*))\.spec\.ts$/,
+      testMatch: /specs\/(forms\/.*|sync\/.*|smoke\/(post-auth.*|sidebar.*))\.spec\.ts$/,
       dependencies: ['sanity'],
       use: { ...devices['Desktop Chrome'] },
     },

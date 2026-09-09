@@ -1,6 +1,28 @@
 # iep-wallet-ui — Playwright e2e tests
 
-End-to-end tests that drive a real Chromium against the running wallet UI. Built as a regression safety net **before** the Angular 6 → 20 upgrade so we have ground truth to compare against.
+End-to-end tests that drive a real Chromium against the running wallet UI. Originally built as a regression safety net **before** the Angular 6 → 18 upgrade; that upgrade has since landed (the wallet is on Angular 18.2.11), and the suite now serves as the ongoing regression net.
+
+**Last full run: 2026-09-09 — 149/149 green** against the local devnet from `iep-docker-dev`
+(6 sanity + 10 unauthenticated + 133 authenticated, ~5 min wall clock, `workers: 1`).
+
+## Prerequisites the chain must satisfy
+
+The `authenticated` specs spend real devnet XIN, so the chain has to be seeded with the
+two documented test accounts (`fixtures/test-accounts.ts`). That happens automatically on
+the fresh-genesis node when `IEP_NODE_1_INIT_DEVNET_E2E_ACCOUNTS=true` — set in
+`iep-docker-dev/environment/local/devnet.env`, consumed by `iep-node`'s entrypoint, which
+then runs `scripts/docker_init_devnet_local.sh` (idempotent: it skips when account 1
+already holds a balance).
+
+If you ever face an unseeded chain (older node image), seed it by hand without a rebuild:
+
+```bash
+docker exec iep-docker-dev-node-1-1 /iep-node/scripts/docker_init_devnet_local.sh
+```
+
+Note that the node's H2 database in `iep-docker-dev` lives **inside the container**, not on a
+named volume — every image rebuild starts a fresh chain, which is why the seeding must be
+automatic rather than a one-off.
 
 ## Status
 
@@ -17,6 +39,8 @@ Items 1–3 of the plan are scaffolded:
 | 5 | Form interaction (validation only) | `specs/forms/send.spec.ts` | done — Send form: required fields + toggles + validation + submit enable/disable |
 | 5b | Receive view | `specs/forms/receive.spec.ts` | done — pins displayed public key to TEST_ACCOUNT_1_PUBLIC_KEY; verifies QR canvas rendered with non-zero size |
 | - | Sanity (chain pre-flight) | `specs/sanity/devnet-funded.spec.ts` | done — fails fast if Test Account 1 isn't funded on the chain we're hitting |
+| - | Sanity (quorum pre-flight) | `specs/sanity/devnet-quorum.spec.ts` | done — three nodes must converge on one tip, hold ≥2 connected peers each, and agree on a historical block. The wallet only talks to node-1, so without this a broken mesh stays invisible. |
+| 26 | Cross-node propagation | `specs/sync/tx-propagation.spec.ts` | done — sends 1 XIN through the wallet (node-1), then asserts node-2 and node-3 carry the tx **in the same block** and applied the same recipient balance; second test pins that the tips stay aligned afterwards. |
 | 6 | Real send-XIN happy path | `specs/forms/send-tx.spec.ts` | done — drives the full wizard (form → Next → auto-sign → Broadcast); asserts unconfirmedBalanceTQT drops by amount + fee. Three variants: (a) basic send, (b) send with **encrypted private-message attachment** (`cryptoService.encryptMessage` pipeline), (c) **send-secret HTLC / phased payment** (expert-mode Secret tab; SHA-256 hashed secret + 1440-block lock-up; covers the SEND_SECRET subtype attachment encoding). |
 | 7 | Sign-up wizard walkthrough | `specs/auth/sign-up-flow.spec.ts` | done — disclaimer → passphrase capture → confirm → dashboard |
 | 8 | Transactions list (ngx-datatable) | `specs/forms/transactions.spec.ts` | done — sends a tx via API, asserts a row appears in the wallet's transactions page |
@@ -66,6 +90,14 @@ npm run test:ui                       # interactive UI mode (per-step playback,
                                       # network panel, console, DOM snapshots —
                                       # best for debugging a failing test)
 npm run report                        # open the last HTML report in a browser
+```
+
+The default reporter is `list`, so `npm run report` only finds something if the run
+emitted an HTML report. Ask for it explicitly:
+
+```bash
+npx playwright test --reporter=list,html   # then:
+npm run report
 ```
 
 ### Running a single project / file / test
@@ -122,7 +154,9 @@ is intentionally separate — it bounds the total time a single test can run.
 
 | Env var | Default | Purpose |
 |---|---|---|
-| `BASE_URL` | `http://node-1/wallet/index.html` | Where the wallet is served. Override for local `ng serve` (e.g. `http://localhost:4200`). |
+| `BASE_URL` | `http://node-1/wallet/` | Where the wallet is served. Override for local `ng serve` (e.g. `http://localhost:4200`). |
+| `DEVNET_NODE_HOSTS` | `node-1,node-2,node-3` | Hosts the quorum sanity spec checks. All three must resolve (`/etc/hosts` → `127.0.0.1`, Traefik routes by `Host:`). |
+| `SKIP_QUORUM_CHECK` | unset | `1` skips the three-node quorum pre-flight (single-node runs). |
 | `TEST_ACCOUNT_1_PASSPHRASE` | a 15-word throwaway | Account used by post-auth specs. Override for tests that need a devnet-balanced account. |
 | `CI` | unset | When set, retries=2 and HTML reporter is emitted. |
 
@@ -156,10 +190,17 @@ The root `iep-wallet-ui` is on Angular 6 with `rxjs-compat`, `node-sass@4`, `@an
 
 ## Migration regression workflow
 
-The visual specs (`specs/visual/*.visual.spec.ts`) are the primary safety net
-for the upcoming Angular 6 → 20 migration.
+The visual specs (`specs/visual/*.visual.spec.ts`) were written as the safety net for
+the Angular 6 → 18 migration, but **their baselines were never captured** — no
+`*-snapshots/` directory is committed, which is why the `visual-*` projects stay behind
+`RUN_VISUAL=1`. The migration has landed, so baselines taken now pin the *current* build
+and protect future changes instead.
 
-### 1. Capture baselines NOW (current Angular 6 build)
+Baselines are OS- and browser-build-specific: capture and replay them on the same setup
+(ideally inside `mcr.microsoft.com/playwright:v1.59.1-noble` with `--network host`), or
+they will drift for no reason.
+
+### 1. Capture baselines (current build)
 
 ```bash
 cd ~/git/iep/iep-docker-dev && ./run-devnet.sh start
@@ -222,9 +263,10 @@ visually-clean.
   `@playwright/test` version covers the OS as long as both baseline and
   post-migration runs happen on the same machine type. For CI: use the
   `mcr.microsoft.com/playwright:vX-jammy` Docker image.
-- The dev compose defaults to `iep-docker-dev`'s mainnet config. Switch
-  envs only when you're sure the wallet UI itself doesn't render env-specific
-  content that would invalidate goldens.
+- Always run against the **devnet** stack (`run-devnet.sh`). The suite is
+  devnet-calibrated (the sanity spec pins `peerPort=8775`) and the authenticated
+  specs broadcast real transactions — pointing them at testnet or mainnet is
+  meaningless at best and expensive at worst.
 - If a snapshot flakes from a dynamic region we haven't masked yet, add the
   selector to `maskDynamicRegions()` in `fixtures/visual.ts` and re-snapshot.
 

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { WelcomePage } from '../../pages/welcome.page';
 import { DashboardPage } from '../../pages/dashboard.page';
 import { TEST_ACCOUNT_1_PASSPHRASE } from '../../fixtures/test-accounts';
@@ -12,16 +12,30 @@ import { DEFAULT_TIMEOUT_MS } from '../../fixtures/timeouts';
  * the route under test. Any console.error during navigation/render fails the
  * test (after filtering known dev-server noise).
  *
- * The route table is intentionally short to start — add to it as you upgrade.
- * The order picks high-value screens to catch broad regressions early.
+ * The route table is derived from the `*-routing.module.ts` files under
+ * `src/app/module/`. Two families are out of scope here: routes needing a
+ * path parameter (`trade/:id`, `show-daos/:mode/:daoName`, …), and the
+ * row-context detail views (transaction-details, account-details,
+ * asset-details, …) which read a selection out of service state rather than
+ * out of the URL.
  */
 
-// Routes are namespaced under /wallet (IEP_WALLET_UI_PATH). The list covers
-// every top-level lazy-loaded module declared in shared/routes/full-layout.routes.ts
-// — the high-yield smoke target. Each row is one route; add more as you go.
+// Same sidebar toggle expert-toggle.spec.ts drives; one click flips basic → expert.
+const SIDEBAR_EXPERT_TOGGLE = '.sidebar-content li.wallet-switch a:has(i.icon-wallet)';
+const EXPERT_TOGGLE_SETTLE_MS = 150;
+
+// Routes are namespaced under /wallet (IEP_WALLET_UI_PATH), because
+// HashLocationStrategy prefixes the app's `<base href="/wallet/">`.
 const POST_AUTH_ROUTES: ReadonlyArray<{
   hash: string;
   expect: { selector: string };
+  // Settled URL — only on parents that redirect to a default child tab.
+  url?: RegExp;
+  // Flip into expert mode first: the Send / Receive tab strips and the
+  // <router-outlet> their children need live inside `*isExpertView="true"`.
+  expert?: boolean;
+  // Reason the route is broken — the row stays, the test is declared fixme.
+  fixme?: string;
 }> = [
   // dashboard + account/* (the most-trafficked screens)
   { hash: '#/wallet/dashboard',            expect: { selector: 'app-sidebar, nav, header' } },
@@ -44,9 +58,7 @@ const POST_AUTH_ROUTES: ReadonlyArray<{
   { hash: '#/wallet/account/block-generation', expect: { selector: 'body' } },
   { hash: '#/wallet/account/funding-monitor',  expect: { selector: 'body' } },
 
-  // each remaining top-level module — entry route only; the goal here is to
-  // confirm the lazy-loaded module compiles + renders, not to exercise its
-  // sub-routes (those are best added once the migration shakes out).
+  // remaining top-level modules — entry route only; sub-routes follow below.
   { hash: '#/wallet/messages',             expect: { selector: 'body' } },
   { hash: '#/wallet/voting/show-polls',    expect: { selector: 'body' } },
   { hash: '#/wallet/wallet-settings',      expect: { selector: 'body' } },
@@ -61,6 +73,137 @@ const POST_AUTH_ROUTES: ReadonlyArray<{
   { hash: '#/wallet/tool/user-guide',      expect: { selector: 'body' } },
   { hash: '#/wallet/tools',                expect: { selector: 'body' } },
   { hash: '#/wallet/dao',                  expect: { selector: 'body' } },
+
+  // ─── sub-routes: asserted on the routed component's own element (parent >
+  // child for tabbed screens), so a fallback to the dashboard fails. ───
+
+  // account/* child tabs
+  { hash: '#/wallet/account/send/simple',                    expect: { selector: 'app-send app-send-simple' },       expert: true },
+  { hash: '#/wallet/account/send/deferred',                  expect: { selector: 'app-send app-send-deferred' },     expert: true },
+  { hash: '#/wallet/account/send/reference',                 expect: { selector: 'app-send app-send-reference' },    expert: true },
+  { hash: '#/wallet/account/send/secret',                    expect: { selector: 'app-send app-send-secret' },       expert: true },
+  { hash: '#/wallet/account/receive-tab/receive',            expect: { selector: 'app-receive-tab app-receive' },    expert: true },
+  { hash: '#/wallet/account/receive-tab/claim',              expect: { selector: 'app-receive-tab app-claim' },      expert: true },
+  { hash: '#/wallet/account/transactions/completed',         expect: { selector: 'app-history app-completed-transactions' } },
+  { hash: '#/wallet/account/transactions/pending',           expect: { selector: 'app-history app-pending-transactions' } },
+  { hash: '#/wallet/account/properties/set-property',        expect: { selector: 'app-properties app-set-property' } },
+  { hash: '#/wallet/account/properties/my-properties',       expect: { selector: 'app-properties app-set-property' } },
+  { hash: '#/wallet/account/properties/external-properties', expect: { selector: 'app-properties app-set-property' } },
+  { hash: '#/wallet/account/funding-monitor/control-funding', expect: { selector: 'app-funding-monitor app-control-funding-monitor' } },
+  { hash: '#/wallet/account/funding-monitor/active-monitors', expect: { selector: 'app-funding-monitor app-active-funding-monitor' } },
+
+  // assets/*
+  { hash: '#/wallet/assets/show-assets/my',    expect: { selector: 'app-all-assets app-assets' } },
+  { hash: '#/wallet/assets/my-open-orders',    expect: { selector: 'app-my-open-orders' } },
+  { hash: '#/wallet/assets/my-open-orders/buy',  expect: { selector: 'app-my-open-orders app-open-orders' } },
+  { hash: '#/wallet/assets/my-open-orders/sell', expect: { selector: 'app-my-open-orders app-open-orders' } },
+  { hash: '#/wallet/assets/my-trades',         expect: { selector: 'app-my-trades' } },
+  { hash: '#/wallet/assets/my-transfers',      expect: { selector: 'app-my-transfers' } },
+  { hash: '#/wallet/assets/last-trades',       expect: { selector: 'app-last-trade' } },
+  { hash: '#/wallet/assets/search-assets',     expect: { selector: 'app-search-assets' } },
+  { hash: '#/wallet/assets/issue-asset',       expect: { selector: 'app-issue-asset' } },
+  { hash: '#/wallet/assets/send-assets',       expect: { selector: 'app-send-assets' } },
+
+  // aliases/*
+  { hash: '#/wallet/aliases/create-alias',     expect: { selector: 'app-create-alias' } },
+  {
+    hash: '#/wallet/aliases/my-sell-offers',
+    expect: { selector: 'app-my-sell-offers' },
+    fixme: 'code hygiene, not a functional break: the page renders, but src/app/module/aliases/my-sell-offers/my-sell-offers.component.ts:37 has a leftover console.error(pageInfo) that logs "{offset: 0}" on every visit',
+  },
+  { hash: '#/wallet/aliases/buy-offers',        expect: { selector: 'app-buy-offers app-offers' }, url: /#\/wallet\/aliases\/buy-offers\/private$/ },
+  { hash: '#/wallet/aliases/buy-offers/public', expect: { selector: 'app-buy-offers app-offers' } },
+
+  // currencies/*
+  { hash: '#/wallet/currencies/issue-currency',      expect: { selector: 'app-issue-currency' } },
+  { hash: '#/wallet/currencies/show-currencies',     expect: { selector: 'app-show-currencies app-currencies' }, url: /#\/wallet\/currencies\/show-currencies\/all$/ },
+  { hash: '#/wallet/currencies/show-currencies/my',  expect: { selector: 'app-show-currencies app-currencies' } },
+  { hash: '#/wallet/currencies/search-currencies',   expect: { selector: 'app-search-currencies' } },
+  { hash: '#/wallet/currencies/my-exchanges',        expect: { selector: 'app-my-exchanges' } },
+  { hash: '#/wallet/currencies/last-exchanges',      expect: { selector: 'app-last-exchanges' } },
+  { hash: '#/wallet/currencies/my-transfers',        expect: { selector: 'app-my-transfers' } },
+  { hash: '#/wallet/currencies/my-open-offers',      expect: { selector: 'app-my-open-offers app-open-offers' }, url: /#\/wallet\/currencies\/my-open-offers\/buy$/ },
+  { hash: '#/wallet/currencies/my-open-offers/sell', expect: { selector: 'app-my-open-offers app-open-offers' } },
+  { hash: '#/wallet/currencies/send-currencies',     expect: { selector: 'app-send-currencies' } },
+
+  // shuffling/*
+  { hash: '#/wallet/shuffling/create-shuffling',   expect: { selector: 'app-create-shuffling' } },
+  { hash: '#/wallet/shuffling/show-shufflings',    expect: { selector: 'app-show-shufflings app-shufflings' }, url: /#\/wallet\/shuffling\/show-shufflings\/all$/ },
+  { hash: '#/wallet/shuffling/show-shufflings/my', expect: { selector: 'app-show-shufflings app-shufflings' } },
+
+  // at/*
+  { hash: '#/wallet/at/create-at',          expect: { selector: 'app-create-at' } },
+  { hash: '#/wallet/at/show-ats',           expect: { selector: 'app-show-ats app-at' }, url: /#\/wallet\/at\/show-ats\/all$/ },
+  { hash: '#/wallet/at/show-ats/my',        expect: { selector: 'app-show-ats app-at' } },
+  { hash: '#/wallet/at/workbench',          expect: { selector: 'app-workbench app-dashboard' }, url: /#\/wallet\/at\/workbench\/dashboard$/ },
+  { hash: '#/wallet/at/workbench/compiler', expect: { selector: 'app-workbench app-compiler' } },
+
+  // dao/*
+  { hash: '#/wallet/dao/create-dao',        expect: { selector: 'app-dao' } },
+  { hash: '#/wallet/dao/show-daos',         expect: { selector: 'app-show-daos app-daos' }, url: /#\/wallet\/dao\/show-daos\/all$/ },
+  { hash: '#/wallet/dao/show-daos/my',      expect: { selector: 'app-show-daos app-daos' } },
+  { hash: '#/wallet/dao/create-teams',      expect: { selector: 'app-create-teams' } },
+  { hash: '#/wallet/dao/add-team-members',  expect: { selector: 'app-team-members' } },
+  { hash: '#/wallet/dao/approval-accounts', expect: { selector: 'app-approval-accounts' } },
+  { hash: '#/wallet/dao/add-team-poll',     expect: { selector: 'app-add-team-poll' } },
+
+  // tool/* — the standalone tool pages (ToolsPagesModule)
+  { hash: '#/wallet/tool/calculate-hash',        expect: { selector: 'app-calculate-hash' } },
+  { hash: '#/wallet/tool/validate-signature',    expect: { selector: 'app-validate-signature' } },
+  { hash: '#/wallet/tool/generate-signature',    expect: { selector: 'app-generate-signature' } },
+  { hash: '#/wallet/tool/broadcast-transaction', expect: { selector: 'app-broadcast-transaction' } },
+  { hash: '#/wallet/tool/parse-transaction',     expect: { selector: 'app-parse-transaction' } },
+  { hash: '#/wallet/tool/transaction-types',     expect: { selector: 'app-transaction-types' } },
+  { hash: '#/wallet/tool/service-fees',          expect: { selector: 'app-service-fees' } },
+  { hash: '#/wallet/tool/chain-statistics',      expect: { selector: 'app-chain-statistics' } },
+
+  // tools/* — the extensions module (overview tabs + chain viewer). `tools/macap`
+  // is deliberately absent: its route is commented out in extensions-routing.module.ts.
+  { hash: '#/wallet/tools/all',         expect: { selector: 'app-overview app-all' } },
+  { hash: '#/wallet/tools/online',      expect: { selector: 'app-overview app-online' } },
+  { hash: '#/wallet/tools/development', expect: { selector: 'app-overview app-development' } },
+  { hash: '#/wallet/tools/concept',     expect: { selector: 'app-overview app-concept' } },
+  { hash: '#/wallet/tools/poc',         expect: { selector: 'app-overview app-poc' } },
+  { hash: '#/wallet/tools/chain-viewer',              expect: { selector: 'app-chain-viewer app-blocks' }, url: /#\/wallet\/tools\/chain-viewer\/blocks$/ },
+  { hash: '#/wallet/tools/chain-viewer/transactions', expect: { selector: 'app-chain-viewer app-transactions' } },
+  { hash: '#/wallet/tools/chain-viewer/unconfirmed',  expect: { selector: 'app-chain-viewer app-unconfirmed' } },
+  { hash: '#/wallet/tools/chain-viewer/peers',        expect: { selector: 'app-chain-viewer app-peers' } },
+  { hash: '#/wallet/tools/newsviewer',                expect: { selector: 'app-news-center' } },
+  {
+    hash: '#/wallet/tools/service-monitor',
+    expect: { selector: 'app-service-monitor' },
+    fixme: 'wallet bug: src/app/module/extensions/service-monitor/service-monitor.component.html:9 still uses the ng-bootstrap 4 syntax <div ngb-accordion> instead of ngbAccordion, so ngbAccordionItem cannot inject its parent → "NullInjectorError: No provider for NgbAccordionDirective", navigation falls back to the dashboard. The component also polls mainnet endpoints, which a devnet cannot reach',
+  },
+
+  // wallet-settings/* (SwappsModule)
+  { hash: '#/wallet/wallet-settings/swapps', expect: { selector: 'app-wallet-settings' } },
+  {
+    hash: '#/wallet/wallet-settings/options',
+    expect: { selector: 'app-options' },
+    fixme: 'wallet bug (sidebar links here, see sidebar-routes.config.ts): the route throws "NullInjectorError: No provider for ChangeDetectorRef" while constructing NgbAccordionItem and the router falls back to the dashboard. src/app/module/swapps/swapps.module.ts listing NgbAccordionDirective/NgbAccordionItem in `providers` is wrong on its own; whether it is the whole cause is unverified',
+  },
+
+  // subscriptions/*
+  { hash: '#/wallet/subscriptions/create-subscription', expect: { selector: 'app-create-subscription' } },
+  { hash: '#/wallet/subscriptions/my-subscriptions',    expect: { selector: 'app-my-subscriptions' } },
+
+  // voting/*
+  { hash: '#/wallet/voting/create-poll',    expect: { selector: 'app-create-poll' } },
+  { hash: '#/wallet/voting/show-polls/all', expect: { selector: 'app-show-polls app-polls' } },
+  { hash: '#/wallet/voting/show-polls/my',  expect: { selector: 'app-show-polls app-polls' } },
+
+  // escrow/*
+  { hash: '#/wallet/escrow/create-escrow', expect: { selector: 'app-create-escrow' } },
+  { hash: '#/wallet/escrow/my-escrow',     expect: { selector: 'app-my-escrow' } },
+
+  // messages/*
+  { hash: '#/wallet/messages/show-messages', expect: { selector: 'app-messages' } },
+  { hash: '#/wallet/messages/send-message',  expect: { selector: 'app-send-message' } },
+
+  // crowdfunding/*
+  { hash: '#/wallet/crowdfunding/create-campaign',    expect: { selector: 'app-create-campaign' } },
+  { hash: '#/wallet/crowdfunding/show-campaigns',     expect: { selector: 'app-show-campaigns app-campaigns' }, url: /#\/wallet\/crowdfunding\/show-campaigns\/all$/ },
+  { hash: '#/wallet/crowdfunding/show-campaigns/my',  expect: { selector: 'app-show-campaigns app-campaigns' } },
 ];
 
 test.beforeEach(async ({ page }) => {
@@ -85,9 +228,27 @@ test.beforeEach(async ({ page }) => {
 });
 
 for (const route of POST_AUTH_ROUTES) {
-  test(`renders ${route.hash} without console errors`, async ({ page }) => {
+  const title = `renders ${route.hash} without console errors`;
+
+  const body = async ({ page }: { page: Page }) => {
+    if (route.expert) {
+      await page.locator(SIDEBAR_EXPERT_TOGGLE).first().click();
+      await page.waitForTimeout(EXPERT_TOGGLE_SETTLE_MS);
+    }
+
     await page.goto(route.hash);
-    await expect(page.locator(route.expect.selector).first()).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+
+    if (route.url) {
+      await expect(
+        page,
+        `${route.hash} did not settle on its default child route — check the redirect in the module's *-routing.module.ts`,
+      ).toHaveURL(route.url, { timeout: DEFAULT_TIMEOUT_MS });
+    }
+
+    await expect(
+      page.locator(route.expect.selector).first(),
+      `"${route.expect.selector}" never rendered for ${route.hash} — the route either failed to match (router falls back to the dashboard) or its component threw during init`,
+    ).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
 
     const errors: string[] = (page as any).__consoleErrors ?? [];
     // Filter dev-mode noise that's unrelated to the route under test:
@@ -100,5 +261,11 @@ for (const route of POST_AUTH_ROUTES) {
       !/Failed to load resource:.*404/i.test(e),
     );
     expect(realErrors, `console errors on ${route.hash}:\n${realErrors.join('\n')}`).toEqual([]);
-  });
+  };
+
+  if (route.fixme) {
+    test.fixme(`${title} — ${route.fixme}`, body);
+  } else {
+    test(title, body);
+  }
 }
