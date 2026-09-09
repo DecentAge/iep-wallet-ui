@@ -6,6 +6,8 @@ include:
 trigger-iep-node:
   stage: build
   needs: ["docker-build"]
+  only:
+    - develop
   trigger:
     project: infinity-economics/iep-node
     branch: $CI_COMMIT_BRANCH
