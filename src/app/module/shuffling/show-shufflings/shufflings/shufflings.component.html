@@ -89,12 +89,12 @@
                             <i class="fa fa-plus"></i>
                         </a>
                         <a *ngIf="shufflingType=='MY'" [ngClass]="{'disabled':canStartEnabled(row)}" class="btn btn-sm btn-grey btn-icon"
-                            [ngClass]="{'disabled':canRegisterEnabled(row)}" (click)="startShuffle(value,row.amount)"
+                            (click)="startShuffle(value,row.amount)"
                             triggers="mouseenter:mouseleave" container="body" placement="top" ngbPopover="{{'shuffling.show-shufflings.start-shuffling-table-action'| translate}}">
                             <i class="fa fa-play"></i>
                         </a>
                         <a *ngIf="shufflingType=='MY'" [ngClass]="{'disabled':canStopEnabled(row)}" class="btn btn-sm btn-grey btn-icon"
-                            [ngClass]="{'disabled':canRegisterEnabled(row)}" (click)="stopShuffle(value)" triggers="mouseenter:mouseleave"
+                            (click)="stopShuffle(value)" triggers="mouseenter:mouseleave"
                             container="body" placement="top" ngbPopover="{{'shuffling.show-shufflings.stop-shuffling-table-action'| translate}}">
                             <i class="fa fa-stop"></i>
                         </a>

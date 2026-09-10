@@ -54,7 +54,7 @@ export class ReserveUnitsComponent implements OnInit {
 
         let goal = this.amountToQuant.transform(this.reserveUnitsForm.reserveSupply * this.reserveUnitsForm.minReservePerUnitTQT);
         let raised = this.amountToQuant.transform(this.reserveUnitsForm.reserveSupply * this.reserveUnitsForm.minReservePerUnitTQT);
-        let amountPerUnitTQT = parseInt((this.reserveUnitsForm.amountUnit * 100000000) + "");
+        let amountPerUnitTQT = Math.round(this.reserveUnitsForm.amountUnit * 100000000);
         let senderPublicKey = this.accountService.getAccountDetailsFromSession('publicKey');
         let secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
 

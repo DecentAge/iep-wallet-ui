@@ -79,12 +79,14 @@ export const test = base.extend<{
               if (!shown(confirm) || shown(box.querySelector('.swal2-cancel'))) return null;
 
               const text = (sel: string) => (box.querySelector(sel)?.textContent ?? '').trim();
+              // .swal2-content is sweetalert2 <10, .swal2-html-container is >=10.
+              const body = text('.swal2-content') || text('.swal2-html-container');
               // Every icon variant is in the DOM; only one is shown. Picking the
               // first would label a success dialog "error" and fail the test.
               const iconClass =
                 Array.from(box.querySelectorAll('.swal2-icon')).find((i) => shown(i))?.className ?? '';
               confirm!.click();
-              return { title: text('.swal2-title'), body: text('.swal2-html-container'), iconClass };
+              return { title: text('.swal2-title'), body, iconClass };
             })
             .then((found) => {
               if (!found) return;

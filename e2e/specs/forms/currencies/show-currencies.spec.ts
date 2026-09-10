@@ -163,6 +163,12 @@ async function datatableContainsCode(page: Page, code: string, maxPages = 15): P
     const cell = page.locator('ngx-datatable .datatable-body-cell', { hasText: code }).first();
     if (await cell.isVisible({ timeout: 1_500 }).catch(() => false)) return true;
 
+    // isVisible() does not wait. Without waiting for the footer first, a pager
+    // that has not rendered yet reads as "no next page" and the walk stops on
+    // page 1 — green while the code sits on page 2.
+    await page.locator('ngx-datatable datatable-footer').first()
+      .waitFor({ state: 'visible', timeout: 5_000 }).catch(() => undefined);
+
     const nextItem = page.locator('ngx-datatable li:has(a[aria-label="go to next page"])').first();
     if (!(await nextItem.isVisible().catch(() => false))) return false;
     if (((await nextItem.getAttribute('class')) ?? '').includes('disabled')) return false;

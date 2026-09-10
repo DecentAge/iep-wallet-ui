@@ -14,11 +14,17 @@ import { DEFAULT_TIMEOUT_MS } from '../../fixtures/timeouts';
  * test (after filtering known dev-server noise).
  *
  * The route table is derived from the `*-routing.module.ts` files under
- * `src/app/module/`. Two families are out of scope here: routes needing a
- * path parameter (`trade/:id`, `show-daos/:mode/:daoName`, …), and the
- * row-context detail views (transaction-details, account-details,
+ * `src/app/module/`. Three families are out of scope here: routes needing a
+ * path parameter (`trade/:id`, `delete-currency/:id`, `show-daos/:mode/:daoName`,
+ * …), the row-context detail views (transaction-details, account-details,
  * asset-details, …) which read a selection out of service state rather than
- * out of the URL.
+ * out of the URL, and the mutation masks that `_location.back()` on a missing
+ * queryParam (transfer-asset, dividend-payment, delete-shares, delete-asset,
+ * delete-property, start-/stop-shuffling, transfer-/edit-/delete-alias) or take
+ * their subject from `DataStoreService` (cancel-order, reserve-units) — those
+ * are driven through their own click paths in `specs/forms/**`.
+ * `my-open-offers/cancel-offer` mounts without a param but signs a cancellation
+ * on init, so it stays out of a smoke table too.
  */
 
 // Same sidebar toggle expert-toggle.spec.ts drives; one click flips basic → expert.
@@ -118,6 +124,8 @@ const POST_AUTH_ROUTES: ReadonlyArray<{
   { hash: '#/wallet/currencies/issue-currency',      expect: { selector: 'app-issue-currency' } },
   { hash: '#/wallet/currencies/show-currencies',     expect: { selector: 'app-show-currencies app-currencies' }, url: /#\/wallet\/currencies\/show-currencies\/all$/ },
   { hash: '#/wallet/currencies/show-currencies/my',  expect: { selector: 'app-show-currencies app-currencies' } },
+  // no bounce on a missing `id`: the mask mounts and only its currency fields stay empty.
+  { hash: '#/wallet/currencies/show-currencies/transfer-currency', expect: { selector: 'app-transfer-currency' } },
   { hash: '#/wallet/currencies/search-currencies',   expect: { selector: 'app-search-currencies' } },
   { hash: '#/wallet/currencies/my-exchanges',        expect: { selector: 'app-my-exchanges' } },
   { hash: '#/wallet/currencies/last-exchanges',      expect: { selector: 'app-last-exchanges' } },
