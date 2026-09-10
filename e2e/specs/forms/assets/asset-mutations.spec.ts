@@ -423,18 +423,6 @@ test.describe.serial('asset mutations', () => {
     ).toBe(enteredHeight);
 
     const amountTqtPerQnt = Number(tx.attachment.amountTQTPerQNT);
-    // Characterisation, not the intended contract — see the fixme below.
-    expect(
-      amountTqtPerQnt,
-      `dividend ${txId} signed amountTQTPerQNT=${tx.attachment.amountTQTPerQNT} for the entered ` +
-      `${DIVIDEND_PER_SHARE_XIN} XIN per share. Today's path is the ungeared pass-through: ` +
-      'dividend-payment.component.ts:74 sends the entered amount through amountToQuantPipe (XIN -> TQT, ' +
-      `* ${TQT_PER_XIN}) alone, the "/ 10^decimals" at :75 is commented out, so the value must be ` +
-      `${DIVIDEND_PER_SHARE_XIN * TQT_PER_XIN}. A different value means either the input[name="amountPerQuant"] ` +
-      'binding stopped delivering what was typed (ignored, stale or constant), or the scaling defect was ' +
-      'fixed — in that case this line is expected to break and the fixme "Amount per Share is scaled per ' +
-      'share, not per QNT" below is the one to un-fixme',
-    ).toBe(DIVIDEND_PER_SHARE_XIN * TQT_PER_XIN);
 
     // The chain multiplies amountTQTPerQNT by every holder's QNT; pinning that
     // proves the height snapshot and the holder set are the ones the form named.
@@ -478,7 +466,7 @@ test.describe.serial('asset mutations', () => {
   // Asserts on the payment the previous test broadcast through the wizard:
   // devnet allows one dividend per asset per block, so triggering a second one
   // here would fail on the throttle instead of on the amount.
-  test.fixme(
+  test(
     'dividend-payment: "Amount per Share" is scaled per share, not per QNT — dividend-payment.component.ts:74 ' +
     'sends the entered amount through amountToQuantPipe (XIN -> TQT) alone, while the chain multiplies ' +
     'amountTQTPerQNT by every holder\'s QNT. Entering 1 XIN per share on a decimals=2 asset signs ' +
