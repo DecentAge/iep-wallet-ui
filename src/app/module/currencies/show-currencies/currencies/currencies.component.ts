@@ -48,8 +48,8 @@ export class CurrenciesComponent implements OnInit {
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
 
-    let startIndex = this.page.pageNumber * 10;
-    let endIndex = ((this.page.pageNumber + 1) * 10) - 1;
+    let startIndex = this.page.pageNumber * this.page.size;
+    let endIndex = startIndex + this.page.size - 1;
 
     if (this.currencyType == 'ALL') {
       this.currenciesService.getCurrencies(startIndex, endIndex)
@@ -64,15 +64,14 @@ export class CurrenciesComponent implements OnInit {
       });
     } else {
 
+      // getAccountCurrencies ignores firstIndex/lastIndex and always returns every
+      // holding, so this tab has to page client-side.
       this.currenciesService.getAccountCurrencies(this.accountId)
       .subscribe(response => {
-        this.rows = response.accountCurrencies;
-          if (this.page.pageNumber === 0 && this.rows.length < 10) {
-              this.page.totalElements = this.rows.length;
-          } else if (this.page.pageNumber > 0 && this.rows.length < 10) {
-              this.page.totalElements = this.page.pageNumber * 10 + this.rows.length;
-              this.page.totalPages = this.page.pageNumber;
-          }
+        const accountCurrencies = response.accountCurrencies || [];
+        this.page.totalElements = accountCurrencies.length;
+        this.page.totalPages = Math.ceil(accountCurrencies.length / this.page.size);
+        this.rows = accountCurrencies.slice(startIndex, startIndex + this.page.size);
       });
     }
   }

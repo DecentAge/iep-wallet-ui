@@ -142,15 +142,14 @@ export class CreateDaoWizardPage {
   }
 
   /**
-   * Rows of a repeated sub-form, addressed positionally.
-   *
-   * These rows cannot be addressed by input name: both templates build the name
-   * by interpolation (`name="founderWalletAlias-{{i}}"`), which Angular consumes
-   * as NgModel's `name` input instead of emitting a DOM attribute — unlike the
-   * static `name="name"` of the two earlier steps.
+   * Rows of the repeated founders / team-member sub-forms are addressed by
+   * input name: each row's inputs carry `<control>-<index>` both as the NgModel
+   * control name (`[name]`) and as a real DOM attribute (`[attr.name]`). A
+   * plain interpolated `name="x{{i}}"` would not do — Angular routes that into
+   * NgModel's `name` input and never emits an attribute.
    */
-  private repeatedRows(step: Locator): Locator {
-    return step.locator('.form-body > .row').filter({ has: this.page.locator('input[type="text"]') });
+  private rowInput(step: Locator, control: string, index: number): Locator {
+    return step.locator(`input[name="${control}-${index}"]`);
   }
 
   async addFounder(
@@ -158,32 +157,30 @@ export class CreateDaoWizardPage {
     founder: { role: string; address: string; allocation: string },
   ): Promise<void> {
     await this.addFounderButton.click();
-    const row = this.repeatedRows(this.foundersStep).nth(index);
+    const alias = this.rowInput(this.foundersStep, 'founderWalletAlias', index);
     await expect(
-      row,
+      alias,
       `founder row ${index} did not render after addFounder() — the *ngFor over ` +
-      'createFounderForm.founders may have broken',
+      'createFounderForm.founders may have broken, or its inputs lost their per-row names',
     ).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
 
-    await row.locator('input[type="text"]').first().fill(founder.role);
-    await row.locator('input[type="text"]').nth(1).fill(founder.address);
-    // The allocation input carries the same interpolated name as the wallet-alias
-    // input, so it is told apart by type.
-    const allocation = row.locator('input[type="number"]');
+    await alias.fill(founder.role);
+    await this.rowInput(this.foundersStep, 'founderWalletAddress', index).fill(founder.address);
+    const allocation = this.rowInput(this.foundersStep, 'initialAllocation', index);
     await allocation.fill(founder.allocation);
     await allocation.blur();
   }
 
   async addTeamMember(index: number, member: { role: string; address: string }): Promise<void> {
     await this.addMemberButton.click();
-    const row = this.repeatedRows(this.membersStep).nth(index);
+    const wallet = this.rowInput(this.membersStep, 'teamMemberWallet', index);
     await expect(
-      row,
+      wallet,
       `team-member row ${index} did not render after addTeamMember()`,
     ).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
 
-    await row.locator('input[type="text"]').first().fill(member.address);
-    const role = row.locator('input[type="text"]').nth(1);
+    await wallet.fill(member.address);
+    const role = this.rowInput(this.membersStep, 'teamMemberRole', index);
     await role.fill(member.role);
     await role.blur();
   }

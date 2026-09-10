@@ -34,7 +34,6 @@ export class MySellOffersComponent implements OnInit {
     }
 
     setPage(pageInfo) {
-        console.error(pageInfo)
         this.page.pageNumber = pageInfo.offset;
         let account = this.commonService.getAccountDetailsFromSession('accountRs');
         this.aliasesService.getAliasesOpenOffers(account,

@@ -10,17 +10,15 @@
                 </div>
                 <form class="form inner-form ms-3 me-3" #f="ngForm" novalidate>
                     <div ngbAccordion>
-                        <div ngbAccordionItem>
-                            <h5 ngbAccordionHeader>
+                        <div ngbAccordionItem [collapsed]="false">
+                            <h5 ngbAccordionHeader class="mb-0">
+                                <button ngbAccordionButton>
                                     <i class="fa fa-sitemap"></i> {{ 'swapps.options.connection-sub-title' |
                                     translate}}
-                                    <!--<span class="pull-right">-->
-                                    <!--<i class="fa accordion"></i>-->
-                                    <!--</span>-->
-                                </h5>
-                        </div>
-                        <div ngbAccordionCollapse>
-
+                                </button>
+                            </h5>
+                            <div ngbAccordionCollapse>
+                                <div ngbAccordionBody>
                                 <div class="form-body">
                                     <div class="row">
                                         <div class="col-md-4">
@@ -34,7 +32,7 @@
                                                         id="connectionMode" #mode="ngModel"
                                                         (change)="onConnectionModeChange()"
                                                         required>
-                                                        <option *ngFor="let mode of optionsForm.CONNECTION_MODES" value="{{ mode }}">{{
+                                                        <option *ngFor="let mode of CONNECTION_MODES" value="{{ mode }}">{{
                                                             mode }}</option>
                                                     </select>
                                                 </div>
@@ -89,6 +87,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                </div>
+                            </div>
                         </div>
                         <!--<ngb-panel id="blocksAndConfirmations">-->
                         <!--<ng-template ngbPanelTitle>-->

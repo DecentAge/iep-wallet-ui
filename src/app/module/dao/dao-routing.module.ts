@@ -19,6 +19,14 @@ import {DaoTeamMessagesComponent} from './team-members/show-team-members/dao-tea
 import {DaoTeamPollsComponent} from './team-members/show-team-members/dao-team-polls/dao-team-polls.component';
 
 const routes: Routes = [
+    // Legacy deep link: approval-accounts used to be a create-dao wizard step. It
+    // is a standalone page now (the wizard hides the team-wallet field, so the
+    // alias would point at the creating account itself), but old links still work.
+    {
+        path: 'create-dao/approval-accounts',
+        pathMatch: 'full',
+        redirectTo: 'approval-accounts'
+    },
     {
         path: 'create-dao',
         component: DaoComponent,
@@ -32,6 +40,14 @@ const routes: Routes = [
         component: DaoComponent,
         data: {
             previousRoute: 'create-dao',
+            nextRoute: 'create-dao/add-founders'
+        }
+    },
+    {
+        path: 'create-dao/add-founders',
+        component: DaoComponent,
+        data: {
+            previousRoute: 'create-dao/create-team',
             nextRoute: 'create-dao/add-team-members'
         }
     },
@@ -39,24 +55,8 @@ const routes: Routes = [
         path: 'create-dao/add-team-members',
         component: DaoComponent,
         data: {
-            previousRoute: 'create-dao/create-team',
+            previousRoute: 'create-dao/add-founders',
             nextRoute: null
-        }
-    },
-    {
-        path: 'create-dao/add-founders',
-        component: DaoComponent,
-        data: {
-            previousRoute: 'create-dao/add-team-members',
-            nextRoute: 'create-dao/approval-accounts'
-        }
-    },
-    {
-        path: 'create-dao/approval-accounts',
-        component: DaoComponent,
-        data: {
-            previousRoute: 'create-dao/founders',
-            nextRoute: 'create-dao/create-team'
         }
     },
     {

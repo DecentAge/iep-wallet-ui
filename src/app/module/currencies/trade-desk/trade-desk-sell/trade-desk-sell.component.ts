@@ -47,11 +47,11 @@ export class TradeDeskSellComponent implements OnInit {
         this.router.navigate(["/currencies/trade", params["id"]]);
       });
     } else {
-      this.buyCurrency();
+      this.sellCurrency();
     }
   }
 
-  buyCurrency() {
+  sellCurrency() {
     this.sellCurrencyForm.fee = 1;
 
     var sellCurrencyForm = this.sellCurrencyForm;

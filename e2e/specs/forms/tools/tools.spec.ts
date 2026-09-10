@@ -138,8 +138,7 @@ test('tools/validate-signature: decodes a real token and rejects a tampered mess
   await page.goto('#/wallet/tool/validate-signature');
 
   const tokenField = page.locator('app-validate-signature textarea[name="token"]');
-  // `meassage` typo is in the wallet template, not here.
-  const messageField = page.locator('app-validate-signature input[name="meassage"]');
+  const messageField = page.locator('app-validate-signature input[name="message"]');
   const validateButton = page.locator('app-validate-signature button.btn-border');
   const accountButton = page.locator('app-validate-signature button.btn-gradient');
   const validIcon = page.locator('app-validate-signature .input-group-text i.fa-check.text-success');
@@ -504,12 +503,7 @@ test('tools/chain-viewer: Recent Transactions mirrors getTransactions and shows 
   ).toContain(ourKey);
 });
 
-test.fixme('tools/chain-viewer: the Recent Transactions Reload button refetches the list', async ({ page }) => {
-  // Wallet bug. chain-viewer/transactions/transactions.component.html renders the
-  // reload anchor with ngbPopover="Reload" but WITHOUT a (click) binding, so
-  // TransactionsComponent.reload() is unreachable. The sibling blocks table has
-  // (click)="reload()" on the same markup — see the Recent Blocks reload test
-  // above, which passes. Un-fixme once the binding is added.
+test('tools/chain-viewer: the Recent Transactions Reload button refetches the list', async ({ page }) => {
   await page.goto('#/wallet/tools/chain-viewer/transactions');
   await expect(page.locator('app-transactions datatable-body-row').first()).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
 

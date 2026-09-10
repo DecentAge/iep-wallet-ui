@@ -5,6 +5,7 @@ import { CommonService } from '../../../services/common.service';
 import { Location } from '@angular/common';
 import { SessionStorageService } from '../../../services/session-storage.service';
 import { AmountToQuantPipe } from '../../../pipes/amount-to-quant.pipe';
+import { ShareToQuantityPipe } from '../../../pipes/share-to-quantity.pipe';
 import { AssetsService } from '../assets.service';
 import * as alertFunctions from '../../../shared/data/sweet-alerts';
 import { AppConstants } from '../../../config/constants';
@@ -33,6 +34,7 @@ export class SendAssetsComponent implements OnInit {
         private sessionStorageService: SessionStorageService,
         private cryptoService: CryptoService,
         public amountToQuant: AmountToQuantPipe,
+        public shareToQuantityPipe: ShareToQuantityPipe,
         private assetsService: AssetsService,
         private _location: Location) {
     }
@@ -47,24 +49,36 @@ export class SendAssetsComponent implements OnInit {
         );
         const fee = 1;
 
-        this.assetsService.transferAsset(
-            publicKey,
-            this.sendAssetForm.recipientRS,
-            this.sendAssetForm.assetId,
-            this.sendAssetForm.shares,
-            fee
-        ).subscribe((success_) => {
-            success_.subscribe((success) => {
-                if (!success.errorCode) {
-                    const unsignedBytes = success.unsignedTransactionBytes;
-                    const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
-                    this.transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
-                    this.validBytes = true;
-                } else {
-                    const title: string = this.commonService.translateAlertTitle('Error');
-                    const errMsg: string = this.commonService.translateErrorMessageParams('sorry-error-occurred', success);
-                    alertFunctions.InfoAlertBox(title, errMsg, 'OK', 'error');
-                }
+        // The form collects shares; the chain takes QNT = shares * 10^decimals.
+        this.assetsService.getAsset(this.sendAssetForm.assetId).subscribe((asset: any) => {
+            if (asset.errorCode) {
+                const title: string = this.commonService.translateAlertTitle('Error');
+                const errMsg: string = this.commonService.translateErrorMessageParams('sorry-error-occurred', asset);
+                alertFunctions.InfoAlertBox(title, errMsg, 'OK', 'error');
+                return;
+            }
+
+            const quantity = this.shareToQuantityPipe.transform(this.sendAssetForm.shares, asset.decimals);
+
+            this.assetsService.transferAsset(
+                publicKey,
+                this.sendAssetForm.recipientRS,
+                this.sendAssetForm.assetId,
+                quantity,
+                fee
+            ).subscribe((success_) => {
+                success_.subscribe((success) => {
+                    if (!success.errorCode) {
+                        const unsignedBytes = success.unsignedTransactionBytes;
+                        const signatureHex = this.cryptoService.signatureHex(unsignedBytes, secretPhraseHex);
+                        this.transactionBytes = this.cryptoService.signTransactionHex(unsignedBytes, signatureHex);
+                        this.validBytes = true;
+                    } else {
+                        const title: string = this.commonService.translateAlertTitle('Error');
+                        const errMsg: string = this.commonService.translateErrorMessageParams('sorry-error-occurred', success);
+                        alertFunctions.InfoAlertBox(title, errMsg, 'OK', 'error');
+                    }
+                });
             });
         });
     }

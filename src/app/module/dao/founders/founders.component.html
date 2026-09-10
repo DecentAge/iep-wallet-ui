@@ -12,8 +12,10 @@
           </label>
           <div class="input-group m-0 row">
             <div class="col-12 ps-0">
+              <!-- [name] feeds NgModel, [attr.name] keeps the name in the DOM -->
               <input type="text" class="form-control"
-                     name="founderWalletAlias-{{i}}"
+                     [name]="'founderWalletAlias-' + i"
+                     [attr.name]="'founderWalletAlias-' + i"
                      [pattern]="alphanumericPattern"
                      #founderWalletAlias="ngModel"
                      [(ngModel)]="founder.founderWalletAlias"
@@ -43,7 +45,9 @@
           </label>
           <div class="input-group m-0">
             <input type="text" class="form-control"
-                   name="founderWalletAddress-{{i}}" #founderWalletAddress="ngModel"
+                   [name]="'founderWalletAddress-' + i"
+                   [attr.name]="'founderWalletAddress-' + i"
+                   #founderWalletAddress="ngModel"
                    [(ngModel)]="founder.founderWalletAddress"
                    placeholder="XIN-______-____-______"
                    required>
@@ -69,7 +73,8 @@
             <div class="col-9 ps-0">
               <input type="number"
                      class="ps-0 mb-0 pt-0 pb-0 pe-0 form-control"
-                     name="founderWalletAlias-{{i}}"
+                     [name]="'initialAllocation-' + i"
+                     [attr.name]="'initialAllocation-' + i"
                      #initialAllocation="ngModel"
                      [(ngModel)]="founder.initialAllocation"
                      placeholder="{{'daos.founders.labels.initial-allocation' | translate}}"

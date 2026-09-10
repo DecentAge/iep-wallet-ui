@@ -5,10 +5,10 @@ import { TEST_ACCOUNT_1_PASSPHRASE } from '../fixtures/test-accounts';
  * Seeds shuffling state on devnet through the node's REST API (server-side
  * signing via `secretPhrase`, same approach as cast-vote.spec.ts).
  *
- * Not through the wizard: `ShufflingService.isLocalHostOrTestnet()`
- * (shuffling.service.ts:83-88) only accepts a node URL containing "localhost"
- * or `NETWORK_ENVIRONMENT === 'testnet'`, so on devnet both create-shuffling
- * and join-shuffling refuse to sign.
+ * Not through the wizard: the join half needs a second account, and
+ * `canRegisterEnabled()` disables the join action for the issuer, so a second
+ * logged-in browser session would be required. Seeding over the API is also
+ * retry-safe — the wizard test asserts the UI path separately.
  */
 
 /** 1 XIN — the fee the wallet hardcodes for every shuffling transaction. */

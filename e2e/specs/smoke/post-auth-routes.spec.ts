@@ -106,11 +106,7 @@ const POST_AUTH_ROUTES: ReadonlyArray<{
 
   // aliases/*
   { hash: '#/wallet/aliases/create-alias',     expect: { selector: 'app-create-alias' } },
-  {
-    hash: '#/wallet/aliases/my-sell-offers',
-    expect: { selector: 'app-my-sell-offers' },
-    fixme: 'code hygiene, not a functional break: the page renders, but src/app/module/aliases/my-sell-offers/my-sell-offers.component.ts:37 has a leftover console.error(pageInfo) that logs "{offset: 0}" on every visit',
-  },
+  { hash: '#/wallet/aliases/my-sell-offers',    expect: { selector: 'app-my-sell-offers' } },
   { hash: '#/wallet/aliases/buy-offers',        expect: { selector: 'app-buy-offers app-offers' }, url: /#\/wallet\/aliases\/buy-offers\/private$/ },
   { hash: '#/wallet/aliases/buy-offers/public', expect: { selector: 'app-buy-offers app-offers' } },
 
@@ -169,19 +165,11 @@ const POST_AUTH_ROUTES: ReadonlyArray<{
   { hash: '#/wallet/tools/chain-viewer/unconfirmed',  expect: { selector: 'app-chain-viewer app-unconfirmed' } },
   { hash: '#/wallet/tools/chain-viewer/peers',        expect: { selector: 'app-chain-viewer app-peers' } },
   { hash: '#/wallet/tools/newsviewer',                expect: { selector: 'app-news-center' } },
-  {
-    hash: '#/wallet/tools/service-monitor',
-    expect: { selector: 'app-service-monitor' },
-    fixme: 'wallet bug: src/app/module/extensions/service-monitor/service-monitor.component.html:9 still uses the ng-bootstrap 4 syntax <div ngb-accordion> instead of ngbAccordion, so ngbAccordionItem cannot inject its parent → "NullInjectorError: No provider for NgbAccordionDirective", navigation falls back to the dashboard. The component also polls mainnet endpoints, which a devnet cannot reach',
-  },
+  { hash: '#/wallet/tools/service-monitor', expect: { selector: 'app-service-monitor' } },
 
   // wallet-settings/* (SwappsModule)
   { hash: '#/wallet/wallet-settings/swapps', expect: { selector: 'app-wallet-settings' } },
-  {
-    hash: '#/wallet/wallet-settings/options',
-    expect: { selector: 'app-options' },
-    fixme: 'wallet bug (sidebar links here, see sidebar-routes.config.ts): the route throws "NullInjectorError: No provider for ChangeDetectorRef" while constructing NgbAccordionItem and the router falls back to the dashboard. src/app/module/swapps/swapps.module.ts listing NgbAccordionDirective/NgbAccordionItem in `providers` is wrong on its own; whether it is the whole cause is unverified',
-  },
+  { hash: '#/wallet/wallet-settings/options', expect: { selector: 'app-options' } },
 
   // subscriptions/*
   { hash: '#/wallet/subscriptions/create-subscription', expect: { selector: 'app-create-subscription' } },

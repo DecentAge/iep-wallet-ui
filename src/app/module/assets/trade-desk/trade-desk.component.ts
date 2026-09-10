@@ -111,12 +111,7 @@ export class TradeDeskComponent implements OnInit {
         this.buyOrderForm.quantity,
         this.decimals
       );
-      if (askQuantityQnt <= this.assetDetails.quantityQNT) {
-        this.enableBuy = true;
-      } else {
-        this.enableBuy = false;
-      }
-      this.enableBuy = true;
+      this.enableBuy = askQuantityQnt <= this.assetDetails.quantityQNT;
     } else {
       this.enableBuy = false;
     }

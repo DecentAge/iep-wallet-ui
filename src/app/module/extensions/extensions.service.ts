@@ -41,8 +41,8 @@ export class ExtensionsService {
                 img.onload = function () {
                     observer.next(img);
                 };
-                img.onerror = function (err) {
-                    throw observer.throw(err);
+                img.onerror = (err) => {
+                    observer.error(err);
                 }
             })
         }
