@@ -69,7 +69,9 @@ export async function clickAndCollectBroadcasts(
     while (Date.now() < deadline) {
       await Promise.all(bodies.slice());
       if (failures.length > 0 || txIds.length >= expected) break;
-      await page.waitForTimeout(POLL_INTERVAL_MS);
+      // Not page.waitForTimeout: that is a page action and would write one trace
+      // entry with a DOM snapshot per poll.
+      await new Promise<void>((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
     }
     await Promise.all(bodies.slice());
 

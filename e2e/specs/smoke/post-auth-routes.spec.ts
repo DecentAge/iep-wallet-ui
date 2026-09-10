@@ -110,6 +110,9 @@ const POST_AUTH_ROUTES: ReadonlyArray<{
   { hash: '#/wallet/aliases/my-sell-offers',    expect: { selector: 'app-my-sell-offers' } },
   { hash: '#/wallet/aliases/buy-offers',        expect: { selector: 'app-buy-offers app-offers' }, url: /#\/wallet\/aliases\/buy-offers\/private$/ },
   { hash: '#/wallet/aliases/buy-offers/public', expect: { selector: 'app-buy-offers app-offers' } },
+  // queryParams-driven, no DataStore; sell-alias is absent — it bounces on !params.alias.
+  { hash: '#/wallet/aliases/my-sell-offers/cancel-alias-sell', expect: { selector: 'app-cancel-alias-sell' } },
+  { hash: '#/wallet/aliases/buy-offers/buy-alias',             expect: { selector: 'app-buy-alias' } },
 
   // currencies/*
   { hash: '#/wallet/currencies/issue-currency',      expect: { selector: 'app-issue-currency' } },
@@ -186,7 +189,7 @@ const POST_AUTH_ROUTES: ReadonlyArray<{
   { hash: '#/wallet/subscriptions/create-subscription', expect: { selector: 'app-create-subscription' } },
   { hash: '#/wallet/subscriptions/my-subscriptions',    expect: { selector: 'app-my-subscriptions' } },
 
-  // voting/*
+  // voting/* — show-polls/{result,voters,details,vote} _location.back() without ?id=; poll-results.spec.ts covers them.
   { hash: '#/wallet/voting/create-poll',    expect: { selector: 'app-create-poll' } },
   { hash: '#/wallet/voting/show-polls/all', expect: { selector: 'app-show-polls app-polls' } },
   { hash: '#/wallet/voting/show-polls/my',  expect: { selector: 'app-show-polls app-polls' } },
