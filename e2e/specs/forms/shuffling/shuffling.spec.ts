@@ -20,19 +20,13 @@ import {
  * Shuffling module (`#/wallet/shuffling/*`) — create a shuffling, list it,
  * inspect it, join it.
  *
- * Three devnet realities shape this spec:
+ * Two devnet realities shape this spec:
  *
- * 1. The wizard cannot broadcast on devnet. `ShufflingService.isLocalHostOrTestnet()`
- *    (shuffling.service.ts:83-88) accepts only a node URL containing "localhost"
- *    or `NETWORK_ENVIRONMENT === 'testnet'`, while `startShuffler()`/`cancelShuffle()`
- *    in the same service already use the devnet-aware `NodeService.isLocalNode()`.
- *    So it is a stale guard, not a deliberate exclusion — the wizard test below
- *    self-skips while the alert is up and runs itself once the guard is fixed.
- * 2. Joining needs a second account: `canRegisterEnabled()` disables the join
+ * 1. Joining needs a second account: `canRegisterEnabled()` disables the join
  *    action for the issuer, and a second logged-in session is out of scope. The
  *    join is broadcast through the node API; what gets asserted is how the
  *    wallet renders it.
- * 3. `ShufflingsComponent.setPage()` assigns `page.totalElements` only in the MY
+ * 2. `ShufflingsComponent.setPage()` assigns `page.totalElements` only in the MY
  *    branch, so the All tab's pager never works and only the first ten rows of
  *    `getAllShufflings` (ordered by `blocks_remaining ASC`) are reachable. Since
  *    blocks_remaining decays, anything still running from an earlier run sorts
@@ -47,9 +41,6 @@ import {
 
 const HOLDING_TYPE_XIN = 'XIN';
 const STAGE_REGISTRATION = 'Registration';
-
-/** `sweet-alert.create-shuffle-localhost-mandatory-error-msg`, en.json. */
-const DEVNET_GUARD_TEXT = /localhost is mandatory to create a shuffle/i;
 
 let apiCtx: APIRequestContext;
 let apiBase: string;
@@ -79,23 +70,6 @@ function formatAmount(tqt: string | number): string {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-}
-
-/** True while the devnet guard alert (see file header) is up. */
-async function devnetGuardVisible(page: Page): Promise<boolean> {
-  return page
-    .locator('.swal2-container', { hasText: DEVNET_GUARD_TEXT })
-    .waitFor({ state: 'visible', timeout: DEFAULT_TIMEOUT_MS })
-    .then(() => true, () => false);
-}
-
-async function dismissDevnetGuard(page: Page): Promise<void> {
-  if (!(await devnetGuardVisible(page))) return;
-  await page.locator('.swal2-confirm').first().click();
-  await expect(
-    page.locator('.swal2-container'),
-    'the devnet guard alert stayed up after OK — later form interaction would hit an intercepted click',
-  ).toBeHidden({ timeout: DEFAULT_TIMEOUT_MS });
 }
 
 async function apiJson(request: APIRequestContext, params: Record<string, string | boolean>): Promise<any> {
@@ -201,7 +175,6 @@ test('create-shuffling: step-1 validators gate Next on participant count, amount
 
   const amount = page.locator('input[name="amount"]');
   await expect(amount, 'create-shuffling step-1 form did not mount').toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
-  await dismissDevnetGuard(page);
 
   const participantCount = page.locator('input[name="participantCount"]');
   const finishHeight = page.locator('input[name="finishHeight"]');
@@ -271,7 +244,6 @@ test('create-shuffling: an unknown currency ticker surfaces the chain error and 
   await page.goto('#/wallet/shuffling/create-shuffling');
 
   await expect(page.locator('input[name="amount"]')).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
-  await dismissDevnetGuard(page);
 
   const next = page.locator('button.btn-gradient:has(i.fa-chevron-right)').first();
   await page.locator('input[name="participantCount"]').fill('3');
@@ -313,14 +285,6 @@ test('create-shuffling: an unknown currency ticker surfaces the chain error and 
 test('create-shuffling: wizard signs shufflingCreate and getShuffling returns the new shuffling', async ({ page, request, baseURL }) => {
   await page.goto('#/wallet/shuffling/create-shuffling');
   await expect(page.locator('input[name="amount"]')).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
-
-  test.skip(
-    await devnetGuardVisible(page),
-    'create-shuffling refuses to sign on devnet: ShufflingService.isLocalHostOrTestnet() ' +
-    '(shuffling.service.ts:83-88) only accepts a "localhost" node URL or NETWORK_ENVIRONMENT="testnet", ' +
-    'while startShuffler()/cancelShuffle() in the same service already use the devnet-aware ' +
-    'NodeService.isLocalNode(). This test runs itself as soon as that guard is fixed.',
-  );
 
   await page.locator('input[name="participantCount"]').fill('3');
   await page.locator('input[name="amount"]').fill('1000');

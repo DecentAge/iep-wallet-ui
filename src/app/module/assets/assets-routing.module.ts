@@ -13,7 +13,6 @@ import {TransactionDetailComponent} from '../../shared/search/transaction-detail
 import {AssetDetailsComponent} from './show-assets/assets/asset-details/asset-details.component';
 import {SearchAssetsComponent} from './search-assets/search-assets.component';
 import {TradeDeskComponent} from './trade-desk/trade-desk.component';
-import {OpenOrdersComponent} from './my-open-orders/open-orders/open-orders.component';
 import {CancelOrderComponent} from './my-open-orders/open-orders/cancel-order/cancel-order.component';
 import {TransferAssetComponent} from './show-assets/assets/transfer-asset/transfer-asset.component';
 import {DividendPaymentComponent} from './show-assets/assets/dividend-payment/dividend-payment.component';
@@ -134,25 +133,21 @@ const routes: Routes = [
         path: 'show-assets/order-trade-details/transaction-details',
         component: TransactionDetailComponent,
     },
+    // Legacy deep links from the tabbed layout; the page now shows both
+    // panels at once, so they resolve to the parent.
+    {
+        path: 'my-open-orders/buy',
+        pathMatch: 'full',
+        redirectTo: 'my-open-orders'
+    },
+    {
+        path: 'my-open-orders/sell',
+        pathMatch: 'full',
+        redirectTo: 'my-open-orders'
+    },
     {
         path: 'my-open-orders',
         component: MyOpenOrdersComponent,
-        children: [
-            {   path: 'buy',
-                component: OpenOrdersComponent,
-                data: {
-                    offerType: "Buy",
-                    title: 'Buy Orders'
-                }
-            },
-            {   path: 'sell',
-                component: OpenOrdersComponent,
-                data: {
-                    offerType: "Sell",
-                    title: 'Sell Orders'
-                },
-            }
-        ]
     },
     {
         path: 'open-orders/asset-details',

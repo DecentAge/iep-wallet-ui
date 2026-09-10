@@ -150,10 +150,37 @@ function expectExpirationHeight(
     `on the form plus the chain height, i.e. between ${heightBefore + lifetimeBlocks} and ` +
     `${heightAfter + lifetimeBlocks}. A NaN means getBlockchainStatus had not answered when Next ` +
     `was clicked; a value near ${lifetimeBlocks} means currentHeight was never added and the offer ` +
-    'expires in the past';
+    `expires in the past; roughly ${2 * heightBefore + lifetimeBlocks} means the chain height was ` +
+    'added twice, i.e. the wizard signed off a form field it had already made absolute';
   expect(signed, explain).toBeGreaterThanOrEqual(heightBefore + lifetimeBlocks);
   expect(signed, explain).toBeLessThanOrEqual(heightAfter + lifetimeBlocks);
   return signed;
+}
+
+/**
+ * Confirm → Previous → Next, the correction round trip every user makes who
+ * mistypes a rate. The offer signed on the way out has to be the same offer:
+ * the lifetime must still be a lifetime, and the second `expirationHeight`
+ * must land in the same window as the first. Returns the height that was
+ * signed last — that is the one the broadcast carries to the chain.
+ */
+async function resignAfterStepBack(
+  wizard: PublishExchangeOfferPage,
+  request: APIRequestContext,
+  apiOrigin: string,
+  lifetimeBlocks: number,
+  heightBefore: number,
+): Promise<number> {
+  await wizard.returnToDetailsStep();
+  await wizard.expectLifetimeUnchanged(lifetimeBlocks);
+
+  const resignedParams = await wizard.submitDetailsStep();
+  return expectExpirationHeight(
+    resignedParams,
+    lifetimeBlocks,
+    heightBefore,
+    await chainHeight(request, apiOrigin),
+  );
 }
 
 test.beforeEach(async ({ page }) => {
@@ -182,18 +209,16 @@ test('publish-exchange-buy-offer: buy-only offer reaches the chain with a zeroed
   const wizard = new PublishExchangeOfferPage(page);
   await wizard.expectDetailsStep(currency.currencyId, currency.code);
   const lifetimeBlocks = await wizard.expectPrefilledLifetimeBlocks();
+  await wizard.expectLifetimeLabels(lifetimeBlocks);
 
   await wizard.input('buyRate').fill(String(BUY_ONLY_RATE_XIN));
   await wizard.input('initialBuySupply').fill(String(BUY_ONLY_UNITS));
   await wizard.input('initialBuySupply').blur();
 
   const signParams = await wizard.submitDetailsStep();
-  const expirationHeight = expectExpirationHeight(
-    signParams,
-    lifetimeBlocks,
-    heightBefore,
-    await chainHeight(request, apiOrigin),
-  );
+  expectExpirationHeight(signParams, lifetimeBlocks, heightBefore, await chainHeight(request, apiOrigin));
+
+  const expirationHeight = await resignAfterStepBack(wizard, request, apiOrigin, lifetimeBlocks, heightBefore);
 
   expect(
     signParams.get('totalSellLimit'),
@@ -285,18 +310,16 @@ test('publish-exchange-sell-offer: sell-only offer reaches the chain with a zero
   const wizard = new PublishExchangeOfferPage(page);
   await wizard.expectDetailsStep(currency.currencyId, currency.code);
   const lifetimeBlocks = await wizard.expectPrefilledLifetimeBlocks();
+  await wizard.expectLifetimeLabels(lifetimeBlocks);
 
   await wizard.input('sellRate').fill(String(SELL_ONLY_RATE_XIN));
   await wizard.input('initialSellSupply').fill(String(SELL_ONLY_UNITS));
   await wizard.input('initialSellSupply').blur();
 
   const signParams = await wizard.submitDetailsStep();
-  const expirationHeight = expectExpirationHeight(
-    signParams,
-    lifetimeBlocks,
-    heightBefore,
-    await chainHeight(request, apiOrigin),
-  );
+  expectExpirationHeight(signParams, lifetimeBlocks, heightBefore, await chainHeight(request, apiOrigin));
+
+  const expirationHeight = await resignAfterStepBack(wizard, request, apiOrigin, lifetimeBlocks, heightBefore);
 
   expect(
     signParams.get('totalBuyLimit'),
@@ -387,6 +410,7 @@ test('publish-exchange-offer: two-sided offer records both books with the entere
   const wizard = new PublishExchangeOfferPage(page);
   await wizard.expectDetailsStep(currency.currencyId, currency.code);
   const lifetimeBlocks = await wizard.expectPrefilledLifetimeBlocks();
+  await wizard.expectLifetimeLabels(lifetimeBlocks);
 
   // Six inputs, all distinct values: swapping any pair changes the chain state
   // in a way the assertions below pick up.
@@ -399,12 +423,9 @@ test('publish-exchange-offer: two-sided offer records both books with the entere
   await wizard.input('initialSellSupply').blur();
 
   const signParams = await wizard.submitDetailsStep();
-  const expirationHeight = expectExpirationHeight(
-    signParams,
-    lifetimeBlocks,
-    heightBefore,
-    await chainHeight(request, apiOrigin),
-  );
+  expectExpirationHeight(signParams, lifetimeBlocks, heightBefore, await chainHeight(request, apiOrigin));
+
+  const expirationHeight = await resignAfterStepBack(wizard, request, apiOrigin, lifetimeBlocks, heightBefore);
 
   await wizard.expectConfirmValues({
     'Name': currency.name,

@@ -129,12 +129,7 @@ test('show-currencies: All tab shows issued currency by code', async ({ page }) 
   ).toBe(true);
 });
 
-// Wallet bug: the My tab's pager sets the active page in the DOM but never
-// refetches, so only the first ten holdings are ever reachable. Measured on a
-// devnet account holding 56 currencies: twelve page clicks, same ten rows every
-// time (the footer also reports a guessed "1,000 total" from
-// pageNumber * 10 + rows.length). Drop the fixme once the component pages properly.
-test.fixme('show-currencies: My tab shows the issued currency under TEST_ACCOUNT_1 holdings', async ({ page }) => {
+test('show-currencies: My tab shows the issued currency under TEST_ACCOUNT_1 holdings', async ({ page }) => {
   await page.goto('#/wallet/currencies/show-currencies/my');
 
   const datatable = page.locator('ngx-datatable').first();

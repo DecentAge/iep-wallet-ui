@@ -552,9 +552,9 @@ test.describe.serial('asset trading desk', () => {
   });
 
   test('send-assets: transfer to TEST_ACCOUNT_2 lands in getAssetTransfers and my-transfers', async ({ page, request, baseURL }) => {
-    // Uses the decimals=0 fixture on purpose: send-assets passes the "Shares"
-    // input straight through as quantityQNT (see the skipped test below), so
-    // only at decimals=0 do "shares entered" and "QNT on chain" agree.
+    // Uses the decimals=0 fixture on purpose: there "shares entered" and "QNT
+    // on chain" are the same number, so the assertions below read directly.
+    // The decimals scaling itself is covered by the last test in this file.
     await page.goto('#/wallet/assets/send-assets');
 
     const assetIdInput = page.locator('input[name="assetId"]');
@@ -652,14 +652,7 @@ test.describe.serial('asset trading desk', () => {
     ).toHaveText(TEST_ACCOUNT_2_RS);
   });
 
-  // The trade desk scales share input by the asset's decimals
-  // (shareToQuantityPipe), and so does show-assets' transfer-asset component
-  // (transfer-asset.component.ts:99). send-assets does not: it hands
-  // `sendAssetForm.shares` to assetsService.transferAsset() unchanged, which
-  // sends it as `quantityQNT` — so on a decimals=2 asset "10 Shares" moves
-  // 0.10 shares. The label ("Shares") and popover ("The number of shares to
-  // send.") say otherwise. Un-skip once send-assets applies the pipe.
-  test.skip('send-assets: the Shares input is scaled by the asset decimals', async ({ page, request, baseURL }) => {
+  test('send-assets: the Shares input is scaled by the asset decimals', async ({ page, request, baseURL }) => {
     await page.goto('#/wallet/assets/send-assets');
 
     await page.locator('input[name="assetId"]').fill(tradeAssetId);

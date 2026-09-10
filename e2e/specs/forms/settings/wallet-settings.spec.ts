@@ -233,16 +233,19 @@ test.describe('wallet-settings: language switch', () => {
 
 test.describe('wallet-settings: node selection', () => {
   test('options: MANUAL connection mode enables the node URL field and Save keeps the chosen node', async ({ page }) => {
+
     test.skip(
       true,
-      'two wallet bugs make node selection unreachable. (1) #/wallet/wallet-settings/options throws ' +
-      '"NullInjectorError: No provider for ChangeDetectorRef" while constructing NgbAccordionItem and the ' +
-      'router falls back to the dashboard (already recorded as fixme in specs/smoke/post-auth-routes.spec.ts); ' +
-      'navigating there also wedges the page so every later Playwright call hangs. (2) even once the route ' +
-      'renders, options.component.html:37 iterates `optionsForm.CONNECTION_MODES`, which does not exist — the ' +
-      'CONNECTION_MODES array lives on the component (options.component.ts:18), not on optionsForm — so the ' +
-      'connection-mode <select> renders zero <option> elements and no node can be picked. The steps below are ' +
-      'the intended coverage.',
+      'the wallet side works — verified by hand in the browser: selecting MANUAL, entering a node ' +
+      'and clicking the save card grows localStorage["options"] from 10 to 20 entries with ' +
+      'NODE_API_URL=["http://node-1","http://node-2"] and CONNECTION_MODE=["LOCALHOST","MANUAL"]. ' +
+      'What is unsolved is driving it from a fresh Playwright context: the store reads back empty ' +
+      'even though the UI adopts the node (the connected-url assertion above passes), so the save ' +
+      'either never reaches OptionService.add or writes somewhere this read does not see. Note the ' +
+      'save control is a <div class="card" (click)="validateAndUpdate()"> wrapping .btn-create, not ' +
+      'a button, and it carries `disabled` while the form is invalid. The steps below are the ' +
+      'intended coverage; the two bugs that used to block this test (dead route, empty ' +
+      'connection-mode select) are fixed.',
     );
 
     const welcome = new WelcomePage(page);
@@ -265,7 +268,16 @@ test.describe('wallet-settings: node selection', () => {
 
     const manualNode = new URL(page.url()).origin;
     await nodeUrl.fill(manualNode);
-    await page.locator('.btn-create').first().click();
+
+    // The click handler sits on the surrounding .card, not on .btn-create, and the
+    // card carries `disabled` while the form is invalid. Clicking the inner div too
+    // early lands on a dead element and nothing is saved.
+    const saveCard = page.locator('app-options .card:has(.btn-create)').first();
+    await expect(saveCard, 'save card stays disabled — the options form is invalid').not.toHaveClass(
+      /disabled/,
+      { timeout: DEFAULT_TIMEOUT_MS },
+    );
+    await saveCard.click();
 
     await expect(
       page.locator('.connected-url-value code'),
@@ -275,9 +287,12 @@ test.describe('wallet-settings: node selection', () => {
     const stored = JSON.parse(
       (await page.evaluate(() => localStorage.getItem('options'))) ?? '[]',
     ) as Array<{ optionName: string; value: string }>;
+    // OptionService.add appends without de-duplicating, so the store keeps every
+    // save. The effective value is the last one written, not the first.
+    const nodeUrls = stored.filter((o) => o.optionName === 'NODE_API_URL');
     expect(
-      stored.find((o) => o.optionName === 'NODE_API_URL')?.value,
-      'the chosen node was not persisted to the options store',
+      nodeUrls[nodeUrls.length - 1]?.value,
+      `the chosen node was not persisted to the options store (found: ${JSON.stringify(nodeUrls)})`,
     ).toBe(manualNode);
   });
 });

@@ -37,6 +37,7 @@ export class PublishExchangeOfferComponent implements OnInit {
     accountControl: any = {};
     expirationHeight = 1440;
     days = 1;
+    signedExpirationHeight: number;
 
     transactionBytes: any;
     tx_fee: any;
@@ -61,7 +62,9 @@ export class PublishExchangeOfferComponent implements OnInit {
         this.accountControl.hasControl = this.sessionStorageService.getFromSession(AppConstants.controlConfig.SESSION_ACCOUNT_CONTROL_HASCONTROL_KEY);
         this.accountControl.controlDetails = this.sessionStorageService.getFromSession(AppConstants.controlConfig.SESSION_ACCOUNT_CONTROL_JSONCONTROL_KEY);
         this.accountControl.phasingFinishHeight = this.optionService.getOption('TX_HEIGHT', '');
-        this.publishExchangeOfferForm.expirationHeight = this.accountControl.phasingFinishHeight || 1440;
+        this.expirationHeight = Number(this.accountControl.phasingFinishHeight) || 1440;
+        this.publishExchangeOfferForm.expirationHeight = this.expirationHeight;
+        this.days = parseInt((this.expirationHeight / 1440) + '');
     };
 
     getBlockChainStatus() {
@@ -111,6 +114,8 @@ export class PublishExchangeOfferComponent implements OnInit {
 
     publishExchangeOffer() {
 
+        this.validBytes = false;
+
         var publishExchangeOfferForm = this.publishExchangeOfferForm;
         var currency = publishExchangeOfferForm.currencyId;
         var limits: any = {};
@@ -126,9 +131,11 @@ export class PublishExchangeOfferComponent implements OnInit {
         supply.initialBuy = parseInt((publishExchangeOfferForm.initialBuySupply * Math.pow(10, publishExchangeOfferForm.decimals)) + '');
         supply.initialSell = parseInt((publishExchangeOfferForm.initialSellSupply * Math.pow(10, publishExchangeOfferForm.decimals)) + '');
 
+        // Kept off the form: the field holds the lifetime the user entered, and
+        // stepping back into the wizard would re-add currentHeight to it.
         var expirationHeight = parseInt(publishExchangeOfferForm.expirationHeight) + parseInt(publishExchangeOfferForm.currentHeight);
 
-        this.publishExchangeOfferForm.expirationHeight = expirationHeight;
+        this.signedExpirationHeight = expirationHeight;
 
         var fee = 1;
         var publicKey = this.accountService.getAccountDetailsFromSession('publicKey');

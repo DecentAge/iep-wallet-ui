@@ -30,13 +30,11 @@ export class OpenOrdersComponent implements OnInit {
     }
 
     ngOnInit() {
-        //this.route.data.subscribe(data => {
-            this.offerType = this.offerTypeInput;
-            this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
-            this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
+        this.offerType = this.offerTypeInput;
+        this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
+        this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
 
-            this.setPage({offset: 0});
-       // });
+        this.setPage({offset: 0});
     }
     setPage(pageInfo) {
 

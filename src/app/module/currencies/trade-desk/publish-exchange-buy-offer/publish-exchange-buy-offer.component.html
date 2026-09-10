@@ -121,8 +121,8 @@
                                                     <div class="input-group pt-0 ms-0 me-0 sign_in_inputs row form-border-bottom">
                                                         <div class="col-2">
                                                             <span class="input-group-text text-left">
-                                                                {{'common.block-text'| translate}} : {{ currentHeight
-                                                                }}
+                                                                {{'common.block-text'| translate}} : {{
+                                                                publishExchangeOfferForm.currentHeight }}
                                                             </span>
                                                         </div>
                                                         <div class="col-4 ps-0">
@@ -134,7 +134,7 @@
                                                         </div>
                                                         <div class="col-2 ps-0">
                                                             <span class="input-group-text text-left">
-                                                                {{ publishExchangeOfferForm.days }} {{'common.days-text'| translate}}
+                                                                {{ days }} {{'common.days-text'| translate}}
                                                             </span>
                                                         </div>
                                                         <div class="col-4 pe-1 text-right btn-icon-group">
@@ -210,7 +210,7 @@
                                     <div class="col-md-4">
                                         <div class="ucsb"> {{'common.expiration-height-label'| translate}}
                                         </div>
-                                        <h4> {{publishExchangeOfferForm.expirationHeight}} </h4>
+                                        <h4> {{signedExpirationHeight}} </h4>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="ucsb"> {{'common.valid-label'| translate}}
