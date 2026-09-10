@@ -105,7 +105,8 @@ export class TradeDeskSellComponent implements OnInit {
             );
             this.tx_fee = success.transactionJSON.feeTQT / 100000000;
             this.tx_amount = success.transactionJSON.amountTQT / 100000000;
-            this.tx_total = this.tx_fee + this.tx_amount;
+            // amountTQT is 0 on exchange transactions — the XIN sits in the attachment.
+            this.tx_total = (units * rateTQT) / 100000000;
             this.validBytes = true;
           } else {
             let title: string = this.commonService.translateAlertTitle("Error");
