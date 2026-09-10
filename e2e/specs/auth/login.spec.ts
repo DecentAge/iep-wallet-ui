@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/test';
 import { WelcomePage } from '../../pages/welcome.page';
 import { DashboardPage } from '../../pages/dashboard.page';
 import { TEST_ACCOUNT_1_PASSPHRASE, SHORT_PASSPHRASE } from '../../fixtures/test-accounts';

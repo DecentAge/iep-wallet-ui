@@ -1,4 +1,5 @@
-import { test, expect, request as pwRequest, APIRequestContext, Page, Locator } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
+import { request as pwRequest, APIRequestContext, Page, Locator } from '@playwright/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import {
@@ -8,6 +9,10 @@ import {
 } from '../../../fixtures/test-accounts';
 import { DEFAULT_TIMEOUT_MS } from '../../../fixtures/timeouts';
 import { broadcastAndAwaitConfirmation, apiOriginFromBaseURL } from '../../../helpers/broadcast-confirm';
+
+// Opts out of the shared alert auto-dismissal: this spec asserts the broadcast dialog before dismissing it,
+// so a handler that closes it first would race the assertion.
+test.use({ autoDismissAlerts: false });
 
 /**
  * Asset trading desk (`#/wallet/assets/trade/:id{,/buy,/sell}`),

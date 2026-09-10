@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/test';
 import { TEST_ACCOUNT_1_RS, TEST_ACCOUNT_1_ID, TEST_ACCOUNT_1_PASSPHRASE } from '../../fixtures/test-accounts';
 import { DEFAULT_TIMEOUT_MS } from '../../fixtures/timeouts';
 

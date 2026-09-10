@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import {
@@ -76,12 +76,6 @@ test('sign-escrow: decision select → Next → broadcast → signer decision re
   // DEFAULT_TIMEOUT_MS and then dismiss it to unblock the Finish button click.
   await nextButton.click();
 
-  const swalOk = page.locator('.swal2-confirm');
-  if (await swalOk.isVisible({ timeout: DEFAULT_TIMEOUT_MS }).catch(() => false)) {
-    await swalOk.click();
-    await expect(swalOk).not.toBeVisible({ timeout: 5_000 });
-  }
-
   // Step 2: escrow ID and chosen decision must be shown
   await expect(
     page.locator('h4', { hasText: escrowId }).first(),
@@ -99,14 +93,6 @@ test('sign-escrow: decision select → Next → broadcast → signer decision re
     finishButton,
     'Finish did not enable — escrowSign() signing failed (nested Observable swallowed?)',
   ).toBeEnabled({ timeout: DEFAULT_TIMEOUT_MS });
-
-  // Dismiss any swal that arrived after the extended dismiss window above
-  // (e.g. a second async response arriving later than DEFAULT_TIMEOUT_MS).
-  const swalGuard = page.locator('.swal2-confirm');
-  if (await swalGuard.isVisible({ timeout: 1_000 }).catch(() => false)) {
-    await swalGuard.click();
-    await expect(swalGuard).not.toBeVisible({ timeout: 5_000 });
-  }
 
   // Toggle the signed-transaction display and verify hex bytes were produced
   await page.locator('button:has(i.fa-key)').first().click();
