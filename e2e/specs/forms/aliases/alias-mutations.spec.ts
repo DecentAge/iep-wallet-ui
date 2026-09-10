@@ -292,14 +292,17 @@ test.describe('aliases: mutations', () => {
     ).toHaveText(originalURI);
 
     const next = page.locator(`${host} button.btn-primary:has(i.fa-chevron-right)`);
+    const prefix = page.locator(`${host} select[name="type"]`);
+    const uriInput = page.locator(`${host} input[name="aliaseURI"]`);
+
+    await uriInput.fill('');
+    await uriInput.blur();
     await expect(
       next,
       'Next is enabled with an empty URI field — the required validator is gone and the alias ' +
         'would be re-issued pointing at nothing',
     ).toBeDisabled();
 
-    const prefix = page.locator(`${host} select[name="type"]`);
-    const uriInput = page.locator(`${host} input[name="aliaseURI"]`);
     await prefix.selectOption('url:');
     await expect(
       uriInput,
@@ -437,7 +440,7 @@ test.describe('aliases: mutations', () => {
       .toBe('unknown (errorCode 5)');
   });
 
-  test.fixme(
+  test(
     'alias-mutations: edit-alias prefills the alias it edits — edit-alias.component.ts:63-66 pins ' +
       'aliase.prefix to the "acct:" default and never copies params.aliasURI into aliase.uri, so a ' +
       'url: alias opens with an empty URI field and the Account prefix preselected; a user who ' +
