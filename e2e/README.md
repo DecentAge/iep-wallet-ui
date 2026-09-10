@@ -2,8 +2,8 @@
 
 End-to-end tests that drive a real Chromium against the running wallet UI. Originally built as a regression safety net **before** the Angular 6 → 18 upgrade; that upgrade has since landed (the wallet is on Angular 18.2.11), and the suite now serves as the ongoing regression net.
 
-**Last full run: 2026-09-10 — 269 passed, 0 failed, 5 skipped** against the local devnet from
-`iep-docker-dev` (274 tests in 58 files, ~9 min wall clock, `workers: 1`). The skips are documented
+**Last full run: 2026-09-10 — 285 passed, 0 failed, 9 skipped** against the local devnet from
+`iep-docker-dev` (294 tests in 61 files, ~9.4 min wall clock, `workers: 1`). The skips are documented
 wallet bugs and flows that need a second browser session; each names its cause in the skip message.
 
 ## Prerequisites the chain must satisfy
@@ -62,6 +62,11 @@ Items 1–3 of the plan are scaffolded:
 | 23 | Account Properties (set + list) | `specs/forms/properties.spec.ts` | done — set-property 2-step wizard (recipient/key/value → confirm; SET_ACCOUNT_PROPERTY subtype) + my-properties + external-properties datatables (covers the route `data: { propertyType }` reuse pattern) |
 | 24 | Create Poll wizard | `specs/forms/create-poll.spec.ts` | done — 3-step archwizard with **dynamic-array option fields** (`addNewOption()` + `*ngFor` over `pollOptions`); covers POLL_CREATION subtype + the `isSecondStepValid` derived flag that gates which Next button renders; also exercises the sweetalert2 InfoAlertBox info dialog dismissal in a real flow |
 | 25 | Create Alias wizard | `specs/forms/create-alias.spec.ts` | done — 2-step archwizard for alias-name → URI mapping (ALIAS_ASSIGNMENT subtype); exercises a `<select>`-driven prefix dropdown with `(change)` placeholder swap |
+| 27 | Dashboard | `specs/forms/dashboard/dashboard.spec.ts` | done — the landing page beyond "it mounts": address + XIN valuation pinned against `getAccount` (catches an `amountTqt` scaling regress) and the USD figure against the market backend's price, the four action tiles' `navigateTo()` handlers, the `*ngIf="showChart"` price chart against `xin/history`, and the `localStorage` `redirectTo` hand-off (QR deep link → prefilled Send form, key cleared afterwards) |
+| 28 | Voting results | `specs/forms/voting/poll-results.spec.ts` | done — closes the voting lifecycle after items 24 + cast-vote: poll-result percentages on an API-seeded fresh poll (100 % voted / 0 % unvoted, incl. the pie chart), poll-voters → castVote `transaction-details` hand-off, poll-details vs. `getPoll`. The DAO poll views reuse the same components, so they are covered too. |
+| 29 | Alias trading | `specs/forms/aliases/alias-trading.spec.ts` | done — ALIAS_SELL private + public and ALIAS_BUY driven through the UI, with a second browser context acting as the buyer; each pins that the offer appears on exactly one buy-offers tab and that ownership moves on purchase. Plus cancel-alias-sell removing the offer from both lists. One `test.fixme` records that a cancel hands the alias to a phantom account. |
+| 30 | Shared detail views | `specs/forms/shared/detail-views.spec.ts` | done — transaction-details, account-details, block-transaction-details and the chain-viewer transaction list, each reached through a real click path and pinned field-by-field against the node API (the route names no subject, so a wrong hand-off renders a plausible page about the wrong one). Three `test.fixme`s for branches with no reachable click path. |
+| 31 | Alias trade-form smoke | extension of `specs/smoke/post-auth-routes.spec.ts` | done — added `aliases/my-sell-offers/cancel-alias-sell` and `aliases/buy-offers/buy-alias`; both take their subject from queryParams rather than `DataStoreService`, so they mount standalone. `show-alias/sell-alias` and the `show-polls/{result,voters,details,vote}` views stay out: they `_location.back()` without their param. |
 
 ## Usage
 

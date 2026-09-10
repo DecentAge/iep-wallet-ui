@@ -1,7 +1,11 @@
-import { Page, APIRequestContext, Locator, expect } from '@playwright/test';
+import { Page, APIRequestContext, Locator, expect, test } from '@playwright/test';
 
 const DEFAULT_BROADCAST_TIMEOUT_MS = 30_000;
 const DEFAULT_CONFIRM_TIMEOUT_MS = 30_000;
+
+/** Off-page wait: `page.waitForTimeout` is a server-side page action, so a poll
+ *  loop built on it writes one trace entry with a DOM snapshot per iteration. */
+const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 /**
  * Click the wizard's Finish button, capture the broadcastTransaction tx id from
@@ -52,24 +56,28 @@ export async function broadcastAndAwaitConfirmation(
   ).toBeTruthy();
 
   const txId = json.transaction as string;
-  const deadline = Date.now() + (opts.confirmTimeoutMs ?? DEFAULT_CONFIRM_TIMEOUT_MS);
-  while (Date.now() < deadline) {
-    const txResp = await request.get(`${apiOrigin}/api`, {
-      params: { requestType: 'getTransaction', transaction: txId },
-      timeout: 5_000,
-    });
-    if (txResp.ok()) {
-      const tx = await txResp.json();
-      if (tx.block && typeof tx.confirmations === 'number') {
-        return { txId, tx };
+  const confirmTimeoutMs = opts.confirmTimeoutMs ?? DEFAULT_CONFIRM_TIMEOUT_MS;
+
+  // One collapsed step instead of ~60 getTransaction entries in the trace.
+  return test.step(`await confirmation of tx ${txId}`, async () => {
+    const deadline = Date.now() + confirmTimeoutMs;
+    while (Date.now() < deadline) {
+      const txResp = await request.get(`${apiOrigin}/api`, {
+        params: { requestType: 'getTransaction', transaction: txId },
+        timeout: 5_000,
+      });
+      if (txResp.ok()) {
+        const tx = await txResp.json();
+        if (tx.block && typeof tx.confirmations === 'number') {
+          return { txId, tx };
+        }
       }
+      await sleep(500);
     }
-    await page.waitForTimeout(500);
-  }
-  throw new Error(
-    `tx ${txId} did not confirm within ${opts.confirmTimeoutMs ?? DEFAULT_CONFIRM_TIMEOUT_MS}ms ` +
-    `— forging may have stalled on devnet`,
-  );
+    throw new Error(
+      `tx ${txId} did not confirm within ${confirmTimeoutMs}ms — forging may have stalled on devnet`,
+    );
+  });
 }
 
 /**
