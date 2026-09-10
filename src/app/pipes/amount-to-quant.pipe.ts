@@ -11,7 +11,7 @@ export class AmountToQuantPipe implements PipeTransform {
           value = 0;
       }
 
-      return parseInt((parseFloat(value) * AppConstants.baseConfig.TOKEN_QUANTS).toString(), 10);
+      return Math.round(parseFloat(value) * AppConstants.baseConfig.TOKEN_QUANTS);
   }
 
 }
