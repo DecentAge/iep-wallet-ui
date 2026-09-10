@@ -1,4 +1,5 @@
-import { test, expect, Page, APIRequestContext } from '@playwright/test';
+import { test, expect, AlertLog } from '../../../fixtures/test';
+import { Page, APIRequestContext } from '@playwright/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import {
@@ -42,6 +43,7 @@ async function sendEncryptedMessage(
   request: APIRequestContext,
   apiOrigin: string,
   marker: string,
+  alerts: AlertLog,
 ): Promise<{ txId: string; tx: any }> {
   await page.goto('#/wallet/messages/send-message');
 
@@ -67,12 +69,14 @@ async function sendEncryptedMessage(
 
   const result = await broadcastAndAwaitConfirmation(page, request, apiOrigin, finish);
 
-  // The success sweetalert is body-level, so it survives router navigation and
-  // would swallow the next click on the datatable.
-  const swalOk = page.locator('.swal2-confirm');
-  await expect(swalOk, 'broadcast success alert did not appear').toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
-  await swalOk.click();
-  await expect(page.locator('.swal2-container')).toBeHidden({ timeout: DEFAULT_TIMEOUT_MS });
+  // The success dialog is closed by the shared alert fixture; assert on what it
+  // recorded instead of racing it in the DOM.
+  await expect
+    .poll(() => alerts.last()?.kind, {
+      message: 'the wallet raised no success dialog after the broadcast',
+      timeout: DEFAULT_TIMEOUT_MS,
+    })
+    .toBe('success');
 
   return result;
 }
@@ -112,11 +116,11 @@ test.describe('messages: read-message details', () => {
     await dashboard.expectVisible();
   });
 
-  test('read-message-details: the sender decrypts its own encrypted message back to the plaintext it sent', async ({ page, request, baseURL }) => {
+  test('read-message-details: the sender decrypts its own encrypted message back to the plaintext it sent', async ({ page, request, baseURL, infoAlerts }) => {
     const apiOrigin = apiOriginFromBaseURL(baseURL);
     const marker = uniqueMarker();
 
-    const { txId, tx } = await sendEncryptedMessage(page, request, apiOrigin, marker);
+    const { txId, tx } = await sendEncryptedMessage(page, request, apiOrigin, marker, infoAlerts);
 
     // On-chain proof that the body really is ciphertext: the plaintext must not
     // be recoverable from the attachment the chain stored.
@@ -157,11 +161,11 @@ test.describe('messages: read-message details', () => {
     ).toHaveText(marker, { timeout: DEFAULT_TIMEOUT_MS });
   });
 
-  test('read-message-details: the recipient decrypts the same message using the sender public key', async ({ page, request, baseURL, browser }) => {
+  test('read-message-details: the recipient decrypts the same message using the sender public key', async ({ page, request, baseURL, browser, infoAlerts }) => {
     const apiOrigin = apiOriginFromBaseURL(baseURL);
     const marker = uniqueMarker();
 
-    await sendEncryptedMessage(page, request, apiOrigin, marker);
+    await sendEncryptedMessage(page, request, apiOrigin, marker, infoAlerts);
 
     // A second, independent session: read-message takes its other branch when
     // the logged-in account is not the sender.

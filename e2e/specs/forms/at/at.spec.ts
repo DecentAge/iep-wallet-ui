@@ -1,9 +1,14 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
+import { Page } from '@playwright/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import { TEST_ACCOUNT_1_PASSPHRASE, TEST_ACCOUNT_1_ID } from '../../../fixtures/test-accounts';
 import { DEFAULT_TIMEOUT_MS } from '../../../fixtures/timeouts';
 import { apiOriginFromBaseURL } from '../../../helpers/broadcast-confirm';
+
+// Opts out of the shared alert auto-dismissal: this spec asserts the success icon on the broadcast dialog,
+// so a handler that closes it first would race the assertion.
+test.use({ autoDismissAlerts: false });
 
 /**
  * AT / Smart Contracts module (`src/app/module/at`) — create-at wizard,

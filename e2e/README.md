@@ -2,8 +2,9 @@
 
 End-to-end tests that drive a real Chromium against the running wallet UI. Originally built as a regression safety net **before** the Angular 6 → 18 upgrade; that upgrade has since landed (the wallet is on Angular 18.2.11), and the suite now serves as the ongoing regression net.
 
-**Last full run: 2026-09-09 — 149/149 green** against the local devnet from `iep-docker-dev`
-(6 sanity + 10 unauthenticated + 133 authenticated, ~5 min wall clock, `workers: 1`).
+**Last full run: 2026-09-10 — 269 passed, 0 failed, 5 skipped** against the local devnet from
+`iep-docker-dev` (274 tests in 58 files, ~9 min wall clock, `workers: 1`). The skips are documented
+wallet bugs and flows that need a second browser session; each names its cause in the skip message.
 
 ## Prerequisites the chain must satisfy
 
@@ -20,9 +21,9 @@ If you ever face an unseeded chain (older node image), seed it by hand without a
 docker exec iep-docker-dev-node-1-1 /iep-node/scripts/docker_init_devnet_local.sh
 ```
 
-Note that the node's H2 database in `iep-docker-dev` lives **inside the container**, not on a
-named volume — every image rebuild starts a fresh chain, which is why the seeding must be
-automatic rather than a one-off.
+Each node keeps its H2 database on a named volume (`node-{1,2,3}-h2db`), so the chain survives
+image rebuilds and restarts. Run `./run-devnet.sh start --clean` for a fresh genesis — always do
+that for an automated run, otherwise the suite starts on a chain that previous runs have filled.
 
 ## Status
 
@@ -149,6 +150,49 @@ All per-action waits use `DEFAULT_TIMEOUT_MS` from `fixtures/timeouts.ts`
 (currently 10 s). Edit that file once to raise/lower across the whole suite.
 The per-test budget (`testTimeout` in `playwright.config.ts`, currently 60 s)
 is intentionally separate — it bounds the total time a single test can run.
+
+## Dialogs: the alert fixture
+
+The wallet pops a sweetalert2 dialog after most write operations and nothing
+closes it. The dialog's backdrop swallows pointer events, so it does not just
+clutter the trace — the next click lands on the overlay instead of the target.
+
+**Rule: informational dialogs are dismissed as soon as they appear, and specs
+assert on what was recorded rather than on the live DOM.**
+
+`fixtures/test.ts` exports the `test` and `expect` every spec must import. It
+carries an auto-fixture that polls for a dialog with a *visible* confirm button
+and no *visible* cancel button, records title, body and kind, then closes it.
+Visibility matters: sweetalert2 renders the cancel button and every icon variant
+into each dialog and hides the unused ones, so matching on presence excludes
+every informational dialog and the fixture silently does nothing.
+
+```ts
+import { test, expect } from '../../fixtures/test';   // never from '@playwright/test'
+
+test('…', async ({ page, infoAlerts }) => {
+  // … drive the flow …
+  await expect.poll(() => infoAlerts.last()?.kind).toBe('success');
+});
+```
+
+An **error** dialog is recorded, dismissed so the run continues, and then fails
+the test in teardown. Clicking a real wallet error away silently would turn a
+broken flow into a green run — the first full run with this fixture in place
+immediately surfaced one on `tools/chain-viewer/peers`.
+
+A spec that asserts on the dialog itself opts out per file, with the reason:
+
+```ts
+test.use({ autoDismissAlerts: false });
+```
+
+Four specs do (`funding-monitor`, `asset-trading`, `my-subscriptions`, `at`,
+`create-dao`) because they check the dialog's own content or icon.
+
+Note the fixture closes the dialog outside the test's action steps, so the trace
+shows no "click OK" — the dialog simply disappears between two snapshots. The
+evidence that it fired is `infoAlerts`, not a visible step.
 
 ## Configuration
 

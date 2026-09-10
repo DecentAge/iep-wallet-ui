@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/test';
 import { WelcomePage } from '../../pages/welcome.page';
 import { prepareForVisualSnapshot, maskDynamicRegions, SNAPSHOT_OPTIONS } from '../../fixtures/visual';
 

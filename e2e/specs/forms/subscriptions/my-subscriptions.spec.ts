@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import {
@@ -8,6 +8,10 @@ import {
 } from '../../../fixtures/test-accounts';
 import { DEFAULT_TIMEOUT_MS } from '../../../fixtures/timeouts';
 import { broadcastAndAwaitConfirmation, apiOriginFromBaseURL } from '../../../helpers/broadcast-confirm';
+
+// Opts out of the shared alert auto-dismissal: this spec asserts the cancel dialog before confirming,
+// so a handler that closes it first would race the assertion.
+test.use({ autoDismissAlerts: false });
 
 /**
  * My Subscriptions (`#/wallet/subscriptions/my-subscriptions`) — the other half

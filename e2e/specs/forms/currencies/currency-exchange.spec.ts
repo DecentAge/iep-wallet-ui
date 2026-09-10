@@ -1,4 +1,5 @@
-import { test, expect, APIRequestContext } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
+import { APIRequestContext } from '@playwright/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import { TradeDeskPage } from '../../../pages/trade-desk.page';

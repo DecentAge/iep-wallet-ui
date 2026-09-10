@@ -1,4 +1,5 @@
-import { test, expect, APIRequestContext, Page } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
+import { APIRequestContext, Page } from '@playwright/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import {
@@ -16,6 +17,10 @@ import {
 } from '../../../fixtures/test-accounts';
 import { DEFAULT_TIMEOUT_MS } from '../../../fixtures/timeouts';
 import { apiOriginFromBaseURL } from '../../../helpers/broadcast-confirm';
+
+// Opts out of the shared alert auto-dismissal: CreateDaoWizardPage asserts that the
+// result dialog names the broadcast transactions, so it needs the dialog to stay.
+test.use({ autoDismissAlerts: false });
 import {
   clickAndCollectBroadcasts,
   awaitTransactionsConfirmed,
