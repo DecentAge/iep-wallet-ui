@@ -112,18 +112,25 @@ export class TradeDeskComponent implements OnInit {
     }
   }
 
+  refreshOrderButtons() {
+    this.enableBuy = !!(
+      this.buyOrderForm.price &&
+      this.buyOrderForm.quantity &&
+      this.askLength > 0
+    );
+    this.enableSell = !!(
+      this.askOrderForm.price &&
+      this.askOrderForm.quantity &&
+      this.bidLength > 0
+    );
+  }
+
   buyFormOnChange() {
     this.buyOrderForm.totalPrice = this.numericalStringPipe.transform(
       parseFloat(this.buyOrderForm.quantity * this.buyOrderForm.price + "")
     );
 
-    if (
-      this.buyOrderForm.price &&
-      this.buyOrderForm.quantity &&
-      this.askLength
-    ) {
-      this.enableBuy = true;
-    }
+    this.refreshOrderButtons();
   }
 
   sellFormOnChange() {
@@ -131,13 +138,7 @@ export class TradeDeskComponent implements OnInit {
       parseFloat(this.askOrderForm.quantity * this.askOrderForm.price + "")
     );
 
-    if (
-      this.askOrderForm.price &&
-      this.askOrderForm.quantity &&
-      this.bidLength
-    ) {
-      this.enableSell = true;
-    }
+    this.refreshOrderButtons();
   }
 
   placeOrderClick(buyOrderForm, type) {
@@ -218,6 +219,7 @@ export class TradeDeskComponent implements OnInit {
           ? offersResponse.offers.length
           : 0;
       }
+      this.refreshOrderButtons();
       this.buyOffersRows = offersResponse.offers;
     });
   }
@@ -254,6 +256,7 @@ export class TradeDeskComponent implements OnInit {
           ? offersResponse.offers.length
           : 0;
       }
+      this.refreshOrderButtons();
       this.sellOffersRows = offersResponse.offers;
     });
   }

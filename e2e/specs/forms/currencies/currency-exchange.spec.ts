@@ -5,7 +5,12 @@ import { DashboardPage } from '../../../pages/dashboard.page';
 import { TradeDeskPage } from '../../../pages/trade-desk.page';
 import { PublishExchangeOfferPage } from '../../../pages/publish-exchange-offer.page';
 import { TradeDeskOrderConfirmPage } from '../../../pages/trade-desk-order-confirm.page';
-import { TEST_ACCOUNT_1_PASSPHRASE, TEST_ACCOUNT_1_ID, TEST_ACCOUNT_1_RS } from '../../../fixtures/test-accounts';
+import {
+  TEST_ACCOUNT_1_PASSPHRASE,
+  TEST_ACCOUNT_1_ID,
+  TEST_ACCOUNT_1_RS,
+  TEST_ACCOUNT_2_PASSPHRASE,
+} from '../../../fixtures/test-accounts';
 import { DEFAULT_TIMEOUT_MS } from '../../../fixtures/timeouts';
 import { broadcastAndAwaitConfirmation, apiOriginFromBaseURL } from '../../../helpers/broadcast-confirm';
 import {
@@ -33,11 +38,6 @@ import {
  * repeatable on one chain and lets every book/balance assertion be exact:
  * nothing else on the chain can touch that currency.
  *
- * Known wallet bug this spec rides on: the desk's order buttons bind
- * `[disabled]="f2.invalid && !enableSell"` (`&&` where `||` is meant), so Sell
- * stays clickable on a currency with an empty buy book. Repairing that binding
- * makes the ask-order test unreachable without a second account bidding first.
- *
  * Chain proof: `getOffer`, `getBuyOffers`, `getSellOffers`,
  * `getAccountCurrencies`, `getAccountExchangeRequests`.
  */
@@ -64,6 +64,16 @@ const TWO_SIDED_SELL_SUPPLY = 5;
 
 const ASK_ORDER_PRICE_XIN = 2;
 const ASK_ORDER_UNITS = 3;
+
+/**
+ * The bid the ask-order test needs on the book before the desk lets it place an
+ * order. Deliberately below `ASK_ORDER_PRICE_XIN`: `exchangeCurrencyForXIN`
+ * only matches buy offers at or above the requested rate, so this one unblocks
+ * the Sell button without matching the request the test then sends.
+ */
+const BID_RATE_XIN = 1;
+const BID_UNITS = 5;
+const BID_LIFETIME_BLOCKS = 500;
 
 async function apiGet(
   request: APIRequestContext,
@@ -114,6 +124,55 @@ async function offerIdsOnBook(
     availableOnly: 'true',
   });
   return ((book.offers ?? []) as any[]).map((entry) => entry.offer as string);
+}
+
+/**
+ * Puts a bid for `currencyId` on the book and waits until the desk would see
+ * it, i.e. until `getBuyOffers(availableOnly)` returns it.
+ *
+ * It comes from TEST_ACCOUNT_2 because the chain keeps one offer per account
+ * per currency, and the logged-in account has to stay free to publish its own.
+ * Fixture-only shortcut: the node signs server-side.
+ */
+async function seedBuyOffer(
+  request: APIRequestContext,
+  apiOrigin: string,
+  currencyId: string,
+): Promise<string> {
+  const height = await chainHeight(request, apiOrigin);
+  const response = await request.post(`${apiOrigin}/api`, {
+    form: {
+      requestType: 'publishExchangeOffer',
+      secretPhrase: TEST_ACCOUNT_2_PASSPHRASE,
+      currency: currencyId,
+      buyRateTQT: String(BID_RATE_XIN * TQT_PER_XIN),
+      sellRateTQT: String(BID_RATE_XIN * TQT_PER_XIN),
+      totalBuyLimit: String(BID_UNITS),
+      initialBuySupply: String(BID_UNITS),
+      totalSellLimit: '0',
+      initialSellSupply: '0',
+      expirationHeight: String(height + BID_LIFETIME_BLOCKS),
+      feeTQT: String(TQT_PER_XIN),
+      deadline: '1440',
+    },
+    timeout: DEFAULT_TIMEOUT_MS,
+  });
+  const body = await response.json();
+  if (!body.transaction || body.broadcasted !== true) {
+    throw new Error(`the bid fixture was rejected by the node: ${JSON.stringify(body)}`);
+  }
+  const offerId = body.transaction as string;
+
+  await expect
+    .poll(() => offerIdsOnBook(request, apiOrigin, 'getBuyOffers', currencyId), {
+      message:
+        `the bid ${offerId} never reached ${currencyId}'s buy book — the fixture tx did not make ` +
+        'it into a block, or the offer was published on the wrong side',
+      timeout: 6 * DEFAULT_TIMEOUT_MS,
+    })
+    .toContain(offerId);
+
+  return offerId;
 }
 
 /**
@@ -497,6 +556,16 @@ test('trade desk ask order: currencySell registers an exchange request for the a
 
   const desk = new TradeDeskPage(page);
   await desk.goto(currency.currencyId);
+  await desk.fillSellOrder(ASK_ORDER_PRICE_XIN, ASK_ORDER_UNITS);
+  await expect(
+    desk.sellButton,
+    'Sell was clickable on a currency whose buy book is empty — the order would cost the 1 XIN ' +
+    'fee and buy nothing, so the button must stay disabled until a bid exists',
+  ).toBeDisabled({ timeout: DEFAULT_TIMEOUT_MS });
+
+  await seedBuyOffer(request, apiOrigin, currency.currencyId);
+  await desk.refreshBuyOffers();
+
   await desk.placeSellOrder(ASK_ORDER_PRICE_XIN, ASK_ORDER_UNITS);
 
   const confirm = new TradeDeskOrderConfirmPage(page);
@@ -531,13 +600,14 @@ test('trade desk ask order: currencySell registers an exchange request for the a
     'check the amountToQuant / 10^decimals conversion in trade-desk-sell.component.ts',
   ).toBe(String(ASK_ORDER_PRICE_XIN * TQT_PER_XIN));
 
-  // Nothing on this fresh currency's buy book can match the request, so
+  // The only bid on the book sits at BID_RATE_XIN, below the requested rate, so
   // exchangeCurrencyForXIN() must hand every unit back — confirmed *and*
   // unconfirmed have to be whole again.
   const holding = await accountHolding(request, apiOrigin, currency.currencyId);
   expect(
     holding.units,
-    'units left the account although no buy offer existed to match the sell request against',
+    `units left the account although the only bid was ${BID_RATE_XIN} XIN, below the ` +
+    `${ASK_ORDER_PRICE_XIN} XIN the sell request asked for`,
   ).toBe(String(CURRENCY_SUPPLY));
   expect(
     holding.unconfirmedUnits,

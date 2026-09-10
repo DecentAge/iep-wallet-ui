@@ -20,6 +20,7 @@ export class TradeDeskPage {
   readonly askQuantity: Locator;
   readonly askTotal: Locator;
   readonly sellButton: Locator;
+  readonly refreshBuyOffersButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -36,6 +37,8 @@ export class TradeDeskPage {
     this.askQuantity = this.askForm.locator('input[name="quantity"]');
     this.askTotal = this.askForm.locator('input[name="totalPrice"]');
     this.sellButton = this.askForm.locator('button.btn-red');
+    // The ask panel's refresh reloads the *buy* book — the one Sell gates on.
+    this.refreshBuyOffersButton = page.locator('.box-header-red button:has(i.fa-refresh)');
   }
 
   async goto(currencyId: string): Promise<void> {
@@ -73,8 +76,22 @@ export class TradeDeskPage {
     await this.openPublish(this.createSellOnlyButton);
   }
 
-  /** Fills the ask order form and hands off to the `trade/:id/sell` route. */
-  async placeSellOrder(priceXin: number, units: number): Promise<void> {
+  /** Re-reads the buy book without leaving the route, so an order form that is
+   *  already filled stays filled. */
+  async refreshBuyOffers(): Promise<void> {
+    const reloaded = this.page.waitForResponse(
+      (response) => response.url().includes('requestType=getBuyOffers'),
+      { timeout: DEFAULT_TIMEOUT_MS },
+    );
+    await this.refreshBuyOffersButton.click();
+    await reloaded;
+  }
+
+  /**
+   * Fills the ask order form without submitting it. Split out so a caller can
+   * assert on the Sell button's state for a filled form.
+   */
+  async fillSellOrder(priceXin: number, units: number): Promise<void> {
     await expect(
       this.askPrice,
       'ask order form did not render on the trade desk',
@@ -89,14 +106,17 @@ export class TradeDeskPage {
       this.askTotal,
       'the ask form total did not track price × quantity — sellFormOnChange() binding broken',
     ).toHaveValue(new RegExp(`^${priceXin * units}(\\.0+)?$`), { timeout: DEFAULT_TIMEOUT_MS });
+  }
 
-    // `[disabled]="f2.invalid && !enableSell"` — the `&&` is a wallet bug (see
-    // spec header); it is also why Sell is clickable on a currency with an
-    // empty buy book, which is what lets this flow be tested at all.
+  /** Fills the ask order form and hands off to the `trade/:id/sell` route. */
+  async placeSellOrder(priceXin: number, units: number): Promise<void> {
+    await this.fillSellOrder(priceXin, units);
+
     await expect(
       this.sellButton,
-      'Sell stayed disabled although price and quantity are filled — the f2 ngForm validators ' +
-      'changed, or the disabled binding was tightened to `f2.invalid || !enableSell`',
+      'Sell stayed disabled although price and quantity are filled and the buy book holds an ' +
+      'offer — either the f2 ngForm validators changed, or enableSell was not recomputed from ' +
+      'bidLength when getBuyOffers answered',
     ).toBeEnabled({ timeout: DEFAULT_TIMEOUT_MS });
 
     await this.sellButton.click();
