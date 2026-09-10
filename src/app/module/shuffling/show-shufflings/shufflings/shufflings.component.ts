@@ -266,17 +266,11 @@ export class ShufflingsComponent implements OnInit {
     }
 
     canStartEnabled(row) {
-        var canStartDisabled = row.stage !== 1;
-        canStartDisabled = this.shufflersState[row.shuffling] ? true : false;
-
-        return canStartDisabled;
+        return !!this.shufflersState[row.shuffling];
     }
 
     canStopEnabled(row) {
-        var canStopDisabled = row.stage !== 1;
-        canStopDisabled = !this.shufflersState[row.shuffling] ? true : false;
-
-        return canStopDisabled;
+        return !this.shufflersState[row.shuffling];
     }
 
     reload() {
