@@ -225,24 +225,23 @@ test.describe('show-assets/all', () => {
       timeout: DEFAULT_TIMEOUT_MS,
     });
 
-    const params = await allAssetsRequestAfter(page, () =>
-      page.locator('app-assets datatable-pager li.pages[aria-label="page 2"] a').click(),
-    );
+    // Compared against the answer the page itself got: assets issued in the same
+    // block have no stable order on the node, so a second query may swap them.
+    const answered = page.waitForResponse((r) => r.url().includes('requestType=getAllAssets'), {
+      timeout: DEFAULT_TIMEOUT_MS,
+    });
+    await page.locator('app-assets datatable-pager li.pages[aria-label="page 2"] a').click();
+    const response = await answered;
+    const params = new URL(response.url()).searchParams;
     expect([params.get('firstIndex'), params.get('lastIndex')], 'page 2 did not ask for assets 10..19').toEqual([
       '10',
       '19',
     ]);
 
-    const second = await api.get({
-      requestType: 'getAllAssets',
-      firstIndex: '10',
-      lastIndex: '19',
-      order: 'desc',
-      orderColumn: 'height',
-    });
+    const second = await response.json();
     await expect
       .poll(async () => (await rowTexts(table(page, 'app-assets'))).map((r) => r.split(' | ')[0]), {
-        message: 'page 2 does not show the assets the node returns for 10..19',
+        message: 'page 2 does not show the assets the node returned for 10..19',
         timeout: DEFAULT_TIMEOUT_MS,
       })
       .toEqual(second.assets.map((a: any) => a.name));
