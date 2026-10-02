@@ -71,18 +71,23 @@ export class DividendPaymentComponent implements OnInit {
     }
 
     dividendPayment() {
-        const amountPerQuant = this.amountToQuantPipe.transform(this.dividendPaymentForm.amountPerQuant);
-        /* amountPerQuant = parseInt(amountPerQuant / Math.pow(10, parseInt(this.dividendPaymentForm.decimals, 10)), 10);
- 
-         if (amountPerQuant < 1) {
- 
-             alertFunctions.InfoAlertBox('Error',
-                 'Sorry, an error occured! Reason: ' + 'Amount per share less than asset decimals: (' +
-                 this.dividendPaymentForm.decimals + '). Dividend would be (0) per smallest asset unit.',
-                 'OK',
-                 'error').then((isConfirm: any) => {
-             });
-         }*/
+        const decimals = parseInt(this.dividendPaymentForm.decimals, 10);
+        const amountPerQuant = Math.round(
+            this.amountToQuantPipe.transform(this.dividendPaymentForm.amountPerQuant) / Math.pow(10, decimals));
+
+        if (amountPerQuant < 1) {
+            this.validBytes = false;
+            const errTitle: string = this.commonService.translateAlertTitle('Error');
+            const errMsg: string = this.commonService.translateInfoMessage('sorry-error-occurred') +
+                'Amount per share less than asset decimals: (' + this.dividendPaymentForm.decimals +
+                '). Dividend would be (0) per smallest asset unit.';
+            alertFunctions.InfoAlertBox(errTitle,
+                errMsg,
+                'OK',
+                'error');
+            return;
+        }
+
         const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
         const assetId = this.dividendPaymentForm.assetId;
         const height = this.dividendPaymentForm.height;
