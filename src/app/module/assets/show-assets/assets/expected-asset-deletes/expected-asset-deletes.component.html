@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <div class="card-block me-3 ms-3">
                         <ngx-datatable class="material" [rows]="deletes" [columnMode]="'force'" [rowHeight]="'auto'"
-                            [footerHeight]="50" [externalPaging]="true">
+                            [footerHeight]="50">
                             <ngx-datatable-column prop="name" [name]="'table-header.name'| translate">
                                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                                     <a class="hyperlink" (click)="goToAssetDetails(row.asset)">{{value}}</a>
@@ -27,7 +27,7 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column prop="assetDelete" [name]="'table-header.transaction'| translate">
                                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                                    <a class="hyperlink" (click)="goToAccountDetails(value)">{{value}}</a>
+                                    {{value}}
                                 </ng-template>
                             </ngx-datatable-column>
                             <ngx-datatable-column prop="quantityQNT" [name]="'table-header.quantity'| translate">

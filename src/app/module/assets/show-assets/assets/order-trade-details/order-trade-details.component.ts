@@ -49,14 +49,15 @@ export class OrderTradeDetailsComponent implements OnInit {
         var bidOrderTrades = this.assetsService.getBidOrderTrades(orderId,
             this.orderTradesPage.pageNumber * 10,
             ((this.orderTradesPage.pageNumber + 1) * 10) - 1);
-        var bidOrderTrades = this.assetsService.getAskOrderTrades(orderId, this.orderTradesPage.pageNumber * 10,
+        var askOrderTrades = this.assetsService.getAskOrderTrades(orderId, this.orderTradesPage.pageNumber * 10,
             ((this.orderTradesPage.pageNumber + 1) * 10) - 1);
         observablesArray.push(bidOrderTrades);
-        observablesArray.push(bidOrderTrades);
+        observablesArray.push(askOrderTrades);
         observableForkJoin(observablesArray)
             .subscribe((successNext: any) => {
                 let [bidOrders, askOrders] = successNext;
 
+                this.orderTradeRows = [];
                 if (!bidOrders.errorCode && bidOrders.trades.length > 0) {
                     this.orderTradeRows = bidOrders.trades;
                 }

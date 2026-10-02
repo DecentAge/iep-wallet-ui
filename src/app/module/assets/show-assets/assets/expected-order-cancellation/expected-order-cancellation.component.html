@@ -22,7 +22,7 @@
                             </ngx-datatable-column>
                             <ngx-datatable-column prop="order" [name]="'table-header.order'| translate">
                                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
-                                    <a class="hyperlink" (click)="goToAccountDetails(value)">{{value}}</a>
+                                    {{value}}
                                 </ng-template>
                             </ngx-datatable-column>
                         </ngx-datatable>

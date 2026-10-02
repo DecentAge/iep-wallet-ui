@@ -14,7 +14,7 @@
                 <div class="card-body">
                     <div class="card-block me-3 ms-3">
                         <ngx-datatable class="material" [rows]="transfers" [columnMode]="'force'" [rowHeight]="'auto'"
-                            [footerHeight]="50" [externalPaging]="true">
+                            [footerHeight]="50">
                             <ngx-datatable-column prop="name" [name]="'table-header.asset'| translate">
                                 <ng-template let-value="value" let-row="row" ngx-datatable-cell-template>
                                     <a class="hyperlink" (click)="goToAssetDetails(row.asset)">{{value}}</a>
