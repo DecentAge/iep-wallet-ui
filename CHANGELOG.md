@@ -1,6 +1,10 @@
 # Changelog
 
 ## [Unreleased]
+### Fixed
+- Search Assets finds assets while their name is still being typed (prefix search), by asset id and by a word of the description; an error from the node no longer breaks the result table.
+- Expected Asset Transfers and Expected Asset Deletes rendered no rows; Expected Order Details threw on every asset id and scaled a second asset with the decimals of the first; Order Trade Details never looked up bid orders.
+- "Remove filter" on All Assets restores the default sort order.
 
 ## [0.4.1] - 2026-07-06
 ### Added
