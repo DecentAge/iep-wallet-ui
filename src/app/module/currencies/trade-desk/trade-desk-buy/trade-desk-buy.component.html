@@ -41,14 +41,21 @@
                     </div>
                     <hr />
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="ucsb"> {{'common.total-label'| translate}}
+                            </div>
+                            <h4> {{ tx_total | amountTkn }}
+                                <small> {{'common.xin-unit-text'| translate}}</small>
+                            </h4>
+                        </div>
+                        <div class="col-md-4">
                             <div class="ucsb"> {{'common.service-fee-label'| translate}}
                             </div>
                             <h4> {{ tx_fee | amountTkn }}
                                 <small> {{'common.xin-unit-text'| translate}}</small>
                             </h4>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="ucsb"> {{'common.valid-label'| translate}}
                             </div>
                             <h4 [innerHTML]="validBytes | txIsValid"> </h4>

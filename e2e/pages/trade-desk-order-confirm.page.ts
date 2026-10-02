@@ -64,6 +64,18 @@ export class TradeDeskOrderConfirmPage {
       this.value('Quantity'),
       `the order confirm page did not echo the ${units} units entered on the desk`,
     ).toHaveText(String(units), { timeout: DEFAULT_TIMEOUT_MS });
+
+    // amountTkn renders en-US with two decimals, so 1234 becomes "1,234.00".
+    const total = (priceXin * units).toLocaleString('en-US', { minimumFractionDigits: 2 });
+    await expect(
+      this.value('Total'),
+      `the order confirm page did not show ${total} XIN — the last step before the broadcast has ` +
+      'to name the amount being signed, not just the fee. A "0.00" means the total was read from ' +
+      'transactionJSON.amountTQT, which is 0 on a monetary-system exchange',
+    ).toHaveText(
+      new RegExp(`^\\s*${total.replace(/\./g, '\\.')}\\s+XIN\\s*$`),
+      { timeout: DEFAULT_TIMEOUT_MS },
+    );
   }
 
   async expectSignedBytes(): Promise<void> {
