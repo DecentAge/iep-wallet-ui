@@ -2,8 +2,8 @@
 
 End-to-end tests that drive a real Chromium against the running wallet UI. Originally built as a regression safety net **before** the Angular 6 → 18 upgrade; that upgrade has since landed (the wallet is on Angular 18.2.11), and the suite now serves as the ongoing regression net.
 
-**Last full run: 2026-09-10 — 316 passed, 0 failed, 13 skipped** against the local devnet from
-`iep-docker-dev` (329 tests in 69 files, 12.5 min wall clock, `workers: 1`). The skips are documented
+**Last full run: 2026-10-02 — 344 passed, 0 failed, 14 skipped** against the local devnet from
+`iep-docker-dev` (358 tests in 76 files, 12.9 min wall clock, `workers: 1`). The skips are documented
 wallet bugs and flows that need a second browser session; each names its cause in the skip message.
 
 ## Prerequisites the chain must satisfy
@@ -76,6 +76,9 @@ Items 1–3 of the plan are scaffolded:
 | 38 | Crowdfunding reserve-units | `specs/forms/crowdfunding/reserve-units.spec.ts` | done — the mask takes a *total* in XIN and derives `amountPerUnitTQT = amountTotal / reserveSupply * 1e8`, which the node multiplies back; every figure is pinned against `getTransaction` / `getCurrency` / `getCurrencyFounders` and the balance. The un-fixme'd second test covers a total that is not a whole multiple of the reserve supply. |
 | 39 | Delete account property | `specs/forms/account/delete-property.spec.ts` | done — the mask has no form: it takes account / property / `mode` from the my-properties row and signs from `ngOnInit`, so a wrong hand-off deletes nothing while the wallet reports success. `getAccountProperties` is the proof. |
 | 40 | Currency transfer-mask smoke | extension of `specs/smoke/post-auth-routes.spec.ts` | done — added `currencies/show-currencies/transfer-currency`, the only mask of this round that mounts standalone (no `_location.back()` on a missing `id`, no `DataStoreService`). The asset / alias / shuffling / delete-property masks bounce without their queryParam, `cancel-order` and `reserve-units` read `DataStoreService`, `delete-currency/:id` needs a path param, and `my-open-offers/cancel-offer` signs a cancellation on init — all stay out and are driven through their own click paths instead. |
+| 41 | Search Assets | `specs/forms/assets/search-assets.spec.ts` | done — the mask sends every typed word as a Lucene prefix term, so the first letters of a name or of a description word are enough; a numeric input is also looked up as an asset id; emptying the field empties the list; syntax characters are stripped instead of reaching Lucene; the three row actions. The last test serves the error a node with an unreadable fulltext index returns and pins that the id lookup still works. |
+| 42 | Asset read views | `specs/forms/assets/asset-read-views.spec.ts` | done — one fixture asset (`decimals=2`) with a transfer, a matched trade and a dividend built through the node API. Pins the All Assets row against `getAsset(includeCounts)`, the five sort filters and "Remove filter" against `order`/`orderColumn`, the pager, asset-details field by field, the row actions, dividend-history (total actually paid), my-trades and last-trades (both parties, price and quantity scaled), and order-trade-details for a bid and for an ask order id. One `test.fixme`: non-ASCII characters of any node response are shown entity-encoded (wallet-wide, `ResponseInterceptor`). |
+| 43 | Asset Tool tiles and expected-* views | `specs/forms/assets/asset-expected-views.spec.ts` | done — the five tiles on `show-assets/my`, then expected-asset-transfer, expected-asset-deletes, expected-order-cancellation and expected-order-details. These list unconfirmed transactions, which a devnet block clears within seconds, so `beforeAll` broadcasts a real transaction of each kind, reads the node's answer while it is unconfirmed and the tests serve that answer to the page. expected-order-details is driven with two assets of different decimals. |
 
 ### Write masks covered
 

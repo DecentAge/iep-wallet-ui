@@ -43,6 +43,8 @@ export class AssetsComponent implements OnInit {
         this.filters.forEach(obj => {
             obj.isEnabled = false;
         });
+        this.sort_order = 'desc';
+        this.sort_orderColumn = 'height';
 
         this.setPage({offset: 0});
     }
