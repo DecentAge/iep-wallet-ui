@@ -382,7 +382,7 @@ test('trade desk buy: currencyBuy pays units x rate and credits exactly those un
   ).toBe(expectedTotal.toString());
 });
 
-test.fixme('trade desk buy: a fractional price reaches the chain unrounded — amountToQuant() truncates 4.6 XIN to 459999999 TQT, so the desk signs rateTQT 4599999 instead of 4600000, the order matches no offer (0 exchanges, 0 units credited) and the 1 XIN fee is lost while the wallet reports success', async ({ page, request, baseURL, infoAlerts }) => {
+test('trade desk buy: a fractional price reaches the chain unrounded — amountToQuant() truncates 4.6 XIN to 459999999 TQT, so the desk signs rateTQT 4599999 instead of 4600000, the order matches no offer (0 exchanges, 0 units credited) and the 1 XIN fee is lost while the wallet reports success', async ({ page, request, baseURL, infoAlerts }) => {
   test.slow();
   const apiOrigin = apiOriginFromBaseURL(baseURL);
 

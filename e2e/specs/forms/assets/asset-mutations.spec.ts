@@ -506,7 +506,7 @@ test.describe.serial('asset mutations', () => {
     },
   );
 
-  test.fixme(
+  test(
     'transfer-asset: a share count that is not exactly representable in binary is not truncated — ' +
     'share-to-quantity.pipe.ts:11 multiplies in floating point and assets.service.ts:176 then truncates ' +
     'with parseInt, so 1.15 shares of a decimals=2 asset become 114 QNT instead of 115 (1.15 * 100 is ' +
