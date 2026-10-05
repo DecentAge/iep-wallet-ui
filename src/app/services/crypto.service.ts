@@ -212,13 +212,13 @@ export class CryptoService {
     return Math.floor(Date.now() / 1000) - epoch;
   };
 
-  generateToken(message, secretHex, publicKey, epoch) {
+  generateToken(message, secretHex, publicKey, timestamp) {
       var messageBytes = this.getUtf8Bytes(message);
       var pubKeyBytes = converters.hexStringToByteArray( publicKey );
       var token = pubKeyBytes;
 
       var tsb = [];
-      var ts = epoch;
+      var ts = timestamp;
       tsb[0] = ts & 0xFF;
       tsb[1] = (ts >> 8) & 0xFF;
       tsb[2] = (ts >> 16) & 0xFF;

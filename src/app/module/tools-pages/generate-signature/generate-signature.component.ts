@@ -26,9 +26,10 @@ export class GenerateSignatureComponent implements OnInit {
 
     var accountPublicKey = this.accountService.getAccountDetailsFromSession('publicKey');
     var secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
-    var epoch =  AppConstants.baseConfig.EPOCH;
+    // seconds since genesis; EPOCH is in ms
+    var timestamp = this.cryptoService.getBlockTime(AppConstants.baseConfig.EPOCH / 1000);
 
-    this.generateSignatureForm.output = this.cryptoService.generateToken(this.generateSignatureForm.input, secretPhraseHex, accountPublicKey, epoch );
+    this.generateSignatureForm.output = this.cryptoService.generateToken(this.generateSignatureForm.input, secretPhraseHex, accountPublicKey, timestamp);
 
   };
 
