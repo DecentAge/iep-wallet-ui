@@ -179,6 +179,38 @@ test('tools/validate-signature: decodes a real token and rejects a tampered mess
   await expect(validIcon, 'the green validity tick stayed visible after the message was tampered with').toHaveCount(0);
 });
 
+test('tools/generate-signature: the token carries the current time and the node accepts it', async ({ page, request, baseURL }) => {
+  const apiOrigin = apiOriginFromBaseURL(baseURL);
+  const signedMessage = `iep-e2e-login-${nonce()}`;
+
+  await page.goto('#/wallet/tool/generate-signature');
+  const inputField = page.locator('app-generate-signature input[name="input"]');
+  const outputField = page.locator('app-generate-signature textarea[name="output"]');
+  await expect(inputField, 'generate-signature form did not mount').toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+
+  await inputField.fill(signedMessage);
+  await page.locator('app-generate-signature span.btn-gradient').click();
+  await expect(outputField, 'no token was generated').toHaveValue(/^[0-9a-v]{160}$/, { timeout: DEFAULT_TIMEOUT_MS });
+  const token = await outputField.inputValue();
+
+  const decoded = await (await request.post(`${apiOrigin}/api`, {
+    form: { requestType: 'decodeToken', token, website: signedMessage },
+    timeout: DEFAULT_TIMEOUT_MS,
+  })).json();
+  expect(decoded.valid, `the node rejected the wallet token: ${JSON.stringify(decoded)}`).toBe(true);
+  expect(decoded.accountRS).toBe(TEST_ACCOUNT_1_RS);
+
+  const nodeTime = (await (await request.get(`${apiOrigin}/api`, {
+    params: { requestType: 'getTime' },
+    timeout: DEFAULT_TIMEOUT_MS,
+  })).json()).time;
+  expect(
+    Math.abs(decoded.timestamp - nodeTime),
+    `token timestamp ${decoded.timestamp} is not the current epoch time ${nodeTime} — the wallet wrote the ` +
+    'genesis constant (int32 of EPOCH in ms = -2009084416) instead of seconds since genesis',
+  ).toBeLessThanOrEqual(120);
+});
+
 test('tools/broadcast-transaction: relays API-signed bytes and the payment lands on chain', async ({ page, request, baseURL }) => {
   const apiOrigin = apiOriginFromBaseURL(baseURL);
 
