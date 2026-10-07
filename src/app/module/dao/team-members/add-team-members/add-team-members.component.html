@@ -28,8 +28,11 @@
                 <div class="form-group m-0">
                     <label>{{'daos.add-team-members.team-member-address'| translate}}</label>
                     <div class="input-group m-0">
+                        <!-- [name] feeds NgModel, [attr.name] keeps the name in the DOM -->
                         <input type="text" class="form-control"
-                               name="addTeamMemberForm.teamMembers[{{i}}}].teamMemberWallet" #teamMemberWallet="ngModel"
+                               [name]="'teamMemberWallet-' + i"
+                               [attr.name]="'teamMemberWallet-' + i"
+                               #teamMemberWallet="ngModel"
                                [(ngModel)]="addTeamMemberForm.teamMembers[i].teamMemberWallet"
                                placeholder="XIN-______-____-______"
                                required>
@@ -47,7 +50,8 @@
                     <label>{{'daos.add-team-members.team-member-role' | translate}}</label>
                     <div class="input-group m-0 row">
                         <input type="text" class="form-control"
-                               name="addTeamMemberForm.teamMembers[{{i}}}].teamMemberRole"
+                               [name]="'teamMemberRole-' + i"
+                               [attr.name]="'teamMemberRole-' + i"
                                [pattern]="alphanumericPattern"
                                #role="ngModel"
                                [(ngModel)]="addTeamMemberForm.teamMembers[i].teamMemberRole"

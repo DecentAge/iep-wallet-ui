@@ -913,7 +913,7 @@
             "rate-popover": "Stawka za jednostkę waluty, którą sprzedajesz.",
             "rate-required": "Stawka jest wymagana",
             "rate-greater": "Stawka musi być większa niż 0",
-            "units-popover": "Liczba jednostek waluty, którą chcesz kupić.",
+            "units-popover": "Liczba jednostek waluty, którą chcesz sprzedać.",
             "units-required": "Jednostki są wymagane",
             "units-greater": "Liczba jednostek musi być większa od 0",
             "sell-rate-label": "Cena sprzedaży"

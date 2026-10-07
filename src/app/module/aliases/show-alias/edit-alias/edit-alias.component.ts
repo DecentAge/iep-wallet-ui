@@ -58,12 +58,22 @@ export class EditAliasComponent implements OnInit {
                     'aliasName': params.aliasName,
                     'aliasURI': params.aliasURI
                 }
+                this.aliase.name = this.data.aliasName;
+                this.aliase.oldURL = this.data.aliasURI;
+                this.prefillFromUri(this.data.aliasURI);
             }
         })
-        this.aliase.prefix = this.prefixOptions[0].value;
-        this.aliase.oldURL = this.data.aliasURI;
-        this.aliase.name = this.data.aliasName;
-        this.uriPlaceholder = this.prefixOptions[0].placeholder;
+    }
+
+    private prefillFromUri(aliasURI: string) {
+        const uri = aliasURI || '';
+        const suffix = '@xin';
+        const match = this.prefixOptions.find((option: any) =>
+            option.value && uri.startsWith(option.value) && uri.endsWith(suffix));
+
+        this.aliase.prefix = match ? match.value : '';
+        this.aliase.uri = match ? uri.slice(match.value.length, -suffix.length) : uri;
+        this.changePlaceholder(this.aliase.prefix);
     }
 
     changePlaceholder(prefix) {

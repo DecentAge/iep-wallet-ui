@@ -80,11 +80,8 @@ export class ShufflingService {
     return this.transactionService.createTransaction(params, '', '');
   };
 
-  isLocalHostOrTestnet() {
-      const connectedUrl = this.nodeService.getNodeUrl();
-      if (connectedUrl.indexOf('localhost') > -1 || AppConstants.DEFAULT_OPTIONS.NETWORK_ENVIRONMENT === 'testnet') {
-        return true;
-      }
+  isLocalHostOrTestnet(): boolean {
+      return this.nodeService.isLocalNode();
   }
 
   getShufflingParticipants(shufflingId): any {

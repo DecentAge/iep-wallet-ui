@@ -1,8 +1,12 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import { TEST_ACCOUNT_1_PASSPHRASE, TEST_ACCOUNT_1_RS } from '../../../fixtures/test-accounts';
 import { DEFAULT_TIMEOUT_MS } from '../../../fixtures/timeouts';
+
+// Opts out of the shared alert auto-dismissal: this spec asserts the success dialog itself (title must read "success"),
+// so a handler that closes it first would race the assertion.
+test.use({ autoDismissAlerts: false });
 
 /**
  * Funding Monitor — exercises both tabs of the wallet's funding-monitor module:

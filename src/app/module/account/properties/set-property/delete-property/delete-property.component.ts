@@ -120,8 +120,8 @@ export class DeletePropertyComponent implements OnInit {
                     });
 
             } else {
-                let title: string = this.commonsService.translateAlertTitle('Error');
-                let errMsg: string = this.commonsService.translateErrorMessage('unable-broadcast-transaction', success);
+                let title: string = this.commonService.translateAlertTitle('Error');
+                let errMsg: string = this.commonService.translateErrorMessage('unable-broadcast-transaction', success);
                 alertFunctions.InfoAlertBox(title,
                     errMsg,
                     'OK',

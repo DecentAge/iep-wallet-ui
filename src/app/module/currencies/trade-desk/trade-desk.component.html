@@ -201,7 +201,7 @@
                                                         </div>
 
                                                         <div class="col-sm-6">
-                                                            <button type="button" [disabled]="f1.invalid && !enableBuy"
+                                                            <button type="button" [disabled]="f1.invalid || !enableBuy"
                                                                 class="btn btn-raised mt-4 btn-gradient btn-green btn-create"
                                                                 (click)="placeOrderClick(buyOrderForm,'bid')">
                                                                 {{'common.buy-btn'| translate}}
@@ -354,7 +354,7 @@
                                                         </div>
 
                                                         <div class="col-sm-6">
-                                                            <button type="button" [disabled]="f2.invalid && !enableSell"
+                                                            <button type="button" [disabled]="f2.invalid || !enableSell"
                                                                 class="btn btn-raised mt-4 btn-gradient btn-red btn-create"
                                                                 (click)="placeOrderClick(askOrderForm,'ask')">
                                                                 {{'common.sell-btn'| translate}}

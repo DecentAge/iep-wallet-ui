@@ -2,6 +2,21 @@
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-10-05
+### Added
+- Show the order total on the trade desk confirm step (#64).
+
+### Fixed
+- Generate Signature wrote the genesis epoch constant into the token instead of the current time (every token showed timestamp -2009084416, so its age could not be checked and it never expired); it now writes the seconds since genesis, as the node does.
+- Search Assets finds assets while their name is still being typed (prefix search), by asset id and by a word of the description; an error from the node no longer breaks the result table.
+- Expected Asset Transfers and Expected Asset Deletes rendered no rows; Expected Order Details threw on every asset id and scaled a second asset with the decimals of the first; Order Trade Details never looked up bid orders.
+- "Remove filter" on All Assets restores the default sort order.
+- Pay the dividend "Amount per Share" per share instead of per QNT (#60).
+- Keep the trade desk's Buy/Sell buttons locked while the counter order book is empty (#63).
+- Prefill the edit-alias form with the prefix and URI of the alias being edited.
+- Round instead of truncate when converting shares and amounts to quantities.
+- Fix defects across the write masks for assets, currencies, aliases, shuffling and crowdfunding, plus further defects surfaced across the wallet modules.
+
 ## [0.4.1] - 2026-07-06
 ### Added
 - XIN/USD price chart on the wallet dashboard (chart.js via ng2-charts).

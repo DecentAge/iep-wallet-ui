@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/test';
 import { WelcomePage } from '../../pages/welcome.page';
 import { DEFAULT_TIMEOUT_MS } from '../../fixtures/timeouts';
 

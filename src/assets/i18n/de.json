@@ -329,7 +329,7 @@
       "recipient-popover": "The recipient for this currency transfer.",
       "units-popover": "Number of units for this transfer.",
       "units-required-msg": "Units is required",
-      "units-greater-msg": "Units must be greater than equal to 0"
+      "units-greater-msg": "Units must be greater than 0"
     },
     "delete-currency": {
       "title": "Delete Currency Details",
@@ -430,7 +430,7 @@
       "rate-popover": "The rate per currency unit at which you are selling.",
       "rate-required": "Rate is required",
       "rate-greater": "Rate must be greater than equal to 0",
-      "units-popover": "Number of currency units you want to buy.",
+      "units-popover": "Number of currency units you want to sell.",
       "units-required": "Units is required",
       "units-greater": "Units must be greater than equal to 0",
       "sell-rate-label": "Sell Rate"

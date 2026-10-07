@@ -113,21 +113,15 @@ export class ShufflingsComponent implements OnInit {
     setPage(pageInfo) {
         this.page.pageNumber = pageInfo.offset;
 
-        let startIndex = this.page.pageNumber * 10;
-        let endIndex = (this.page.pageNumber + 1) * 10 - 1;
+        let startIndex = this.page.pageNumber * this.page.size;
+        let endIndex = startIndex + this.page.size - 1;
 
         if (this.shufflingType == "ALL") {
             this.shufflingService
                 .getAllShufflings(startIndex, endIndex, this.includeFinished)
                 .subscribe(response => {
-                    this.rows = response.shufflings;
-                    /*if (this.page.pageNumber === 0 && this.rows.length < 10) {
-                      this.page.totalElements = this.rows.length;
-                    } else if (this.page.pageNumber > 0 && this.rows.length < 10) {
-                      this.page.totalElements =
-                        this.page.pageNumber * 10 + this.rows.length;
-                      this.page.totalPages = this.page.pageNumber;
-                    }*/
+                    this.rows = response.shufflings || [];
+                    this.updatePageCount();
                 });
         } else {
             var shufflersPromise = this.shufflingService.getShufflers(
@@ -156,14 +150,21 @@ export class ShufflingsComponent implements OnInit {
                 });
 
                 this.rows = accountShufflingsResponse.shufflings || [];
-                if (this.page.pageNumber === 0 && this.rows.length < 10) {
-                    this.page.totalElements = this.rows.length;
-                } else if (this.page.pageNumber > 0 && this.rows.length < 10) {
-                    this.page.totalElements =
-                        this.page.pageNumber * 10 + this.rows.length;
-                    this.page.totalPages = this.page.pageNumber;
-                }
+                this.updatePageCount();
             });
+        }
+    }
+
+    // Both endpoints page server-side but report no total: a short page is the
+    // last one, a full page keeps one page of headroom.
+    private updatePageCount() {
+        if (this.rows.length < this.page.size) {
+            this.page.totalElements =
+                this.page.pageNumber * this.page.size + this.rows.length;
+            this.page.totalPages = this.page.pageNumber + 1;
+        } else {
+            this.page.totalElements = (this.page.pageNumber + 1) * this.page.size + 1;
+            this.page.totalPages = this.page.pageNumber + 2;
         }
     }
 
@@ -265,17 +266,11 @@ export class ShufflingsComponent implements OnInit {
     }
 
     canStartEnabled(row) {
-        var canStartDisabled = row.stage !== 1;
-        canStartDisabled = this.shufflersState[row.shuffling] ? true : false;
-
-        return canStartDisabled;
+        return !!this.shufflersState[row.shuffling];
     }
 
     canStopEnabled(row) {
-        var canStopDisabled = row.stage !== 1;
-        canStopDisabled = !this.shufflersState[row.shuffling] ? true : false;
-
-        return canStopDisabled;
+        return !this.shufflersState[row.shuffling];
     }
 
     reload() {

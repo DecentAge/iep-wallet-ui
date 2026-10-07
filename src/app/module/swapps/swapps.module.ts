@@ -17,8 +17,7 @@ import {SharedModule} from "../../shared/shared.module";
         NgbAccordionDirective,
         NgbAccordionItem
     ],
-    declarations: [WalletSettingsComponent, OptionsComponent],
-    providers: [NgbModule, NgbAccordionModule, NgbAccordionDirective, NgbAccordionItem]
+    declarations: [WalletSettingsComponent, OptionsComponent]
 })
 export class SwappsModule {
 }

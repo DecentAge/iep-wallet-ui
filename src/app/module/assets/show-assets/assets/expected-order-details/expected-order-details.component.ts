@@ -45,13 +45,8 @@ export class ExpectedOrderDetailsComponent implements OnInit {
   }
     onSearchChange(assetId) {
         if (assetId !== '') {
-            this.assetsService.getAsset(assetId)
-                .subscribe((success: any) => {
-                    this.asset = success.asset;
-                    this.getAskOrders();
-                    this.getBidOrders();
-                });
-        } else {
+            this.getAskOrders();
+            this.getBidOrders();
         }
     }
     goBack() {
@@ -64,23 +59,14 @@ export class ExpectedOrderDetailsComponent implements OnInit {
 
         this.askOrdersPage.pageNumber = pageInfo.offset;
 
-        var observablesArray = [];
         var asset = this.expectedOrderForm.asset;
-        var assetDetailsPromise = this.assetsService.getAsset(asset, true);
-        var expectedAskOrdersPromise = this.assetsService.getExpectedAskOrders(asset);
-        observablesArray.push(assetDetailsPromise);
-        if (!this.decimals) {
-            observablesArray.push(expectedAskOrdersPromise);
-        }
 
-        observableForkJoin(observablesArray)
+        observableForkJoin([this.assetsService.getExpectedAskOrders(asset), this.assetsService.getAsset(asset, true)])
             .subscribe((successNext: any) => {
                 let [offersResponse, assetDetailsResponse] = successNext;
-                if (assetDetailsResponse) {
-                    this.decimals = assetDetailsResponse.decimals;
-                }
-                this.bidLength = offersResponse.askOrders? offersResponse.askOrders.length:0;
-                this.askOrdersRows = offersResponse.askOrders;
+                this.decimals = assetDetailsResponse.decimals;
+                this.askOrdersRows = offersResponse.askOrders || [];
+                this.bidLength = this.askOrdersRows.length;
                 if (this.askOrdersPage.pageNumber === 0 && this.askOrdersRows.length < 10) {
                     this.askOrdersPage.totalElements = this.askOrdersRows.length;
                 } else if (this.askOrdersPage.pageNumber > 0 && this.askOrdersRows.length < 10) {
@@ -97,24 +83,14 @@ export class ExpectedOrderDetailsComponent implements OnInit {
 
         this.bidOrdersPage.pageNumber = pageInfo.offset;
 
-        var observablesArray = [];
-
         var asset = this.expectedOrderForm.asset;
-        var assetDetailsPromise = this.assetsService.getAsset(asset, true);
-        var expectedBidOrdersPromise = this.assetsService.getExpectedBidOrders(asset);
-        observablesArray.push(expectedBidOrdersPromise);
-        if (!this.decimals) {
-            observablesArray.push(assetDetailsPromise);
-        }
 
-        observableForkJoin(observablesArray)
+        observableForkJoin([this.assetsService.getExpectedBidOrders(asset), this.assetsService.getAsset(asset, true)])
             .subscribe((successNext: any) => {
                 let [offersResponse, assetDetailsResponse] = successNext;
-                if (assetDetailsResponse) {
-                    this.decimals = assetDetailsResponse.decimals;
-                }
-                this.askLength = offersResponse.bidOrders? offersResponse.bidOrders.length:0;
-                this.bidOrdersRows = offersResponse.bidOrders;
+                this.decimals = assetDetailsResponse.decimals;
+                this.bidOrdersRows = offersResponse.bidOrders || [];
+                this.askLength = this.bidOrdersRows.length;
                 if (this.bidOrdersPage.pageNumber === 0 && this.bidOrdersRows.length < 10) {
                     this.bidOrdersPage.totalElements = this.bidOrdersRows.length;
                 } else if (this.bidOrdersPage.pageNumber > 0 && this.bidOrdersRows.length < 10) {

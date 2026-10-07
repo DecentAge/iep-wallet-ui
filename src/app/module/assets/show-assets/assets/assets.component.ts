@@ -43,6 +43,8 @@ export class AssetsComponent implements OnInit {
         this.filters.forEach(obj => {
             obj.isEnabled = false;
         });
+        this.sort_order = 'desc';
+        this.sort_orderColumn = 'height';
 
         this.setPage({offset: 0});
     }
@@ -103,13 +105,11 @@ export class AssetsComponent implements OnInit {
         } else {
             this.assetsService.getAccountAssets(this.accountId)
                 .subscribe((success: any) => {
-                    this.assets = success.accountAssets;
-                    if (this.page.pageNumber === 0 && this.assets.length < 10) {
-                        this.page.totalElements = this.assets.length;
-                    } else if (this.page.pageNumber > 0 && this.assets.length < 10) {
-                        this.page.totalElements = this.page.pageNumber * 10 + this.assets.length;
-                        this.page.totalPages = this.page.pageNumber;
-                    }
+                    // getAccountAssets has no firstIndex/lastIndex: page here.
+                    const all = success.accountAssets || [];
+                    this.assets = all.slice(startIndex, endIndex + 1);
+                    this.page.totalElements = all.length;
+                    this.page.totalPages = Math.ceil(all.length / this.page.size);
                 });
         }
 

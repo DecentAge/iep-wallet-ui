@@ -1,4 +1,5 @@
-import { test, expect, request as pwRequest, APIRequestContext } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
+import { request as pwRequest, APIRequestContext } from '@playwright/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import { TEST_ACCOUNT_1_PASSPHRASE, TEST_ACCOUNT_1_RS } from '../../../fixtures/test-accounts';

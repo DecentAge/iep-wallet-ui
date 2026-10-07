@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
 import { createHash, randomBytes } from 'node:crypto';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
@@ -10,6 +10,7 @@ import {
   TEST_ACCOUNT_2_RS,
 } from '../../../fixtures/test-accounts';
 import { DEFAULT_TIMEOUT_MS } from '../../../fixtures/timeouts';
+import { broadcastAndAwaitConfirmation } from '../../../helpers/broadcast-confirm';
 
 const SIDEBAR_EXPERT_TOGGLE = '.sidebar-content li.wallet-switch a:has(i.icon-wallet)';
 
@@ -45,12 +46,9 @@ test.beforeEach(async ({ page }) => {
   await dashboard.expectVisible();
 });
 
-test('send-tx: happy-path send drops unconfirmed balance by amount + fee', async ({ page, request, baseURL }) => {
+test('send-tx: happy-path send is recorded on chain with amount + fee', async ({ page, request, baseURL }) => {
   const send = new SendSimplePage(page);
   const apiOrigin = new URL(baseURL ?? 'http://node-1').origin;
-
-  // 1. Read starting unconfirmed balance from the API directly.
-  const before = await getUnconfirmedBalanceTQT(request, apiOrigin, TEST_ACCOUNT_1_RS);
 
   // 2. Drive the UI: open Send → fill the form → Next.
   await send.goto();
@@ -62,29 +60,17 @@ test('send-tx: happy-path send drops unconfirmed balance by amount + fee', async
   // 3. Wait for step 2: Broadcast button must become enabled (signing done).
   await expect(send.broadcast).toBeEnabled({ timeout: DEFAULT_TIMEOUT_MS });
 
-  // 4. Broadcast.
-  await send.broadcast.click();
+  // 4. Broadcast and wait for the chain to include the transaction.
+  const { txId, tx } = await broadcastAndAwaitConfirmation(page, request, apiOrigin, send.broadcast);
 
-  // 5. The wallet's broadcastTransaction → POST /api?requestType=broadcastTransaction
-  //    accepts the signed bytes immediately and the chain decrements the
-  //    sender's unconfirmedBalance. Poll the API for the drop with a tight
-  //    deadline — this is "did the wallet finish broadcasting", not "did
-  //    the block include it".
-  const expectedDelta = AMOUNT_TQT + FEE_TQT;
-  const deadline = Date.now() + 30_000;
-  let after = before;
-  while (Date.now() < deadline) {
-    after = await getUnconfirmedBalanceTQT(request, apiOrigin, TEST_ACCOUNT_1_RS);
-    if (before - after >= expectedDelta) break;
-    await page.waitForTimeout(500);
-  }
-
-  expect(
-    before - after,
-    `unconfirmedBalance dropped by ${before - after} TQT, expected at least ${expectedDelta} ` +
-    `(amount ${AMOUNT_TQT} + fee ${FEE_TQT}). The wallet's broadcast may have failed silently — ` +
-    `inspect the wallet's UI alert / iep-node logs for the rejection reason.`,
-  ).toBeGreaterThanOrEqual(expectedDelta);
+  // 5. Assert what this transaction did. A raw unconfirmed-balance delta looks
+  //    tempting but is not safe on a chain that other specs have been using:
+  //    an expiring escrow or a subscription payout credits the account inside
+  //    the same window and the delta then measures the wrong thing.
+  expect(BigInt(tx.amountTQT ?? '0'), `tx ${txId} carries amountTQT=${tx.amountTQT}`).toBe(AMOUNT_TQT);
+  expect(BigInt(tx.feeTQT ?? '0'), `tx ${txId} carries feeTQT=${tx.feeTQT}`).toBe(FEE_TQT);
+  expect(tx.senderRS, `tx ${txId} was signed by the wrong account`).toBe(TEST_ACCOUNT_1_RS);
+  expect(tx.recipientRS, `tx ${txId} went to the wrong recipient`).toBe(CASH_ACCOUNT_RS);
 });
 
 /**
@@ -107,7 +93,7 @@ test('send-tx: happy-path send drops unconfirmed balance by amount + fee', async
  * wallet pops a "recipient public key required" sweetalert and the test
  * fails fast with a clear UI-side error.
  */
-test('send-tx with private message: chain accepts encrypted-message attachment + recipient balance grows', async ({ page, request, baseURL }) => {
+test('send-tx with private message: chain records the encrypted-message attachment', async ({ page, request, baseURL }) => {
   const send = new SendSimplePage(page);
   const apiOrigin = new URL(baseURL ?? 'http://node-1').origin;
 
@@ -118,9 +104,6 @@ test('send-tx with private message: chain accepts encrypted-message attachment +
   // balance from docker_init_devnet.sh's bootstrap and is otherwise idle.
   // It also has a public key registered on chain (via the bootstrap's
   // TEST_ACCOUNT_2 → cash payment), which the encryption path needs.
-  const senderBefore    = await getUnconfirmedBalanceTQT(request, apiOrigin, TEST_ACCOUNT_1_RS);
-  const recipientBefore = await getUnconfirmedBalanceTQT(request, apiOrigin, TEST_ACCOUNT_2_RS);
-
   // Unique message string per run so an unrelated wallet bug that loses
   // the attachment payload would show up as a missing-text failure later
   // (when we extend the test with a chain-side attachment assertion).
@@ -149,35 +132,21 @@ test('send-tx with private message: chain accepts encrypted-message attachment +
     'getAccount(recipient) likely failed; check the wallet UI for an error alert',
   ).toBeEnabled({ timeout: DEFAULT_TIMEOUT_MS });
 
-  await send.broadcast.click();
+  const { txId, tx } = await broadcastAndAwaitConfirmation(page, request, apiOrigin, send.broadcast);
 
-  // Poll the API for the sender's balance drop. With an encrypted-message
-  // attachment the chain may charge a higher per-byte fee than a plain
-  // payment, so we assert a LOWER bound on the sender (amount + base fee).
-  const expectedSenderDelta = AMOUNT_TQT + FEE_TQT;
-  const deadline = Date.now() + 30_000;
-  let senderAfter = senderBefore;
-  let recipientAfter = recipientBefore;
-  while (Date.now() < deadline) {
-    senderAfter    = await getUnconfirmedBalanceTQT(request, apiOrigin, TEST_ACCOUNT_1_RS);
-    recipientAfter = await getUnconfirmedBalanceTQT(request, apiOrigin, TEST_ACCOUNT_2_RS);
-    if (senderBefore - senderAfter >= expectedSenderDelta &&
-        recipientAfter - recipientBefore >= AMOUNT_TQT) break;
-    await page.waitForTimeout(500);
-  }
-
+  // Assert the transaction itself rather than balance deltas: other specs leave
+  // escrows and subscriptions on the chain that credit these accounts in the
+  // same window. The attachment is what this test exists for.
+  expect(BigInt(tx.amountTQT ?? '0'), `tx ${txId} carries amountTQT=${tx.amountTQT}`).toBe(AMOUNT_TQT);
+  // An encrypted appendix is charged per byte, so the fee is a lower bound.
+  expect(BigInt(tx.feeTQT ?? '0'), `tx ${txId} fee ${tx.feeTQT} below the base fee`).toBeGreaterThanOrEqual(FEE_TQT);
+  expect(tx.senderRS, `tx ${txId} was signed by the wrong account`).toBe(TEST_ACCOUNT_1_RS);
+  expect(tx.recipientRS, `tx ${txId} went to the wrong recipient`).toBe(TEST_ACCOUNT_2_RS);
   expect(
-    senderBefore - senderAfter,
-    `sender unconfirmedBalance dropped by ${senderBefore - senderAfter} TQT, expected at least ` +
-    `${expectedSenderDelta} (amount ${AMOUNT_TQT} + fee ${FEE_TQT}). The encrypted-message ` +
-    `broadcast may have failed silently — inspect the wallet alert / iep-node logs.`,
-  ).toBeGreaterThanOrEqual(expectedSenderDelta);
-  expect(
-    recipientAfter - recipientBefore,
-    `recipient (TEST_ACCOUNT_2) unconfirmedBalance rose by ${recipientAfter - recipientBefore} TQT, ` +
-    `expected at least ${AMOUNT_TQT}. Sender lost the funds but the chain didn't credit the recipient — ` +
-    `recipient parameter on broadcastTransaction may be wrong.`,
-  ).toBeGreaterThanOrEqual(AMOUNT_TQT);
+    tx.attachment?.encryptedMessage?.data,
+    `tx ${txId} carries no encryptedMessage appendix — cryptoService.encryptMessage or the ` +
+    `attachment encoding in signTransactionHex dropped it (attachment: ${JSON.stringify(tx.attachment)})`,
+  ).toBeTruthy();
 });
 
 /**

@@ -30,13 +30,11 @@ export class OpenOrdersComponent implements OnInit {
     }
 
     ngOnInit() {
-        //this.route.data.subscribe(data => {
-            this.offerType = this.offerTypeInput;
-            this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
-            this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
+        this.offerType = this.offerTypeInput;
+        this.accountId = this.accountService.getAccountDetailsFromSession('accountId');
+        this.accountRs = this.accountService.getAccountDetailsFromSession('accountRs');
 
-            this.setPage({offset: 0});
-       // });
+        this.setPage({offset: 0});
     }
     setPage(pageInfo) {
 
@@ -46,29 +44,24 @@ export class OpenOrdersComponent implements OnInit {
         let endIndex = ((this.page.pageNumber + 1) * 10) - 1;
 
         if (this.offerType === 'Buy') {
-            this.assetsService.getAccountCurrentBidOrders(this.accountRs, startIndex, endIndex)
+            this.assetsService.getAccountCurrentBidOrders(this.accountRs, startIndex, endIndex + 1)
                 .subscribe((success: any) => {
-                    this.orders = success.bidOrders;
-                    if (this.page.pageNumber === 0 && this.orders.length < 10) {
-                        this.page.totalElements = this.orders.length;
-                    } else if (this.page.pageNumber > 0 && this.orders.length < 10) {
-                        this.page.totalElements = this.page.pageNumber * 10 + this.orders.length;
-                        this.page.totalPages = this.page.pageNumber;
-                    }
+                    this.applyPage(success.bidOrders, startIndex);
                 });
         } else {
-            this.assetsService.getAccountCurrentAskOrders(this.accountRs, startIndex, endIndex)
+            this.assetsService.getAccountCurrentAskOrders(this.accountRs, startIndex, endIndex + 1)
                 .subscribe((success: any) => {
-                    this.orders = success.askOrders;
-                    if (this.page.pageNumber === 0 && this.orders.length < 10) {
-                        this.page.totalElements = this.orders.length;
-                    } else if (this.page.pageNumber > 0 && this.orders.length < 10) {
-                        this.page.totalElements = this.page.pageNumber * 10 + this.orders.length;
-                        this.page.totalPages = this.page.pageNumber;
-                    }
+                    this.applyPage(success.askOrders, startIndex);
                 });
         }
 
+    }
+    // No endpoint reports the total: one extra row is the only "is there more".
+    private applyPage(orders: any, startIndex: number) {
+        const all = orders || [];
+        this.orders = all.slice(0, this.page.size);
+        this.page.totalElements = startIndex + this.orders.length + (all.length > this.page.size ? 1 : 0);
+        this.page.totalPages = Math.ceil(this.page.totalElements / this.page.size);
     }
     reload() {
         this.setPage({offset: 0});

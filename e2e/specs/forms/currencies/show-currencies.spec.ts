@@ -1,4 +1,5 @@
-import { test, expect, request as pwRequest, APIRequestContext } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
+import { request as pwRequest, APIRequestContext, Page } from '@playwright/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import {
@@ -122,12 +123,11 @@ test('show-currencies: All tab shows issued currency by code', async ({ page }) 
   await page.goto('#/wallet/currencies/show-currencies/all');
 
   // The Ticker column renders the code as a hyperlink inside a datatable cell.
-  const codeCell = page.locator('ngx-datatable .datatable-body-cell', { hasText: issuedCurrencyCode }).first();
-  await expect(
-    codeCell,
-    `Currency code "${issuedCurrencyCode}" (tx ${issuedCurrencyId}) not found in the All tab datatable. ` +
-    `CurrenciesComponent may not be calling getAllCurrencies, or the datatable pagination skips page 0.`,
-  ).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+  expect(
+    await datatableContainsCode(page, issuedCurrencyCode),
+    `Currency code "${issuedCurrencyCode}" (tx ${issuedCurrencyId}) not found on any page of the All tab. ` +
+    `CurrenciesComponent may not be calling getAllCurrencies.`,
+  ).toBe(true);
 });
 
 test('show-currencies: My tab shows the issued currency under TEST_ACCOUNT_1 holdings', async ({ page }) => {
@@ -139,11 +139,45 @@ test('show-currencies: My tab shows the issued currency under TEST_ACCOUNT_1 hol
   // The issuer always holds the full initial supply. The My tab queries
   // getAccountCurrencies — if accountId vs accountRS wiring regresses the
   // call returns empty and the row won't appear.
-  const codeCell = page.locator('ngx-datatable .datatable-body-cell', { hasText: issuedCurrencyCode }).first();
-  await expect(
-    codeCell,
-    `Currency "${issuedCurrencyCode}" not found in My tab — ` +
+  expect(
+    await datatableContainsCode(page, issuedCurrencyCode),
+    `Currency "${issuedCurrencyCode}" not found on any page of the My tab — ` +
     `getAccountCurrencies may be called with the wrong account identifier, ` +
     `or the currency was not credited to the issuer (TEST_ACCOUNT_1).`,
-  ).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+  ).toBe(true);
 });
+
+/**
+ * Walk the pager until the code appears. show-currencies pages server-side and
+ * sorts alphabetically, so on a chain that has accumulated currencies a freshly
+ * issued code sits on some later page rather than the first one.
+ */
+async function datatableContainsCode(page: Page, code: string, maxPages = 15): Promise<boolean> {
+  for (let visited = 0; visited < maxPages; visited++) {
+    // Wait for the page to actually have rows first. Checking straight after a
+    // navigation or a pager click would look at an empty table and walk past
+    // the page the code is on.
+    await page.locator('ngx-datatable .datatable-body-row').first()
+      .waitFor({ state: 'visible', timeout: 10_000 }).catch(() => undefined);
+
+    const cell = page.locator('ngx-datatable .datatable-body-cell', { hasText: code }).first();
+    if (await cell.isVisible({ timeout: 1_500 }).catch(() => false)) return true;
+
+    // isVisible() does not wait. Without waiting for the footer first, a pager
+    // that has not rendered yet reads as "no next page" and the walk stops on
+    // page 1 — green while the code sits on page 2.
+    await page.locator('ngx-datatable datatable-footer').first()
+      .waitFor({ state: 'visible', timeout: 5_000 }).catch(() => undefined);
+
+    const nextItem = page.locator('ngx-datatable li:has(a[aria-label="go to next page"])').first();
+    if (!(await nextItem.isVisible().catch(() => false))) return false;
+    if (((await nextItem.getAttribute('class')) ?? '').includes('disabled')) return false;
+
+    await nextItem.locator('a').first().click();
+    // Wait for the refetched page to render instead of a fixed pause: under load
+    // the next click would otherwise fire on an empty table and skip a page.
+    await page.locator('ngx-datatable .datatable-body-row').first()
+      .waitFor({ state: 'visible', timeout: 5_000 }).catch(() => undefined);
+  }
+  return false;
+}

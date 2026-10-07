@@ -111,7 +111,7 @@ export class CancelOrderComponent implements OnInit {
                         msg,
                         'OK',
                         'success').then((isConfirm: any) => {
-                            this.router.navigate(['assets/my-open-orders/buy']);
+                            this.router.navigate(['assets/my-open-orders']);
                         });
                 } else {
                     let title: string = this.commonService.translateAlertTitle('Error');
@@ -120,7 +120,7 @@ export class CancelOrderComponent implements OnInit {
                         errMsg,
                         'OK',
                         'error').then((isConfirm: any) => {
-                            this.router.navigate(['assets/my-open-orders/buy']);
+                            this.router.navigate(['assets/my-open-orders']);
                         });
                 }
             });

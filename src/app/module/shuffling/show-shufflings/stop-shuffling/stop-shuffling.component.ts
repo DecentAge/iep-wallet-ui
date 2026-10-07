@@ -71,14 +71,14 @@ export class StopShufflingComponent implements OnInit {
                             this.translate.get('shuffling.stop-shuffling.no-running-shuffler').subscribe((res: string) => {
                                 result = res;
                             });
-                            var resType = 'info';
+                            resType = 'info';
                         };
                         let title: string = this.commonService.translateAlertTitle('Success');
                         let msg: string = this.commonService.translateInfoMessageWithParams('stop-shuffle', result);
                         alertFunctions.InfoAlertBox(title,
                             msg,
                             'OK',
-                            'success').then((isConfirm: any) => {
+                            resType).then((isConfirm: any) => {
                                 this.router.navigate(['/shuffling/show-shufflings/my']);
                             });
 

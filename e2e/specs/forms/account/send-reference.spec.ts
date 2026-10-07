@@ -1,4 +1,5 @@
-import { test, expect, request as pwRequest, APIRequestContext } from '@playwright/test';
+import { test, expect } from '../../../fixtures/test';
+import { request as pwRequest, APIRequestContext } from '@playwright/test';
 import { WelcomePage } from '../../../pages/welcome.page';
 import { DashboardPage } from '../../../pages/dashboard.page';
 import {
@@ -147,10 +148,8 @@ test('send-reference: Next button uses icon-next_arrow icon and is disabled unti
   ).toBeEnabled({ timeout: DEFAULT_TIMEOUT_MS });
 });
 
-test('send-reference: full wizard broadcasts and unconfirmed balance drops', async ({ page, request, baseURL }) => {
+test('send-reference: full wizard broadcasts and the chain records amount + fee', async ({ page, request, baseURL }) => {
   const apiOrigin = apiOriginFromBaseURL(baseURL);
-  const before = await getUnconfirmedBalance(request, apiOrigin, TEST_ACCOUNT_1_RS);
-
   await page.goto(ROUTE);
 
   const recipientInput = page.locator('input[name="recipientRS"]');
@@ -190,33 +189,16 @@ test('send-reference: full wizard broadcasts and unconfirmed balance drops', asy
     `(3) refTxFullHash=${refTxFullHash?.slice(0, 16)}…`,
   ).toBeEnabled({ timeout: DEFAULT_TIMEOUT_MS });
 
-  await broadcastAndAwaitConfirmation(page, request, apiOrigin, finishButton);
+  const { txId, tx } = await broadcastAndAwaitConfirmation(page, request, apiOrigin, finishButton);
 
-  const expectedDelta = AMOUNT_TQT + FEE_TQT;
-  const deadline = Date.now() + 30_000;
-  let after = before;
-  while (Date.now() < deadline) {
-    after = await getUnconfirmedBalance(request, apiOrigin, TEST_ACCOUNT_1_RS);
-    if (before - after >= expectedDelta) break;
-    await page.waitForTimeout(500);
-  }
-
-  expect(
-    before - after,
-    `unconfirmedBalance dropped by ${before - after} TQT, expected at least ${expectedDelta}. ` +
-    `The send-reference broadcast may have been rejected.`,
-  ).toBeGreaterThanOrEqual(expectedDelta);
+  // Assert what this transaction did, not how the account balance moved: an
+  // expiring escrow or a subscription payout can credit the account inside the
+  // same window and the delta then says nothing about this broadcast.
+  expect(BigInt(tx.amountTQT ?? '0'), `tx ${txId} carries amountTQT=${tx.amountTQT}`).toBe(AMOUNT_TQT);
+  // Lower bound: the phasing appendix is charged on top of the base fee (3 XIN
+  // in practice today), so pinning an exact value would break on a fee change.
+  expect(BigInt(tx.feeTQT ?? '0'), `tx ${txId} fee ${tx.feeTQT} below the base fee`).toBeGreaterThanOrEqual(FEE_TQT);
+  expect(tx.senderRS, `tx ${txId} was signed by the wrong account`).toBe(TEST_ACCOUNT_1_RS);
+  expect(tx.recipientRS, `tx ${txId} went to the wrong recipient`).toBe(CASH_ACCOUNT_RS);
 });
 
-async function getUnconfirmedBalance(
-  request: import('@playwright/test').APIRequestContext,
-  apiOrigin: string,
-  accountRS: string,
-): Promise<bigint> {
-  const resp = await request.get(`${apiOrigin}/api`, {
-    params: { requestType: 'getAccount', account: accountRS },
-    timeout: DEFAULT_TIMEOUT_MS,
-  });
-  expect(resp.ok()).toBe(true);
-  return BigInt((await resp.json()).unconfirmedBalanceTQT ?? '0');
-}
