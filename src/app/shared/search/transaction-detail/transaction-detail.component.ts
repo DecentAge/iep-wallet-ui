@@ -32,8 +32,8 @@ export class TransactionDetailComponent implements OnInit {
 
         this.view = sharedData.view;
 
-        if (sharedData.type && sharedData.type !== 'onlyID') {
-            this.transaction = DataStoreService.get('transaction-details');
+        if (sharedData.type === 'full') {
+            this.transaction = sharedData.transaction;
         } else {
             switch (sharedData.view) {
                 case 'transactionDetail':

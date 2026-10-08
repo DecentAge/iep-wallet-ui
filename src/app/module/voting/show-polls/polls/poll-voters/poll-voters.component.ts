@@ -46,8 +46,7 @@ export class PollVotersComponent implements OnInit {
 
     goToDetails(transactionId) {
         this.searchService.searchTransactionById(transactionId).subscribe((success: any) => {
-            // DataStoreService.set('transaction-details', success);
-            DataStoreService.set('transaction-details', {id: transactionId, type: 'onlyID', view: 'transactionDetail'});
+            DataStoreService.set('transaction-details', {type: 'full', view: 'transactionDetail', transaction: success});
             this.router.navigate(['/voting/show-polls/voters/transaction-details']);
         });
     }
