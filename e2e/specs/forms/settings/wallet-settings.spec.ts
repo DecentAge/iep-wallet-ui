@@ -154,6 +154,62 @@ test.describe('wallet-settings: SWApps switches', () => {
       'localStorage still records Subscriptions as enabled after switching it off',
     ).toBe(false);
   });
+
+  // Test Case #19 ("SWApps: activate"): all switches off, all on with every menu entry, back off.
+  test('wallet-settings: all eleven SWApps switch on and off together with their sidebar entries (Test Case #19)', async ({ page }) => {
+    const APPS = ['Assets', 'Currencies', 'Aliases', 'Voting', 'AT', 'Crowdfunding', 'Subscriptions', 'Escrow',
+      'Shuffling', 'Tools', 'DAOs'];
+    // first-level entries only: DAOs has its own "Voting" submenu
+    const sidebarEntry = (name: string) =>
+      page.locator('.sidebar-content li[id^="first_"] > a > span.menu-title').filter({ hasText: new RegExp(`^${name}$`) });
+    const readStoredSwapps = async () =>
+      JSON.parse(
+        (await page.evaluate((pk) => localStorage.getItem(`swapps_array_${pk}`), TEST_ACCOUNT_1_PUBLIC_KEY)) ?? '[]',
+      ) as Array<{ name: string; isEnabled: boolean }>;
+    const toggleAll = async () => {
+      for (const name of APPS) {
+        await page.locator(`[id="${name}"]`).evaluate((el: HTMLInputElement) => el.click());
+      }
+    };
+    const expectAll = async (on: boolean, when: string) => {
+      for (const name of APPS) {
+        const sw = page.locator(`[id="${name}"]`);
+        if (on) {
+          await expect(sw, `${when}: the ${name} switch is off`).toBeChecked({ timeout: DEFAULT_TIMEOUT_MS });
+        } else {
+          await expect(sw, `${when}: the ${name} switch is on`).not.toBeChecked({ timeout: DEFAULT_TIMEOUT_MS });
+        }
+        await expect(sidebarEntry(name), `${when}: the ${name} sidebar entry is ${on ? 'missing' : 'still shown'}`)
+          .toHaveCount(on ? 1 : 0, { timeout: DEFAULT_TIMEOUT_MS });
+      }
+    };
+
+    await page.goto('#/wallet/wallet-settings/swapps');
+    await expect(page.locator('app-wallet-settings input[type="checkbox"]')).toHaveCount(APPS.length, {
+      timeout: DEFAULT_TIMEOUT_MS,
+    });
+    await expect(sidebarEntry('SWApps'), 'the always-on SWApps entry is missing, the sidebar did not render').toHaveCount(1, {
+      timeout: DEFAULT_TIMEOUT_MS,
+    });
+    await expectAll(false, 'fresh account');
+
+    await toggleAll();
+    await expectAll(true, 'after switching every SWApp on');
+    expect(
+      (await readStoredSwapps()).filter((a) => a.isEnabled).map((a) => a.name).sort(),
+      'localStorage does not record all eleven SWApps as enabled',
+    ).toEqual([...APPS].sort());
+
+    await page.reload();
+    await expectAll(true, 'after a reload');
+
+    await toggleAll();
+    await expectAll(false, 'after switching every SWApp off again');
+    expect(
+      (await readStoredSwapps()).filter((a) => a.isEnabled),
+      'localStorage still records SWApps as enabled',
+    ).toEqual([]);
+  });
 });
 
 test.describe('wallet-settings: language switch', () => {
