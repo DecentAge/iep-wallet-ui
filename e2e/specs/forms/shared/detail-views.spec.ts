@@ -269,14 +269,9 @@ test('detail-views: chain-viewer block search opens block-transaction-details fo
   ).toHaveText(block.generatorRS);
 });
 
-test.fixme(
-  'detail-views: the block-details branch renders the block the height link points at — wallet bug: ' +
-    'block-transaction-details.component.ts:69/72/79 navigate to the absolute path ' +
-    '/extensions/chain-viewer/… while ExtensionsModule is mounted at "tools" (full-layout.routes.ts). ' +
-    'Clicking the Height cell logs "NG04002: Cannot match any routes. URL Segment: ' +
-    "'extensions/chain-viewer/block-details'\" and leaves the user on the same page, so the blockDetail " +
-    'branch of transaction-detail.component.ts:44 — whose only caller this is — is unreachable. The ' +
-    'per-transaction Details button of the same view (searchTransaction) dies the same way.',
+test(
+  'detail-views: the height link of block-transaction-details opens block-details for that block ' +
+    '(was dead: it navigated to /extensions/chain-viewer/…, but the module is mounted at /tools)',
   async ({ page, request, baseURL }) => {
     const apiOrigin = apiOriginFromBaseURL(baseURL);
 
@@ -311,6 +306,130 @@ test.fixme(
   },
 );
 
+/** A block with at least one transaction, found through TEST_ACCOUNT_1's history. */
+async function blockWithTransaction(request: APIRequestContext, apiOrigin: string) {
+  const history = await api(request, apiOrigin, {
+    requestType: 'getBlockchainTransactions',
+    account: TEST_ACCOUNT_1_ID,
+    lastIndex: '0',
+  });
+  const tx = history.transactions?.[0];
+  expect(tx, 'TEST_ACCOUNT_1 has no confirmed transaction to look up').toBeTruthy();
+  return { height: String(tx.height), transaction: String(tx.transaction) };
+}
+
+test('detail-views: the Details button of a block transaction opens transaction-details for it', async ({
+  page,
+  request,
+  baseURL,
+}) => {
+  const apiOrigin = apiOriginFromBaseURL(baseURL);
+  const { height } = await blockWithTransaction(request, apiOrigin);
+
+  await page.goto(`#/wallet/tools/chain-viewer/block-transaction-details?id=${height}`);
+  const txRow = page
+    .locator('app-block-transaction-details ngx-datatable')
+    .nth(1)
+    .locator('datatable-body-row')
+    .filter({ has: page.locator('a.btn-primary') })
+    .first();
+  await expect(txRow, `block ${height} lists no transaction`).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+  await txRow.locator('a.btn-primary:has(i.fa-list-ul)').click();
+  await page.waitForURL(/chain-viewer\/transaction-details/, { timeout: DEFAULT_TIMEOUT_MS });
+
+  const idField = page.locator('app-transaction-detail h4').nth(TX_ID);
+  await expect(idField, 'transaction-details never filled in a transaction id').toHaveText(/^\s*\d+\s*$/, {
+    timeout: DEFAULT_TIMEOUT_MS,
+  });
+  const shown = ((await idField.textContent()) ?? '').trim();
+  const tx = await api(request, apiOrigin, { requestType: 'getTransaction', transaction: shown });
+  expect(tx.errorCode, `transaction-details shows ${shown}, which the node does not know`).toBeUndefined();
+  expect(String(tx.height), `transaction-details opened a transaction that is not in block ${height}`).toBe(height);
+});
+
+test('detail-views: the generator link of block-transaction-details opens account-details for the generator', async ({
+  page,
+  request,
+  baseURL,
+}) => {
+  const apiOrigin = apiOriginFromBaseURL(baseURL);
+  const { height } = await blockWithTransaction(request, apiOrigin);
+  const block = await api(request, apiOrigin, { requestType: 'getBlock', height });
+
+  await page.goto(`#/wallet/tools/chain-viewer/block-transaction-details?id=${height}`);
+  const cells = page.locator('app-block-transaction-details ngx-datatable').first().locator('datatable-body-cell');
+  await expect(cells.nth(BLK_GENERATOR), 'the block row did not render').toHaveText(block.generatorRS, {
+    timeout: DEFAULT_TIMEOUT_MS,
+  });
+  await cells.nth(BLK_GENERATOR).locator('a.hyperlink').click();
+  await page.waitForURL(/chain-viewer\/account-details\?id=XIN-/, { timeout: DEFAULT_TIMEOUT_MS });
+  await expect(
+    page.locator('app-account-detail h4').nth(ACC_RS),
+    `account-details does not show the generator ${block.generatorRS} of block ${height}`,
+  ).toHaveText(block.generatorRS, { timeout: DEFAULT_TIMEOUT_MS });
+});
+
+/**
+ * Unconfirmed transactions vanish within one devnet block (~3 s), so the list is
+ * served from a route: empty first, then a real transaction in the shape
+ * getUnconfirmedTransactions returns (field `transaction`, like getTransaction).
+ */
+async function routeUnconfirmed(page: Page, request: APIRequestContext, apiOrigin: string) {
+  const { height } = await blockWithTransaction(request, apiOrigin);
+  const block = await api(request, apiOrigin, { requestType: 'getBlock', height, includeTransactions: 'true' });
+  const tx = block.transactions[0];
+  let calls = 0;
+  await page.route(/requestType=getUnconfirmedTransactions/, (route) => {
+    calls += 1;
+    route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({ unconfirmedTransactions: calls === 1 ? [] : [tx], requestProcessingTime: 0 }),
+    });
+  });
+  return { tx, calls: () => calls };
+}
+
+test('detail-views: the reload button of chain-viewer/unconfirmed reloads the list', async ({
+  page,
+  request,
+  baseURL,
+}) => {
+  const { tx, calls } = await routeUnconfirmed(page, request, apiOriginFromBaseURL(baseURL));
+
+  await page.goto('#/wallet/tools/chain-viewer/unconfirmed');
+  const rows = page.locator('app-unconfirmed datatable-body-row');
+  await expect.poll(calls, { message: 'the view never asked for unconfirmed transactions', timeout: DEFAULT_TIMEOUT_MS }).toBe(1);
+  await expect(rows).toHaveCount(0);
+
+  await page.locator('app-unconfirmed a.btn-grey:has(i.fa-refresh)').click();
+  await expect
+    .poll(calls, { message: 'the reload button did not request the unconfirmed transactions again', timeout: DEFAULT_TIMEOUT_MS })
+    .toBe(2);
+  await expect(rows, `the reloaded list does not show transaction ${tx.transaction}`).toHaveCount(1, {
+    timeout: DEFAULT_TIMEOUT_MS,
+  });
+});
+
+test('detail-views: the Details button of chain-viewer/unconfirmed opens transaction-details for the row', async ({
+  page,
+  request,
+  baseURL,
+}) => {
+  const { tx } = await routeUnconfirmed(page, request, apiOriginFromBaseURL(baseURL));
+
+  await page.goto('#/wallet/tools/chain-viewer/unconfirmed');
+  await page.locator('app-unconfirmed a.btn-grey:has(i.fa-refresh)').click();
+  const row = page.locator('app-unconfirmed datatable-body-row').first();
+  await expect(row).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+
+  await row.locator('a.btn-primary:has(i.fa-list-ul)').click();
+  await page.waitForURL(/chain-viewer\/transaction-details/, { timeout: DEFAULT_TIMEOUT_MS });
+  await expect(
+    page.locator('app-transaction-detail h4').nth(TX_ID),
+    `transaction-details does not show the transaction of the clicked row (${tx.transaction})`,
+  ).toHaveText(tx.transaction, { timeout: DEFAULT_TIMEOUT_MS });
+});
+
 test('detail-views: the chain-viewer transaction list opens transaction-details', async ({ page, request, baseURL }) => {
   const apiOrigin = apiOriginFromBaseURL(baseURL);
 
@@ -342,56 +461,33 @@ test('detail-views: the chain-viewer transaction list opens transaction-details'
   ).toHaveText(tx.senderRS);
 });
 
-test.fixme(
-  'detail-views: the full-object branch of transaction-detail renders a transaction handed over whole — ' +
-    'wallet bug: unreachable. All 36 DataStoreService.set("transaction-details", …) calls in the wallet ' +
-    'pass type:"onlyID", so the `sharedData.type !== "onlyID"` branch (transaction-detail.component.ts:34) ' +
-    'is dead code. Its one intended caller is commented out at poll-voters.component.ts:49, which still ' +
-    'fetches the transaction via searchTransactionById, discards the result and hands over the bare id — ' +
-    'so the detail view fetches the very same transaction a second time.',
-  async ({ page }) => {
-    // Intended behaviour once poll-voters hands the fetched object over again:
-    // the view renders it without a second round trip to the node.
-    let refetches = 0;
-    page.on('request', (r) => {
-      if (r.url().includes('requestType=getTransaction')) refetches += 1;
-    });
-    await page.goto('#/wallet/voting/show-polls/all');
-    const voterDetails = page.locator('app-poll-voters button.actionBtn').first();
-    await expect(voterDetails, 'the poll-voters list rendered no details action').toBeVisible({
-      timeout: DEFAULT_TIMEOUT_MS,
-    });
-    await voterDetails.click();
-    await page.waitForURL(/voters\/transaction-details/, { timeout: DEFAULT_TIMEOUT_MS });
+test(
+  'detail-views: the chain-viewer peers table lists the crawled peers and opens node-details for the clicked one',
+  async ({ page, request, baseURL }) => {
+    const peerApi = `${apiOriginFromBaseURL(baseURL)}/peerexplorer-backend/api/nodes`;
+    const crawled = await (await request.get(peerApi, { params: { page: 1, results: 10 } })).json();
+    expect(Array.isArray(crawled) && crawled.length, 'the peerexplorer backend reports no peers').toBeTruthy();
 
-    const fields = page.locator('app-transaction-detail h4');
-    await expect(
-      fields.nth(TX_ID),
-      'the transaction handed over as a whole object was not rendered',
-    ).toHaveText(/^\s*\d+\s*$/, { timeout: DEFAULT_TIMEOUT_MS });
-    expect(refetches, 'the view re-fetched a transaction it had been handed in full').toBe(0);
-  },
-);
-
-test.fixme(
-  'detail-views: node-details shows the clicked peer — wallet bug: unreachable. peers.component.ts:107 ' +
-    'is the only navigation into /tools/chain-viewer/node-details, and the peers table it lives in never ' +
-    'gets rows: ExtensionsService.getPeers() queries the node itself instead of the peerexplorer backend ' +
-    'and the view raises an error dialog (see the fixme in specs/smoke/post-auth-routes.spec.ts). ' +
-    'node-details feeds off that same backend via SearchService.searchIp, so it has no data source either.',
-  async ({ page }) => {
-    // Intended assertions once the peers list loads: clicking a peer address must
-    // open node-details for that address.
     await page.goto('#/wallet/tools/chain-viewer/peers');
-    const peerRow = page.locator('app-peers datatable-body-row').first();
-    await expect(peerRow, 'the peers table rendered no row').toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+    const rows = page.locator('app-peers datatable-body-row');
+    await expect(
+      rows,
+      'the peers table does not list the peers the peerexplorer backend reports — getPeers queried the wrong ' +
+        'backend or the rows were not mapped from peerState',
+    ).toHaveCount(crawled.length, { timeout: DEFAULT_TIMEOUT_MS });
+    await expect(page.locator('.swal2-popup'), 'the peers view raised an error dialog').toHaveCount(0);
+
+    const peerRow = rows.first();
     const address = ((await peerRow.locator('a.btn-primary').textContent()) ?? '').trim();
+    expect(address, 'the Node Details column does not show an IP address').toMatch(/^\d+\.\d+\.\d+\.\d+$/);
     await peerRow.locator('a.btn-primary').click();
     await page.waitForURL(/chain-viewer\/node-details\?id=/, { timeout: DEFAULT_TIMEOUT_MS });
     expect(page.url(), 'node-details was opened for a different peer than the one clicked').toContain(address);
+
+    const peer = await (await request.get(peerApi, { params: { ip: address } })).json();
     await expect(
-      page.locator('app-node-details h4').first(),
-      'node-details rendered no data for the clicked peer',
-    ).not.toBeEmpty();
+      page.locator('app-node-details'),
+      `node-details does not show the version ${peer.peerState?.version} the peerexplorer backend reports for ${address}`,
+    ).toContainText(peer.peerState.version, { timeout: DEFAULT_TIMEOUT_MS });
   },
 );

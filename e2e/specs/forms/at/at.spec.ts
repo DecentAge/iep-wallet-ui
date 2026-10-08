@@ -546,39 +546,82 @@ test('workbench: dashboard ships the AT templates and mounts the compiler form',
   await expect(codeInput, 'the compiler code textarea is not bound to atTextCode').toHaveValue('FIN');
 });
 
-test('workbench/compiler: Generate translates the Simple AT template into machine code', async ({ page }) => {
-  test.skip(
-    true,
-    'Blocked by a wallet defect that no deployment can configure around. ' +
-      'AppConstants.ATConfig.ATCompilerURL is getEnvConfig("apiServerURL") with no fallback, and ' +
-      'the same key is the wallet\'s NODE_API_URL — so it is either unset (the case in every ' +
-      'shipped env.config.js, leaving the constant null) or it points at a node API, which is not ' +
-      'an AT compiler. With null, CompilerComponent.getCode() calls HttpClient.post(null, ...), ' +
-      'which throws inside Angular\'s xsrfInterceptorFn before anything leaves the browser: no ' +
-      'request, empty output, no alert. getCode() also subscribes without an error callback, so a ' +
-      'reachable-but-failing compiler would be just as silent. Arming this needs a separate ' +
-      'compiler-URL config key plus an error handler in getCode().',
-  );
+/**
+ * No AT compiler service is deployed anywhere, so the tests configure one through
+ * env.config.js (atCompilerURL, separate from the node's apiServerURL) and serve it
+ * from a route.
+ */
+const COMPILER_URL = 'http://at-compiler.test/compile';
 
+async function withCompilerConfig(page: Page, compilerURL: string | null) {
+  await page.route(/\/env\.config\.js(\?.*)?$/, async (route) => {
+    const original = await (await route.fetch()).text();
+    const extra = compilerURL ? `\nwindow.envConfig.atCompilerURL = ${JSON.stringify(compilerURL)};\n` : '';
+    await route.fulfill({ contentType: 'application/javascript', body: original + extra });
+  });
+  await page.reload();
+}
+
+async function openCompilerWithSource(page: Page): Promise<string> {
   await page.goto('#/wallet/at/workbench/dashboard');
   const simpleAtSource = await page.locator('app-dashboard .tab-pane.active pre code').innerText();
-
   await page.goto('#/wallet/at/workbench/compiler');
   const codeInput = page.locator('app-compiler textarea#textCode');
   await expect(codeInput).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
   await codeInput.fill(simpleAtSource);
+  return simpleAtSource;
+}
 
-  await page.locator('app-compiler button.btn-gradient', { hasText: 'Generate' }).click();
+const generate = (page: Page) => page.locator('app-compiler button.btn-gradient', { hasText: 'Generate' }).click();
+const compilerOutput = (page: Page) => page.locator('app-compiler textarea[disabled]');
+
+test('workbench/compiler: Generate sends the source to the configured compiler and shows the machine code', async ({ page }) => {
+  const machineCode = '0123456789abcdef3a00000000';
+  let sentCode = '';
+  await page.route(COMPILER_URL, async (route) => {
+    sentCode = route.request().postData() ?? '';
+    await route.fulfill({ contentType: 'application/json', body: JSON.stringify({ data: machineCode }) });
+  });
+  await withCompilerConfig(page, COMPILER_URL);
+  const source = await openCompilerWithSource(page);
+
+  await generate(page);
+
+  await expect(compilerOutput(page), 'the compiler output does not show the returned machine code').toHaveValue(
+    machineCode,
+    { timeout: DEFAULT_TIMEOUT_MS },
+  );
+  expect(sentCode, 'the source was not posted to the compiler').toContain(source.split('\n')[0].trim());
+  await expect(page.locator('.swal2-popup'), 'a successful compile raised an alert').toHaveCount(0);
+});
+
+test('workbench/compiler: a failing compiler shows an error dialog instead of failing silently', async ({ page }) => {
+  await page.route(COMPILER_URL, (route) => route.fulfill({ status: 500, body: 'boom' }));
+  await withCompilerConfig(page, COMPILER_URL);
+  await openCompilerWithSource(page);
+
+  await generate(page);
+
+  await expect(
+    page.locator('.swal2-popup .swal2-icon.swal2-error'),
+    'a compiler answering 500 left the user without an error dialog',
+  ).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+  await expect(compilerOutput(page)).toHaveValue('');
+});
+
+test('workbench/compiler: without a configured compiler Generate explains it instead of doing nothing', async ({ page }) => {
+  let posts = 0;
+  page.on('request', (r) => {
+    if (r.method() === 'POST' && !r.url().includes('/api')) posts += 1;
+  });
+  await withCompilerConfig(page, null);
+  await openCompilerWithSource(page);
+
+  await generate(page);
 
   await expect(
     page.locator('.swal2-popup'),
-    'the compiler answered with an error alert instead of machine code',
-  ).toHaveCount(0, { timeout: DEFAULT_TIMEOUT_MS });
-
-  await expect
-    .poll(() => page.locator('app-compiler textarea[disabled]').inputValue(), {
-      message: 'the compiler output textarea never received hex machine code for the Simple AT template',
-      timeout: DEFAULT_TIMEOUT_MS * 3,
-    })
-    .toMatch(/^[0-9a-fA-F]{10,}$/);
+    'Generate without atCompilerURL stayed silent',
+  ).toContainText('No AT compiler is configured', { timeout: DEFAULT_TIMEOUT_MS });
+  expect(posts, 'Generate posted somewhere although no compiler is configured').toBe(0);
 });

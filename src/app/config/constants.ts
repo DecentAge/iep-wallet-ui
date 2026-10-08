@@ -76,6 +76,9 @@ export class AppConstants {
     AppConstants.DEFAULT_OPTIONS.NODE_API_URL
   ];
 
+  // peerexplorer-backend (crawled peers incl. their node state), served next to the wallet
+  public static peerExplorerApiURL = getEnvConfig('peerExplorerApiURL') || window.location.origin + '/peerexplorer-backend/api';
+
   public static loginConfig = {
     SESSION_ACCOUNT_DETAILS_KEY: 'account_details',
     SESSION_ACCOUNT_PRIVATE_KEY: 'account_private_key'
@@ -120,7 +123,7 @@ export class AppConstants {
   };
   public static ATConfig = {
     ATEndPoint: 'api',
-    ATCompilerURL: getEnvConfig('apiServerURL'), // 'http://185.61.149.71:10080'
+    ATCompilerURL: getEnvConfig('atCompilerURL'),
   };
 
   public static messagesConfig = {

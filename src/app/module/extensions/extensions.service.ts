@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpProviderService } from "../../services/http-provider.service";
 import { AppConstants } from "../../config/constants";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { NodeService } from "../../services/node.service";
 import { OptionService } from "../../services/option.service";
 import { PeerService } from "../../services/peer.service";
@@ -84,6 +85,7 @@ export class ExtensionsService {
             'order': 'desc'
         };
 
-        return this.http.get(this.peerService.getPeerEndPoints()[0], '', params);
+        return this.http.get(AppConstants.peerExplorerApiURL, 'nodes', params)
+            .pipe(map((peers: any) => (Array.isArray(peers) ? peers : []).map(peer => PeerService.flatten(peer))));
     }
 }

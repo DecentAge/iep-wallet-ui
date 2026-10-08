@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpProviderService } from './http-provider.service';
+import { map } from 'rxjs/operators';
 import {AppConstants} from '../config/constants';
 import {OptionService} from './option.service';
 
@@ -14,11 +15,14 @@ export class PeerService {
     };
 
     searchIp(ip) {
-        let params = {
-            'ip': ip
-        };
-        return this.http.get(this.getPeerEndPoints()[0], '', params );
+        return this.http.get(AppConstants.peerExplorerApiURL, 'nodes', { 'ip': ip })
+            .pipe(map((peer: any) => PeerService.flatten(peer)));
     };
+
+    // the backend nests the node's own report under peerState; the views read it flat
+    static flatten(peer: any) {
+        return { ...peer, ...(peer && peer.peerState || {}), _id: peer && peer._id };
+    }
 
     getPeerEndPoints() {
         return AppConstants.peerEndpoints;

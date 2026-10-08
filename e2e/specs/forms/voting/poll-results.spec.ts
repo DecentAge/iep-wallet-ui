@@ -211,7 +211,7 @@ test('poll-result: the running poll renders 100% on the voted option and 0% on t
   ).toContainText(optionVoted);
 });
 
-test('poll-voters: the voter row opens the castVote transaction in the detail view', async ({ page, request, baseURL }) => {
+test('poll-voters: the voter row opens the castVote transaction in the detail view, fetched once', async ({ page, request, baseURL }) => {
   const apiOrigin = apiOriginFromBaseURL(baseURL);
 
   const votesResp = await request.get(`${apiOrigin}/api`, {
@@ -233,6 +233,11 @@ test('poll-voters: the voter row opens the castVote transaction in the detail vi
       'getPollVotes ran but voterRS is no longer the column prop, or the ?id= queryParam never arrived',
   ).toHaveCount(1, { timeout: DEFAULT_TIMEOUT_MS });
 
+  // poll-voters fetches the transaction and hands it over whole; the detail view must not fetch it again
+  let getTransactionCalls = 0;
+  page.on('request', (r) => {
+    if (/requestType=getTransaction(&|$)/.test(r.url())) getTransactionCalls += 1;
+  });
   await voterRow.locator('button.actionBtn').click();
   await page.waitForURL(/voters\/transaction-details/, { timeout: DEFAULT_TIMEOUT_MS });
 
@@ -252,6 +257,12 @@ test('poll-voters: the voter row opens the castVote transaction in the detail vi
     labelledField(page, 'app-transaction-detail', 'Sender'),
     `the detail view shows the wrong sender for the vote cast by ${TEST_ACCOUNT_1_RS}`,
   ).toHaveText(TEST_ACCOUNT_1_RS);
+
+  expect(
+    getTransactionCalls,
+    'getTransaction ran more than once for one click — the detail view fetched the transaction poll-voters ' +
+      'had already handed over (#69)',
+  ).toBe(1);
 });
 
 test('poll-details: the metadata view matches what getPoll returns', async ({ page, request, baseURL }) => {

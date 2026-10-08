@@ -66,17 +66,17 @@ export class BlockTransactionDetailsComponent implements OnInit {
     searchValue(searchTerm) {
         if (searchTerm) {
             if (searchTerm.toString().startsWith(AppConstants.searchConfig.searchAccountString)) {
-                this.router.navigate(['/extensions/chain-viewer/account-details'], { queryParams: { id: searchTerm } });
+                this.router.navigate(['/tools/chain-viewer/account-details'], { queryParams: { id: searchTerm } });
             } else if (!isNaN(searchTerm)) {
                 DataStoreService.set('transaction-details', { id: searchTerm, type: 'onlyID', view: 'blockDetail' });
-                this.router.navigate(['/extensions/chain-viewer/block-details']);
+                this.router.navigate(['/tools/chain-viewer/block-details']);
             }
         }
     }
 
     searchTransaction(searchTerm) {
         DataStoreService.set('transaction-details', { id: searchTerm, type: 'onlyID', view: 'transactionDetail' });
-        this.router.navigate(['/extensions/chain-viewer/transaction-details']);
+        this.router.navigate(['/tools/chain-viewer/transaction-details']);
     }
 
     goBack(){
