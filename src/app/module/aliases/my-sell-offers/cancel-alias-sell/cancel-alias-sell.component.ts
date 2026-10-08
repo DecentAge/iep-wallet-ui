@@ -48,20 +48,19 @@ export class CancelAliasSellComponent implements OnInit {
             } else {
                 this.data = {
                     'aliasName': params.aliasName,
-                    'priceTQT': params.priceTQT,
-                    'recipientRS': params.aliasId
+                    'priceTQT': params.priceTQT
                 }
             }
         })
         this.alias.name = this.data.aliasName;
         this.alias.priceTQT = this.data.priceTQT;
-        this.alias.recipientRS = this.data.recipientRS;
     }
 
     cancelAlias() {
         const publicKey = this.commonService.getAccountDetailsFromSession('publicKey');
         const name = this.alias.name;
-        const recipientRS = this.alias.recipientRS;
+        // price 0 hands the alias to the recipient; to the own account it only withdraws the offer
+        const recipientRS = this.commonService.getAccountDetailsFromSession('accountRs');
         const fee = 1;
         const secretPhraseHex = this.sessionStorageService.getFromSession(AppConstants.loginConfig.SESSION_ACCOUNT_PRIVATE_KEY);
 

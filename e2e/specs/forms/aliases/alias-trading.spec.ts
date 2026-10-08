@@ -555,10 +555,9 @@ test.describe('aliases: trading', () => {
     ).toHaveCount(0);
   });
 
-  test.fixme(
-    'alias-trading: withdrawing an offer leaves the alias with its owner — cancel-alias-sell.component.ts:52 ' +
-      'passes params.aliasId as the sellAlias recipient, and priceTQT 0 means "hand the alias to the recipient" ' +
-      '(Alias.sellAlias → changeOwner), so a cancel gives the alias away to the phantom account whose numeric id is the aliasId',
+  test(
+    'alias-trading: withdrawing an offer leaves the alias with its owner — the cancel is a sellAlias at price 0 ' +
+      'to the own account (before: to the phantom account whose numeric id is the aliasId, which gave the alias away)',
     async ({ page, request, baseURL, infoAlerts }) => {
       test.setTimeout(150_000);
       const apiOrigin = apiOriginFromBaseURL(baseURL);
