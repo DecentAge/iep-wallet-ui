@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [0.4.3] - 2026-10-08
+### Fixed
+- Fixed the alias trading flow so withdrawing a sale no longer transfers the alias away.
+- Fixed chain-viewer so peers and node details query the peerexplorer backend, the unconfirmed reload and Details buttons work, and block-transaction-details links point to the correct location.
+- Fixed poll-voters to hand over the existing transaction instead of issuing a second fetch.
+- Fixed the asset trader so the compiler URL uses its own config key and errors are surfaced.
+
 ## [0.4.2] - 2026-10-05
 ### Added
 - Show the order total on the trade desk confirm step (#64).
