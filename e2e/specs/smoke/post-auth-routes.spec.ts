@@ -175,17 +175,7 @@ const POST_AUTH_ROUTES: ReadonlyArray<{
   { hash: '#/wallet/tools/chain-viewer',              expect: { selector: 'app-chain-viewer app-blocks' }, url: /#\/wallet\/tools\/chain-viewer\/blocks$/ },
   { hash: '#/wallet/tools/chain-viewer/transactions', expect: { selector: 'app-chain-viewer app-transactions' } },
   { hash: '#/wallet/tools/chain-viewer/unconfirmed',  expect: { selector: 'app-chain-viewer app-unconfirmed' } },
-  {
-    hash: '#/wallet/tools/chain-viewer/peers',
-    expect: { selector: 'app-chain-viewer app-peers' },
-    fixme:
-      'wallet bug: ExtensionsService.getPeers() sends {page, results, filter, order} — the ' +
-      'peerexplorer backend API — to peerService.getPeerEndPoints()[0], which resolves to ' +
-      'AppConstants.DEFAULT_OPTIONS.NODE_API_URL, i.e. the node itself (apiServerURL is absent from ' +
-      'every shipped env.config.js, so it falls back to window.location.origin). The request hits the ' +
-      'node root instead of an API that understands those parameters and the wallet raises an error ' +
-      'dialog. Needs a decision on which backend this view should query.',
-  },
+  { hash: '#/wallet/tools/chain-viewer/peers',        expect: { selector: 'app-chain-viewer app-peers' } },
   { hash: '#/wallet/tools/newsviewer',                expect: { selector: 'app-news-center' } },
   { hash: '#/wallet/tools/service-monitor', expect: { selector: 'app-service-monitor' } },
 
