@@ -93,7 +93,7 @@ export class NodeDetailsComponent implements OnInit {
             ]
         };
 
-        data.map((value, key) => {
+        (data || []).map((value, key) => {
             obj.labels.push(key);
             obj.value[0].data.push(value);
         });
@@ -109,7 +109,7 @@ export class NodeDetailsComponent implements OnInit {
             ]
         };
 
-        data.map((value, key) => {
+        (data || []).map((value, key) => {
             obj.labels.push(key);
 
             let loadAvg = parseFloat( value );

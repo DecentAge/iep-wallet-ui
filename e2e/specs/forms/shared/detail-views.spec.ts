@@ -461,25 +461,33 @@ test('detail-views: the chain-viewer transaction list opens transaction-details'
   ).toHaveText(tx.senderRS);
 });
 
-test.fixme(
-  'detail-views: node-details shows the clicked peer — wallet bug: unreachable. peers.component.ts:107 ' +
-    'is the only navigation into /tools/chain-viewer/node-details, and the peers table it lives in never ' +
-    'gets rows: ExtensionsService.getPeers() queries the node itself instead of the peerexplorer backend ' +
-    'and the view raises an error dialog (see the fixme in specs/smoke/post-auth-routes.spec.ts). ' +
-    'node-details feeds off that same backend via SearchService.searchIp, so it has no data source either.',
-  async ({ page }) => {
-    // Intended assertions once the peers list loads: clicking a peer address must
-    // open node-details for that address.
+test(
+  'detail-views: the chain-viewer peers table lists the crawled peers and opens node-details for the clicked one',
+  async ({ page, request, baseURL }) => {
+    const peerApi = `${apiOriginFromBaseURL(baseURL)}/peerexplorer-backend/api/nodes`;
+    const crawled = await (await request.get(peerApi, { params: { page: 1, results: 10 } })).json();
+    expect(Array.isArray(crawled) && crawled.length, 'the peerexplorer backend reports no peers').toBeTruthy();
+
     await page.goto('#/wallet/tools/chain-viewer/peers');
-    const peerRow = page.locator('app-peers datatable-body-row').first();
-    await expect(peerRow, 'the peers table rendered no row').toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+    const rows = page.locator('app-peers datatable-body-row');
+    await expect(
+      rows,
+      'the peers table does not list the peers the peerexplorer backend reports — getPeers queried the wrong ' +
+        'backend or the rows were not mapped from peerState',
+    ).toHaveCount(crawled.length, { timeout: DEFAULT_TIMEOUT_MS });
+    await expect(page.locator('.swal2-popup'), 'the peers view raised an error dialog').toHaveCount(0);
+
+    const peerRow = rows.first();
     const address = ((await peerRow.locator('a.btn-primary').textContent()) ?? '').trim();
+    expect(address, 'the Node Details column does not show an IP address').toMatch(/^\d+\.\d+\.\d+\.\d+$/);
     await peerRow.locator('a.btn-primary').click();
     await page.waitForURL(/chain-viewer\/node-details\?id=/, { timeout: DEFAULT_TIMEOUT_MS });
     expect(page.url(), 'node-details was opened for a different peer than the one clicked').toContain(address);
+
+    const peer = await (await request.get(peerApi, { params: { ip: address } })).json();
     await expect(
-      page.locator('app-node-details h4').first(),
-      'node-details rendered no data for the clicked peer',
-    ).not.toBeEmpty();
+      page.locator('app-node-details'),
+      `node-details does not show the version ${peer.peerState?.version} the peerexplorer backend reports for ${address}`,
+    ).toContainText(peer.peerState.version, { timeout: DEFAULT_TIMEOUT_MS });
   },
 );

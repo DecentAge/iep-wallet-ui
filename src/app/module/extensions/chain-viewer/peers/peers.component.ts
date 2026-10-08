@@ -75,7 +75,7 @@ export class PeersComponent implements OnInit {
 
             this.barChartLabels[index] = [];
 
-            row.history_SystemLoadAverage.map((value, key) => {
+            (row.history_SystemLoadAverage || []).map((value, key) => {
                 let loadAvg = parseFloat(value);
                 let loadPct = (loadAvg * 100 / (1 * 100) ) * 100;
 
