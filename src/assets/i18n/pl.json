@@ -1836,6 +1836,8 @@
         "control-quorum-number-error-msg": "To ustawienie sterowania jest nieprawidłowe, sprawdź kworum i liczbę kont zatwierdzających.",
         "issue-asset-info-msg": "Uwaga: \"+\" Jednoelementowe aktywa są tymczasowo wyłączone. Proszę sprawdzić forum, aby uzyskać więcej informacji.",
         "at-compiler-output-code-error-msg": "Nie można wygenerować kodu wyjściowego, sprawdź swój kod.",
+        "at-compiler-not-configured-msg": "Dla tego portfela nie skonfigurowano kompilatora AT (atCompilerURL).",
+        "at-compiler-unreachable-msg": "Nie można połączyć się z kompilatorem AT lub zwrócił on błąd.",
         "issue-currency-select-currency-error-msg": "Błąd formularza. Musisz wybrać co najmniej jeden typ waluty",
         "create-escrow-outbound-transaction-success-msg": "To konto nigdy nie miało transakcji wychodzącej. Upewnij się, że to konto jest właściwe. W razie wątpliwości poproś właściciela konta o jego klucz publiczny i dodaj go na poprzedniej stronie do tej transakcji.",
         "unable-stop-funding-monitor": "Nie można zatrzymać monitorowania finansowania. Powód: Zły sekret lub własność.",

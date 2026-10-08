@@ -24,6 +24,10 @@ export class CompilerComponent implements OnInit {
     }
 
     getCode(code) {
+        if (!AppConstants.ATConfig.ATCompilerURL) {
+            this.showError('at-compiler-not-configured-msg');
+            return;
+        }
         let params = new FormData();
 
         params.append('code', code);
@@ -31,19 +35,19 @@ export class CompilerComponent implements OnInit {
 
         this.httpClient.post(AppConstants.ATConfig.ATCompilerURL, params, { responseType: 'json' })
             .subscribe((success: any) => {
-                if (success.data) {
+                if (success && success.data) {
                     this.outputCode = success.data;
                 } else {
-                    this.outputCode = "";
-                    const title: string = this.commonService.translateAlertTitle('Error');
-                    const msg: string = this.commonService.translateInfoMessage('at-compiler-output-code-error-msg');
-                    AlertFunctions.InfoAlertBox(title,
-                        msg,
-                        'OK',
-                        'error').then((isConfirm: any) => {
-                        });
+                    this.showError('at-compiler-output-code-error-msg');
                 }
-            });
+            }, () => this.showError('at-compiler-unreachable-msg'));
     }
 
+    showError(msgKey: string) {
+        this.outputCode = "";
+        const title: string = this.commonService.translateAlertTitle('Error');
+        const msg: string = this.commonService.translateInfoMessage(msgKey);
+        AlertFunctions.InfoAlertBox(title, msg, 'OK', 'error').then(() => {
+        });
+    }
 }
