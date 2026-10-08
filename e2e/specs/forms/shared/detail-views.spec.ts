@@ -369,6 +369,67 @@ test('detail-views: the generator link of block-transaction-details opens accoun
   ).toHaveText(block.generatorRS, { timeout: DEFAULT_TIMEOUT_MS });
 });
 
+/**
+ * Unconfirmed transactions vanish within one devnet block (~3 s), so the list is
+ * served from a route: empty first, then a real transaction in the shape
+ * getUnconfirmedTransactions returns (field `transaction`, like getTransaction).
+ */
+async function routeUnconfirmed(page: Page, request: APIRequestContext, apiOrigin: string) {
+  const { height } = await blockWithTransaction(request, apiOrigin);
+  const block = await api(request, apiOrigin, { requestType: 'getBlock', height, includeTransactions: 'true' });
+  const tx = block.transactions[0];
+  let calls = 0;
+  await page.route(/requestType=getUnconfirmedTransactions/, (route) => {
+    calls += 1;
+    route.fulfill({
+      contentType: 'application/json',
+      body: JSON.stringify({ unconfirmedTransactions: calls === 1 ? [] : [tx], requestProcessingTime: 0 }),
+    });
+  });
+  return { tx, calls: () => calls };
+}
+
+test('detail-views: the reload button of chain-viewer/unconfirmed reloads the list', async ({
+  page,
+  request,
+  baseURL,
+}) => {
+  const { tx, calls } = await routeUnconfirmed(page, request, apiOriginFromBaseURL(baseURL));
+
+  await page.goto('#/wallet/tools/chain-viewer/unconfirmed');
+  const rows = page.locator('app-unconfirmed datatable-body-row');
+  await expect.poll(calls, { message: 'the view never asked for unconfirmed transactions', timeout: DEFAULT_TIMEOUT_MS }).toBe(1);
+  await expect(rows).toHaveCount(0);
+
+  await page.locator('app-unconfirmed a.btn-grey:has(i.fa-refresh)').click();
+  await expect
+    .poll(calls, { message: 'the reload button did not request the unconfirmed transactions again', timeout: DEFAULT_TIMEOUT_MS })
+    .toBe(2);
+  await expect(rows, `the reloaded list does not show transaction ${tx.transaction}`).toHaveCount(1, {
+    timeout: DEFAULT_TIMEOUT_MS,
+  });
+});
+
+test('detail-views: the Details button of chain-viewer/unconfirmed opens transaction-details for the row', async ({
+  page,
+  request,
+  baseURL,
+}) => {
+  const { tx } = await routeUnconfirmed(page, request, apiOriginFromBaseURL(baseURL));
+
+  await page.goto('#/wallet/tools/chain-viewer/unconfirmed');
+  await page.locator('app-unconfirmed a.btn-grey:has(i.fa-refresh)').click();
+  const row = page.locator('app-unconfirmed datatable-body-row').first();
+  await expect(row).toBeVisible({ timeout: DEFAULT_TIMEOUT_MS });
+
+  await row.locator('a.btn-primary:has(i.fa-list-ul)').click();
+  await page.waitForURL(/chain-viewer\/transaction-details/, { timeout: DEFAULT_TIMEOUT_MS });
+  await expect(
+    page.locator('app-transaction-detail h4').nth(TX_ID),
+    `transaction-details does not show the transaction of the clicked row (${tx.transaction})`,
+  ).toHaveText(tx.transaction, { timeout: DEFAULT_TIMEOUT_MS });
+});
+
 test('detail-views: the chain-viewer transaction list opens transaction-details', async ({ page, request, baseURL }) => {
   const apiOrigin = apiOriginFromBaseURL(baseURL);
 
