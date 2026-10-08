@@ -462,37 +462,6 @@ test('detail-views: the chain-viewer transaction list opens transaction-details'
 });
 
 test.fixme(
-  'detail-views: the full-object branch of transaction-detail renders a transaction handed over whole — ' +
-    'wallet bug: unreachable. All 36 DataStoreService.set("transaction-details", …) calls in the wallet ' +
-    'pass type:"onlyID", so the `sharedData.type !== "onlyID"` branch (transaction-detail.component.ts:34) ' +
-    'is dead code. Its one intended caller is commented out at poll-voters.component.ts:49, which still ' +
-    'fetches the transaction via searchTransactionById, discards the result and hands over the bare id — ' +
-    'so the detail view fetches the very same transaction a second time.',
-  async ({ page }) => {
-    // Intended behaviour once poll-voters hands the fetched object over again:
-    // the view renders it without a second round trip to the node.
-    let refetches = 0;
-    page.on('request', (r) => {
-      if (r.url().includes('requestType=getTransaction')) refetches += 1;
-    });
-    await page.goto('#/wallet/voting/show-polls/all');
-    const voterDetails = page.locator('app-poll-voters button.actionBtn').first();
-    await expect(voterDetails, 'the poll-voters list rendered no details action').toBeVisible({
-      timeout: DEFAULT_TIMEOUT_MS,
-    });
-    await voterDetails.click();
-    await page.waitForURL(/voters\/transaction-details/, { timeout: DEFAULT_TIMEOUT_MS });
-
-    const fields = page.locator('app-transaction-detail h4');
-    await expect(
-      fields.nth(TX_ID),
-      'the transaction handed over as a whole object was not rendered',
-    ).toHaveText(/^\s*\d+\s*$/, { timeout: DEFAULT_TIMEOUT_MS });
-    expect(refetches, 'the view re-fetched a transaction it had been handed in full').toBe(0);
-  },
-);
-
-test.fixme(
   'detail-views: node-details shows the clicked peer — wallet bug: unreachable. peers.component.ts:107 ' +
     'is the only navigation into /tools/chain-viewer/node-details, and the peers table it lives in never ' +
     'gets rows: ExtensionsService.getPeers() queries the node itself instead of the peerexplorer backend ' +
