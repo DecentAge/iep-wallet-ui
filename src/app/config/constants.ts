@@ -123,7 +123,7 @@ export class AppConstants {
   };
   public static ATConfig = {
     ATEndPoint: 'api',
-    ATCompilerURL: getEnvConfig('apiServerURL'), // 'http://185.61.149.71:10080'
+    ATCompilerURL: getEnvConfig('atCompilerURL'),
   };
 
   public static messagesConfig = {

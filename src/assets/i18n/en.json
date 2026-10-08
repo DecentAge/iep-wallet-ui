@@ -1887,6 +1887,8 @@
         "control-quorum-number-error-msg": "This control setup is not valid, please check quorum and number of approval accounts.",
         "issue-asset-info-msg": "Note: ' + 'Singleton Assets are temporarily disabled. Please see forum for more informations.",
         "at-compiler-output-code-error-msg": "Unable to generate Output code, please check your code.",
+        "at-compiler-not-configured-msg": "No AT compiler is configured for this wallet (atCompilerURL).",
+        "at-compiler-unreachable-msg": "The AT compiler could not be reached or returned an error.",
         "issue-currency-select-currency-error-msg": "Form error. At least one currency type must be selected",
         "create-escrow-outbound-transaction-success-msg": "This account never had an outbound transaction. Make sure this account is the right one. In doubt, ask the account holder for his public key and add it on the former page to this transaction.",
         "unable-stop-funding-monitor": "Unable to stop funding monitor. Reason: Wrong secret or property.",
