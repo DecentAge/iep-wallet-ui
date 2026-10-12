@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.4.4] - 2026-10-12
+### Changed
+- Maintenance and internal updates.
+
 ## [0.4.3] - 2026-10-08
 ### Fixed
 - Fixed the alias trading flow so withdrawing a sale no longer transfers the alias away.
