@@ -9,6 +9,13 @@ import { environment } from './environments/environment';
 // ng2-charts (<canvas baseChart>) can render (e.g. the dashboard XIN/USD chart).
 Chart.register(...registerables);
 
+// CSP blocks javascript: URLs; the (click) handlers still run.
+document.addEventListener('click', (e) => {
+  if ((e.target as Element)?.closest?.('a[href^="javascript:"]')) {
+    e.preventDefault();
+  }
+}, true);
+
 if (environment.production) {
   enableProdMode();
 }
