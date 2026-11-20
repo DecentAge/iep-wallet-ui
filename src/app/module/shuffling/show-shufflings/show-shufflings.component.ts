@@ -4,7 +4,8 @@ import { Subject } from 'rxjs';
 @Component({
     selector: 'app-show-shufflings',
     templateUrl: './show-shufflings.component.html',
-    styleUrls: ['./show-shufflings.component.scss']
+    styleUrls: ['./show-shufflings.component.scss'],
+    standalone: false
 })
 export class ShowShufflingsComponent implements OnInit {
     routeChange = new Subject();

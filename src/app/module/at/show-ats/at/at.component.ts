@@ -6,9 +6,10 @@ import { DataStoreService } from '../../../../services/data-store.service';
 import { AppConstants } from '../../../../config/constants';
 
 @Component({
-  selector: 'app-at',
-  templateUrl: './at.component.html',
-  styleUrls: ['./at.component.scss']
+    selector: 'app-at',
+    templateUrl: './at.component.html',
+    styleUrls: ['./at.component.scss'],
+    standalone: false
 })
 export class AtComponent implements OnInit {
 

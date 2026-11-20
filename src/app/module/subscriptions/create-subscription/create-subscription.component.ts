@@ -14,7 +14,8 @@ import { AliasesService } from '../../aliases/aliases.service';
 @Component({
     selector: 'app-create-subscription',
     templateUrl: './create-subscription.component.html',
-    styleUrls: ['./create-subscription.component.scss']
+    styleUrls: ['./create-subscription.component.scss'],
+    standalone: false
 })
 export class CreateSubscriptionComponent implements OnInit {
 

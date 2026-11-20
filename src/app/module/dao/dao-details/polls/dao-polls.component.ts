@@ -8,7 +8,8 @@ import {ColumnMode} from '@swimlane/ngx-datatable';
 @Component({
     selector: 'app-dao-polls',
     templateUrl: './dao-polls.component.html',
-    styleUrls: ['./dao-polls.component.scss']
+    styleUrls: ['./dao-polls.component.scss'],
+    standalone: false
 })
 export class DaoPollsComponent implements OnInit {
 

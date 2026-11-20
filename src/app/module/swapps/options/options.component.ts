@@ -11,7 +11,8 @@ import {NgbAccordionModule} from "@ng-bootstrap/ng-bootstrap";
 @Component({
     selector: 'app-options',
     templateUrl: './options.component.html',
-    styleUrls: ['./options.component.scss']
+    styleUrls: ['./options.component.scss'],
+    standalone: false
 })
 export class OptionsComponent implements OnInit {
     connectedURL = '';

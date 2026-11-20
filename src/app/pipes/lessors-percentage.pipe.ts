@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'lessorsPercentage'
+    name: 'lessorsPercentage',
+    standalone: false
 })
 export class LessorsPercentagePipe implements PipeTransform {
 

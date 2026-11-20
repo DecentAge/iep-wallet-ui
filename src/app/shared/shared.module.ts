@@ -45,7 +45,7 @@ import { MomentModule } from 'ngx-moment';
 import { TransactionTypePipe } from '../pipes/transaction-type.pipe';
 import { AccountDetailComponent } from './search/account-detail/account-detail.component';
 import { TransactionDetailComponent } from './search/transaction-detail/transaction-detail.component';
-import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeComponent } from 'angularx-qrcode';
 import { SearchService } from './search/search.service';
 import { TxDirectionPipe } from '../pipes/tx-direction.pipe';
 import { SupplyPipe } from '../pipes/supply.pipe';
@@ -128,7 +128,7 @@ import { LocalNodeNoticeComponent } from './local-node-notice/local-node-notice.
         PollDaysPipe,
         BookmarkListComponent,
         TransactionTypePipe,
-        QRCodeModule,
+        QRCodeComponent,
         TxDirectionPipe,
         SupplyPipe,
         PriceTqtPipe,
@@ -175,7 +175,7 @@ import { LocalNodeNoticeComponent } from './local-node-notice/local-node-notice.
         UiSwitchModule,
         NgChartsModule,
         MomentModule,
-        QRCodeModule,
+        QRCodeComponent,
     ],
     declarations: [
         ProgressSyncComponent,

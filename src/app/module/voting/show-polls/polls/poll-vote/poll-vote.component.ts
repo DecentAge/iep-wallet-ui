@@ -12,7 +12,8 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-poll-vote',
     templateUrl: './poll-vote.component.html',
-    styleUrls: ['./poll-vote.component.scss']
+    styleUrls: ['./poll-vote.component.scss'],
+    standalone: false
 })
 export class PollVoteComponent implements OnInit {
     poll: any;

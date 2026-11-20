@@ -8,7 +8,8 @@ import { Page } from '../../../../../config/page';
 @Component({
     selector: 'app-reserve-founders',
     templateUrl: './reserve-founders.component.html',
-    styleUrls: ['./reserve-founders.component.scss']
+    styleUrls: ['./reserve-founders.component.scss'],
+    standalone: false
 })
 export class ReserveFoundersComponent implements OnInit {
 

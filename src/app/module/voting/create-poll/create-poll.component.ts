@@ -13,7 +13,8 @@ import {VotingModels} from '../enums';
 @Component({
     selector: 'app-create-poll',
     templateUrl: './create-poll.component.html',
-    styleUrls: ['./create-poll.component.scss']
+    styleUrls: ['./create-poll.component.scss'],
+    standalone: false
 })
 export class CreatePollComponent implements OnInit {
     votingModel: number;

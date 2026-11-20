@@ -14,7 +14,8 @@ import { CommonService } from '../../../../../services/common.service';
 @Component({
     selector: 'app-delete-currency',
     templateUrl: './delete-currency.component.html',
-    styleUrls: ['./delete-currency.component.scss']
+    styleUrls: ['./delete-currency.component.scss'],
+    standalone: false
 })
 export class DeleteCurrencyComponent implements OnInit {
 

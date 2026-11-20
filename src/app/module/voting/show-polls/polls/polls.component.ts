@@ -12,7 +12,8 @@ import {DaoService} from 'app/module/dao/dao.service';
 @Component({
     selector: 'app-polls',
     templateUrl: './polls.component.html',
-    styleUrls: ['./polls.component.scss']
+    styleUrls: ['./polls.component.scss'],
+    standalone: false
 })
 export class PollsComponent implements OnInit {
 

@@ -12,7 +12,8 @@ import { AppConstants } from '../../../../config/constants';
 @Component({
     selector: 'app-edit-alias',
     templateUrl: './edit-alias.component.html',
-    styleUrls: ['./edit-alias.component.scss']
+    styleUrls: ['./edit-alias.component.scss'],
+    standalone: false
 })
 export class EditAliasComponent implements OnInit {
 

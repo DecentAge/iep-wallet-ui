@@ -20,7 +20,8 @@ export class Page {
 @Component({
     selector: 'app-poll-voters',
     templateUrl: './poll-voters.component.html',
-    styleUrls: ['./poll-voters.component.scss']
+    styleUrls: ['./poll-voters.component.scss'],
+    standalone: false
 })
 export class PollVotersComponent implements OnInit {
     voters: any;

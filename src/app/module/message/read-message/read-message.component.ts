@@ -12,7 +12,8 @@ import { DataStoreService } from "../../../services/data-store.service";
 @Component({
     selector: 'app-read-message',
     templateUrl: './read-message.component.html',
-    styleUrls: ['./read-message.component.scss']
+    styleUrls: ['./read-message.component.scss'],
+    standalone: false
 })
 export class ReadMessageComponent implements OnInit {
     message: any = '';

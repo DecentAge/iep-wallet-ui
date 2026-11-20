@@ -11,7 +11,8 @@ import * as alertFunctions from '../../../shared/data/sweet-alerts';
 @Component({
     selector: 'app-cancel-subscriptions',
     templateUrl: './cancel-subscriptions.component.html',
-    styleUrls: ['./cancel-subscriptions.component.scss']
+    styleUrls: ['./cancel-subscriptions.component.scss'],
+    standalone: false
 })
 export class CancelSubscriptionsComponent implements OnInit {
 

@@ -5,7 +5,8 @@ import { Subject } from 'rxjs';
 @Component({
     selector: 'app-show-polls',
     templateUrl: './show-polls.component.html',
-    styleUrls: ['./show-polls.component.scss']
+    styleUrls: ['./show-polls.component.scss'],
+    standalone: false
 })
 export class ShowPollsComponent implements OnInit {
 

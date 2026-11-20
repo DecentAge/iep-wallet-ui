@@ -12,7 +12,8 @@ import { AppConstants } from '../../../../config/constants';
 @Component({
     selector: 'app-sell-alias',
     templateUrl: './sell-alias.component.html',
-    styleUrls: ['./sell-alias.component.scss']
+    styleUrls: ['./sell-alias.component.scss'],
+    standalone: false
 })
 export class SellAliasComponent implements OnInit {
     openBookMarks: boolean = false;

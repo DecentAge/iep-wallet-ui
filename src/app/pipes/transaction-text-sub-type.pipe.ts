@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'transactionTextSubType'
+    name: 'transactionTextSubType',
+    standalone: false
 })
 export class TransactionTextSubTypePipe implements PipeTransform {
 

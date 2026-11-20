@@ -12,7 +12,8 @@ import * as alertFunctions from '../../../../shared/data/sweet-alerts';
 @Component({
     selector: 'app-cancel-alias-sell',
     templateUrl: './cancel-alias-sell.component.html',
-    styleUrls: ['./cancel-alias-sell.component.scss']
+    styleUrls: ['./cancel-alias-sell.component.scss'],
+    standalone: false
 })
 export class CancelAliasSellComponent implements OnInit {
 

@@ -3,9 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import { AtService } from '../../at.service';
 @Component({
-  selector: 'app-at-details',
-  templateUrl: './at-details.component.html',
-  styleUrls: ['./at-details.component.scss']
+    selector: 'app-at-details',
+    templateUrl: './at-details.component.html',
+    styleUrls: ['./at-details.component.scss'],
+    standalone: false
 })
 export class AtDetailsComponent implements OnInit {
 

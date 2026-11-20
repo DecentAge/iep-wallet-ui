@@ -12,7 +12,8 @@ import { AppConstants } from '../../../../config/constants';
 @Component({
     selector: 'app-delete-alias',
     templateUrl: './delete-alias.component.html',
-    styleUrls: ['./delete-alias.component.scss']
+    styleUrls: ['./delete-alias.component.scss'],
+    standalone: false
 })
 export class DeleteAliasComponent implements OnInit {
 

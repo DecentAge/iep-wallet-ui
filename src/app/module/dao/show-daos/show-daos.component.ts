@@ -6,7 +6,8 @@ import {DaoService} from '../dao.service';
 @Component({
     selector: 'app-show-daos',
     templateUrl: './show-daos.component.html',
-    styleUrls: ['./show-daos.component.scss']
+    styleUrls: ['./show-daos.component.scss'],
+    standalone: false
 })
 export class ShowDaosComponent implements OnInit, OnDestroy {
 

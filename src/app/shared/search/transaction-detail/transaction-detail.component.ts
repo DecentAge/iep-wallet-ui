@@ -7,7 +7,8 @@ import {SearchService} from '../search.service';
 @Component({
     selector: 'app-transaction-detail',
     templateUrl: './transaction-detail.component.html',
-    styleUrls: ['./transaction-detail.component.scss']
+    styleUrls: ['./transaction-detail.component.scss'],
+    standalone: false
 })
 export class TransactionDetailComponent implements OnInit {
 

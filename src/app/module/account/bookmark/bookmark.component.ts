@@ -3,9 +3,10 @@ import {AddressService} from '../address.service';
 import {Subject} from 'rxjs';
 
 @Component({
-  selector: 'app-bookmark',
-  templateUrl: './bookmark.component.html',
-  styleUrls: ['./bookmark.component.scss']
+    selector: 'app-bookmark',
+    templateUrl: './bookmark.component.html',
+    styleUrls: ['./bookmark.component.scss'],
+    standalone: false
 })
 export class BookmarkComponent implements OnInit {
   bookMarkUpdateSubject: Subject<any> = new Subject();

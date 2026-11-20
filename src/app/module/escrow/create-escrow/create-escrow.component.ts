@@ -14,7 +14,8 @@ import { AliasesService } from "../../aliases/aliases.service";
 @Component({
     selector: "app-create-escrow",
     templateUrl: "./create-escrow.component.html",
-    styleUrls: ["./create-escrow.component.scss"]
+    styleUrls: ["./create-escrow.component.scss"],
+    standalone: false
 })
 export class CreateEscrowComponent implements OnInit {
     openBookMarks: boolean = false;

@@ -14,7 +14,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-trade-desk-buy',
     templateUrl: './trade-desk-buy.component.html',
-    styleUrls: ['./trade-desk-buy.component.scss']
+    styleUrls: ['./trade-desk-buy.component.scss'],
+    standalone: false
 })
 export class TradeDeskBuyComponent implements OnInit {
 

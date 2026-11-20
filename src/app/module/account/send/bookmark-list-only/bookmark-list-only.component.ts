@@ -3,9 +3,10 @@ import {Location} from '@angular/common';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-bookmark-list-only',
-  templateUrl: './bookmark-list-only.component.html',
-  styleUrls: ['./bookmark-list-only.component.scss']
+    selector: 'app-bookmark-list-only',
+    templateUrl: './bookmark-list-only.component.html',
+    styleUrls: ['./bookmark-list-only.component.scss'],
+    standalone: false
 })
 export class BookmarkListOnlyComponent implements OnInit {
   componentName = '';

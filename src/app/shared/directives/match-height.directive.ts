@@ -4,7 +4,8 @@ import {
 } from '@angular/core';
 
 @Directive({
-    selector: '[matchHeight]'
+    selector: '[matchHeight]',
+    standalone: false
 })
 export class MatchHeightDirective implements AfterViewInit {
     // class name to match height

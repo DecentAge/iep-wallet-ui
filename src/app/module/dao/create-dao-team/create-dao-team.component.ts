@@ -8,7 +8,8 @@ import {map} from 'rxjs/operators';
 @Component({
     selector: 'app-create-dao-team',
     templateUrl: './create-dao-team.component.html',
-    styleUrls: ['./create-dao-team.component.scss']
+    styleUrls: ['./create-dao-team.component.scss'],
+    standalone: false
 })
 export class CreateDaoTeamComponent implements OnInit, AfterViewInit {
 

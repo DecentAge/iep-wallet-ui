@@ -15,7 +15,8 @@ import { Subject } from 'rxjs';
 @Component({
     selector: 'app-dividend-payment',
     templateUrl: './dividend-payment.component.html',
-    styleUrls: ['./dividend-payment.component.scss']
+    styleUrls: ['./dividend-payment.component.scss'],
+    standalone: false
 })
 export class DividendPaymentComponent implements OnInit {
     routeChange = new Subject();

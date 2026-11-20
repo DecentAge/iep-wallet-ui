@@ -14,7 +14,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-send-deferred',
     templateUrl: './send-deferred.component.html',
-    styleUrls: ['./send-deferred.component.scss']
+    styleUrls: ['./send-deferred.component.scss'],
+    standalone: false
 })
 export class SendDeferredComponent implements OnInit {
     t: any;

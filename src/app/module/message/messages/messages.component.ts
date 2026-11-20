@@ -9,7 +9,8 @@ import {Page} from '../../../config/page';
     selector: 'app-messages',
     templateUrl: './messages.component.html',
     styleUrls: ['./messages.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MessagesComponent implements OnInit {
     page = new Page();

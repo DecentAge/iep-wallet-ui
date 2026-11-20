@@ -9,7 +9,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 @Component({
     selector: 'app-dao-team-members',
     templateUrl: './dao-team-members.component.html',
-    styleUrls: ['./dao-team-members.component.scss']
+    styleUrls: ['./dao-team-members.component.scss'],
+    standalone: false
 })
 export class DaoTeamMembersComponent implements OnInit {
 

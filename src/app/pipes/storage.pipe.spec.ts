@@ -1,4 +1,3 @@
-import 'jasmine';
 import { StoragePipe } from './storage.pipe';
 
 describe('StoragePipe', () => {

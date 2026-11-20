@@ -10,7 +10,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 @Component({
     selector: 'app-teams',
     templateUrl: './teams.component.html',
-    styleUrls: ['./teams.component.scss']
+    styleUrls: ['./teams.component.scss'],
+    standalone: false
 })
 export class TeamsComponent implements OnInit {
 

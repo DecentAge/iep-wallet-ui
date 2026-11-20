@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'txIsValid'
+    name: 'txIsValid',
+    standalone: false
 })
 export class TxIsValidPipe implements PipeTransform {
 

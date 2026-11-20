@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'transactionConf'
+    name: 'transactionConf',
+    standalone: false
 })
 export class TransactionConfPipe implements PipeTransform {
 

@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'shareToQuantity'
+    name: 'shareToQuantity',
+    standalone: false
 })
 export class ShareToQuantityPipe implements PipeTransform {
 

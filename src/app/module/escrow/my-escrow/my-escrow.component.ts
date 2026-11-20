@@ -9,7 +9,7 @@ import {Page} from '../../../config/page';
     selector: 'app-my-escrow',
     templateUrl: './my-escrow.component.html',
     styleUrls: ['./my-escrow.component.scss'],
-
+    standalone: false
 })
 export class MyEscrowComponent implements OnInit {
     page = new Page();

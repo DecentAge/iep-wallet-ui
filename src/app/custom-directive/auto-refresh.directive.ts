@@ -3,7 +3,8 @@ import { OptionService } from "../services/option.service";
 import { CommonService } from "../services/common.service";
 
 @Directive({
-  selector: '[autoRefresh]'
+    selector: '[autoRefresh]',
+    standalone: false
 })
 export class AutoRefreshDirective {
 

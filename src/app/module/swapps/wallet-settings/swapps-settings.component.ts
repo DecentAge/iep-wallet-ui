@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { SwappService } from '../../../services/swapp.service';
 
 @Component({
-  selector: 'app-wallet-settings',
-  templateUrl: './swapps-settings.component.html',
-  styleUrls: ['./swapps-settings.component.scss']
+    selector: 'app-wallet-settings',
+    templateUrl: './swapps-settings.component.html',
+    styleUrls: ['./swapps-settings.component.scss'],
+    standalone: false
 })
 export class WalletSettingsComponent implements OnInit {
 

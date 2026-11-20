@@ -4,7 +4,8 @@ import { Extensions } from "../overview.config";
 @Component({
     selector: 'app-poc',
     templateUrl: './poc.component.html',
-    styleUrls: ['./poc.component.scss']
+    styleUrls: ['./poc.component.scss'],
+    standalone: false
 })
 export class PocComponent implements OnInit {
     extentionsInProofOfConcept: any[] = [];

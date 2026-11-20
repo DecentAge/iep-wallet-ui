@@ -2,7 +2,8 @@ import {Directive, ElementRef, Input, TemplateRef, ViewContainerRef} from '@angu
 import {SwappService} from '../services/swapp.service';
 
 @Directive({
-    selector: '[isAppEnabled]'
+    selector: '[isAppEnabled]',
+    standalone: false
 })
 export class IsAppEnabledDirective {
 

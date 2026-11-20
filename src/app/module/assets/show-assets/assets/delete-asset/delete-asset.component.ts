@@ -12,7 +12,8 @@ import { Location } from '@angular/common';
 @Component({
     selector: 'app-delete-asset',
     templateUrl: './delete-asset.component.html',
-    styleUrls: ['./delete-asset.component.scss']
+    styleUrls: ['./delete-asset.component.scss'],
+    standalone: false
 })
 export class DeleteAssetComponent implements OnInit {
 

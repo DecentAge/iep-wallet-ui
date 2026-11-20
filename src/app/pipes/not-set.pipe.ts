@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'notSet'
+    name: 'notSet',
+    standalone: false
 })
 export class NotSetPipe implements PipeTransform {
 

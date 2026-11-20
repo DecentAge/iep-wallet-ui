@@ -13,7 +13,8 @@ import {Directive, TemplateRef} from '@angular/core';
  * ```
  */
 @Directive({
-  selector: 'ng-template[awStepSymbol], ng-template[awWizardStepSymbol]'
+    selector: 'ng-template[awStepSymbol], ng-template[awWizardStepSymbol]',
+    standalone: false
 })
 export class WizardStepSymbolDirective {
   /**

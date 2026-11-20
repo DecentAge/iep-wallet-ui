@@ -7,7 +7,8 @@ import { Page } from '../../../../config/page';
 @Component({
     selector: 'app-shuffling-participants',
     templateUrl: './shuffling-participants.component.html',
-    styleUrls: ['./shuffling-participants.component.scss']
+    styleUrls: ['./shuffling-participants.component.scss'],
+    standalone: false
 })
 export class ShufflingParticipantsComponent implements OnInit {
 

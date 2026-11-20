@@ -9,7 +9,8 @@ var fireRefreshEventOnWindow = function () {
 @Component({
     selector: 'app-horizontal-layout',
     templateUrl: './horizontal-layout.component.html',
-    styleUrls: ['./horizontal-layout.component.scss']
+    styleUrls: ['./horizontal-layout.component.scss'],
+    standalone: false
 })
 
 export class HorizontalLayoutComponent implements OnInit {

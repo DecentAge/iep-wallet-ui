@@ -1,4 +1,3 @@
-import 'jasmine';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PublishExchangeOfferComponent } from './publish-exchange-offer.component';

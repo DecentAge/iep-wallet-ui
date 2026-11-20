@@ -7,9 +7,10 @@ import {AccountService} from '../../../../account/account.service';
 import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-expected-asset-deletes',
-  templateUrl: './expected-asset-deletes.component.html',
-  styleUrls: ['./expected-asset-deletes.component.scss']
+    selector: 'app-expected-asset-deletes',
+    templateUrl: './expected-asset-deletes.component.html',
+    styleUrls: ['./expected-asset-deletes.component.scss'],
+    standalone: false
 })
 export class ExpectedAssetDeletesComponent implements OnInit {
     deletes: any = [];

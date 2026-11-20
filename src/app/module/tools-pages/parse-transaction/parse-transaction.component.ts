@@ -7,7 +7,8 @@ import { CommonService } from '../../../services/common.service';
 @Component({
     selector: 'app-parse-transaction',
     templateUrl: './parse-transaction.component.html',
-    styleUrls: ['./parse-transaction.component.scss']
+    styleUrls: ['./parse-transaction.component.scss'],
+    standalone: false
 })
 export class ParseTransactionComponent implements OnInit {
     buttonColor: any = 'primary';

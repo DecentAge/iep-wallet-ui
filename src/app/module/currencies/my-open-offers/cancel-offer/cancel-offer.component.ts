@@ -14,7 +14,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-cancel-offer',
     templateUrl: './cancel-offer.component.html',
-    styleUrls: ['./cancel-offer.component.scss']
+    styleUrls: ['./cancel-offer.component.scss'],
+    standalone: false
 })
 export class CancelOfferComponent implements OnInit {
 

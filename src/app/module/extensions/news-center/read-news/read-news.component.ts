@@ -5,7 +5,8 @@ import { NewsCenterService } from "../news-center.service";
 @Component({
     selector: 'app-read-news',
     templateUrl: './read-news.component.html',
-    styleUrls: ['./read-news.component.scss']
+    styleUrls: ['./read-news.component.scss'],
+    standalone: false
 })
 export class ReadNewsComponent implements OnInit, OnDestroy {
     private subscription: any;

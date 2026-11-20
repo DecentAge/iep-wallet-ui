@@ -13,7 +13,8 @@ import { CommonService } from "../../../../services/common.service";
 @Component({
     selector: "app-sign-escrow",
     templateUrl: "./sign-escrow.component.html",
-    styleUrls: ["./sign-escrow.component.scss"]
+    styleUrls: ["./sign-escrow.component.scss"],
+    standalone: false
 })
 export class SignEscrowComponent implements OnInit {
     tx_fee: any;

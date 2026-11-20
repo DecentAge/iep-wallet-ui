@@ -4,9 +4,10 @@ import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
 
 @Component({
-  selector: 'app-account-detail',
-  templateUrl: './account-detail.component.html',
-  styleUrls: ['./account-detail.component.scss']
+    selector: 'app-account-detail',
+    templateUrl: './account-detail.component.html',
+    styleUrls: ['./account-detail.component.scss'],
+    standalone: false
 })
 export class AccountDetailComponent implements OnInit {
   params: any = '';

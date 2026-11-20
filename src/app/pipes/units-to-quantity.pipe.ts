@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'unitsToQuantity'
+    name: 'unitsToQuantity',
+    standalone: false
 })
 export class UnitsToQuantityPipe implements PipeTransform {
 

@@ -8,7 +8,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-signup-confirm',
     templateUrl: './signup-confirm.component.html',
-    styleUrls: ['./signup-confirm.component.scss']
+    styleUrls: ['./signup-confirm.component.scss'],
+    standalone: false
 })
 export class SignupConfirmComponent implements OnInit {
     secret: string;

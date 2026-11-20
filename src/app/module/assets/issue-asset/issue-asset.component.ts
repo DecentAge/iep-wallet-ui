@@ -13,7 +13,8 @@ import {TranslateService} from '@ngx-translate/core';
 @Component({
     selector: 'app-issue-asset',
     templateUrl: './issue-asset.component.html',
-    styleUrls: ['./issue-asset.component.scss']
+    styleUrls: ['./issue-asset.component.scss'],
+    standalone: false
 })
 export class IssueAssetComponent implements OnInit {
 

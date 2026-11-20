@@ -3,7 +3,8 @@ import { NodeService } from '../../services/node.service';
 
 @Component({
     selector: 'app-local-node-notice',
-    templateUrl: './local-node-notice.component.html'
+    templateUrl: './local-node-notice.component.html',
+    standalone: false
 })
 export class LocalNodeNoticeComponent implements OnInit {
     @Input() messageKey = 'common.local-node-required';

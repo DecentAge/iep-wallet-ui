@@ -5,7 +5,8 @@ import {DaoService} from '../dao.service';
 @Component({
     selector: 'app-select-dao-team',
     templateUrl: './select-dao-team.component.html',
-    styleUrls: ['./select-dao-team.component.scss']
+    styleUrls: ['./select-dao-team.component.scss'],
+    standalone: false
 })
 export class SelectDaoTeamComponent implements OnInit {
 

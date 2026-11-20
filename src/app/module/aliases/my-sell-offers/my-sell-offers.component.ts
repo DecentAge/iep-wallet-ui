@@ -18,7 +18,8 @@ export class Page {
 @Component({
     selector: 'app-my-sell-offers',
     templateUrl: './my-sell-offers.component.html',
-    styleUrls: ['./my-sell-offers.component.scss']
+    styleUrls: ['./my-sell-offers.component.scss'],
+    standalone: false
 })
 export class MySellOffersComponent implements OnInit {
     page = new Page();

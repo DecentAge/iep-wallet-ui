@@ -14,7 +14,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-send-secret',
     templateUrl: './send-secret.component.html',
-    styleUrls: ['./send-secret.component.scss']
+    styleUrls: ['./send-secret.component.scss'],
+    standalone: false
 })
 export class SendSecretComponent implements OnInit {
 

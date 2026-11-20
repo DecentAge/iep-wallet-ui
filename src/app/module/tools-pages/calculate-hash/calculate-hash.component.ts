@@ -4,9 +4,10 @@ import * as alertFunctions from "../../../shared/data/sweet-alerts";
 import { CommonService } from '../../../services/common.service';
 
 @Component({
-  selector: 'app-calculate-hash',
-  templateUrl: './calculate-hash.component.html',
-  styleUrls: ['./calculate-hash.component.scss']
+    selector: 'app-calculate-hash',
+    templateUrl: './calculate-hash.component.html',
+    styleUrls: ['./calculate-hash.component.scss'],
+    standalone: false
 })
 export class CalculateHashComponent implements OnInit {
 

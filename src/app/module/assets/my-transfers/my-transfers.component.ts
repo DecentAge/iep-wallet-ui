@@ -9,7 +9,8 @@ import { DataStoreService } from '../../../services/data-store.service';
 @Component({
     selector: 'app-my-transfers',
     templateUrl: './my-transfers.component.html',
-    styleUrls: ['./my-transfers.component.scss']
+    styleUrls: ['./my-transfers.component.scss'],
+    standalone: false
 })
 export class MyTransfersComponent implements OnInit {
 

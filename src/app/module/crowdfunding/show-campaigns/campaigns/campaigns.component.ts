@@ -8,9 +8,10 @@ import { AppConstants } from "../../../../config/constants";
 import { Page } from "../../../../config/page";
 
 @Component({
-  selector: "app-campaigns",
-  templateUrl: "./campaigns.component.html",
-  styleUrls: ["./campaigns.component.scss"]
+    selector: "app-campaigns",
+    templateUrl: "./campaigns.component.html",
+    styleUrls: ["./campaigns.component.scss"],
+    standalone: false
 })
 export class CampaignsComponent implements OnInit {
   page = new Page();

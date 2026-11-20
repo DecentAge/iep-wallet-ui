@@ -9,7 +9,8 @@ import { DataStoreService } from '../../../services/data-store.service';
 @Component({
     selector: 'app-last-trade',
     templateUrl: './last-trades.component.html',
-    styleUrls: ['./last-trades.component.scss']
+    styleUrls: ['./last-trades.component.scss'],
+    standalone: false
 })
 export class LastTradesComponent implements OnInit {
     page = new Page();

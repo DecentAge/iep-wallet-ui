@@ -39,11 +39,12 @@ import {WizardStep} from '../util/wizard-step.interface';
  * @author Marc Arndt
  */
 @Directive({
-  selector: '[awWizardCompletionStep]',
-  providers: [
-    {provide: WizardStep, useExisting: forwardRef(() => WizardCompletionStepDirective)},
-    {provide: WizardCompletionStep, useExisting: forwardRef(() => WizardCompletionStepDirective)}
-  ]
+    selector: '[awWizardCompletionStep]',
+    providers: [
+        { provide: WizardStep, useExisting: forwardRef(() => WizardCompletionStepDirective) },
+        { provide: WizardCompletionStep, useExisting: forwardRef(() => WizardCompletionStepDirective) }
+    ],
+    standalone: false
 })
 export class WizardCompletionStepDirective extends WizardCompletionStep {
 }

@@ -1,4 +1,3 @@
-import 'jasmine';
 
 import { ShowAtsComponent } from './show-ats.component';
 import {waitForAsync, ComponentFixture, TestBed} from "@angular/core/testing";

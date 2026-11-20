@@ -7,9 +7,10 @@ import {AccountService} from '../../../../account/account.service';
 import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-expected-order-cancellation',
-  templateUrl: './expected-order-cancellation.component.html',
-  styleUrls: ['./expected-order-cancellation.component.scss']
+    selector: 'app-expected-order-cancellation',
+    templateUrl: './expected-order-cancellation.component.html',
+    styleUrls: ['./expected-order-cancellation.component.scss'],
+    standalone: false
 })
 export class ExpectedOrderCancellationComponent implements OnInit {
     orderCancellations: any = [];

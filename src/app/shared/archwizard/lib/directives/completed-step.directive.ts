@@ -33,7 +33,8 @@ import {WizardStep} from '../util/wizard-step.interface';
  * ```
  */
 @Directive({
-  selector: '[awCompletedStep]'
+    selector: '[awCompletedStep]',
+    standalone: false
 })
 export class CompletedStepDirective implements OnInit {
 

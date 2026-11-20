@@ -6,9 +6,10 @@ import {VotingService} from '../../../../voting/voting.service';
 import {DaoService} from '../../../dao.service';
 
 @Component({
-  selector: 'app-dao-team-polls',
-  templateUrl: './dao-team-polls.component.html',
-  styleUrls: ['./dao-team-polls.component.scss']
+    selector: 'app-dao-team-polls',
+    templateUrl: './dao-team-polls.component.html',
+    styleUrls: ['./dao-team-polls.component.scss'],
+    standalone: false
 })
 export class DaoTeamPollsComponent implements OnInit {
 

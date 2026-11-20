@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'txDirection'
+    name: 'txDirection',
+    standalone: false
 })
 export class TxDirectionPipe implements PipeTransform {
 

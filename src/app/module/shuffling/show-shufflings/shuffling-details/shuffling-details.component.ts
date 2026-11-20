@@ -4,9 +4,10 @@ import {Location} from '@angular/common';
 import { ShufflingService } from '../../shuffling.service';
 
 @Component({
-  selector: 'app-shuffling-details',
-  templateUrl: './shuffling-details.component.html',
-  styleUrls: ['./shuffling-details.component.scss']
+    selector: 'app-shuffling-details',
+    templateUrl: './shuffling-details.component.html',
+    styleUrls: ['./shuffling-details.component.scss'],
+    standalone: false
 })
 export class ShufflingDetailsComponent implements OnInit {
 

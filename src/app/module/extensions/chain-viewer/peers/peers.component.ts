@@ -8,7 +8,8 @@ import { SearchService } from "../../../../shared/search/search.service";
 @Component({
     selector: 'app-peers',
     templateUrl: './peers.component.html',
-    styleUrls: ['./peers.component.scss']
+    styleUrls: ['./peers.component.scss'],
+    standalone: false
 })
 export class PeersComponent implements OnInit {
     page = new Page();

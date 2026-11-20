@@ -13,7 +13,8 @@ import { AppConstants } from '../../../config/constants';
 @Component({
     selector: 'app-send-assets',
     templateUrl: './send-assets.component.html',
-    styleUrls: ['./send-assets.component.scss']
+    styleUrls: ['./send-assets.component.scss'],
+    standalone: false
 })
 export class SendAssetsComponent implements OnInit {
     openBookMarks: boolean = false;

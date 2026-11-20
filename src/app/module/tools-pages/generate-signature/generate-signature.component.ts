@@ -5,9 +5,10 @@ import { AccountService } from '../../account/account.service';
 import { AppConstants } from '../../../config/constants';
 
 @Component({
-  selector: 'app-generate-signature',
-  templateUrl: './generate-signature.component.html',
-  styleUrls: ['./generate-signature.component.scss']
+    selector: 'app-generate-signature',
+    templateUrl: './generate-signature.component.html',
+    styleUrls: ['./generate-signature.component.scss'],
+    standalone: false
 })
 export class GenerateSignatureComponent implements OnInit {
 

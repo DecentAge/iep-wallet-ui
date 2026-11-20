@@ -4,7 +4,8 @@ import { Subject } from 'rxjs';
 @Component({
     selector: 'app-show-ats',
     templateUrl: './show-ats.component.html',
-    styleUrls: ['./show-ats.component.scss']
+    styleUrls: ['./show-ats.component.scss'],
+    standalone: false
 })
 export class ShowAtsComponent implements OnInit {
     routeChange = new Subject();

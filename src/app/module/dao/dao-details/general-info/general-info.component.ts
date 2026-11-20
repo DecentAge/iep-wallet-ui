@@ -9,7 +9,8 @@ import {ShowDaosMode} from '../../enums';
 @Component({
     selector: 'app-general-info',
     templateUrl: './general-info.component.html',
-    styleUrls: ['./general-info.component.scss']
+    styleUrls: ['./general-info.component.scss'],
+    standalone: false
 })
 export class GeneralInfoComponent implements OnInit {
 
