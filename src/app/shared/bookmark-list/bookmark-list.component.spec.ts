@@ -1,4 +1,3 @@
-import 'jasmine';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookmarkComponent } from '../../module/account/bookmark/bookmark.component';
