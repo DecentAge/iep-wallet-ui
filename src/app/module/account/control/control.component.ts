@@ -10,9 +10,6 @@ import { CryptoService } from "../../../services/crypto.service";
 import * as alertFunctions from "../../../shared/data/sweet-alerts";
 import { TransactionService } from "../../../services/transaction.service";
 import { CommonService } from "../../../services/common.service";
-import { promise } from "protractor";
-import { resolve } from "path";
-import { reject } from "q";
 
 @Component({
   selector: "app-control",
