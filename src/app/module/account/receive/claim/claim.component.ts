@@ -7,9 +7,10 @@ import {AccountService} from '../../account.service';
 import { CommonService } from '../../../../services/common.service';
 
 @Component({
-  selector: 'app-claim',
-  templateUrl: './claim.component.html',
-  styleUrls: ['./claim.component.scss']
+    selector: 'app-claim',
+    templateUrl: './claim.component.html',
+    styleUrls: ['./claim.component.scss'],
+    standalone: false
 })
 export class ClaimComponent implements OnInit {
     validBytes = false;

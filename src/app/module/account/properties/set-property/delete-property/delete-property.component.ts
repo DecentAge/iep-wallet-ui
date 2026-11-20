@@ -13,7 +13,8 @@ import * as alertFunctions from '../../../../../shared/data/sweet-alerts';
 @Component({
     selector: 'app-delete-property',
     templateUrl: './delete-property.component.html',
-    styleUrls: ['./delete-property.component.scss']
+    styleUrls: ['./delete-property.component.scss'],
+    standalone: false
 })
 export class DeletePropertyComponent implements OnInit {
 

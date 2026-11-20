@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'priceTqtToSum'
+    name: 'priceTqtToSum',
+    standalone: false
 })
 export class PriceTqtToSumPipe implements PipeTransform {
 

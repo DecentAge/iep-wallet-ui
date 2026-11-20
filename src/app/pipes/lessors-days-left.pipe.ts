@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'lessorsDaysLeft'
+    name: 'lessorsDaysLeft',
+    standalone: false
 })
 export class LessorsDaysLeftPipe implements PipeTransform {
 

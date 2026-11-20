@@ -12,9 +12,10 @@ import { ShareToQuantityPipe } from "../../../../pipes/share-to-quantity.pipe";
 import { AmountToQuantPipe } from "../../../../pipes/amount-to-quant.pipe";
 import { CommonService } from "../../../../services/common.service";
 @Component({
-  selector: "app-trade-desk-sell",
-  templateUrl: "./trade-desk-sell.component.html",
-  styleUrls: ["./trade-desk-sell.component.scss"]
+    selector: "app-trade-desk-sell",
+    templateUrl: "./trade-desk-sell.component.html",
+    styleUrls: ["./trade-desk-sell.component.scss"],
+    standalone: false
 })
 export class TradeDeskSellComponent implements OnInit {
   constructor(

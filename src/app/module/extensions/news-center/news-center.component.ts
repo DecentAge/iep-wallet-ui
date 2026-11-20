@@ -7,7 +7,8 @@ import { NewsCenterService } from "./news-center.service";
 @Component({
     selector: 'app-news-center',
     templateUrl: './news-center.component.html',
-    styleUrls: ['./news-center.component.scss']
+    styleUrls: ['./news-center.component.scss'],
+    standalone: false
 })
 export class NewsCenterComponent implements OnInit {
     page = new Page();

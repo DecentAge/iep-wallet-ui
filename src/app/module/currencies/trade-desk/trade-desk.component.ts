@@ -15,9 +15,10 @@ import { RootScope } from "../../../config/root-scope";
 import { NumericalStringPipe } from "../../../pipes/numerical-string.pipe";
 
 @Component({
-  selector: "app-trade-desk",
-  templateUrl: "./trade-desk.component.html",
-  styleUrls: ["./trade-desk.component.scss"]
+    selector: "app-trade-desk",
+    templateUrl: "./trade-desk.component.html",
+    styleUrls: ["./trade-desk.component.scss"],
+    standalone: false
 })
 export class TradeDeskComponent implements OnInit {
   currencyId: any;

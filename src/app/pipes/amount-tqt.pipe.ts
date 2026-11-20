@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import {AppConstants} from '../config/constants';
 
 @Pipe({
-  name: 'amountTqt'
+    name: 'amountTqt',
+    standalone: false
 })
 export class AmountTqtPipe implements PipeTransform {
 

@@ -12,7 +12,8 @@ import { CryptoService } from '../../../services/crypto.service';
 @Component({
     selector: 'app-create-alias',
     templateUrl: './create-alias.component.html',
-    styleUrls: ['./create-alias.component.scss']
+    styleUrls: ['./create-alias.component.scss'],
+    standalone: false
 })
 export class CreateAliasComponent implements OnInit {
     hasPrivateMessage: Boolean = false;

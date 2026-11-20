@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'isSync'
+    name: 'isSync',
+    standalone: false
 })
 export class IsSyncPipe implements PipeTransform {
 

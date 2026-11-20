@@ -12,7 +12,8 @@ import { CryptoService } from '../../../../services/crypto.service';
 @Component({
     selector: 'app-control-approve',
     templateUrl: './control-approve.component.html',
-    styleUrls: ['./control-approve.component.scss']
+    styleUrls: ['./control-approve.component.scss'],
+    standalone: false
 })
 export class ControlApproveComponent implements OnInit {
     approveControl: any = {};

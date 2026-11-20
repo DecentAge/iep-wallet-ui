@@ -12,9 +12,10 @@ import { TransactionService } from "../../../services/transaction.service";
 import { CommonService } from "../../../services/common.service";
 
 @Component({
-  selector: "app-control",
-  templateUrl: "./control.component.html",
-  styleUrls: ["./control.component.scss"]
+    selector: "app-control",
+    templateUrl: "./control.component.html",
+    styleUrls: ["./control.component.scss"],
+    standalone: false
 })
 export class ControlComponent implements OnInit {
   page = new Page();

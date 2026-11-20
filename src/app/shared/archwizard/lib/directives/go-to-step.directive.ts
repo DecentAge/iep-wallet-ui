@@ -39,7 +39,8 @@ import { WIZARD_TOKEN, Wizard } from '../navigation/wizard.interface';
  * @author Marc Arndt
  */
 @Directive({
-  selector: '[awGoToStep]'
+    selector: '[awGoToStep]',
+    standalone: false
 })
 export class GoToStepDirective {
   /**

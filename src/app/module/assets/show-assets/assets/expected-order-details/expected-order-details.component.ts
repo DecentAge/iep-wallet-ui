@@ -9,9 +9,10 @@ import {Page} from '../../../../../config/page';
 import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-expected-order-details',
-  templateUrl: './expected-order-details.component.html',
-  styleUrls: ['./expected-order-details.component.scss']
+    selector: 'app-expected-order-details',
+    templateUrl: './expected-order-details.component.html',
+    styleUrls: ['./expected-order-details.component.scss'],
+    standalone: false
 })
 export class ExpectedOrderDetailsComponent implements OnInit {
     asset: any = {};

@@ -5,9 +5,10 @@ import {AccountService} from '../../account.service';
 
 
 @Component({
-  selector: 'app-receive',
-  templateUrl: './receive.component.html',
-  styleUrls: ['./receive.component.scss']
+    selector: 'app-receive',
+    templateUrl: './receive.component.html',
+    styleUrls: ['./receive.component.scss'],
+    standalone: false
 })
 export class ReceiveComponent implements OnInit {
     receiveAddress: string = '';

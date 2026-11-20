@@ -11,7 +11,8 @@ import { CommonService } from '../../../services/common.service';
 @Component({
     selector: 'app-create-at',
     templateUrl: './create-at.component.html',
-    styleUrls: ['./create-at.component.scss']
+    styleUrls: ['./create-at.component.scss'],
+    standalone: false
 })
 export class CreateAtComponent implements OnInit {
 

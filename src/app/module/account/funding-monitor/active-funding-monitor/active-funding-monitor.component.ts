@@ -10,7 +10,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-active-funding-monitor',
     templateUrl: './active-funding-monitor.component.html',
-    styleUrls: ['./active-funding-monitor.component.scss']
+    styleUrls: ['./active-funding-monitor.component.scss'],
+    standalone: false
 })
 export class ActiveFundingMonitorComponent implements OnInit {
     monitors: any;

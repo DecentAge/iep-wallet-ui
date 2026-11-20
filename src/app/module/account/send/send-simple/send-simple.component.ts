@@ -15,7 +15,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-send-simple',
     templateUrl: './send-simple.component.html',
-    styleUrls: ['./send-simple.component.scss']
+    styleUrls: ['./send-simple.component.scss'],
+    standalone: false
 })
 export class SendSimpleComponent implements OnInit {
 

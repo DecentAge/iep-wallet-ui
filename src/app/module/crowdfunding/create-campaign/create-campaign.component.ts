@@ -14,7 +14,8 @@ import { CommonService } from '../../../services/common.service';
 @Component({
     selector: 'app-create-campaign',
     templateUrl: './create-campaign.component.html',
-    styleUrls: ['./create-campaign.component.scss']
+    styleUrls: ['./create-campaign.component.scss'],
+    standalone: false
 })
 export class CreateCampaignComponent implements OnInit {
 

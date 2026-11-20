@@ -7,7 +7,8 @@ import { Page } from '../../../../config/page';
 @Component({
     selector: 'app-completed-transactions',
     templateUrl: './completed-transactions.component.html',
-    styleUrls: ['./completed-transactions.component.scss']
+    styleUrls: ['./completed-transactions.component.scss'],
+    standalone: false
 })
 export class CompletedTransactionsComponent implements OnInit {
 

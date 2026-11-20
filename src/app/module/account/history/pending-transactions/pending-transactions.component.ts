@@ -7,7 +7,8 @@ import { Page } from '../../../../config/page';
 @Component({
     selector: 'app-pending-transactions',
     templateUrl: './pending-transactions.component.html',
-    styleUrls: ['./pending-transactions.component.scss']
+    styleUrls: ['./pending-transactions.component.scss'],
+    standalone: false
 })
 
 export class PendingTransactionsComponent implements OnInit {

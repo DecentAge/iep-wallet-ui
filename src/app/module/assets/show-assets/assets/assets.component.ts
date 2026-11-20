@@ -8,9 +8,10 @@ import {DataStoreService} from '../../../../services/data-store.service';
 import {Observable} from 'rxjs';
 
 @Component({
-  selector: 'app-assets',
-  templateUrl: './assets.component.html',
-  styleUrls: ['./assets.component.scss']
+    selector: 'app-assets',
+    templateUrl: './assets.component.html',
+    styleUrls: ['./assets.component.scss'],
+    standalone: false
 })
 export class AssetsComponent implements OnInit {
 

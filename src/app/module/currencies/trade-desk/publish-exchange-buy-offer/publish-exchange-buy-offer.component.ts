@@ -16,7 +16,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-publish-exchange-buy-offer',
     templateUrl: './publish-exchange-buy-offer.component.html',
-    styleUrls: ['./publish-exchange-buy-offer.component.scss']
+    styleUrls: ['./publish-exchange-buy-offer.component.scss'],
+    standalone: false
 })
 export class PublishExchangeBuyOfferComponent implements OnInit {
 

@@ -4,7 +4,8 @@ import {WizardComponent} from '../../../shared/archwizard';
 @Component({
     selector: 'app-team-members',
     templateUrl: './team-members.component.html',
-    styleUrls: ['./team-members.component.scss']
+    styleUrls: ['./team-members.component.scss'],
+    standalone: false
 })
 export class TeamMembersComponent implements OnInit {
 

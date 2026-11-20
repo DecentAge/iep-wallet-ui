@@ -8,7 +8,8 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-breadcrumb',
     templateUrl: './breadcrumb.component.html',
-    styleUrls: ['./breadcrumb.component.scss']
+    styleUrls: ['./breadcrumb.component.scss'],
+    standalone: false
 })
 export class BreadcrumbComponent implements OnInit {
     breadcrumbsArray;

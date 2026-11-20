@@ -5,9 +5,10 @@ import { DataStoreService } from '../../../services/data-store.service';
 import { Page } from '../../../config/page';
 
 @Component({
-  selector: 'app-last-exchanges',
-  templateUrl: './last-exchanges.component.html',
-  styleUrls: ['./last-exchanges.component.scss']
+    selector: 'app-last-exchanges',
+    templateUrl: './last-exchanges.component.html',
+    styleUrls: ['./last-exchanges.component.scss'],
+    standalone: false
 })
 export class LastExchangesComponent implements OnInit {
 

@@ -12,7 +12,8 @@ import * as alertFunctions from '../../../../../shared/data/sweet-alerts';
 @Component({
     selector: 'app-buy-alias',
     templateUrl: './buy-alias.component.html',
-    styleUrls: ['./buy-alias.component.scss']
+    styleUrls: ['./buy-alias.component.scss'],
+    standalone: false
 })
 export class BuyAliasComponent implements OnInit {
 

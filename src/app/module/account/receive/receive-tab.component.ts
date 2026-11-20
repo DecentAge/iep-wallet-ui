@@ -4,7 +4,8 @@ import {Subject} from 'rxjs';
 @Component({
     selector: 'app-receive-tab',
     templateUrl: './receive-tab.component.html',
-    styleUrls: ['./receive-tab.component.scss']
+    styleUrls: ['./receive-tab.component.scss'],
+    standalone: false
 })
 export class ReceiveTabComponent implements OnInit {
 

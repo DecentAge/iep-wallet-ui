@@ -12,7 +12,8 @@ import { AmountToQuantPipe } from '../../../../pipes/amount-to-quant.pipe';
 @Component({
     selector: 'app-transfer-alias',
     templateUrl: './transfer-alias.component.html',
-    styleUrls: ['./transfer-alias.component.scss']
+    styleUrls: ['./transfer-alias.component.scss'],
+    standalone: false
 })
 export class TransferAliasComponent implements OnInit {
     openBookMarks: boolean = false;

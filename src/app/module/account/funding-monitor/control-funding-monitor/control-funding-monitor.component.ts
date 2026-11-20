@@ -12,7 +12,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-control-funding-monitor',
     templateUrl: './control-funding-monitor.component.html',
-    styleUrls: ['./control-funding-monitor.component.scss']
+    styleUrls: ['./control-funding-monitor.component.scss'],
+    standalone: false
 })
 export class ControlFundingMonitorComponent implements OnInit {
 

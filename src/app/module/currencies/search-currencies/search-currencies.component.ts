@@ -10,7 +10,8 @@ import * as alertFunctions from "../../../shared/data/sweet-alerts";
 @Component({
     selector: 'app-search-currencies',
     templateUrl: './search-currencies.component.html',
-    styleUrls: ['./search-currencies.component.scss']
+    styleUrls: ['./search-currencies.component.scss'],
+    standalone: false
 })
 export class SearchCurrenciesComponent {
 

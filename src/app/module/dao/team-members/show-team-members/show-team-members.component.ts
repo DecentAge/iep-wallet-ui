@@ -7,7 +7,8 @@ import {Subject} from 'rxjs';
 @Component({
     selector: 'app-show-team-members',
     templateUrl: './show-team-members.component.html',
-    styleUrls: ['./show-team-members.component.scss']
+    styleUrls: ['./show-team-members.component.scss'],
+    standalone: false
 })
 export class ShowTeamMembersComponent implements OnInit, OnDestroy {
 

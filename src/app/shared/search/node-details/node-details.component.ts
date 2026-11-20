@@ -7,7 +7,8 @@ import { SearchService } from "../search.service";
 @Component({
     selector: 'app-node-details',
     templateUrl: './node-details.component.html',
-    styleUrls: ['./node-details.component.scss']
+    styleUrls: ['./node-details.component.scss'],
+    standalone: false
 })
 export class NodeDetailsComponent implements OnInit {
     node: any;

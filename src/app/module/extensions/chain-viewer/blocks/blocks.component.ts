@@ -8,7 +8,8 @@ import { SearchService } from "../../../../shared/search/search.service";
 @Component({
     selector: 'app-blocks',
     templateUrl: './blocks.component.html',
-    styleUrls: ['./blocks.component.scss']
+    styleUrls: ['./blocks.component.scss'],
+    standalone: false
 })
 export class BlocksComponent implements OnInit {
     page = new Page();

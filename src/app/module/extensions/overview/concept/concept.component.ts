@@ -4,7 +4,8 @@ import { Extensions } from '../overview.config';
 @Component({
     selector: 'app-concept',
     templateUrl: './concept.component.html',
-    styleUrls: ['./concept.component.scss']
+    styleUrls: ['./concept.component.scss'],
+    standalone: false
 })
 export class ConceptComponent implements OnInit {
     extensionsInConcept: any[] = [];

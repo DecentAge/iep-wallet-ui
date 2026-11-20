@@ -5,7 +5,8 @@ import {ActivatedRoute} from '@angular/router';
 @Component({
     selector: 'app-dao',
     templateUrl: './dao.component.html',
-    styleUrls: ['./dao.component.scss']
+    styleUrls: ['./dao.component.scss'],
+    standalone: false
 })
 export class DaoComponent implements OnInit, AfterViewInit {
 

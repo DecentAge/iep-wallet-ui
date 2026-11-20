@@ -7,7 +7,8 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-founders',
     templateUrl: './founders.component.html',
-    styleUrls: ['./founders.component.scss']
+    styleUrls: ['./founders.component.scss'],
+    standalone: false
 })
 export class FoundersComponent implements OnInit, AfterViewInit {
 

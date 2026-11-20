@@ -4,7 +4,8 @@ import {Subject} from 'rxjs';
 @Component({
     selector: 'app-buy-offers',
     templateUrl: './buy-offers.component.html',
-    styleUrls: ['./buy-offers.component.scss']
+    styleUrls: ['./buy-offers.component.scss'],
+    standalone: false
 })
 export class BuyOffersComponent implements OnInit {
     routeChange = new Subject();

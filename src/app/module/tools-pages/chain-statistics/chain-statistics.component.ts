@@ -4,9 +4,10 @@ import * as alertFunctions from "../../../shared/data/sweet-alerts";
 import { CommonService } from '../../../services/common.service';
 
 @Component({
-  selector: 'app-chain-statistics',
-  templateUrl: './chain-statistics.component.html',
-  styleUrls: ['./chain-statistics.component.scss']
+    selector: 'app-chain-statistics',
+    templateUrl: './chain-statistics.component.html',
+    styleUrls: ['./chain-statistics.component.scss'],
+    standalone: false
 })
 export class ChainStatisticsComponent implements OnInit {
 

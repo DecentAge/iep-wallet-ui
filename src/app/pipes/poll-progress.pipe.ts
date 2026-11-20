@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Pipe({
-  name: 'pollProgress'
+    name: 'pollProgress',
+    standalone: false
 })
 export class PollProgressPipe implements PipeTransform {
 /*

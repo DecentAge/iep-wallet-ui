@@ -4,7 +4,8 @@ import { Subject } from 'rxjs';
 @Component({
     selector: 'app-show-campaigns',
     templateUrl: './show-campaigns.component.html',
-    styleUrls: ['./show-campaigns.component.scss']
+    styleUrls: ['./show-campaigns.component.scss'],
+    standalone: false
 })
 export class ShowCampaignsComponent implements OnInit {
     routeChange = new Subject();

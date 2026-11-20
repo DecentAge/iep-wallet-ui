@@ -8,7 +8,8 @@ import { CommonService } from '../../../services/common.service';
 @Component({
     selector: 'app-block-generation',
     templateUrl: './block-generation.component.html',
-    styleUrls: ['./block-generation.component.scss']
+    styleUrls: ['./block-generation.component.scss'],
+    standalone: false
 })
 export class BlockGenerationComponent implements OnInit {
     status = 'Unknown';

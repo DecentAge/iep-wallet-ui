@@ -1,7 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'proxies'
+    name: 'proxies',
+    standalone: false
 })
 export class ProxiesPipe implements PipeTransform {
 

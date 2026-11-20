@@ -15,9 +15,10 @@ import { NumericalStringPipe } from "../../../pipes/numerical-string.pipe";
 import { RateTqtToPricePipe } from "../../../pipes/rate-tqt-to-price.pipe";
 
 @Component({
-  selector: "app-trade-desk",
-  templateUrl: "./trade-desk.component.html",
-  styleUrls: ["./trade-desk.component.scss"]
+    selector: "app-trade-desk",
+    templateUrl: "./trade-desk.component.html",
+    styleUrls: ["./trade-desk.component.scss"],
+    standalone: false
 })
 export class TradeDeskComponent implements OnInit {
   assetId: any = "";

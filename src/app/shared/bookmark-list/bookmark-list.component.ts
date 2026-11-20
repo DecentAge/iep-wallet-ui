@@ -5,9 +5,10 @@ import {AddressService} from '../../module/account/address.service';
 import {Subject} from 'rxjs';
 
 @Component({
-  selector: 'app-bookmark-list',
-  templateUrl: './bookmark-list.component.html',
-  styleUrls: ['./bookmark-list.component.scss']
+    selector: 'app-bookmark-list',
+    templateUrl: './bookmark-list.component.html',
+    styleUrls: ['./bookmark-list.component.scss'],
+    standalone: false
 })
 export class BookmarkListComponent implements OnInit {
     page = new Page();

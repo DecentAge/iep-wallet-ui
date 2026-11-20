@@ -9,7 +9,8 @@ import { DataStoreService } from '../../../services/data-store.service';
 @Component({
     selector: 'app-my-trades',
     templateUrl: './my-trades.component.html',
-    styleUrls: ['./my-trades.component.scss']
+    styleUrls: ['./my-trades.component.scss'],
+    standalone: false
 })
 export class MyTradesComponent implements OnInit {
 

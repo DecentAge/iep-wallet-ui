@@ -4,9 +4,10 @@ import {CommonService} from '../../../services/common.service';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-lessors',
-  templateUrl: './lessors.component.html',
-  styleUrls: ['./lessors.component.scss']
+    selector: 'app-lessors',
+    templateUrl: './lessors.component.html',
+    styleUrls: ['./lessors.component.scss'],
+    standalone: false
 })
 export class LessorsComponent implements OnInit {
     accountLeases: any = [];

@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'isEnabled'
+    name: 'isEnabled',
+    standalone: false
 })
 export class IsEnabledPipe implements PipeTransform {
 

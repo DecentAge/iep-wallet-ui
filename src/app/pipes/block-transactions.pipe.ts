@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'blockTransactions'
+    name: 'blockTransactions',
+    standalone: false
 })
 export class BlockTransactionsPipe implements PipeTransform {
 

@@ -13,7 +13,8 @@ import { AliasesService } from '../../../../aliases/aliases.service';
 @Component({
     selector: 'app-transfer-asset',
     templateUrl: './transfer-asset.component.html',
-    styleUrls: ['./transfer-asset.component.scss']
+    styleUrls: ['./transfer-asset.component.scss'],
+    standalone: false
 })
 export class TransferAssetComponent implements OnInit {
 

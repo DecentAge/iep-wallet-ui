@@ -7,7 +7,8 @@ import {SessionStorageService} from '../../../services/session-storage.service';
 @Component({
     selector: 'app-send',
     templateUrl: './send.component.html',
-    styleUrls: ['./send.component.scss']
+    styleUrls: ['./send.component.scss'],
+    standalone: false
 })
 export class SendComponent implements OnInit {
     routeChange = new Subject();

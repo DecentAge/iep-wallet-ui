@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'ledgerHolding'
+    name: 'ledgerHolding',
+    standalone: false
 })
 export class LedgerHoldingPipe implements PipeTransform {
 

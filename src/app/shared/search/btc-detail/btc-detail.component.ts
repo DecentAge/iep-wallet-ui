@@ -4,9 +4,10 @@ import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
 
 @Component({
-  selector: 'app-btc-detail',
-  templateUrl: './btc-detail.component.html',
-  styleUrls: ['./btc-detail.component.scss']
+    selector: 'app-btc-detail',
+    templateUrl: './btc-detail.component.html',
+    styleUrls: ['./btc-detail.component.scss'],
+    standalone: false
 })
 export class BtcDetailComponent implements OnInit {
 
