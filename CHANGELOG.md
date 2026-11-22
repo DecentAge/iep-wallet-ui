@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+## [0.4.5] - 2026-11-22
+### Changed
+- Enabled the wallet to run under a strict Content-Security-Policy.
+
+### Fixed
+- Removed the Welcome page reference to the missing bootstrap.svg that caused a 404.
+
 ## [0.4.4] - 2026-10-12
 ### Changed
 - Maintenance and internal updates.
