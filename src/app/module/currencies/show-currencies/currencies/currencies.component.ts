@@ -9,9 +9,10 @@ import { Page } from '../../../../config/page';
 import {Observable} from 'rxjs';
 
 @Component({
-  selector: 'app-currencies',
-  templateUrl: './currencies.component.html',
-  styleUrls: ['./currencies.component.scss']
+    selector: 'app-currencies',
+    templateUrl: './currencies.component.html',
+    styleUrls: ['./currencies.component.scss'],
+    standalone: false
 })
 export class CurrenciesComponent implements OnInit {
 

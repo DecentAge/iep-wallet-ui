@@ -1,4 +1,3 @@
-import 'jasmine';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CompilerComponent } from './compiler.component';

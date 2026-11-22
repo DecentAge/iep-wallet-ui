@@ -8,7 +8,8 @@ import {Page} from '../../../config/page';
 @Component({
     selector: 'app-my-subscriptions',
     templateUrl: './my-subscriptions.component.html',
-    styleUrls: ['./my-subscriptions.component.scss']
+    styleUrls: ['./my-subscriptions.component.scss'],
+    standalone: false
 })
 export class MySubscriptionsComponent implements OnInit {
     page = new Page();

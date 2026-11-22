@@ -2,7 +2,8 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {CommonService} from '../services/common.service';
 
 @Pipe({
-    name: 'escrowRole'
+    name: 'escrowRole',
+    standalone: false
 })
 export class EscrowRolePipe implements PipeTransform {
 

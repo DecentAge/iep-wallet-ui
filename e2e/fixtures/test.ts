@@ -53,7 +53,24 @@ export const test = base.extend<{
   /** Set to false in a spec that asserts on dialogs itself. */
   autoDismissAlerts: boolean;
   infoAlerts: AlertLog;
+  cspViolations: string[];
 }>({
+  cspViolations: [
+    async ({ page }, use) => {
+      const violations: string[] = [];
+      page.on('console', (msg) => {
+        if (msg.type() === 'error' && msg.text().includes('Content Security Policy')) {
+          violations.push(msg.text());
+        }
+      });
+      await use(violations);
+      if (violations.length > 0) {
+        throw new Error(`Content-Security-Policy violation(s):\n  · ${violations.join('\n  · ')}`);
+      }
+    },
+    { auto: true },
+  ],
+
   autoDismissAlerts: [true, { option: true }],
 
   infoAlerts: [

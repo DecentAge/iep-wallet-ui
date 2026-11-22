@@ -5,7 +5,8 @@ import {Subject} from 'rxjs';
 @Component({
     selector: 'app-funding-monitor',
     templateUrl: './funding-monitor.component.html',
-    styleUrls: ['./funding-monitor.component.scss']
+    styleUrls: ['./funding-monitor.component.scss'],
+    standalone: false
 })
 export class FundingMonitorComponent implements OnInit {
     routeChange = new Subject();

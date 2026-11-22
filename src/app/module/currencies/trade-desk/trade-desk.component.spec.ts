@@ -1,4 +1,3 @@
-import 'jasmine';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TradeDeskComponent } from './trade-desk.component';

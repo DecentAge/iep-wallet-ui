@@ -8,7 +8,8 @@ import { Page } from '../../../config/page';
 @Component({
     selector: 'app-ledger-view',
     templateUrl: './ledger-view.component.html',
-    styleUrls: ['./ledger-view.component.scss']
+    styleUrls: ['./ledger-view.component.scss'],
+    standalone: false
 })
 export class LedgerViewComponent implements OnInit {
     page = new Page();

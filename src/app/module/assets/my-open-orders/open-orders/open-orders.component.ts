@@ -7,9 +7,10 @@ import {Page} from '../../../../config/page';
 import {DataStoreService} from '../../../../services/data-store.service';
 
 @Component({
-  selector: 'app-open-orders',
-  templateUrl: './open-orders.component.html',
-  styleUrls: ['./open-orders.component.scss']
+    selector: 'app-open-orders',
+    templateUrl: './open-orders.component.html',
+    styleUrls: ['./open-orders.component.scss'],
+    standalone: false
 })
 export class OpenOrdersComponent implements OnInit {
 

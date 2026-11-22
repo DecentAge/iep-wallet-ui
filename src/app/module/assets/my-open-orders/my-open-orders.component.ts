@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-my-open-orders',
-  templateUrl: './my-open-orders.component.html',
-  styleUrls: ['./my-open-orders.component.scss']
+    selector: 'app-my-open-orders',
+    templateUrl: './my-open-orders.component.html',
+    styleUrls: ['./my-open-orders.component.scss'],
+    standalone: false
 })
 export class MyOpenOrdersComponent {
 }

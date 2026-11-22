@@ -7,10 +7,11 @@ import { LoginService } from "../../../services/login.service";
 import { SwappService } from "../../../services/swapp.service";
 
 @Component({
-  selector: "app-welcome",
-  templateUrl: "./welcome.component.html",
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ["./welcome.component.scss"]
+    selector: "app-welcome",
+    templateUrl: "./welcome.component.html",
+    encapsulation: ViewEncapsulation.None,
+    styleUrls: ["./welcome.component.scss"],
+    standalone: false
 })
 export class WelcomeComponent implements OnInit {
   model: Login = new Login();

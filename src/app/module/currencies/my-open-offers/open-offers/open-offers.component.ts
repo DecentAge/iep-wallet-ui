@@ -9,9 +9,10 @@ import { Page } from '../../../../config/page';
 import {Observable} from 'rxjs';
 
 @Component({
-  selector: 'app-open-offers',
-  templateUrl: './open-offers.component.html',
-  styleUrls: ['./open-offers.component.scss']
+    selector: 'app-open-offers',
+    templateUrl: './open-offers.component.html',
+    styleUrls: ['./open-offers.component.scss'],
+    standalone: false
 })
 export class OpenOffersComponent implements OnInit {
 

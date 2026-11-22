@@ -6,7 +6,8 @@ import { LocalhostService } from '../../services/localhost.service';
     selector: 'app-sync-progress',
     templateUrl: './progress.component.html',
     styleUrls: ['./progress.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class ProgressSyncComponent implements OnInit {
 

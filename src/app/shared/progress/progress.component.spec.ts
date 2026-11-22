@@ -1,4 +1,3 @@
-import 'jasmine';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProgressComponent } from './progress.component';

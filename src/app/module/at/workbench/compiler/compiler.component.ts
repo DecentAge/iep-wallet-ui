@@ -8,7 +8,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-compiler',
     templateUrl: './compiler.component.html',
-    styleUrls: ['./compiler.component.scss']
+    styleUrls: ['./compiler.component.scss'],
+    standalone: false
 })
 export class CompilerComponent implements OnInit {
     atTextCode: string = "";

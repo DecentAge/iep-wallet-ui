@@ -12,7 +12,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-set-property',
     templateUrl: './set-property.component.html',
-    styleUrls: ['./set-property.component.scss']
+    styleUrls: ['./set-property.component.scss'],
+    standalone: false
 })
 export class SetPropertyComponent implements OnInit {
     openBookMarks: boolean = false;

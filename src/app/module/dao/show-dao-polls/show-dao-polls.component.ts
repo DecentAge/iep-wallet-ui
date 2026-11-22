@@ -5,7 +5,8 @@ import {AccountService} from '../../account/account.service';
 @Component({
     selector: 'app-show-dao-polls',
     templateUrl: './show-dao-polls.component.html',
-    styleUrls: ['./show-dao-polls.component.scss']
+    styleUrls: ['./show-dao-polls.component.scss'],
+    standalone: false
 })
 export class ShowDaoPollsComponent implements OnInit {
     private accountId;

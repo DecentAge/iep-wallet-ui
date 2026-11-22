@@ -1,7 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'storage'
+    name: 'storage',
+    standalone: false
 })
 export class StoragePipe implements PipeTransform {
 

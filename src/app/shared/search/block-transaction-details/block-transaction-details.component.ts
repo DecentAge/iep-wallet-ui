@@ -12,7 +12,8 @@ import { DataStoreService } from "../../../services/data-store.service";
 @Component({
     selector: 'app-block-transaction-details',
     templateUrl: './block-transaction-details.component.html',
-    styleUrls: ['./block-transaction-details.component.scss']
+    styleUrls: ['./block-transaction-details.component.scss'],
+    standalone: false
 })
 export class BlockTransactionDetailsComponent implements OnInit {
     page = new Page();

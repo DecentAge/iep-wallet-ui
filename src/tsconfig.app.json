@@ -11,5 +11,9 @@
   ],
   "include": [
     "../src/**/*"
+  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "app/shared/archwizard/lib/util/test-utils.ts"
   ]
 }

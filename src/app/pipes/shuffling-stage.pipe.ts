@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'shufflingStage'
+    name: 'shufflingStage',
+    standalone: false
 })
 export class ShufflingStagePipe implements PipeTransform {
 

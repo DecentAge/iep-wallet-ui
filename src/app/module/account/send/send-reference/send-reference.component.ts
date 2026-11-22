@@ -14,7 +14,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-send-reference',
     templateUrl: './send-reference.component.html',
-    styleUrls: ['./send-reference.component.scss']
+    styleUrls: ['./send-reference.component.scss'],
+    standalone: false
 })
 export class SendReferenceComponent implements OnInit {
 

@@ -5,7 +5,8 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'app-show-currencies',
     templateUrl: './show-currencies.component.html',
-    styleUrls: ['./show-currencies.component.scss']
+    styleUrls: ['./show-currencies.component.scss'],
+    standalone: false
 })
 export class ShowCurrenciesComponent implements OnInit {
     routeChange = new Subject();

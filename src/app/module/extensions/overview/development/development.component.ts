@@ -4,7 +4,8 @@ import { Extensions } from "../overview.config";
 @Component({
     selector: 'app-development',
     templateUrl: './development.component.html',
-    styleUrls: ['./development.component.scss']
+    styleUrls: ['./development.component.scss'],
+    standalone: false
 })
 export class DevelopmentComponent implements OnInit {
     extensionsInDevelopment: any[] = [];

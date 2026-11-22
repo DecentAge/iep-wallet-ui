@@ -6,7 +6,8 @@ import {DaoService} from '../dao.service';
     selector: 'app-create-dao',
     templateUrl: './create-dao.component.html',
     styleUrls: ['./create-dao.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class CreateDaoComponent {
     @Input() wizard: WizardComponent;

@@ -1,7 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'votingModelLabel'
+    name: 'votingModelLabel',
+    standalone: false
 })
 export class VotingModelLabelPipe implements PipeTransform {
 

@@ -6,9 +6,10 @@ import { DataStoreService } from '../../../services/data-store.service';
 import { Page } from '../../../config/page';
 
 @Component({
-  selector: 'app-my-exchanges',
-  templateUrl: './my-exchanges.component.html',
-  styleUrls: ['./my-exchanges.component.scss']
+    selector: 'app-my-exchanges',
+    templateUrl: './my-exchanges.component.html',
+    styleUrls: ['./my-exchanges.component.scss'],
+    standalone: false
 })
 export class MyExchangesComponent implements OnInit {
 

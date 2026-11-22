@@ -24,7 +24,7 @@ import { LedgerViewComponent } from './ledger-view/ledger-view.component';
 import { AccountService } from './account.service';
 import { AssetsService } from '../assets/assets.service';
 import { CurrenciesService } from '../currencies/currencies.service';
-import { QRCodeModule } from "angularx-qrcode";
+import { QRCodeComponent } from "angularx-qrcode";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CompletedTransactionsComponent } from './history/completed-transactions/completed-transactions.component';
 import { PendingTransactionsComponent } from './history/pending-transactions/pending-transactions.component';
@@ -81,7 +81,7 @@ import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/
         SharedModule,
         FormsModule,
         ArchwizardModule,
-        QRCodeModule,
+        QRCodeComponent,
         NgxDatatableModule], providers: [
         AccountService,
         AssetsService,

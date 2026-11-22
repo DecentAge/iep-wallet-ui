@@ -6,7 +6,8 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-add-team-poll',
     templateUrl: './add-team-poll.component.html',
-    styleUrls: ['./add-team-poll.component.scss']
+    styleUrls: ['./add-team-poll.component.scss'],
+    standalone: false
 })
 export class AddTeamPollComponent implements OnInit {
 

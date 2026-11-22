@@ -4,9 +4,10 @@ import {AccountService} from '../account.service';
 import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-search-account',
-  templateUrl: './search-account.component.html',
-  styleUrls: ['./search-account.component.scss']
+    selector: 'app-search-account',
+    templateUrl: './search-account.component.html',
+    styleUrls: ['./search-account.component.scss'],
+    standalone: false
 })
 export class SearchAccountComponent implements OnInit {
     searchAccountForm: any = {};

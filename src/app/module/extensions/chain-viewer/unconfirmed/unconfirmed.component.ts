@@ -7,9 +7,10 @@ import { AppConstants } from "../../../../config/constants";
 import { DataStoreService } from "../../../../services/data-store.service";
 
 @Component({
-  selector: 'app-unconfirmed',
-  templateUrl: './unconfirmed.component.html',
-  styleUrls: ['./unconfirmed.component.scss']
+    selector: 'app-unconfirmed',
+    templateUrl: './unconfirmed.component.html',
+    styleUrls: ['./unconfirmed.component.scss'],
+    standalone: false
 })
 export class UnconfirmedComponent implements OnInit {
     page = new Page();

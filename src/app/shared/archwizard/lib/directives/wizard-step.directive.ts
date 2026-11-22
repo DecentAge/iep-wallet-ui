@@ -55,10 +55,11 @@ import {WizardStep} from '../util/wizard-step.interface';
  * @author Marc Arndt
  */
 @Directive({
-  selector: '[awWizardStep]',
-  providers: [
-    {provide: WizardStep, useExisting: forwardRef(() => WizardStepDirective)}
-  ]
+    selector: '[awWizardStep]',
+    providers: [
+        { provide: WizardStep, useExisting: forwardRef(() => WizardStepDirective) }
+    ],
+    standalone: false
 })
 export class WizardStepDirective extends WizardStep {
 }

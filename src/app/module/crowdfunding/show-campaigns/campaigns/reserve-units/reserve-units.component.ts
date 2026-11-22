@@ -14,7 +14,8 @@ import { CommonService } from '../../../../../services/common.service';
 @Component({
     selector: 'app-reserve-units',
     templateUrl: './reserve-units.component.html',
-    styleUrls: ['./reserve-units.component.scss']
+    styleUrls: ['./reserve-units.component.scss'],
+    standalone: false
 })
 export class ReserveUnitsComponent implements OnInit {
 

@@ -13,7 +13,8 @@ import { CommonService } from '../../../../services/common.service';
 @Component({
     selector: 'app-stop-shuffling',
     templateUrl: './stop-shuffling.component.html',
-    styleUrls: ['./stop-shuffling.component.scss']
+    styleUrls: ['./stop-shuffling.component.scss'],
+    standalone: false
 })
 export class StopShufflingComponent implements OnInit {
 

@@ -12,7 +12,8 @@ import { AppConstants } from '../../../config/constants';
 @Component({
     selector: 'app-send-currencies',
     templateUrl: './send-currencies.component.html',
-    styleUrls: ['./send-currencies.component.scss']
+    styleUrls: ['./send-currencies.component.scss'],
+    standalone: false
 })
 export class SendCurrenciesComponent implements OnInit {
     openBookMarks: boolean = false;

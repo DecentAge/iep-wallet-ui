@@ -7,7 +7,8 @@ import {Router} from '@angular/router';
 @Component({
     selector: 'app-add-team-members',
     templateUrl: './add-team-members.component.html',
-    styleUrls: ['./add-team-members.component.scss']
+    styleUrls: ['./add-team-members.component.scss'],
+    standalone: false
 })
 export class AddTeamMembersComponent implements OnInit, AfterViewInit {
 

@@ -49,9 +49,10 @@ import { WIZARD_TOKEN, Wizard } from '../navigation/wizard.interface';
  * @author Marc Arndt
  */
 @Component({
-  selector: 'aw-wizard',
-  templateUrl: 'wizard.component.html',
-  providers: [{ provide: WIZARD_TOKEN, useExisting: WizardComponent }]
+    selector: 'aw-wizard',
+    templateUrl: 'wizard.component.html',
+    providers: [{ provide: WIZARD_TOKEN, useExisting: WizardComponent }],
+    standalone: false
 })
 export class WizardComponent implements AfterContentInit, Wizard {
   /**

@@ -13,7 +13,8 @@ import { CommonService } from '../../../../../services/common.service';
 @Component({
     selector: 'app-delete-shares',
     templateUrl: './delete-shares.component.html',
-    styleUrls: ['./delete-shares.component.scss']
+    styleUrls: ['./delete-shares.component.scss'],
+    standalone: false
 })
 export class DeleteSharesComponent implements OnInit {
     transactionBytes: any;

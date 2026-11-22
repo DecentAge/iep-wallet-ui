@@ -10,9 +10,10 @@ import {DataStoreService} from '../../../../../services/data-store.service';
 import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-order-trade-details',
-  templateUrl: './order-trade-details.component.html',
-  styleUrls: ['./order-trade-details.component.scss']
+    selector: 'app-order-trade-details',
+    templateUrl: './order-trade-details.component.html',
+    styleUrls: ['./order-trade-details.component.scss'],
+    standalone: false
 })
 export class OrderTradeDetailsComponent implements OnInit {
 

@@ -3,7 +3,8 @@ import {DomSanitizer} from "@angular/platform-browser";
 
 
 @Pipe({
-    name: 'pollDays'
+    name: 'pollDays',
+    standalone: false
 })
 export class PollDaysPipe implements PipeTransform {
     constructor(private sanitizer:DomSanitizer){}

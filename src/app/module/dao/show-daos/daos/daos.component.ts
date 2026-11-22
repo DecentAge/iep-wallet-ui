@@ -9,7 +9,8 @@ import {Page} from 'app/config/page';
 @Component({
     selector: 'app-daos',
     templateUrl: './daos.component.html',
-    styleUrls: ['./daos.component.scss']
+    styleUrls: ['./daos.component.scss'],
+    standalone: false
 })
 export class DaosComponent implements OnInit, OnChanges {
 

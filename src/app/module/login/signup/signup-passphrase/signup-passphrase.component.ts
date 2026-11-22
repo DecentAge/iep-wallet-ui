@@ -5,7 +5,8 @@ import { DataStoreService } from '../../../../services/data-store.service';
 @Component({
     selector: 'app-signup-passphrase',
     templateUrl: './signup-passphrase.component.html',
-    styleUrls: ['./signup-passphrase.component.scss']
+    styleUrls: ['./signup-passphrase.component.scss'],
+    standalone: false
 })
 export class SignupPassphraseComponent implements OnInit {
     secret: string;

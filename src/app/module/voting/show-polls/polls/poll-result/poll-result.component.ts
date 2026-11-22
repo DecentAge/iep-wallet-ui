@@ -9,7 +9,8 @@ import {AppConstants} from '../../../../../config/constants';
 @Component({
     selector: 'app-poll-result',
     templateUrl: './poll-result.component.html',
-    styleUrls: ['./poll-result.component.scss']
+    styleUrls: ['./poll-result.component.scss'],
+    standalone: false
 })
 export class PollResultComponent implements OnInit {
     poll: any;

@@ -8,7 +8,8 @@ import { QuantToAmountPipe } from '../../pipes/quant-to-amount.pipe';
 @Component({
     selector: 'app-fiat',
     templateUrl: './fiat.component.html',
-    styleUrls: ['./fiat.component.scss']
+    styleUrls: ['./fiat.component.scss'],
+    standalone: false
 })
 export class FiatComponent implements OnChanges {
     @Input() amountTqt: string;

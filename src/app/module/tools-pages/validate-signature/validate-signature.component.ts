@@ -7,7 +7,8 @@ import { CommonService } from '../../../services/common.service';
 @Component({
     selector: 'app-validate-signature',
     templateUrl: './validate-signature.component.html',
-    styleUrls: ['./validate-signature.component.scss']
+    styleUrls: ['./validate-signature.component.scss'],
+    standalone: false
 })
 export class ValidateSignatureComponent implements OnInit {
     valid: any;

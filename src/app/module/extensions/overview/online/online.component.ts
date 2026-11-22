@@ -4,7 +4,8 @@ import { Extensions } from "../overview.config";
 @Component({
     selector: 'app-online',
     templateUrl: './online.component.html',
-    styleUrls: ['./online.component.scss']
+    styleUrls: ['./online.component.scss'],
+    standalone: false
 })
 export class OnlineComponent implements OnInit {
     extensionsOnline: any[] = [];

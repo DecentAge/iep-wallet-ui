@@ -3,7 +3,8 @@ import { OptionService } from "../services/option.service";
 import { CommonService } from "../services/common.service";
 
 @Directive({
-  selector: '[isExtensionEnabledView]'
+    selector: '[isExtensionEnabledView]',
+    standalone: false
 })
 export class IsExtensionEnabledDirective {
 

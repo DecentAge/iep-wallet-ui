@@ -17,8 +17,9 @@ import { WIZARD_TOKEN, Wizard } from '../navigation/wizard.interface';
  * @author Marc Arndt
  */
 @Component({
-  selector: 'aw-wizard-navigation-bar',
-  templateUrl: 'wizard-navigation-bar.component.html',
+    selector: 'aw-wizard-navigation-bar',
+    templateUrl: 'wizard-navigation-bar.component.html',
+    standalone: false
 })
 export class WizardNavigationBarComponent {
   /**

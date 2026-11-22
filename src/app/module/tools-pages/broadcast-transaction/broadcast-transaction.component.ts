@@ -7,7 +7,8 @@ import { CommonService } from '../../../services/common.service';
 @Component({
     selector: 'app-broadcast-transaction',
     templateUrl: './broadcast-transaction.component.html',
-    styleUrls: ['./broadcast-transaction.component.scss']
+    styleUrls: ['./broadcast-transaction.component.scss'],
+    standalone: false
 })
 export class BroadcastTransactionComponent implements OnInit {
     fullHash: any;

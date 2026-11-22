@@ -7,9 +7,10 @@ import {AccountService} from '../../../../account/account.service';
 import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-expected-asset-transfer',
-  templateUrl: './expected-asset-transfer.component.html',
-  styleUrls: ['./expected-asset-transfer.component.scss']
+    selector: 'app-expected-asset-transfer',
+    templateUrl: './expected-asset-transfer.component.html',
+    styleUrls: ['./expected-asset-transfer.component.scss'],
+    standalone: false
 })
 export class ExpectedAssetTransferComponent implements OnInit {
     transfers: any = [];

@@ -10,7 +10,8 @@ import {DaoService} from '../../dao.service';
 @Component({
     selector: 'app-dao-messages',
     templateUrl: './dao-messages.component.html',
-    styleUrls: ['./dao-messages.component.scss']
+    styleUrls: ['./dao-messages.component.scss'],
+    standalone: false
 })
 export class DaoMessagesComponent implements OnInit {
 

@@ -8,7 +8,8 @@ import {Page} from '../../../config/page';
 @Component({
     selector: 'app-show-alias',
     templateUrl: './show-alias.component.html',
-    styleUrls: ['./show-alias.component.scss']
+    styleUrls: ['./show-alias.component.scss'],
+    standalone: false
 })
 export class ShowAliasComponent implements OnInit {
     searchText: any = '';

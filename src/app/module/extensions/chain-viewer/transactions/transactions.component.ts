@@ -9,7 +9,8 @@ import { DataStoreService } from "../../../../services/data-store.service";
 @Component({
     selector: 'app-transactions',
     templateUrl: './transactions.component.html',
-    styleUrls: ['./transactions.component.scss']
+    styleUrls: ['./transactions.component.scss'],
+    standalone: false
 })
 export class TransactionsComponent implements OnInit {
     page = new Page();

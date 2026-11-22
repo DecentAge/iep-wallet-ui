@@ -13,7 +13,8 @@ import { CommonService } from '../../../services/common.service';
 @Component({
     selector: 'app-balance-lease',
     templateUrl: './balance-lease.component.html',
-    styleUrls: ['./balance-lease.component.scss']
+    styleUrls: ['./balance-lease.component.scss'],
+    standalone: false
 })
 export class BalanceLeaseComponent implements OnInit {
 

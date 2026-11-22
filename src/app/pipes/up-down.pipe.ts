@@ -1,7 +1,8 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'upDown'
+    name: 'upDown',
+    standalone: false
 })
 export class UpDownPipe implements PipeTransform {
     transform(value: any, args?: any): any {

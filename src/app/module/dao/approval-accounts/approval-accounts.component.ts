@@ -13,7 +13,8 @@ import {WhitelistedAccount} from '../interfaces';
 @Component({
     selector: 'app-approval-accounts',
     templateUrl: './approval-accounts.component.html',
-    styleUrls: ['./approval-accounts.component.scss']
+    styleUrls: ['./approval-accounts.component.scss'],
+    standalone: false
 })
 export class ApprovalAccountsComponent implements OnInit {
 

@@ -10,7 +10,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 @Component({
     selector: 'app-dao-team-messages',
     templateUrl: './dao-team-messages.component.html',
-    styleUrls: ['./dao-team-messages.component.scss']
+    styleUrls: ['./dao-team-messages.component.scss'],
+    standalone: false
 })
 export class DaoTeamMessagesComponent implements OnInit {
 

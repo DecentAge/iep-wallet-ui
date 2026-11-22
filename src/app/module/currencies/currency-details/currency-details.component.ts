@@ -4,9 +4,10 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-currency-details',
-  templateUrl: './currency-details.component.html',
-  styleUrls: ['./currency-details.component.scss']
+    selector: 'app-currency-details',
+    templateUrl: './currency-details.component.html',
+    styleUrls: ['./currency-details.component.scss'],
+    standalone: false
 })
 export class CurrencyDetailsComponent implements OnInit {
 

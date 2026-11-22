@@ -13,7 +13,8 @@ import { DataStoreService } from '../../../../../services/data-store.service';
 @Component({
     selector: 'app-cancel-order',
     templateUrl: './cancel-order.component.html',
-    styleUrls: ['./cancel-order.component.scss']
+    styleUrls: ['./cancel-order.component.scss'],
+    standalone: false
 })
 export class CancelOrderComponent implements OnInit {
 

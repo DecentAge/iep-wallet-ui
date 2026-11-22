@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-chain-viewer',
-  templateUrl: './chain-viewer.component.html',
-  styleUrls: ['./chain-viewer.component.scss']
+    selector: 'app-chain-viewer',
+    templateUrl: './chain-viewer.component.html',
+    styleUrls: ['./chain-viewer.component.scss'],
+    standalone: false
 })
 export class ChainViewerComponent implements OnInit {
 

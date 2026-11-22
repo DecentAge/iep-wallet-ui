@@ -7,7 +7,8 @@ import {Page} from '../../../../config/page';
 @Component({
     selector: 'app-escrow-status',
     templateUrl: './escrow-status.component.html',
-    styleUrls: ['./escrow-status.component.scss']
+    styleUrls: ['./escrow-status.component.scss'],
+    standalone: false
 })
 export class EscrowStatusComponent implements OnInit {
     page = new Page();

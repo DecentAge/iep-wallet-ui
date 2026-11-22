@@ -6,7 +6,8 @@ import {VotingService} from '../../../voting.service';
 @Component({
     selector: 'app-poll-details',
     templateUrl: './poll-details.component.html',
-    styleUrls: ['./poll-details.component.scss']
+    styleUrls: ['./poll-details.component.scss'],
+    standalone: false
 })
 export class PollDetailsComponent implements OnInit {
     poll: any;

@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'rateTqtToPrice'
+    name: 'rateTqtToPrice',
+    standalone: false
 })
 export class RateTqtToPricePipe implements PipeTransform {
 

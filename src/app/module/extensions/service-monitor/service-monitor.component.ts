@@ -4,7 +4,8 @@ import { ExtensionsService } from "../extensions.service";
 @Component({
     selector: 'app-service-monitor',
     templateUrl: './service-monitor.component.html',
-    styleUrls: ['./service-monitor.component.scss']
+    styleUrls: ['./service-monitor.component.scss'],
+    standalone: false
 })
 export class ServiceMonitorComponent implements OnInit {
     private rows = new Array<any>();

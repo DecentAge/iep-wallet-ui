@@ -15,7 +15,8 @@ import { CommonService } from '../../../services/common.service';
 @Component({
     selector: 'app-create-shuffling',
     templateUrl: './create-shuffling.component.html',
-    styleUrls: ['./create-shuffling.component.scss']
+    styleUrls: ['./create-shuffling.component.scss'],
+    standalone: false
 })
 export class CreateShufflingComponent implements OnInit {
 

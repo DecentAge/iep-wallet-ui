@@ -45,7 +45,7 @@ import { AccountService } from './module/account/account.service';
 import { VotingService } from './module/voting/voting.service';
 import { DashboardService } from './module/dashboard/dashboard.service';
 import { FeeService } from "./services/fee.service";
-import { QRCodeModule } from "angularx-qrcode";
+import { QRCodeComponent } from "angularx-qrcode";
 import { AmountTqtPipe } from './pipes/amount-tqt.pipe';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { TransactionTypePipe } from './pipes/transaction-type.pipe';
@@ -71,7 +71,7 @@ export function createTranslateLoader(http: HttpClient) {
         AppRoutingModule,
         MatchHeightModule,
         FormsModule,
-        QRCodeModule,
+        QRCodeComponent,
         NgxDatatableModule,
         MomentModule,
         TranslateModule.forRoot({

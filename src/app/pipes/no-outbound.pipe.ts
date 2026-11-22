@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'noOutbound'
+    name: 'noOutbound',
+    standalone: false
 })
 export class NoOutboundPipe implements PipeTransform {
 

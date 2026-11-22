@@ -2,7 +2,8 @@ import {Directive, ElementRef, Input, TemplateRef, ViewContainerRef} from '@angu
 import {LoginService} from "../services/login.service";
 
 @Directive({
-  selector: '[isExpertView]'
+    selector: '[isExpertView]',
+    standalone: false
 })
 export class IsExpertViewDirective {
 

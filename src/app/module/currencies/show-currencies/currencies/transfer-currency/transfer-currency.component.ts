@@ -14,7 +14,8 @@ import { CommonService } from '../../../../../services/common.service';
 @Component({
     selector: 'app-transfer-currency',
     templateUrl: './transfer-currency.component.html',
-    styleUrls: ['./transfer-currency.component.scss']
+    styleUrls: ['./transfer-currency.component.scss'],
+    standalone: false
 })
 export class TransferCurrencyComponent implements OnInit {
 

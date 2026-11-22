@@ -3,7 +3,8 @@ import { AppConstants } from '../config/constants';
 import * as moment from '../../../node_modules/moment';
 
 @Pipe({
-  name: 'timestamp'
+    name: 'timestamp',
+    standalone: false
 })
 export class TimestampPipe implements PipeTransform {
 

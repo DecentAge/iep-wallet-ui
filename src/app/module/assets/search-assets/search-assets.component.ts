@@ -9,7 +9,8 @@ import { catchError, debounceTime, distinctUntilChanged, map, switchMap } from '
 @Component({
     selector: 'app-search-assets',
     templateUrl: './search-assets.component.html',
-    styleUrls: ['./search-assets.component.scss']
+    styleUrls: ['./search-assets.component.scss'],
+    standalone: false
 })
 export class SearchAssetsComponent implements OnInit, OnDestroy {
     assets: any[] = [];

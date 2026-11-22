@@ -4,9 +4,10 @@ import {Location} from '@angular/common';
 import {AssetsService} from '../../../assets.service';
 
 @Component({
-  selector: 'app-asset-details',
-  templateUrl: './asset-details.component.html',
-  styleUrls: ['./asset-details.component.scss']
+    selector: 'app-asset-details',
+    templateUrl: './asset-details.component.html',
+    styleUrls: ['./asset-details.component.scss'],
+    standalone: false
 })
 export class AssetDetailsComponent implements OnInit {
 

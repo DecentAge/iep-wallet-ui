@@ -7,7 +7,8 @@ import {Subject} from 'rxjs';
 @Component({
     selector: 'app-show-dao-details',
     templateUrl: './show-dao-details.component.html',
-    styleUrls: ['./show-dao-details.component.scss']
+    styleUrls: ['./show-dao-details.component.scss'],
+    standalone: false
 })
 export class ShowDaoDetailsComponent implements OnInit, OnDestroy {
 

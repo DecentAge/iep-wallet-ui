@@ -13,7 +13,8 @@ import { CommonService } from '../../../services/common.service';
 @Component({
     selector: 'app-issue-currency',
     templateUrl: './issue-currency.component.html',
-    styleUrls: ['./issue-currency.component.scss']
+    styleUrls: ['./issue-currency.component.scss'],
+    standalone: false
 })
 export class IssueCurrencyComponent implements OnInit {
 

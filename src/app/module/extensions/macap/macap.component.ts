@@ -5,7 +5,8 @@ import { ExtensionsService } from "../extensions.service";
 @Component({
     selector: 'app-macap',
     templateUrl: './macap.component.html',
-    styleUrls: ['./macap.component.scss']
+    styleUrls: ['./macap.component.scss'],
+    standalone: false
 })
 export class MacapComponent implements OnInit {
     page = new Page();

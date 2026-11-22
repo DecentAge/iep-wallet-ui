@@ -8,9 +8,10 @@ import {DataStoreService} from '../../../../../services/data-store.service';
 import {Location} from '@angular/common';
 
 @Component({
-  selector: 'app-divident-history',
-  templateUrl: './divident-history.component.html',
-  styleUrls: ['./divident-history.component.scss']
+    selector: 'app-divident-history',
+    templateUrl: './divident-history.component.html',
+    styleUrls: ['./divident-history.component.scss'],
+    standalone: false
 })
 export class DividentHistoryComponent implements OnInit {
 

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AppConstants} from '../../config/constants';
 import {HttpProviderService} from '../../services/http-provider.service';
-import { AnyFn } from '@ngrx/store/src/selector';
 
 @Injectable()
 export class BlockrService {

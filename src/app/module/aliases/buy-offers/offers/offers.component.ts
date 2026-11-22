@@ -11,7 +11,8 @@ import {Page} from '../../../../config/page';
 @Component({
     selector: 'app-offers',
     templateUrl: './offers.component.html',
-    styleUrls: ['./offers.component.scss']
+    styleUrls: ['./offers.component.scss'],
+    standalone: false
 })
 export class OffersComponent implements OnInit {
     page = new Page();

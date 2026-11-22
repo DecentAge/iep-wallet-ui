@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 @Component({
     selector: 'app-workbench',
     templateUrl: './workbench.component.html',
-    styleUrls: ['./workbench.component.scss']
+    styleUrls: ['./workbench.component.scss'],
+    standalone: false
 })
 export class WorkbenchComponent implements OnInit {
 
